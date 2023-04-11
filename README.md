@@ -258,6 +258,7 @@ cache_signp=cryptx.sign(plaintext, CryptoJS.SHA256, "sha256");
 ### i like these
 ### [ ❯ Stackoverflow CryptoJS](https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs)
 ```php
+// PHP
 function cryptoJsAesDecrypt($passphrase, $jsonString){
     $jsondata = json_decode(base64_decode($jsonString), true);
     $salt = hex2bin($jsondata["s"]);
@@ -291,6 +292,7 @@ function cryptoJsAesEncrypt($passphrase, $value){
 }
 ```
 ```javascript
+// Javascript
 var CryptoJSAesJson = {
     stringify: function (cipherParams) {
         var j = {ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)};
