@@ -2,6 +2,7 @@
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. It was originally produced as an original encryption algorithm for encrypted messaging application, and later shared on the internet. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally.
 ## ❯ How To Use?
 ```php
+// How to use AntaresCrypt
 require_once "antarescrypt_core.php";
 $plain_text="Hello World";//Text boyutu sınırsız
 $key="123";//Anahtar Boyutu sınırsız
