@@ -40,6 +40,7 @@ function secureDelete($filePath) {
 }
 //use
 secureDelete("file.txt");
+
 function secure_delete_file($file_path) {
     $fp = fopen($file_path, "r+");
     $pattern = str_repeat(chr(0xff), rand(1, 3)) . str_repeat(chr(0x00), rand(1, 3));
