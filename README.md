@@ -3,10 +3,10 @@ It is an advanced encryption algorithm that can be used on PHP, inspired by the 
 ## How To Use?
 ```php
 require_once "ac17.php";
-$plain_text="Hello World/Hello World/Hello World/Hello World/Hello World";
+$plain_text="Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World            123456789ABC";
 $key="Hello World12345678910";
 echo "Plain Text:".$plain_text."<br>";
-echo "Encrypted Text:<br>";
+echo "Encrypted Text:<br>";9
 echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 echo "<br>";
 echo "Decrypted Text:<br>";
