@@ -48,7 +48,7 @@ if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOA
         fclose($input_file);
         fclose($upload_file);
         $output = shell_exec('shred -u -n 3 -z ' . escapeshellarg($upload_file_path));
-        echo "The file was successfully uploaded and milled.";
+        echo "Dosya başarıyla yüklendi ve öğütüldü.";
     } else {
         echo $error_msg;
     }
