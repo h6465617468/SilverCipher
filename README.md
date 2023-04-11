@@ -5,8 +5,8 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 // How to use AntaresCrypt
 // Put Antares Crypt in your project file, then require(),require_once() it in your own file
 require_once "antarescrypt_core.php";
-$plain_text="Hello World";//Text boyutu sınırsız
-$key="123";//Anahtar Boyutu sınırsız
+$plain_text="Hello World"; // Unlimited Text Size
+$key="123"; // Unlimited Key Size
 $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 echo $encrypted_text;
