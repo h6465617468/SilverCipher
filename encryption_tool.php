@@ -41,7 +41,7 @@
     </head>
     <a id="error1" href="index.php" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
-                include "ac17.php";
+                include "antarescrypt_core.php";
                 $temel=false;
                 if(isset($_POST["enc"]))
                 {
