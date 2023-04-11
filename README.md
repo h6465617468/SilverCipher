@@ -203,6 +203,44 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
+## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key
+```php
+// Generate Key
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+
+use phpseclib3\Crypt\EC;
+$private = EC::createKey('secp256k1');
+
+$private->toString('PKCS8', ['namedCurve' => false]);
+$private->getPublicKey()->toString('PKCS8', ['namedCurve' => false]);
+echo "$private?$public";
+// Encryption, Decryption
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+
+use phpseclib3\Crypt\EC;
+use phpseclib3\Crypt\Random;
+
+// Create elliptic curve object
+$curve = new EC('secp256k1');
+
+// Generate public and private keys
+$key = $curve->createKey();
+
+// Get the public and private keys as PEM-encoded strings
+$publicKey = $key['publicKey']->toString('PEM');
+$privateKey = $key['privateKey']->toString('PEM');
+
+// Message to be encrypted
+$message = 'This is a secret message.';
+
+// Encrypt the message
+$ciphertext = $curve->encrypt($message, $publicKey);
+
+// Decrypt the message
+$decryptedMessage = $curve->decrypt($ciphertext, $privateKey);
+
+echo $decryptedMessage;
+```
 ## ❯ PHP Disable Cache
 ```php
 header("Expires: on, 01 Jan 1 00:00:00 GMT");
