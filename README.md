@@ -27,7 +27,7 @@ echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
-## ❯ Secure DoD 5220.22-M,AES-256-CBC File Upload
+## ❯ Secure DoD 5220.22-M, AES-256-CBC File Upload
 ```php
 $error_msg = "Dosya yüklenirken bir hata oluştu.";
 $encryption_key = 'my_secret_key';
@@ -58,7 +58,7 @@ if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOA
 }
 ```
 
-## ❯ Secure DoD 5220.22-M,AES-256-CBC Image Upload
+## ❯ Secure DoD 5220.22-M, AES-256-CBC Image Upload
 ```php
 $target_dir = "uploads/"; // yükleme dizini
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
