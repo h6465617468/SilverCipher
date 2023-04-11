@@ -6,7 +6,7 @@ require_once "ac17.php";
 $plain_text="Hello World   Test   123456789ABC";
 $key="Hello World12345678910";
 echo "Plain Text:".$plain_text."<br>";
-echo "Encrypted Text:<br>";9
+echo "Encrypted Text:<br>";
 echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 echo "<br>";
 echo "Decrypted Text:<br>";
