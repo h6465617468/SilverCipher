@@ -25,7 +25,7 @@ echo "Decrypted Text:<br>";
 echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ```
 ## ❯ Developer Note
-If you're into encryption, you should take a look at file exterminators. It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
+If you're into encryption, you should take a look at file shredders. It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 ```php
 function deleteFile($filePath) {
     if (file_exists($filePath)) {
