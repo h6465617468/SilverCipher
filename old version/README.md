@@ -1,5 +1,5 @@
-# Other Info
-### This page is not about AntaresCrypt
+# ❯ Other Info
+### ❯ This page is not about AntaresCrypt
 
 ## ❯ Secure DoD 5220.22-M, AES-256-CBC File Upload
 ```php
