@@ -1,5 +1,5 @@
 # AntaresCrypt
-It is inspired by the AES and XOR encryption algorithm that can be used on PHP. An advanced encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. Depending on the length of the data to be encrypted, the encryption time increases abnormally. Its cracking depends on the length of the data to be encrypted.
+It is an advanced encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. Depending on the length of the data to be encrypted, the encryption time increases abnormally. Its cracking depends on the length of the data to be encrypted.
 ## How To Use?
 ```php
 require_once "ac17.php";
