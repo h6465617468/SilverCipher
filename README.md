@@ -4,7 +4,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ## ❯ How to use?
 
 ### Latest Version
-### [ ❯ AC v.1.17](https://github.com/XPROCION/AntaresCrypt/blob/main/AntaresCrypt.php)
+### [ ❯ AC v1.17](https://github.com/XPROCION/AntaresCrypt/blob/main/AntaresCrypt.php)
 
 ```php
 // How to use AntaresCrypt
