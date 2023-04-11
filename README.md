@@ -88,7 +88,6 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
 } else {
     $encrypted_file = openssl_encrypt(file_get_contents($_FILES["fileToUpload"]["tmp_name"]), 'aes-256-cbc', 'mysecretkey');
     $hashed_file = hash('sha512', $encrypted_file);
