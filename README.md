@@ -206,7 +206,6 @@ if ($uploadOk == 0) {
 ## ❯ PHPSECLIB3/OPENSSL RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
 ### i like these
 ### [ ❯ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
-### [ ❯ JSEncrypt](https://github.com/travist/jsencrypt)
 ```php
 // PHP NO CACHE
 header("Expires: on, 01 Jan 1 00:00:00 GMT");
@@ -229,6 +228,8 @@ use phpseclib3\Crypt\RSA;
 $private = RSA::createKey((int)$_POST["size"]);
 $public = $private->getPublicKey();
 ```
+### i like these
+### [ ❯ JSEncrypt](https://github.com/travist/jsencrypt)
 ```javascript
 // JSEncrypt Generate Key
 /* <input id="olusturrsa" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:%5;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:white!important;" type="button" value="Browser Kullanarak Oluştur"> */
