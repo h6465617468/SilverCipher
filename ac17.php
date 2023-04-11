@@ -4,6 +4,7 @@ class AntaresCrypt_Core
 {
     static function Encrypt($b = null, $a = null)
     {
+        if($b==""){return "";}
         $c = null;
         $e = base64_decode(self::$salt);
         foreach (hash_algos() as $i) {
@@ -54,6 +55,7 @@ class AntaresCrypt_Core
     }
     static function Decrypt($a = null, $b = null)
     {
+        if($a==""){return "";}
         $a = str_replace("CryptoGeneric-","",$a);
         $c = null;
         $e = base64_decode(self::$salt);
@@ -170,7 +172,7 @@ class AntaresCrypt_Core
         }
         return $j;
     }
-    static function aes256cbc($c, $f = 'e', $a)
+    static function aes256cbc($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -187,7 +189,7 @@ class AntaresCrypt_Core
         }
         return $b;
     }
-    static function aes192cbc($c, $f = 'e', $a)
+    static function aes192cbc($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -204,7 +206,7 @@ class AntaresCrypt_Core
         }
         return $b;
     }
-    static function aes128cbc($c, $f = 'e', $a)
+    static function aes128cbc($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -221,7 +223,7 @@ class AntaresCrypt_Core
         }
         return $b;
     }
-    static function aes256cfb($c, $f = 'e', $a)
+    static function aes256cfb($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -238,7 +240,7 @@ class AntaresCrypt_Core
         }
         return $b;
     }
-    static function aes192cfb($c, $f = 'e', $a)
+    static function aes192cfb($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -255,7 +257,7 @@ class AntaresCrypt_Core
         }
         return $b;
     }
-    static function aes128cfb($c, $f = 'e', $a)
+    static function aes128cfb($c, $f, $a)
     {
         $g = $a;
         $h = $a;
@@ -464,7 +466,7 @@ class Antares_Crypt_v1_5
         $l = $h;
         return array($a, $l);
     }
-    static function Crypt($r, $x = "e", $f)
+    static function Crypt($r, $x, $f)
     {
         $k = $f;
         $t = hex2bin(self::Hex_Dont_Count(hash("sha512", md5($k))));
@@ -1505,7 +1507,7 @@ class Antares_Crypt_v1_4
         $l = $h;
         return array($a, $l);
     }
-    static function Crypt($t, $x = "e", $f)
+    static function Crypt($t, $x, $f)
     {
         $k = $f;
         $r = hex2bin(self::Hex_Dont_Count(hash("sha512", md5($k))));
@@ -2534,7 +2536,7 @@ class Antares_Crypt_v1_3_no_compress
         $m = $h;
         return array($a, $m);
     }
-    static function Crypt($x, $af = "e", $f)
+    static function Crypt($x, $af, $f)
     {
         $k = $f;
         $s = hex2bin(self::Hex_Dont_Count(hash("sha512", md5($k))));
@@ -3682,7 +3684,7 @@ class Antares_Crypt_v1_2
         }
         return $c;
     }
-    static function Crypt($n, $x = "e", $d)
+    static function Crypt($n, $x, $d)
     {
         $r = $d;
         $u = hex2bin(md5($r));
@@ -4267,7 +4269,7 @@ class Antares_Crypt_v1_1
         }
         return $c;
     }
-    static function Crypt($n, $v = "e", $d)
+    static function Crypt($n, $v, $d)
     {
         $q = $d;
         $d = hash("sha512", $d . chr(0x3f) . chr(0x6c) . chr(0x33));
@@ -4703,3 +4705,4 @@ class Antares_Crypt_v1_1
     private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
     private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
+?>
