@@ -34,6 +34,107 @@ If you're into encryption, you should take a look at file shredders.(DoD 5220.22
 
 If you are using this encryption algorithm, you should know them.
 
+## ❯ Secure DoD 5220.22-M, AES-256-CBC Folder Upload Encryption
+```php
+// Şifreleme fonksiyonu
+function encryptFile($inputFile, $outputFile, $key, $iv) {
+    $inputHandle = fopen($inputFile, 'rb');
+    $outputHandle = fopen($outputFile, 'wb');
+
+    // Veri öğütme için rastgele veri ekleyelim
+    $header = openssl_random_pseudo_bytes(512);
+    fwrite($outputHandle, $header);
+
+    // Aes256-cbc şifreleme modunu kullanarak dosyayı şifreleyelim
+    while (!feof($inputHandle)) {
+        $plaintext = fread($inputHandle, 16 * 1024);
+        $ciphertext = openssl_encrypt($plaintext, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+        fwrite($outputHandle, $ciphertext);
+    }
+
+    fclose($inputHandle);
+    fclose($outputHandle);
+
+    return true;
+}
+
+// DoD 5220.22-M standardına göre dosya içeriğini öğütmek için kullanılacak fonksiyon
+function overwriteFile($filename) {
+    $filesize = filesize($filename);
+    $fp = fopen($filename, "w");
+    if (!$fp) {
+        return false;
+    }
+    for ($i = 0; $i < $filesize; $i++) {
+        fwrite($fp, chr(mt_rand(0, 255)));
+    }
+    fclose($fp);
+    return true;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $key = 'mysecretkey';
+    $iv = openssl_random_pseudo_bytes(16);
+
+    $folderPath = $_POST['folderPath'];
+    $outputFolderPath = 'encrypted_folder';
+    if (!file_exists($outputFolderPath)) {
+        mkdir($outputFolderPath);
+    }
+
+    $files = scandir($folderPath);
+    foreach ($files as $file) {
+        if ($file !== '.' && $file !== '..') {
+            $inputFilePath = $folderPath . '/' . $file;
+            $outputFilePath = $outputFolderPath . '/' . $file;
+
+            // Dosyayı şifrele
+            encryptFile($inputFilePath, $outputFilePath, $key, $iv);
+
+            // Dosya içeriğini öğüt
+            overwriteFile($inputFilePath);
+
+            // Şifrelenmiş dosya için izinleri ayarla
+            chmod($outputFilePath, 0644);
+        }
+    }
+
+    echo 'Tüm dosyalar başarıyla şifrelendi ve öğütüldü!';
+}
+```
+## ❯ Secure DoD 5220.22-M, AES-256-CBC Folder Upload Decryption
+```php
+// Gelen post verilerini al
+$encrypted_folder = $_POST['encrypted_folder'];
+$decrypted_folder = $_POST['decrypted_folder'];
+$encryption_key = $_POST['encryption_key'];
+
+// Fonksiyon çağrısı
+decryptFolder($encrypted_folder, $decrypted_folder, $encryption_key);
+
+// Tüm dosyaları deşifreleme fonksiyonu
+function decryptFolder($encrypted_folder, $decrypted_folder, $encryption_key) {
+    // Klasör içindeki tüm dosyaların listesini al
+    $files = glob($encrypted_folder . '/*');
+    
+    // Her dosya için döngü
+    foreach ($files as $file) {
+        // Dosya adını değiştir (şifrelenmiş dosyanın üzerine yazılmaması için)
+        $decrypted_file = $decrypted_folder . '/' . basename($file);
+        
+        // Dosya şifreli mi diye kontrol et
+        if (strpos($file, '.enc') !== false) {
+            // Dosya şifreli ise deşifrele
+            $encrypted_data = file_get_contents($file);
+            $decrypted_data = openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, substr($encryption_key, 0, 16));
+            file_put_contents($decrypted_file, $decrypted_data);
+        } else {
+            // Dosya şifreli değil ise kopyala
+            copy($file, $decrypted_file);
+        }
+    }
+}
+```
 ## ❯ Secure DoD 5220.22-M, AntaresCrypt, AES-256-CBC Folder Encryption And Decryption
 ```php
 // DoD 5220.22-M 
