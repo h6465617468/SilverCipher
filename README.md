@@ -295,7 +295,7 @@ $public = $private->getPublicKey();
 <input type="number" name="rsabit" id="rsabit" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;border:0;background-color:transparent;max-width:600px;height:auto;border:0;border-bottom:2.5px solid dimgrey;margin:0;padding:16px;color:white!important;" value="4096" placeholder="Rsa Bit Size" autocomplete="off" required><br>
 */
 function opencpuload(){
-// Loading page
+// Loading div
 return true;
 }
 function changedurum(text){
