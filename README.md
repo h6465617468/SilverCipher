@@ -205,6 +205,7 @@ if ($uploadOk == 0) {
 ```
 ## ❯ Best File Shredder
 ```php
+// Most compliant with Gutmann
 function gutmann_delete_file($filename) {
     $file = fopen($filename, "w");
     for ($i = 0; $i < 35; $i++) {
