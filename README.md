@@ -204,6 +204,9 @@ if ($uploadOk == 0) {
 }
 ```
 ## ❯ PHPSECLIB3/OPENSSL RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
+### i like these
+### [ ❯ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
+### [ ❯ JSEncrypt](https://github.com/travist/jsencrypt)
 ```php
 // PHP NO CACHE
 header("Expires: on, 01 Jan 1 00:00:00 GMT");
@@ -249,6 +252,67 @@ $('#olusturrsaserver').click(server_rsa_generate);
 var cryptx = new JSEncrypt();
 cryptx.setPrivateKey("-----BEGIN RSA PRIVATE KEY-----");
 cache_signp=cryptx.sign(plaintext, CryptoJS.SHA256, "sha256");
+```
+## ❯ AES Encrypt Decrypt CryptoJS
+### i like these
+### [ ❯ Stackoverflow CryptoJS](https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs)
+```php
+function cryptoJsAesDecrypt($passphrase, $jsonString){
+    $jsondata = json_decode(base64_decode($jsonString), true);
+    $salt = hex2bin($jsondata["s"]);
+    $ct = base64_decode($jsondata["ct"]);
+    $iv  = hex2bin($jsondata["iv"]);
+    $concatedPassphrase = $passphrase.$salt;
+    $md5 = array();
+    $md5[0] = md5($concatedPassphrase, true);
+    $result = $md5[0];
+    for ($i = 1; $i < 3; $i++) {
+        $md5[$i] = md5($md5[$i - 1].$concatedPassphrase, true);
+        $result .= $md5[$i];
+    }
+    $key = substr($result, 0, 32);
+    $data = openssl_decrypt($ct, 'aes-256-cbc', $key, true, $iv);
+    return json_decode($data, true);
+}
+function cryptoJsAesEncrypt($passphrase, $value){
+    $salt = openssl_random_pseudo_bytes(8);
+    $salted = '';
+    $dx = '';
+    while (strlen($salted) < 48) {
+        $dx = md5($dx.$passphrase.$salt, true);
+        $salted .= $dx;
+    }
+    $key = substr($salted, 0, 32);
+    $iv  = substr($salted, 32,16);
+    $encrypted_data = openssl_encrypt(json_encode($value), 'aes-256-cbc', $key, true, $iv);
+    $data = array("ct" => base64_encode($encrypted_data), "iv" => bin2hex($iv), "s" => bin2hex($salt));
+    return base64_encode(json_encode($data));
+}
+```
+```javascript
+var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = {ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)};
+        if (cipherParams.iv) j.iv = cipherParams.iv.toString();
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ciphertext: CryptoJS.enc.Base64.parse(j.ct)});
+        if (j.iv) cipherParams.iv = CryptoJS.enc.Hex.parse(j.iv)
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
+function crypto_encrypt_AES(text_crypto_AES,passAES){
+  var enc = CryptoJS.AES.encrypt(JSON.stringify(text_crypto_AES), passAES, {format: CryptoJSAesJson}).toString();
+  return Base64.encode(enc);
+}
+function crypto_decrypt_AES(encrypted,passAES){
+  var dec = JSON.parse(CryptoJS.AES.decrypt(Base64.decode(encrypted), passAES, {format: CryptoJSAesJson}).toString(CryptoJS.enc.Utf8));
+  return dec;
+}
 ```
 ## ❯ Javascript RSA Message POST Begin Public Key Encrypt
 ```php
