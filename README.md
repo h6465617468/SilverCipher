@@ -203,6 +203,14 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
+## ❯ PHP Disable Cache
+```php
+header("Expires: on, 01 Jan 1 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+```
 ## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key, Load Key
 ### i like these
 ### [ ❯ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
@@ -236,7 +244,7 @@ $ciphertext = $curve->encrypt($message, $publicKey);
 $decryptedMessage = $curve->decrypt($ciphertext, $privateKey);
 
 echo $decryptedMessage;
-// Load Key
+// Load Key, Encryption, Decryption
 require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 use phpseclib3\Crypt\EC;
 use phpseclib3\Crypt\Common\PrivateKey;
@@ -258,17 +266,7 @@ $plaintext = 'Hello, World!';
 $ciphertext = $ec->encrypt($plaintext);
 $decrypted = $ec->decrypt($ciphertext);
 ```
-## ❯ PHP Disable Cache
-```php
-header("Expires: on, 01 Jan 1 00:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-```
 ## ❯ PHPSECLIB3/OPENSSL RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
-### i like these
-### [ ❯ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
 ```php
 // OPENSSL Verify
 $result = openssl_verify($asdasdasd1["text"], base64_decode($asdasdasd1["sign"]), "-----BEGIN PUBLIC KEY-----...", OPENSSL_ALGO_SHA256);
