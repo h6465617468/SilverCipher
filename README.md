@@ -6,7 +6,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 // Put 'antarescrypt_core.php' in your project file, then require(),require_once() it in your own file
 
-require_once "antarescrypt_core.php";
+require_once "AntaresCrypt.php";
 
 $plain_text="Hello World"; // Unlimited Text Size
 
