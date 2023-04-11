@@ -203,7 +203,7 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
-## ❯ Javascript RSA Message POST BEGIN PUBLIC KEY
+## ❯ Javascript RSA Message POST BEGIN PUBLIC KEY ENCRYPT
 ```php
 <!DOCTYPE html>
 <html>
@@ -245,6 +245,22 @@ if ($uploadOk == 0) {
 	</script>
 </body>
 </html>
+```
+## ❯ PHP  RSA Message POST BEGIN PRIVATE KEY DECRYPT
+```php
+// Özel anahtar dosyası
+$private_key = openssl_pkey_get_private("file:///path/to/private.key");
+// OR
+// $private_key = "-----BEGIN RSA PRIVATE KEY----- MIIkKgIBAAKCCAEAnMn9HFvxxXQI0Nq9+0lth...";
+
+// Şifreli mesaj
+$encrypted_message = base64_decode($_POST['message']);
+
+// RSA ile deşifreleme
+openssl_private_decrypt($encrypted_message, $decrypted_message, $private_key);
+
+// Deşifrelenmiş mesaj
+echo $decrypted_message;
 ```
 ## ❯ Javascript RSA Message AJAX POST (Generate Key)
 ```php
