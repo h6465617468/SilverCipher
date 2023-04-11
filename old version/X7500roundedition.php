@@ -1,6 +1,6 @@
 <?php
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
-/* Troll Encryption Algorithm                                                                     */
+/* X7500RoundEdition Encryption Algorithm                                                                     */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /*
 How to use?
@@ -8,11 +8,11 @@ Text Encryption
 BASE64-ENCODED-DATA
 <?php
 $text = "This is text :)";
-$key = "Troll";
+$key = "X7500RoundEdition";
 # Use (Encrypt):
-$encrypted_text = Troll::Encrypt($text,$key);
+$encrypted_text = X7500RoundEdition::Encrypt($text,$key);
 # Use (Decrypt):
-$decrypted_text = Troll::Decrypt($encrypted_text,$key);
+$decrypted_text = X7500RoundEdition::Decrypt($encrypted_text,$key);
 echo "Encrypted Text : ".$encrypted_text."<br>";
 echo "Decrypted Text : ".$decrypted_text;
 ?>
@@ -20,14 +20,14 @@ File Encryption
 GZIP-RAW-DATA
 <?php
 $text = "File-Data";
-$key = "Troll";
+$key = "X7500RoundEdition";
 # Use (Raw Encrypt):
-$encrypted_text = Troll::Encrypt($text,$key,true);
+$encrypted_text = X7500RoundEdition::Encrypt($text,$key,true);
 # Use (Raw Decrypt):
-$decrypted_text = Troll::Decrypt($encrypted_text,$key,true);
+$decrypted_text = X7500RoundEdition::Decrypt($encrypted_text,$key,true);
 ?>
 */
-Class Troll
+Class X7500RoundEdition
 {
     Public Static Function Encrypt($string,$key,$file=null)
     {
