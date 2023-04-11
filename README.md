@@ -5,7 +5,7 @@ It is an advanced encryption algorithm that can be used on PHP, inspired by the 
 require_once "ac17.php";
 $plain_text="Hello World   Test   123456789ABC";
 $key="Hello World123456789";
-echo "Plain Text:".$plain_text."<br>";
+echo "Plain Text:<br>".$plain_text."<br><br>";
 echo "Encrypted Text(1)<br>";
 echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 echo "<br>";
@@ -20,7 +20,7 @@ echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 echo "<br>";
 echo "Encrypted Text(5)<br>";
 echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
-echo "<br>";
+echo "<br><br>";
 echo "Decrypted Text:<br>";
 echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ```
