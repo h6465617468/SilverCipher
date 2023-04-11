@@ -3,7 +3,7 @@ It is an advanced encryption algorithm that can be used on PHP, inspired by the 
 ## How To Use?
 ```php
 require_once "ac17.php";
-$plain_text="Hello World   Test   123456789ABC";
+$plain_text="Hello World Test 123456789ABC";
 $key="Hello World123456789";
 echo "Plain Text:<br>".$plain_text."<br><br>";
 echo "Example Encrypted Text(1)<br>";
