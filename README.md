@@ -57,7 +57,7 @@ function secure_delete_file_x1($file_path) {
 //use
 secure_delete_file_x1("file.txt");
 ```
-## ❯ Other
+## ❯ Other File Shredder
 ```php
 function secure_delete_file_ac_n($file_path) {
     $fp = fopen($file_path, "r+");
