@@ -34,7 +34,7 @@ If you're into encryption, you should take a look at file shredders.(DoD 5220.22
 
 If you are using this encryption algorithm, you should know them.
 
-## ❯ Secure DoD 5220.22-M, AntaresCrypt OR AES-256-CBC Folder Encryption And Decryption
+## ❯ Secure DoD 5220.22-M, AntaresCrypt, AES-256-CBC Folder Encryption And Decryption
 ```php
 // DoD 5220.22-M 
 function secureDelete($file) {
