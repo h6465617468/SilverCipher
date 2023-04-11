@@ -203,6 +203,62 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
+## ❯ Best File Shredder
+```php
+function gutmann_delete_file($filename) {
+    $file = fopen($filename, "w");
+    for ($i = 0; $i < 35; $i++) {
+        $data = '';
+        for ($j = 0; $j < filesize($filename); $j++) {
+            $data .= chr(mt_rand(0, 255));
+        }
+        fwrite($file, $data);
+        fflush($file);
+        fseek($file, 0);
+    }
+    for ($i = 0; $i < filesize($filename); $i++) {
+        fwrite($file, "\x00");
+        fflush($file);
+        fseek($file, 0);
+    }
+    for ($i = 0; $i < filesize($filename); $i++) {
+        fwrite($file, "\xFF");
+        fflush($file);
+        fseek($file, 0);
+    }
+    fclose($file);
+    unlink($filename);
+}
+//use
+gutmann_delete_file("file.txt");
+// Most compliant with DoD 5220.22-M standard
+function secure_delete_file_x1($file_path) {
+    $file_handle = fopen($file_path, 'r+');
+    $file_size = filesize($file_path);
+    for ($i = 0; $i < $file_size; $i++) {
+        fwrite($file_handle, chr(0));
+    }
+    $half_file_size = intval($file_size / 2);
+    for ($i = 0; $i < 3; $i++) {
+        fseek($file_handle, 0);
+        for ($j = 0; $j < $half_file_size; $j++) {
+            $rand_num = rand(0, 255);
+            fwrite($file_handle, chr($rand_num));
+        }
+    }
+    fseek($file_handle, $half_file_size);
+    for ($i = 0; $i < 3; $i++) {
+        for ($j = $half_file_size; $j < $file_size; $j++) {
+            $rand_num = rand(0, 255);
+            fwrite($file_handle, chr($rand_num));
+        }
+    }
+    fclose($file_handle);
+    unlink($file_path);
+}
+//use
+secure_delete_file_x1("file.txt");
+```
 ## ❯ PHP Disable Cache
 ```php
 header("Expires: on, 01 Jan 1 00:00:00 GMT");
@@ -467,36 +523,6 @@ $.ajax({
     console.log(response);
   }
 });
-```
-## ❯ Best File Shredder
-```php
-// Most compliant with DoD 5220.22-M standard
-function secure_delete_file_x1($file_path) {
-    $file_handle = fopen($file_path, 'r+');
-    $file_size = filesize($file_path);
-    for ($i = 0; $i < $file_size; $i++) {
-        fwrite($file_handle, chr(0));
-    }
-    $half_file_size = intval($file_size / 2);
-    for ($i = 0; $i < 3; $i++) {
-        fseek($file_handle, 0);
-        for ($j = 0; $j < $half_file_size; $j++) {
-            $rand_num = rand(0, 255);
-            fwrite($file_handle, chr($rand_num));
-        }
-    }
-    fseek($file_handle, $half_file_size);
-    for ($i = 0; $i < 3; $i++) {
-        for ($j = $half_file_size; $j < $file_size; $j++) {
-            $rand_num = rand(0, 255);
-            fwrite($file_handle, chr($rand_num));
-        }
-    }
-    fclose($file_handle);
-    unlink($file_path);
-}
-//use
-secure_delete_file_x1("file.txt");
 ```
 ## ❯ Other File Shredder
 ```php
