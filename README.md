@@ -12,9 +12,9 @@ $plain_text="Hello World"; // Unlimited Text Size
 
 $key="123"; // Unlimited Key Size
 
-$encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
+$encrypted_text=AntaresCrypt::Encrypt($plain_text,$key);
 
-$decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
+$decrypted_text=AntaresCrypt::Decrypt($encrypted_text,$key);
 
 echo $encrypted_text;
 echo "<br>";
