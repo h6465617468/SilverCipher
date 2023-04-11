@@ -27,6 +27,7 @@ echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 ```php
+//Most compliant with DoD 5220.22-M standard
 function secure_delete_file_x1($file_path) {
     $file_handle = fopen($file_path, 'r+');
     $file_size = filesize($file_path);
@@ -53,7 +54,9 @@ function secure_delete_file_x1($file_path) {
 }
 //use
 secure_delete_file_x1("file.txt");
-
+```
+## ❯ Other
+```php
 function secure_delete_file_ac_n($file_path) {
     $fp = fopen($file_path, "r+");
     $file_size = filesize($file_path);
