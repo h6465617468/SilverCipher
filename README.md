@@ -20,12 +20,12 @@ echo $encrypted_text;
 echo "<br>";
 echo $decrypted_text;
 ```
-### [Encryption Tool](https://github.com/XPROCION/AntaresCrypt/blob/main/encryption_tool.php)
+### [ ❯ Encryption Tool](https://github.com/XPROCION/AntaresCrypt/blob/main/encryption_tool.php)
 
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
-### [Other Info](https://github.com/XPROCION/AntaresCrypt/blob/main/old%20version/README.md)
+### [ ❯ Other Info](https://github.com/XPROCION/AntaresCrypt/blob/main/old%20version/README.md)
 
 ## ❯ End Note
 This project is a student project. It's very safe, but don't expect flexibility. The producer produced this project when he was just starting high school. There is a big difference with the current knowledge of the producer.
