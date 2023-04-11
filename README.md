@@ -40,7 +40,9 @@ function deleteFile($filePath) {
         unlink($filePath);
     }
 }
+//use
 deleteFile("file.txt");
+
 function deleteFileWithPseudorandomData($filename) {
     if (file_exists($filename)) {
         $handle = fopen($filename, "wb");
@@ -51,7 +53,9 @@ function deleteFileWithPseudorandomData($filename) {
         unlink($filename);
     }
 }
+//use
 deleteFileWithPseudorandomData("file.txt");
+
 function deleteFileGutmann($file_path) {
     $passes = 35;
     $byteCount = filesize($file_path);
@@ -68,6 +72,7 @@ function deleteFileGutmann($file_path) {
     fclose($handle);
     return unlink($file_path);
 }
+//use
 deleteFileGutmann("file.txt");
 ```
 
