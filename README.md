@@ -59,6 +59,33 @@ function secure_delete_file_ac_n($file_path) {
 //use
 secure_delete_file_ac_n("file.txt");
 
+function secure_delete_file_x1($file_path) {
+    $file_handle = fopen($file_path, 'r+');
+    $file_size = filesize($file_path);
+    for ($i = 0; $i < $file_size; $i++) {
+        fwrite($file_handle, chr(0));
+    }
+    $half_file_size = intval($file_size / 2);
+    for ($i = 0; $i < 3; $i++) {
+        fseek($file_handle, 0);
+        for ($j = 0; $j < $half_file_size; $j++) {
+            $rand_num = rand(0, 255);
+            fwrite($file_handle, chr($rand_num));
+        }
+    }
+    fseek($file_handle, $half_file_size);
+    for ($i = 0; $i < 3; $i++) {
+        for ($j = $half_file_size; $j < $file_size; $j++) {
+            $rand_num = rand(0, 255);
+            fwrite($file_handle, chr($rand_num));
+        }
+    }
+    fclose($file_handle);
+    unlink($file_path);
+}
+//use
+secure_delete_file_x1("file.txt");
+
 function secure_delete_file_x($file_path) {
     $fp = fopen($file_path, "r+");
     $pattern = pack("H*", "55") . pack("H*", "AA") . pack("H*", "FF");
