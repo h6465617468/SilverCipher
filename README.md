@@ -240,6 +240,32 @@ $ciphertext = $curve->encrypt($message, $publicKey);
 $decryptedMessage = $curve->decrypt($ciphertext, $privateKey);
 
 echo $decryptedMessage;
+// Load Key
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+use phpseclib3\Crypt\EC;
+use phpseclib3\Crypt\Common\PrivateKey;
+use phpseclib3\File\ASN1;
+use phpseclib3\Math\BigInteger;
+
+// Load the key file
+$key = file_get_contents('/path/to/private_key.pem');
+
+// Parse the key file to get the key details
+$asn1 = new ASN1();
+$decoded = $asn1->decodeBER($key);
+$parsed = $asn1->asn1map($decoded[0], PrivateKey::MAP);
+
+// Create a BigInteger object for the private key
+$privateKey = new BigInteger($parsed['privateKey']);
+
+// Create an EC object and load the private key
+$ec = new EC('curve_name');
+$ec->setPrivateKey($privateKey);
+
+// Use the EC object to encrypt or decrypt data
+$plaintext = 'Hello, World!';
+$ciphertext = $ec->encrypt($plaintext);
+$decrypted = $ec->decrypt($ciphertext);
 ```
 ## ❯ PHP Disable Cache
 ```php
