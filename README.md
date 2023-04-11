@@ -29,7 +29,7 @@ If you're into encryption, you should take a look at file shredders.(DoD 5220.22
 
 ## ❯ Best File Shredder
 ```php
-//Most compliant with DoD 5220.22-M standard
+// Most compliant with DoD 5220.22-M standard
 function secure_delete_file_x1($file_path) {
     $file_handle = fopen($file_path, 'r+');
     $file_size = filesize($file_path);
