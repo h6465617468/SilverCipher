@@ -203,7 +203,76 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
+## ❯ Javascript RSA Message POST BEGIN PUBLIC KEY
+```php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RSA ile Şifrelenmiş Mesaj Gönderme</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0/jsencrypt.min.js"></script>
+</head>
+<body>
+	<h1>RSA ile Şifrelenmiş Mesaj Gönderme</h1>
+	
+	<label for="mesaj">Gönderilecek Mesaj:</label>
+	<textarea id="mesaj" rows="5" cols="50"></textarea>
+	
+	<button onclick="sifrele()">Mesajı Şifrele ve Gönder</button>
 
+	<script>
+		// Alıcının public key'i
+		var aliciPublicKey = "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCdc8fu37FbkLq3pMsFt93zmxZg\nrZ9XoZquvmMFDgLbG2fIjCyzScvDmVxpOJdHiQ8mTjsF/bvXHs4A/ZsVyGcAk4w4\nvO7Nvy23dZlL5I5z5wmq1r3A1SZmHw+8xtaJh56eY2ZeuIoXxUH0L0FwbEFLS2yv\nGK0Bcv/rUc0q3OETjwIDAQAB\n-----END PUBLIC KEY-----";
+		
+		function sifrele() {
+			// Mesajı al
+			var mesaj = document.getElementById("mesaj").value;
+			
+			// RSA şifreleme nesnesi oluştur
+			var rsa = new JSEncrypt();
+			
+			// Alıcının public key'ini kullanarak RSA şifreleme nesnesini ayarla
+			rsa.setPublicKey(aliciPublicKey);
+			
+			// Mesajı RSA ile şifrele
+			var sifreliMesaj = rsa.encrypt(mesaj);
+			
+			// Şifreli mesajı gönder
+			// Burada mesajı alıcıya nasıl göndereceğinizle ilgili bir kod yazmanız gerekiyor
+			// Örneğin, bir HTTP POST isteği kullanarak bir web servisine gönderebilirsiniz
+			
+			alert("Mesaj başarıyla şifrelendi ve gönderildi!");
+		}
+	</script>
+</body>
+</html>
+```
+## ❯ Javascript RSA Message AJAX POST (Generate Key)
+```php
+// jsencrypt kütüphanesini yükleyin
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
+
+// RSA anahtarı oluşturun
+var encrypt = new JSEncrypt({default_key_size: 2048});
+var publicKey = '-----BEGIN PUBLIC KEY----- ... -----END PUBLIC KEY-----';
+encrypt.setPublicKey(publicKey);
+
+// Şifrelenecek mesajı belirleyin
+var message = "Merhaba dünya";
+
+// Mesajı RSA ile şifreleyin
+var encrypted = encrypt.encrypt(message);
+
+// Şifreli mesajı sunucuya gönderin (örneğin, AJAX kullanarak)
+$.ajax({
+  type: "POST",
+  url: "sunucu_url",
+  data: {message: encrypted},
+  success: function(response) {
+    // Sunucudan gelen yanıtı işleyin
+    console.log(response);
+  }
+});
+```
 ## ❯ Best File Shredder
 ```php
 // Most compliant with DoD 5220.22-M standard
