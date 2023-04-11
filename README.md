@@ -3,6 +3,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ## ❯ How To Use?
 ```php
 // How to use AntaresCrypt
+// Put Antares Crypt in your project file, then require(),require_once() it in your own file
 require_once "antarescrypt_core.php";
 $plain_text="Hello World";//Text boyutu sınırsız
 $key="123";//Anahtar Boyutu sınırsız
