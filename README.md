@@ -24,3 +24,8 @@ echo "<br><br>";
 echo "Decrypted Text:<br>";
 echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ```
+## Developer Note
+It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
+
+## End Note
+This project is a student project. It's very safe, but don't expect flexibility. The producer produced this project when he was just starting high school. There is a big difference with the current knowledge.
