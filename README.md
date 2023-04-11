@@ -41,22 +41,12 @@ function deleteFile($filePath) {
     }
 }
 function deleteFileWithPseudorandomData($filename) {
-    // Check if file exists
     if (file_exists($filename)) {
-        // Open file for writing with binary mode
         $handle = fopen($filename, "wb");
-
-        // Get file size
         $filesize = filesize($filename);
-
-        // Fill the file with pseudorandom data
         $prData = openssl_random_pseudo_bytes($filesize);
         fwrite($handle, $prData);
-
-        // Close file handle
         fclose($handle);
-
-        // Delete the file
         unlink($filename);
     }
 }
