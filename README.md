@@ -27,6 +27,82 @@ echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
+## ❯ Secure DoD 5220.22-M,AES-256-CBC File Upload
+```php
+$error_msg = "Dosya yüklenirken bir hata oluştu.";
+$encryption_key = 'my_secret_key';
+$upload_file_name = basename($_FILES['fileToUpload']['name']);
+$upload_file_path = '/var/www/html/uploads/' . $upload_file_name;
+if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOAD_ERR_OK) {
+    $upload_file = fopen($upload_file_path, 'wb');
+    if ($upload_file !== false) {
+        // Dosya açıldı, şimdi dosyayı okuyun ve kriptolu olarak yazın
+        $input_file = fopen($_FILES['fileToUpload']['tmp_name'], 'rb');
+        $iv = openssl_random_pseudo_bytes(16);
+        fwrite($upload_file, $iv);
+        while (!feof($input_file)) {
+            $plaintext = fread($input_file, 4096);
+            $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $encryption_key, OPENSSL_RAW_DATA, $iv);
+            fwrite($upload_file, $ciphertext);
+            $iv = substr($ciphertext, -16);
+        }
+        fclose($input_file);
+        fclose($upload_file);
+        $output = shell_exec('shred -u -n 3 -z ' . escapeshellarg($upload_file_path));
+        echo "Dosya başarıyla yüklendi ve öğütüldü.";
+    } else {
+        echo $error_msg;
+    }
+} else {
+    echo $error_msg;
+}
+```
+
+## ❯ Secure DoD 5220.22-M,AES-256-CBC Image Upload
+```php
+$target_dir = "uploads/"; // yükleme dizini
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not a valid file.";
+        $uploadOk = 0;
+    }
+}
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    $encrypted_file = openssl_encrypt(file_get_contents($_FILES["fileToUpload"]["tmp_name"]), 'aes-256-cbc', 'mysecretkey');
+    $hashed_file = hash('sha512', $encrypted_file);
+    $hashed_filename = hash('sha512', basename($_FILES["fileToUpload"]["name"]));
+    $fp = fopen('uploads/'.$hashed_filename.'.'.$imageFileType, 'wb');
+    fwrite($fp, $encrypted_file);
+    fclose($fp);
+    $cmd = "/usr/bin/shred -vfzu -n 5 uploads/".$hashed_filename.'.'.$imageFileType;
+    exec($cmd);
+    echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+}
+```
+
 ## ❯ Best File Shredder
 ```php
 // Most compliant with DoD 5220.22-M standard
