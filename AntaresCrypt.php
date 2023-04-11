@@ -1,6 +1,6 @@
 <?php 
 set_time_limit(0);
-class AntaresCrypt_Core
+class AntaresCrypt
 {
     static function Encrypt($b = null, $a = null)
     {
