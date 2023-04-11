@@ -4,7 +4,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ```php
 // How to use AntaresCrypt
 
-// Put 'antarescrypt_core.php' in your project file, then require(),require_once() it in your own file
+// Put 'AntaresCrypt.php' in your project file, then require(),require_once() it in your own file
 
 require_once "AntaresCrypt.php";
 
