@@ -203,7 +203,52 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
-## ❯ Javascript RSA Message POST BEGIN PUBLIC KEY ENCRYPT
+## ❯ PHPSECLIB3 RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
+```php
+// PHP NO CACHE
+header("Expires: on, 01 Jan 1 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+// PHPSECLIB3 Verify
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php'; /* Composer */
+use phpseclib3\Crypt\RSA;
+$rsa = RSA::loadFormat('PKCS8',"-----BEGIN PUBLIC KEY-----...");
+$signature = "aHjYxLoHga..";
+$result = $rsa->verify(hash("sha256",$signtext,true), $signature) ? "OK" : "INCORRECT";
+// PHPSECLIB3 RSA Generator /* Composer */
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+use phpseclib3\Crypt\RSA;
+/* RSA::setSmallestPrime(256); fast speed */
+$private = RSA::createKey((int)$_POST["size"]);
+$public = $private->getPublicKey();
+```
+```javascript
+// JSEncrypt Generate Key
+/* <input id="olusturrsa" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:%5;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:white!important;" type="button" value="Browser Kullanarak Oluştur"> */
+/*
+<textarea id="privkey" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;background-color:transparent;max-width:600px;height:300px;border:2.5px solid dimgrey;margin:0;padding:16px;color:white!important;" placeholder="Private Key"></textarea><br>
+<textarea id="pubkey" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;background-color:transparent;max-width:600px;height:300px;border:2.5px solid dimgrey;margin:0;padding:16px;color:white!important;" placeholder="Public Key"></textarea><br>
+*/
+$('#olusturrsa').on( "click",( () => {
+  var crypt = new JSEncrypt({default_key_size: parseInt($('#rsabit').val())});
+  $('cachew').html($('#rsabit').val());opencpuload();changedurum("RSA Key Oluşturuluyor: "+$('#rsabit').val()+" Bit");
+  var dt123 = new Date();var timeaaa=-(dt123.getTime());
+  new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
+    crypt.getKey();
+  }).finally(() => {closecpuload();
+    $('#privkey').html(crypt.getPrivateKey());
+    $('#pubkey').html(crypt.getPublicKey());changedurum("RSA Key Oluşturuldu: "+$('#rsabit').val()+" Bit");    dt123 = new Date();
+    timeaaa += (dt123.getTime());$('#rsatime').html(timeaaa+" ms");(async()=>{await document.getElementById('rsabit').scrollIntoView();})()});
+  }));
+$('#olusturrsaserver').click(server_rsa_generate);
+// JSEncrypt Sign
+var cryptx = new JSEncrypt();
+cryptx.setPrivateKey("-----BEGIN RSA PRIVATE KEY-----");
+cache_signp=cryptx.sign(plaintext, CryptoJS.SHA256, "sha256");
+```
+## ❯ Javascript RSA Message POST Begin Public Key Encrypt
 ```php
 <!DOCTYPE html>
 <html>
@@ -246,7 +291,7 @@ if ($uploadOk == 0) {
 </body>
 </html>
 ```
-## ❯ PHP  RSA Message POST BEGIN PRIVATE KEY DECRYPT
+## ❯ PHP  RSA Message POST Begin Private Key Decrypt
 ```php
 // Özel anahtar dosyası
 $private_key = openssl_pkey_get_private("file:///path/to/private.key");
