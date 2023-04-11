@@ -203,7 +203,7 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
-## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key
+## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key, Load Key
 ```php
 // Generate Key
 require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
