@@ -36,7 +36,6 @@ $upload_file_path = '/var/www/html/uploads/' . $upload_file_name;
 if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOAD_ERR_OK) {
     $upload_file = fopen($upload_file_path, 'wb');
     if ($upload_file !== false) {
-        // Dosya açıldı, şimdi dosyayı okuyun ve kriptolu olarak yazın
         $input_file = fopen($_FILES['fileToUpload']['tmp_name'], 'rb');
         $iv = openssl_random_pseudo_bytes(16);
         fwrite($upload_file, $iv);
