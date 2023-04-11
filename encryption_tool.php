@@ -100,7 +100,7 @@
                         }
                     }
                             $start=microtime(true);
-                            $temel=AntaresCrypt_Core::Encrypt($data,$key);
+                            $temel=AntaresCrypt::Encrypt($data,$key);
                             $end=microtime(true);
 
                 }
@@ -145,7 +145,7 @@
                     }
 
                         $start=microtime(true);
-                        $temel=AntaresCrypt_Core::Decrypt($_POST["data"],$key);
+                        $temel=AntaresCrypt::Decrypt($_POST["data"],$key);
                         $end=microtime(true);
                         if(isset($_POST["data_mode"]))
                         {
