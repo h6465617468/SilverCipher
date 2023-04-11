@@ -4,9 +4,21 @@ It is an advanced encryption algorithm that can be used on PHP, inspired by the 
 ```php
 require_once "ac17.php";
 $plain_text="Hello World   Test   123456789ABC";
-$key="Hello World12345678910";
+$key="Hello World123456789";
 echo "Plain Text:".$plain_text."<br>";
-echo "Encrypted Text:<br>";
+echo "Encrypted Text(1)<br>";
+echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
+echo "<br>";
+echo "Encrypted Text(2)<br>";
+echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
+echo "<br>";
+echo "Encrypted Text(3)<br>";
+echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
+echo "<br>";
+echo "Encrypted Text(4)<br>";
+echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
+echo "<br>";
+echo "Encrypted Text(5)<br>";
 echo $encrypted_text=AntaresCrypt_Core::Encrypt($plain_text,$key);
 echo "<br>";
 echo "Decrypted Text:<br>";
