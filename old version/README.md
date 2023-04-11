@@ -1,5 +1,8 @@
 # ❯ Other Info
+
 ### ❯ This page is not about AntaresCrypt
+
+If you are using this encryption algorithm, you should know them.
 
 ## ❯ Secure DoD 5220.22-M, AES-256-CBC File Upload
 ```php
