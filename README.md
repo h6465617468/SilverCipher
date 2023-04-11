@@ -27,6 +27,38 @@ echo $decrypted_text=AntaresCrypt_Core::Decrypt($encrypted_text,$key);
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 ```php
+function secure_delete_file_ac_n($file_path) {
+    $fp = fopen($file_path, "r+");
+    $file_size = filesize($file_path);
+    $passes = array(
+        str_repeat(chr(0x00), $file_size),
+        str_repeat(chr(0xFF), $file_size),
+        str_repeat(chr(0x55), $file_size),
+        str_repeat(chr(0xAA), $file_size),
+        str_repeat(chr(0x92), $file_size),
+        str_repeat(chr(0x49), $file_size),
+        str_repeat(chr(0xB6), $file_size),
+        str_repeat(chr(0xDB), $file_size),
+        str_repeat(chr(0xE5), $file_size),
+        str_repeat(chr(0x24), $file_size),
+        str_repeat(chr(0x6D), $file_size),
+        str_repeat(chr(0x8C), $file_size),
+        str_repeat(chr(0xB2), $file_size),
+        str_repeat(chr(0xCC), $file_size),
+        str_repeat(chr(0xE1), $file_size),
+        str_repeat(chr(0xF0), $file_size)
+    );
+    foreach ($passes as $pass) {
+        fseek($fp, 0);
+        fwrite($fp, $pass);
+        fflush($fp);
+    }
+    fclose($fp);
+    unlink($file_path);
+}
+//use
+secure_delete_file_ac_n("file.txt");
+
 function secure_delete_file_x($file_path) {
     $fp = fopen($file_path, "r+");
     $pattern = pack("H*", "55") . pack("H*", "AA") . pack("H*", "FF");
@@ -116,6 +148,29 @@ function deleteFileGutmann($file_path) {
 }
 //use
 deleteFileGutmann("file.txt");
+
+function secure_delete_file_c($file_path) {
+    $fp = fopen($file_path, "r+");
+    $pattern1 = str_repeat(chr(0x55), 1024);
+    $pattern2 = str_repeat(chr(0xAA), 1024);
+    $pattern3 = str_repeat(chr(0x92), 1024);
+    $file_size = filesize($file_path);
+    for ($i = 0; $i < $file_size; $i += strlen($pattern1)) {
+        fseek($fp, $i);
+        fwrite($fp, $pattern1);
+        fflush($fp);
+        fseek($fp, $i);
+        fwrite($fp, $pattern2);
+        fflush($fp);
+        fseek($fp, $i);
+        fwrite($fp, $pattern3);
+        fflush($fp);
+    }
+    fclose($fp);
+    unlink($file_path);
+}
+//use
+secure_delete_file_c("file.txt");
 
 function wipe_file($file_path){$patterns=array("1111111111111111111111111111111111111111111111111111111111111111","2222222222222222222222222222222222222222222222222222222222222222","3333333333333333333333333333333333333333333333333333333333333333","4444444444444444444444444444444444444444444444444444444444444444","5555555555555555555555555555555555555555555555555555555555555555","6666666666666666666666666666666666666666666666666666666666666666","7777777777777777777777777777777777777777777777777777777777777777","8888888888888888888888888888888888888888888888888888888888888888","9999999999999999999999999999999999999999999999999999999999999999","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","0000000000000000000000000000000000000000000000000000000000000000","0000000000000000000000000000000000000000000000000000000000000000");$handle=fopen($file_path,"a");$file_size=filesize($file_path);$iterations=intval(($file_size+511)/512);for($i=0;$i<$iterations;$i++){foreach($patterns as $pattern){fwrite($handle,$pattern,512);}}fclose($handle);unlink($file_path);}
 //use
