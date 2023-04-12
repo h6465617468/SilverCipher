@@ -273,6 +273,39 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
+## ❯ AntaresCrypt, PGP Gnupg Encryption
+```php
+// Put 'AntaresCrypt.php' in your project file, then require(),require_once() it in your own file
+require_once "AntaresCrypt.php";
+
+// Set the data to be encrypted
+$plain_text = "Hello, world!";
+
+// Generate a strong encryption key
+$key = "my_strong_key";
+
+// Encrypt the data with AntaresCrypt
+$encrypted_text = AntaresCrypt::Encrypt($plain_text, $key);
+
+// Load the PGP public key of the recipient
+$public_key = file_get_contents("recipient_public_key.asc");
+
+// Encrypt the AntaresCrypt cipher text with PGP
+$pgp_encrypted_text = gnupg_encrypt($public_key, $encrypted_text);
+
+// Send the PGP-encrypted text to the recipient
+
+// On the recipient's side, they would first decrypt the PGP encryption using their private key:
+$private_key = gnupg_init();
+gnupg_adddecryptkey($private_key, "recipient_private_key.asc", "password");
+$decrypted_text = gnupg_decrypt($private_key, $pgp_encrypted_text);
+
+// Then they would decrypt the AntaresCrypt encryption using the shared key:
+$decrypted_text = AntaresCrypt::Decrypt($decrypted_text, $key);
+
+// The decrypted text should now match the original plain text
+echo $decrypted_text; // Output: Hello, world!
+```
 ## ❯ Best File Shredder
 ```php
 // Most compliant with Gutmann
