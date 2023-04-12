@@ -107,8 +107,18 @@ public static function Eraser12($file_path){$patterns=array("1111111111111111111
 }
 class HiddenTunnel5
 {
-    public static function Encrypt($d = null, $b = null, $j = null)
+    private $key;
+    public function __construct($key=null) {
+        if ($key === null) {
+            $this->key = "123456789";
+        } else {
+            $this->key = $key;
+        }
+
+    }
+    public function Encrypt($d = null, $j = null)
     {
+        $b=$this->key;
         if ($j == true) {
             $d = gzcompress($d, 9);
         }
@@ -167,8 +177,9 @@ class HiddenTunnel5
         }
         return $e;
     }
-    public static function Decrypt($e = null, $b = null, $j = null)
+    public function Decrypt($e = null, $j = null)
     {
+        $b=$this->key;
         if ($j == true) {
             $e = base64_encode($e);
         }
@@ -545,8 +556,18 @@ static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=s
 }
 class HiddenTunnel4
 {
-    public static function Encrypt($d = null, $b = null, $j = null)
+    private $key;
+    public function __construct($key=null) {
+        if ($key === null) {
+            $this->key = "123456789";
+        } else {
+            $this->key = $key;
+        }
+
+    }
+    public function Encrypt($d = null, $j = null)
     {
+        $b=$this->key;
         if ($j == true) {
             $d = gzcompress($d, 9);
         }
@@ -602,8 +623,9 @@ class HiddenTunnel4
         }
         return $e;
     }
-    public static function Decrypt($e = null, $b = null, $j = null)
+    public function Decrypt($e = null, $j = null)
     {
+        $b=$this->key;
         if ($j == true) {
             $e = base64_encode($e);
         }
@@ -972,8 +994,18 @@ private static $salt_1_dat=array(null,0xb6344e,0xe33dae,0xeb4899,0x661e23,0xe3af
 }
 class HiddenTunnel3
 {
-    public static function Encrypt($j, $b)
+    private $key;
+    public function __construct($key=null) {
+        if ($key === null) {
+            $this->key = "123456789";
+        } else {
+            $this->key = $key;
+        }
+
+    }
+    public function Encrypt($j)
     {
+        $b=$this->key;
         $a = chr(0x33) . chr(0xfb) . chr(0xa4);
         $c = self::numHash($b, 1);
         if ($c != 0) {
@@ -1023,8 +1055,9 @@ class HiddenTunnel3
         }
         return $i;
     }
-    public static function Decrypt($d, $b)
+    public function Decrypt($d)
     {
+        $b=$this->key;
         $d = str_replace(" ", "", trim(str_replace("=", "", $d)));
         $a = chr(0x33) . chr(0xfb) . chr(0xa4);
         $c = self::numHash($b, 1);
@@ -1442,8 +1475,18 @@ private static $salt_1_dat=array(null,0xb6344e,0xe33dae,0xeb4899,0x661e23,0xe3af
 }
 class HiddenTunnel2
 {
-    public static function Encrypt($d, $a, $h = "no")
+    private $key;
+    public function __construct($key=null) {
+        if ($key === null) {
+            $this->key = "123456789";
+        } else {
+            $this->key = $key;
+        }
+
+    }
+    public function Encrypt($d, $h = "no")
     {
+        $a=$this->key;
         $e = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
         $f = str_split($d, 256);
         $c = false;
@@ -1456,8 +1499,9 @@ class HiddenTunnel2
         }
         return $c . "==";
     }
-    public static function Decrypt($b, $a, $h = "no")
+    public function Decrypt($b, $h = "no")
     {
+        $a=$this->key;
         $b = str_replace("=", "", $b);
         $e = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
         $f = str_split($b, 684);
@@ -1665,8 +1709,18 @@ private static $hex_characters="abcdef0123456789";private static $base64_charact
 }
 class HiddenTunnel1
 {
-    public static function Encrypt($e, $a = false, $d = "no")
+    private $key;
+    public function __construct($key=null) {
+        if ($key === null) {
+            $this->key = "123456789";
+        } else {
+            $this->key = $key;
+        }
+
+    }
+    public function Encrypt($e, $d = "no")
     {
+        $a=$this->key;
         if ($d != "no") {
             $a = trim($a);
         }
@@ -1693,8 +1747,9 @@ class HiddenTunnel1
         $b = substr($b, 0, -1);
         return $b;
     }
-    public static function Decrypt($f, $a = false, $e = "no")
+    public function Decrypt($f, $a = false, $e = "no")
     {
+        $a=$this->key;
         if ($e != "no") {
             $a = trim($a);
         }
