@@ -2,7 +2,7 @@
 set_time_limit(0);
 class HiddenTunnel
 {
-    public static function encrypt_data($type, $data, $algorithm, $iv, $dir = null) {
+    function encrypt_data($type, $data, $algorithm, $iv, $dir = null) {
     
         if ($type == "folder") {
             $files = array_diff(scandir($dir), array('.', '..'));
@@ -31,7 +31,8 @@ class HiddenTunnel
         
         return null;
     }
-    public static function decrypt_data($type, $data, $algorithm, $iv, $dir = null) {
+    
+    function decrypt_data($type, $data, $algorithm, $iv, $dir = null) {
         
         if ($type == "folder") {
             $files = array_diff(scandir($dir), array('.', '..'));
@@ -60,6 +61,7 @@ class HiddenTunnel
         
         return null;
     }
+    
     static function HiddenTunnelHASH($b, $c = 64)
     {
         $a = null;
