@@ -7,7 +7,9 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ### [ ❯ AC v1.17](https://github.com/XPROCION/AntaresCrypt/blob/main/AntaresCrypt.php)
 
 ```php
-// How to use AntaresCrypt
+// How to use AntaresCrypt Latest Version
+// How to Encrypt with AntaresCrypt
+// How to Decrypt with AntaresCrypt
 
 // Put 'AntaresCrypt.php' in your project file, then require(),require_once() it in your own file
 
