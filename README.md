@@ -49,7 +49,7 @@ $iv = "1234567890123456";
 
 $ht = new HiddenTunnel("my_key",$iv);
 
-// encrypt a folder
+// encrypt a folder example: __DIR__."/path"
 $ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 
 // decrypt the encrypted folder
