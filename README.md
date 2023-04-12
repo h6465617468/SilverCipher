@@ -4,6 +4,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ## ❯ How to use?
 ### [ ❯ Latest Version HiddenTunnel v1.17](https://github.com/XPROCION/HiddenTunnel/blob/main/HiddenTunnel.php)
 
+## ❯ Text Encryption
 ```php
 // How to use HiddenTunnel Latest Version
 // How to Encrypt with HiddenTunnel
@@ -17,13 +18,45 @@ $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
 
-$encrypted_text = HiddenTunnel::Encrypt($plain_text,$key);
+$encrypted_text = HiddenTunnel5::Encrypt($plain_text,$key); // Slow, High Security
+//$encrypted_text = HiddenTunnel4::Encrypt($plain_text,$key,true);
+//$encrypted_text = HiddenTunnel5::Encrypt($plain_text,$key);
+//$encrypted_text = HiddenTunnel2::Encrypt($plain_text,$key,"no");
+//$encrypted_text = HiddenTunnel1::Encrypt($plain_text,$key,"no"); // Fast, Low Security
 
 $decrypted_text = HiddenTunnel::Decrypt($encrypted_text,$key);
 
 echo $encrypted_text;
 echo "<br>";
 echo $decrypted_text;
+```
+
+## ❯ Folder/File/Text Encryption
+```php
+$dir = "/path/to/folder";
+$algorithm = "AES-256-CBC";
+$iv = "1234567890123456";
+
+// Encrypt folder
+encrypt_decrypt_data("folder", null, $algorithm, $iv, $dir);
+
+// Decrypt folder
+decrypt_data("folder", null, $algorithm, $iv, $dir);
+
+// Encrypt file
+$file = "/path/to/file";
+encrypt_decrypt_data("file", $file, $algorithm, $iv);
+
+// Decrypt file
+decrypt_data("file", $file . "_enc", $algorithm, $iv);
+
+// Encrypt text
+$text = "This is a sample text to be encrypted.";
+$encrypted_text = encrypt_decrypt_data("text", $text, $algorithm, $iv);
+
+// Decrypt text
+$decrypted_text = decrypt_data("text", $encrypted_text, $algorithm, $iv);
+
 ```
 ### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
 
