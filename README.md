@@ -32,6 +32,8 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
+### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
+
 ## ❯ HiddenTunnel Military Level Folder/File/Text Encryption + File Shredder
 ```php
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
@@ -99,7 +101,6 @@ HiddenTunnelEraser::Eraser10($file_path);
 HiddenTunnelEraser::Eraser11($file_path);
 HiddenTunnelEraser::Eraser12($file_path);
 ```
-### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
 
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
