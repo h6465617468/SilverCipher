@@ -18,13 +18,13 @@ $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
 
-$ht = new HiddenTunnel5("my_key"); // Best
-//$ht = new HiddenTunnel4("my_key");
-//$ht = new HiddenTunnel3("my_key");
-//$ht = new HiddenTunnel2("my_key");
-//$ht = new HiddenTunnel1("my_key"); // Fast
+$ht = new HiddenTunnel5($key); // Best
+//$ht = new HiddenTunnel4($key);
+//$ht = new HiddenTunnel3($key);
+//$ht = new HiddenTunnel2($key);
+//$ht = new HiddenTunnel1($key); // Fast
 
-$encrypted_text=$ht->Encrypt("123");
+$encrypted_text=$ht->Encrypt($plain_text);
 $encrypted_text=$ht->Decrypt($encrypted_text);
 
 echo $encrypted_text;
