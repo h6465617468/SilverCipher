@@ -36,7 +36,9 @@ echo $decrypted_text;
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
 
 require_once "HiddenTunnel.php";
+
 $iv = "1234567890123456";
+
 // create HiddenTunnel object with a key
 
 $ht = new HiddenTunnel("my_key",$iv);
