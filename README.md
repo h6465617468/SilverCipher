@@ -31,7 +31,7 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-## ❯ Folder/File/Text Encryption
+## ❯ Military Level Folder/File/Text Encryption + File Shredder
 ```php
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
 
