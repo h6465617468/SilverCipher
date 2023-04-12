@@ -22,7 +22,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="keywords" content="">
-        <meta name="description" content="AntaresCrypt Encryption Tool">
+        <meta name="description" content="HiddenTunnel Cryptography Tool">
         <meta name="author" content="">
         <meta name="robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html;UTF-8">
