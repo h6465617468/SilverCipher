@@ -37,9 +37,9 @@ echo $decrypted_text;
 
 require_once "HiddenTunnel.php";
 
-$dir = "/path/to/folder";
+$dir = __DIR__."/folder";
 $algorithm = "AES-256-CBC";
-$iv = "1234567890123456";
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algorithm));
 
 // Encrypt folder
 HiddenTunnel::encrypt_data("folder", null, $algorithm, $iv, $dir);
