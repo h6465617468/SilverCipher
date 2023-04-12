@@ -38,7 +38,8 @@ echo $decrypted_text;
 require_once "HiddenTunnel.php";
 
 // create HiddenTunnel object with a key
-$ht = new HiddenTunnel("my_key");
+$iv = "1234567890123456";
+$ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a folder
 $ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
@@ -50,7 +51,8 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
 // create HiddenTunnel object with a key
-$ht = new HiddenTunnel("my_key");
+$iv = "1234567890123456";
+$ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a file
 $ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
@@ -62,7 +64,8 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 
 // create HiddenTunnel object with a key
-$ht = new HiddenTunnel("my_key");
+$iv = "1234567890123456";
+$ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a text
 $encrypted_text = $ht->encrypt_data("text", "my secret data", "AES-256-CBC");
