@@ -112,6 +112,14 @@ If you're into encryption, you should take a look at file shredders.(DoD 5220.22
 
 If you are using this encryption algorithm, you should know them.
 
+## ❯ PHP Disable Cache
+```php
+header("Expires: on, 01 Jan 1 00:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+```
 ## ❯ Secure DoD 5220.22-M, AES-256-CBC Folder Upload Encryption
 ```php
 function encryptFile($inputFile, $outputFile, $key, $iv) {
@@ -311,14 +319,6 @@ function secure_delete_file_x1($file_path) {
 }
 //use
 secure_delete_file_x1("file.txt");
-```
-## ❯ PHP Disable Cache
-```php
-header("Expires: on, 01 Jan 1 00:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
 ```
 ## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key, Load Key
 ### i like these
