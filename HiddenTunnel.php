@@ -1718,22 +1718,9 @@ class HiddenTunnel1
         }
 
     }
-    public function Encrypt($e, $d = "no")
+    public function Encrypt($e)
     {
         $a=$this->key;
-        if ($d != "no") {
-            $a = trim($a);
-        }
-        if ($d == "b64") {
-            $a = base64_decode($a);
-        }
-        if ($d == "hex") {
-            if (strlen($a) % 2 == 0) {
-                $a = hex2bin($a);
-            } else {
-                exit;
-            }
-        }
         $f = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
         $g = str_split($e, 256);
         $b = false;
@@ -1747,22 +1734,9 @@ class HiddenTunnel1
         $b = substr($b, 0, -1);
         return $b;
     }
-    public function Decrypt($f, $a = false, $e = "no")
+    public function Decrypt($f)
     {
         $a=$this->key;
-        if ($e != "no") {
-            $a = trim($a);
-        }
-        if ($e == "b64") {
-            $a = base64_decode($a);
-        }
-        if ($e == "hex") {
-            if (strlen($a) % 2 == 0) {
-                $a = hex2bin($a);
-            } else {
-                exit;
-            }
-        }
         $g = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
         $b = explode(":", $f);
         $c = false;
