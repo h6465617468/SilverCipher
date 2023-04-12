@@ -37,30 +37,41 @@ echo $decrypted_text;
 
 require_once "HiddenTunnel.php";
 
-$dir = __DIR__."/folder";
-$algorithm = "AES-256-CBC";
-$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($algorithm));
+// create HiddenTunnel object with a key
+$ht = new HiddenTunnel("my_key");
 
-// Encrypt folder
-HiddenTunnel::encrypt_data("folder", null, $algorithm, $iv, $dir);
+// encrypt a folder
+$ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 
-// Decrypt folder
-HiddenTunnel::decrypt_data("folder", null, $algorithm, $iv, $dir);
+// decrypt the encrypted folder
+$ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 
-// Encrypt file
-$file = __DIR__."/file.txt";
-HiddenTunnel::encrypt_data("file", $file, $algorithm, $iv);
+// Note: All files in the folder will be encrypted and saved with '_enc' suffix.
+// The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
-// Decrypt file
-HiddenTunnel::decrypt_data("file", $file . "_enc", $algorithm, $iv);
+// create HiddenTunnel object with a key
+$ht = new HiddenTunnel("my_key");
 
-// Encrypt text
-$text = "This is a sample text to be encrypted.";
-$encrypted_text = HiddenTunnel::encrypt_data("text", $text, $algorithm, $iv);
+// encrypt a file
+$ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
 
-// Decrypt text
-$decrypted_text = HiddenTunnel::decrypt_data("text", $encrypted_text, $algorithm, $iv);
+// decrypt the encrypted file
+$ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 
+// Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
+// and the decrypted file will be saved as 'file_to_encrypt.txt'
+
+// create HiddenTunnel object with a key
+$ht = new HiddenTunnel("my_key");
+
+// encrypt a folder
+$ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+
+// decrypt the encrypted folder
+$ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+
+// Note: All files in the folder will be encrypted and saved with '_enc' suffix.
+// The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 ```
 ## ❯ HiddenTunnel File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
