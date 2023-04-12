@@ -156,7 +156,7 @@ class HiddenTunnel5
                     $h = 0;
                 }
                 $a = self::XOREncrypt($b, hex2bin(hash("sha512", $b . $a)));
-                $b = hex2bin(sha1(strrev(utf8_encode($a))) . hash("gost", base64_decode(self::$hash0 . self::$hash1 . self::$hash2 . self::$hash3 . self::$hash4 . self::$hash5 . self::$hash6 . self::$hash7 . self::$hash8 . self::$hash9 . self::$hasha . self::$hashb . self::$hashc . self::$hashd . self::$hashe . self::$hashf) . $b . $a . pow(2, 24) * substr(0, 8, self::numHash(hex2bin(self::Hex_Dont_Count(hash("whirlpool", $b . $a . $f[1]))), 8))));
+                $b = hex2bin(sha1(strrev(utf8_encode($a))) . hash("gost", base64_decode(self::$hash0 . self::$hash1 . self::$hash2 . self::$hash3 . self::$hash4 . self::$hash5 . self::$hash6 . self::$hash7 . self::$hash8 . self::$hash9 . self::$hasha . self::$hashb . self::$hashc . self::$hashd . self::$hashe . self::$hashf) . $b . $a . substr(0, 8, self::numHash(hex2bin(self::Hex_Dont_Count(hash("whirlpool", $b . $a . $f[1]))), 8))));
                 $a = false;
                 $a = chr(self::$salt_st_dat[$g]);
                 if ($c != 0) {
@@ -217,7 +217,7 @@ class HiddenTunnel5
                     $g = 0;
                 }
                 $a = self::XOREncrypt($b, hex2bin(hash("sha512", $b . $a)));
-                $b = hex2bin(sha1(strrev(utf8_encode($a))) . hash("gost", base64_decode(self::$hash0 . self::$hash1 . self::$hash2 . self::$hash3 . self::$hash4 . self::$hash5 . self::$hash6 . self::$hash7 . self::$hash8 . self::$hash9 . self::$hasha . self::$hashb . self::$hashc . self::$hashd . self::$hashe . self::$hashf) . $b . $a . pow(2, 24) * substr(0, 8, self::numHash(hex2bin(self::Hex_Dont_Count(hash("whirlpool", $b . $a . $i[1]))), 8))));
+                $b = hex2bin(sha1(strrev(utf8_encode($a))) . hash("gost", base64_decode(self::$hash0 . self::$hash1 . self::$hash2 . self::$hash3 . self::$hash4 . self::$hash5 . self::$hash6 . self::$hash7 . self::$hash8 . self::$hash9 . self::$hasha . self::$hashb . self::$hashc . self::$hashd . self::$hashe . self::$hashf) . $b . $a . substr(0, 8, self::numHash(hex2bin(self::Hex_Dont_Count(hash("whirlpool", $b . $a . $i[1]))), 8))));
                 $a = false;
                 $a = chr(self::$salt_st_dat[$f]);
                 if ($c != 0) {
