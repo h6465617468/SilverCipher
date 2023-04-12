@@ -100,7 +100,7 @@
                         }
                     }
                             $start=microtime(true);
-                            $temel=HiddenTunnel::Encrypt($data,$key);
+                            $temel=HiddenTunnel5::Encrypt($data,$key);
                             $end=microtime(true);
 
                 }
@@ -145,7 +145,7 @@
                     }
 
                         $start=microtime(true);
-                        $temel=HiddenTunnel::Decrypt($_POST["data"],$key);
+                        $temel=HiddenTunnel5::Decrypt($_POST["data"],$key);
                         $end=microtime(true);
                         if(isset($_POST["data_mode"]))
                         {
