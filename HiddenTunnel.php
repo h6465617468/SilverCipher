@@ -1,6 +1,6 @@
 <?php 
 set_time_limit(0);
-class AntaresCrypt
+class HiddenTunnel
 {
     static function Encrypt($b = null, $a = null)
     {
@@ -17,7 +17,7 @@ class AntaresCrypt
             $c = $c . base64_decode(self::aes128cfb($f, "e", $e));
             $c = self::Kiyim(hash("sha512", $c, true),"e",hash("sha512", $f, true));
         }
-        $a = base64_decode(trim(self::$salt)) . $c . hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(self::Antares_Crypt_HASH(hex2bin(hash("whirlpool", $a)), 1024)));
+        $a = base64_decode(trim(self::$salt)) . $c . hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(self::HiddenTunnel_HASH(hex2bin(hash("whirlpool", $a)), 1024)));
         $b = self::Kiyim($b, "e", $a);
         $j = str_split($b);
         $b = null;
@@ -29,19 +29,19 @@ class AntaresCrypt
                 $d = 0;
             }
             if ($g[$d] == 0) {
-                $b = $b . str_replace("=", "", Antares_Crypt_v1_1::Encrypt($h, $a, "no"));
+                $b = $b . str_replace("=", "", HiddenTunnel::Encrypt($h, $a, "no"));
             } else {
                 if ($g[$d] == 1) {
-                    $b = $b . str_replace("=", "", Antares_Crypt_v1_2::Encrypt($h, $a, "no"));
+                    $b = $b . str_replace("=", "", HiddenTunnel::Encrypt($h, $a, "no"));
                 } else {
                     if ($g[$d] == 2) {
-                        $b = $b . str_replace("=", "", Antares_Crypt_v1_3_no_compress::Encrypt($h, $a));
+                        $b = $b . str_replace("=", "", HiddenTunnel_v1_3_no_compress::Encrypt($h, $a));
                     } else {
                         if ($g[$d] == 3) {
-                            $b = $b . str_replace("=", "", Antares_Crypt_v1_4::Encrypt($h, $a));
+                            $b = $b . str_replace("=", "", HiddenTunnel_v1_4::Encrypt($h, $a));
                         } else {
                             if ($g[$d] == 4) {
-                                $b = $b . str_replace("=", "", Antares_Crypt_v1_5::Encrypt($h, $a));
+                                $b = $b . str_replace("=", "", HiddenTunnel_v1_5::Encrypt($h, $a));
                             } else {
                             }
                         }
@@ -69,7 +69,7 @@ class AntaresCrypt
             $c = $c . base64_decode(self::aes128cfb($f, "e", $e));
             $c = self::Kiyim(hash("sha512", $c, true),"e",hash("sha512", $f, true));
         }
-        $b = base64_decode(trim(self::$salt)) . $c . hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(self::Antares_Crypt_HASH(hex2bin(hash("whirlpool", $b)), 1024)));
+        $b = base64_decode(trim(self::$salt)) . $c . hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(self::HiddenTunnel_HASH(hex2bin(hash("whirlpool", $b)), 1024)));
         $j = $b;
         $a = str_replace(" ", "", trim($a));
         $k = str_split($a, 3);
@@ -82,19 +82,19 @@ class AntaresCrypt
                 $d = 0;
             }
             if ($g[$d] == 0) {
-                $a = $a . Antares_Crypt_v1_1::Decrypt($h, $b, "no");
+                $a = $a . HiddenTunnel_v1_1::Decrypt($h, $b, "no");
             } else {
                 if ($g[$d] == 1) {
-                    $a = $a . Antares_Crypt_v1_2::Decrypt($h, $b, "no");
+                    $a = $a . HiddenTunnel_v1_2::Decrypt($h, $b, "no");
                 } else {
                     if ($g[$d] == 2) {
-                        $a = $a . Antares_Crypt_v1_3_no_compress::Decrypt($h, $b);
+                        $a = $a . HiddenTunnel_v1_3_no_compress::Decrypt($h, $b);
                     } else {
                         if ($g[$d] == 3) {
-                            $a = $a . Antares_Crypt_v1_4::Decrypt($h, $b);
+                            $a = $a . HiddenTunnel_v1_4::Decrypt($h, $b);
                         } else {
                             if ($g[$d] == 4) {
-                                $a = $a . Antares_Crypt_v1_5::Decrypt($h, $b);
+                                $a = $a . HiddenTunnel_v1_5::Decrypt($h, $b);
                             } else {
                             }
                         }
@@ -107,7 +107,7 @@ class AntaresCrypt
         $a = self::Kiyim($a, "d", $j);
         return $a;
     }
-    static function Antares_Crypt_HASH($b, $c = 64)
+    static function HiddenTunnel_HASH($b, $c = 64)
     {
         $a = null;
         $d = 0;
