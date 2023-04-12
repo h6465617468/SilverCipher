@@ -13,13 +13,13 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 require_once "HiddenTunnel.php";
 
-$plain_text="Hello World"; // Unlimited Text Size
+$plain_text = "Hello World"; // Unlimited Text Size
 
-$key="123"; // Unlimited Key Size
+$key = "123"; // Unlimited Key Size
 
-$encrypted_text=HiddenTunnel::Encrypt($plain_text,$key);
+$encrypted_text = HiddenTunnel::Encrypt($plain_text,$key);
 
-$decrypted_text=HiddenTunnel::Decrypt($encrypted_text,$key);
+$decrypted_text = HiddenTunnel::Decrypt($encrypted_text,$key);
 
 echo $encrypted_text;
 echo "<br>";
