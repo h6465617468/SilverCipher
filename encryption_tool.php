@@ -39,7 +39,7 @@
         <style>a:hover, a:visited, a:link, a:active{text-decoration: none;}</style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
-    <a id="error1" href="index.php" style="font-size:64px;color:#221e1e;">Refresh Page</a>
+    <a id="error1" href="" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
                 include "HiddenTunnel.php";
                 $temel=false;
@@ -99,7 +99,7 @@
                             <?php
                         }
                     }
-                            $ht = new HiddenTunnel5($key);
+                            $ht = new HiddenTunnel1($key);
                             $start=microtime(true);
                             $temel=$ht->Encrypt($data);
                             $end=microtime(true);
@@ -144,7 +144,7 @@
                             <?php
                         }
                     }
-                        $ht = new HiddenTunnel5($key);
+                        $ht = new HiddenTunnel1($key);
                         $start=microtime(true);
                         $temel=$ht->Decrypt($_POST["data"]);
                         $end=microtime(true);
