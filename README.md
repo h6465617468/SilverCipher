@@ -42,21 +42,21 @@ $algorithm = "AES-256-CBC";
 $iv = "1234567890123456";
 
 // Encrypt folder
-HiddenTunnel::encrypt_decrypt_data("folder", null, $algorithm, $iv, $dir);
+HiddenTunnel::encrypt_data("folder", null, $algorithm, $iv, $dir);
 
 // Decrypt folder
 HiddenTunnel::decrypt_data("folder", null, $algorithm, $iv, $dir);
 
 // Encrypt file
 $file = "/path/to/file";
-HiddenTunnel::encrypt_decrypt_data("file", $file, $algorithm, $iv);
+HiddenTunnel::encrypt_data("file", $file, $algorithm, $iv);
 
 // Decrypt file
 HiddenTunnel::decrypt_data("file", $file . "_enc", $algorithm, $iv);
 
 // Encrypt text
 $text = "This is a sample text to be encrypted.";
-$encrypted_text = HiddenTunnel::encrypt_decrypt_data("text", $text, $algorithm, $iv);
+$encrypted_text = HiddenTunnel::encrypt_data("text", $text, $algorithm, $iv);
 
 // Decrypt text
 $decrypted_text = HiddenTunnel::decrypt_data("text", $encrypted_text, $algorithm, $iv);
