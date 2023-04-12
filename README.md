@@ -252,20 +252,6 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
-## ❯ AntaresCrypt, PGP Gnupg Encryption
-```php
-require_once "AntaresCrypt.php";
-$plain_text = "Hello, world!";
-$key = "my_strong_key";
-$encrypted_text = AntaresCrypt::Encrypt($plain_text, $key);
-$public_key = file_get_contents("recipient_public_key.asc");
-$pgp_encrypted_text = gnupg_encrypt($public_key, $encrypted_text);
-$private_key = gnupg_init();
-gnupg_adddecryptkey($private_key, "recipient_private_key.asc", "password");
-$decrypted_text = gnupg_decrypt($private_key, $pgp_encrypted_text);
-$decrypted_text = AntaresCrypt::Decrypt($decrypted_text, $key);
-echo $decrypted_text;
-```
 ## ❯ Best File Shredder
 ```php
 // Most compliant with Gutmann
