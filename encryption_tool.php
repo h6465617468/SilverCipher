@@ -164,7 +164,7 @@
     <?php
 ?>
         <div style="word-wrap: break-word;margin:auto;text-align:center;">
-        <h1>HiddenTunnel Encryption Tool</h1>
+        <h1>HiddenTunnel5 Encryption Tool</h1>
             <form  action="" method="post">
                 <label>
             <?php
