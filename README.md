@@ -33,6 +33,10 @@ echo $decrypted_text;
 
 ## ❯ Folder/File/Text Encryption
 ```php
+// Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
+
+require_once "HiddenTunnel.php";
+
 $dir = "/path/to/folder";
 $algorithm = "AES-256-CBC";
 $iv = "1234567890123456";
