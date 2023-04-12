@@ -38,7 +38,7 @@ echo $decrypted_text;
 require_once "HiddenTunnel.php";
 
 // create HiddenTunnel object with a key
-$iv = "1234567890123456";
+
 $ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a folder
@@ -51,7 +51,7 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
 // create HiddenTunnel object with a key
-$iv = "1234567890123456";
+
 $ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a file
