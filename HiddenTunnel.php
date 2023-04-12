@@ -20,7 +20,8 @@ class HiddenTunnel
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
                 if (is_dir($file_path)) {
-                    encrypt_data("folder", null, $algorithm, $key, $this->iv, $file_path);
+                    $ht1 = new HiddenTunnel($this->key, $this->iv);
+                    $ht1->encrypt_data("folder", null, "AES-256-CBC", $file_path);
                 } else {
                     $file_content = file_get_contents($file_path);
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -41,7 +42,7 @@ class HiddenTunnel
         return null;
     }
 
-    public function decrypt_data($type, $data, $algorithm, $dir = null) {
+    public function decrypt_data($type, $data, $algorithm, $dir=null) {
         $options = OPENSSL_RAW_DATA;
 
         if ($type == "folder") {
@@ -51,7 +52,8 @@ class HiddenTunnel
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
                 if (is_dir($file_path)) {
-                    decrypt_data("folder", null, $algorithm, $this->key, $this->iv, $file_path);
+                    $ht2 = new HiddenTunnel($this->key, $this->iv);
+                    $ht2->decrypt_data("folder", null, $algorithm, $file_path);
                 } else {
                     $file_content = file_get_contents($file_path);
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
