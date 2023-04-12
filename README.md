@@ -18,13 +18,14 @@ $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
 
-$encrypted_text = HiddenTunnel5::Encrypt($plain_text,$key); // Slow, High Security
-//$encrypted_text = HiddenTunnel4::Encrypt($plain_text,$key,true);
-//$encrypted_text = HiddenTunnel5::Encrypt($plain_text,$key);
-//$encrypted_text = HiddenTunnel2::Encrypt($plain_text,$key,"no");
-//$encrypted_text = HiddenTunnel1::Encrypt($plain_text,$key,"no"); // Fast, Low Security
+$ht = new HiddenTunnel5("my_key"); // Best
+//$ht = new HiddenTunnel4("my_key");
+//$ht = new HiddenTunnel3("my_key");
+//$ht = new HiddenTunnel2("my_key");
+//$ht = new HiddenTunnel1("my_key"); // Fast
 
-$decrypted_text = HiddenTunnel5::Decrypt($encrypted_text,$key);
+$encrypted_text=$ht->Encrypt("123");
+$encrypted_text=$ht->Decrypt($encrypted_text);
 
 echo $encrypted_text;
 echo "<br>";
