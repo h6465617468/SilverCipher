@@ -35,7 +35,9 @@ echo $decrypted_text;
 ### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
 
 ## ❯ HiddenTunnel Military Level Folder/File/Text Encryption
-#### ❯ Uses the Gutmann file shredding method
+
+### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+
 ```php
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
 
