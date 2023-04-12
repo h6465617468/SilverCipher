@@ -41,7 +41,7 @@
     </head>
     <a id="error1" href="index.php" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
-                include "AntaresCrypt.php";
+                include "HiddenTunnel.php";
                 $temel=false;
                 if(isset($_POST["enc"]))
                 {
@@ -100,7 +100,7 @@
                         }
                     }
                             $start=microtime(true);
-                            $temel=AntaresCrypt::Encrypt($data,$key);
+                            $temel=HiddenTunnel::Encrypt($data,$key);
                             $end=microtime(true);
 
                 }
@@ -145,7 +145,7 @@
                     }
 
                         $start=microtime(true);
-                        $temel=AntaresCrypt::Decrypt($_POST["data"],$key);
+                        $temel=HiddenTunnel::Decrypt($_POST["data"],$key);
                         $end=microtime(true);
                         if(isset($_POST["data_mode"]))
                         {
