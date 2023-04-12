@@ -48,7 +48,7 @@ HiddenTunnel::encrypt_data("folder", null, $algorithm, $iv, $dir);
 HiddenTunnel::decrypt_data("folder", null, $algorithm, $iv, $dir);
 
 // Encrypt file
-$file = "/path/to/file";
+$file = __DIR__."/file.txt";
 HiddenTunnel::encrypt_data("file", $file, $algorithm, $iv);
 
 // Decrypt file
