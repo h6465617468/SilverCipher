@@ -64,14 +64,13 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // create HiddenTunnel object with a key
 $ht = new HiddenTunnel("my_key");
 
-// encrypt a folder
-$ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+// encrypt a text
+$encrypted_text = $ht->encrypt_data("text", "my secret data", "AES-256-CBC");
 
-// decrypt the encrypted folder
-$ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+// decrypt the encrypted text
+$decrypted_text = $ht->decrypt_data("text", $encrypted_text, "AES-256-CBC");
 
-// Note: All files in the folder will be encrypted and saved with '_enc' suffix.
-// The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
+echo $decrypted_text; // output: my secret data
 ```
 ## ❯ HiddenTunnel File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
