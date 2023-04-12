@@ -123,50 +123,50 @@ class HiddenTunnel
     static function Kiyim($k, $l, $e)
     {
         $d = $e;
-        $m = hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("sha512", md5($d))));
-        $g = Antares_Crypt_v1_5::Hex_Dont_Count(hash("sha512", $e . $m . chr(0x3f) . chr(0x6c) . chr(0x33)));
-        $f = Antares_Crypt_v1_5::Raw_hexrev(hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("sha512", $e))));
-        $h = Antares_Crypt_v1_5::Raw_hexrev(hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("whirlpool", hex2bin(Antares_Crypt_v1_5::E_hex_1($g))))));
-        $c = hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("whirlpool", hex2bin(md5(Antares_Crypt_v1_5::XOREncrypt(hex2bin($g), $h))))));
-        $n = Antares_Crypt_v1_5::hashtoXcode($e);
-        $o = hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("sha512", Antares_Crypt_v1_5::Raw_hexrev(exp(pow(2, 2)) . Antares_Crypt_v1_5::XOREncrypt($f, $d)))));
-        $i = hex2bin(Antares_Crypt_v1_5::Hex_Dont_Count(hash("sha512", hex2bin(hash("whirlpool", $h)))));
+        $m = hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("sha512", md5($d))));
+        $g = HiddenTunnel_v1_5::Hex_Dont_Count(hash("sha512", $e . $m . chr(0x3f) . chr(0x6c) . chr(0x33)));
+        $f = HiddenTunnel_v1_5::Raw_hexrev(hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("sha512", $e))));
+        $h = HiddenTunnel_v1_5::Raw_hexrev(hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("whirlpool", hex2bin(HiddenTunnel_v1_5::E_hex_1($g))))));
+        $c = hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("whirlpool", hex2bin(md5(HiddenTunnel_v1_5::XOREncrypt(hex2bin($g), $h))))));
+        $n = HiddenTunnel_v1_5::hashtoXcode($e);
+        $o = hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("sha512", HiddenTunnel_v1_5::Raw_hexrev(exp(pow(2, 2)) . HiddenTunnel_v1_5::XOREncrypt($f, $d)))));
+        $i = hex2bin(HiddenTunnel_v1_5::Hex_Dont_Count(hash("sha512", hex2bin(hash("whirlpool", $h)))));
         if ($l == "e") {
             $b = $k;
-            $b = hex2bin(Antares_Crypt_v1_5::Hex_Encrypt_Key(bin2hex($b), $d));
-            $b = Antares_Crypt_v1_5::Raw_hexrev($b);
+            $b = hex2bin(HiddenTunnel_v1_5::Hex_Encrypt_Key(bin2hex($b), $d));
+            $b = HiddenTunnel_v1_5::Raw_hexrev($b);
             $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_5));
-            $b = hex2bin(Antares_Crypt_v1_5::E_hex_3(bin2hex($b)));
-            $b = hex2bin(Antares_Crypt_v1_5::Hex_Encrypt_Key(bin2hex($b), $i));
-            $b = Antares_Crypt_v1_5::Raw_hexrev($b);
-            $b = Antares_Crypt_v1_5::XOREncrypt(strrev($b), $c);
+            $b = hex2bin(HiddenTunnel_v1_5::E_hex_3(bin2hex($b)));
+            $b = hex2bin(HiddenTunnel_v1_5::Hex_Encrypt_Key(bin2hex($b), $i));
+            $b = HiddenTunnel_v1_5::Raw_hexrev($b);
+            $b = HiddenTunnel_v1_5::XOREncrypt(strrev($b), $c);
             $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_a));
             $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_f));
-            $b = hex2bin(Antares_Crypt_v1_5::E_hex_1(bin2hex($b)));
-            $b = hex2bin(Antares_Crypt_v1_5::Hex_Encrypt_Key(bin2hex($b), $d));
-            $b = Antares_Crypt_v1_5::XOREncrypt(strrev($b), Antares_Crypt_v1_5::XOREncrypt($f, $c));
-            $b = hex2bin(Antares_Crypt_v1_5::E_hex_2(bin2hex($b)));
-            $b = Antares_Crypt_v1_5::Raw_hexrev($b);
-            $b = hex2bin(Antares_Crypt_v1_5::Hex_Encrypt_Key(bin2hex($b), $c));
+            $b = hex2bin(HiddenTunnel_v1_5::E_hex_1(bin2hex($b)));
+            $b = hex2bin(HiddenTunnel_v1_5::Hex_Encrypt_Key(bin2hex($b), $d));
+            $b = HiddenTunnel_v1_5::XOREncrypt(strrev($b), HiddenTunnel_v1_5::XOREncrypt($f, $c));
+            $b = hex2bin(HiddenTunnel_v1_5::E_hex_2(bin2hex($b)));
+            $b = HiddenTunnel_v1_5::Raw_hexrev($b);
+            $b = hex2bin(HiddenTunnel_v1_5::Hex_Encrypt_Key(bin2hex($b), $c));
             $j = $b;
         } else {
             if ($l == "d") {
                 $a = $k;
-                $a = hex2bin(Antares_Crypt_v1_5::Hex_Decrypt_Key(bin2hex($a), $c));
-                $a = Antares_Crypt_v1_5::Raw_hexrev($a);
-                $a = hex2bin(Antares_Crypt_v1_5::D_hex_2(bin2hex($a)));
-                $a = strrev(Antares_Crypt_v1_5::XORDecrypt($a, Antares_Crypt_v1_5::XOREncrypt($f, $c)));
-                $a = hex2bin(Antares_Crypt_v1_5::Hex_Decrypt_Key(bin2hex($a), $d));
-                $a = hex2bin(Antares_Crypt_v1_5::D_hex_1(bin2hex($a)));
+                $a = hex2bin(HiddenTunnel_v1_5::Hex_Decrypt_Key(bin2hex($a), $c));
+                $a = HiddenTunnel_v1_5::Raw_hexrev($a);
+                $a = hex2bin(HiddenTunnel_v1_5::D_hex_2(bin2hex($a)));
+                $a = strrev(HiddenTunnel_v1_5::XORDecrypt($a, HiddenTunnel_v1_5::XOREncrypt($f, $c)));
+                $a = hex2bin(HiddenTunnel_v1_5::Hex_Decrypt_Key(bin2hex($a), $d));
+                $a = hex2bin(HiddenTunnel_v1_5::D_hex_1(bin2hex($a)));
                 $a = hex2bin(strtr(bin2hex($a), self::$change_f, self::$st_hex_chars));
                 $a = hex2bin(strtr(bin2hex($a), self::$change_a, self::$st_hex_chars));
-                $a = strrev(Antares_Crypt_v1_5::XORDecrypt($a, $c));
-                $a = Antares_Crypt_v1_5::Raw_hexrev($a);
-                $a = hex2bin(Antares_Crypt_v1_5::Hex_Decrypt_Key(bin2hex($a), $i));
-                $a = hex2bin(Antares_Crypt_v1_5::D_hex_3(bin2hex($a)));
+                $a = strrev(HiddenTunnel_v1_5::XORDecrypt($a, $c));
+                $a = HiddenTunnel_v1_5::Raw_hexrev($a);
+                $a = hex2bin(HiddenTunnel_v1_5::Hex_Decrypt_Key(bin2hex($a), $i));
+                $a = hex2bin(HiddenTunnel_v1_5::D_hex_3(bin2hex($a)));
                 $a = hex2bin(strtr(bin2hex($a), self::$change_5, self::$st_hex_chars));
-                $a = Antares_Crypt_v1_5::Raw_hexrev($a);
-                $a = hex2bin(Antares_Crypt_v1_5::Hex_Decrypt_Key(bin2hex($a), $d));
+                $a = HiddenTunnel_v1_5::Raw_hexrev($a);
+                $a = hex2bin(HiddenTunnel_v1_5::Hex_Decrypt_Key(bin2hex($a), $d));
                 $j = $a;
             }
         }
@@ -281,7 +281,7 @@ class HiddenTunnel
     static $st_hex_chang = "1123413123411123";
     static $salt = "TDx1SkhFhmONvtotJRJogmnC2sQYVlGPutavJK7ckjZJ5KKVK2Xro0LuB/EavAT+p46pg+Lr93pVmgdCdQ8JrxXLv0ZewyVfQ27slmG0hhjbdKQ2mftzQbjOZxbOoGmAsC5AtpTQ1z4wFPJV7bIA0/9mWji5p/baXy5Yj3keTdrbAFRyc7LAEjdqrfUM4ERxATJ+jm57C0R+VlhdWBLoNp7JJ5FY31vAOHaKGwvYdme3901eF01QoJtYmF5DgSTpk00H+6T2AUWk3SG1oRFlzT/B4d5nVi931uyo3Mb2jrwiRU3LQx3SmroIvGJw9AP/QIZ8rPDFRqSRQoHS9QAmw7s4/yI1WxvLvyGsETNV+WL8wleFv3l+gVGr50xRkL/M4KjO8N/ao/2y7VakKFlHCzlJoYdd6ZbABqzsqzbq1iIOPjQXyWExcQQjaO2zlBCPaPcWD8o3WA7KY+WG4WNTDjj1Gml6LyrOFrO8cleL7za5xksEkO/z73CpfxTfWo8kkuCVgvcpif/WoRAv02R2mRBqoCfgKbbM3xH1muObaA/QUMoq01gwMM+8b3yfgSVG6FTd7aqEmFwMdwJt4zZNJVWmhA1gEGU1lPtwYmuU4rYd4/z3DhLQLYH9OAuSy8WhPepzR3xwFKQPnlGn2Z6cMaBAuezgPgs0VTIrxWZKwpDTqg9lTckibJ9DjKur/1VN7H4YpeWaay8t7jSXphs3aYE1vGLAjqlFOGKy8RMRQUW91yuGpcR6wx+6inmJgG+SlLme5HebJGByvmF1qzSGxe4v5/VWUln75IzbW4a4UF+8Vh+qS2rhVzQiJeGW1SdAmiHcDZJTyASzuPYExMSyq2ZVBlrHNak9nP7PJ/DEryEMJrVhU24ZPwvYr+byfWjCWsGGQ6IOPgIQPwxpPk2wUnHQOPHqR45fbSpuT2xKR82XS4vvtv3IldZ8hkRbIeR0oQY4LQdBVRAMnpgkPVdM7rjZelTeuh2moTs9BboYAoaeZc3Wx4vsYBjJwqivOIqe";
 }
-class Antares_Crypt_v1_5
+class HiddenTunnel_v1_5
 {
     static function Encrypt($d = null, $b = null, $j = null)
     {
@@ -1328,7 +1328,7 @@ class Antares_Crypt_v1_5
     private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
     private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
-class Antares_Crypt_v1_4
+class HiddenTunnel_v1_4
 {
     static function Encrypt($d = null, $b = null, $j = null)
     {
@@ -2367,7 +2367,7 @@ class Antares_Crypt_v1_4
     private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
     private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
-class Antares_Crypt_v1_3_no_compress
+class HiddenTunnel_v1_3_no_compress
 {
     static function Encrypt($j, $b)
     {
@@ -3566,7 +3566,7 @@ class Antares_Crypt_v1_3_no_compress
     private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
     private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
-class Antares_Crypt_v1_2
+class HiddenTunnel_v1_2
 {
     static function Encrypt($d, $a, $h = "no")
     {
@@ -4124,7 +4124,7 @@ class Antares_Crypt_v1_2
     private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
     private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
-class Antares_Crypt_v1_1
+class HiddenTunnel_v1_1
 {
     static function Encrypt($e, $a = false, $d = "no")
     {
