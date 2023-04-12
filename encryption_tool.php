@@ -99,7 +99,7 @@
                             <?php
                         }
                     }
-                            $ht = new HiddenTunnel1($key);
+                            $ht = new HiddenTunnel5($key);
                             $start=microtime(true);
                             $temel=$ht->Encrypt($data);
                             $end=microtime(true);
@@ -144,7 +144,7 @@
                             <?php
                         }
                     }
-                        $ht = new HiddenTunnel1($key);
+                        $ht = new HiddenTunnel5($key);
                         $start=microtime(true);
                         $temel=$ht->Decrypt($_POST["data"]);
                         $end=microtime(true);
