@@ -24,7 +24,7 @@ $encrypted_text = HiddenTunnel5::Encrypt($plain_text,$key); // Slow, High Securi
 //$encrypted_text = HiddenTunnel2::Encrypt($plain_text,$key,"no");
 //$encrypted_text = HiddenTunnel1::Encrypt($plain_text,$key,"no"); // Fast, Low Security
 
-$decrypted_text = HiddenTunnel::Decrypt($encrypted_text,$key);
+$decrypted_text = HiddenTunnel5::Decrypt($encrypted_text,$key);
 
 echo $encrypted_text;
 echo "<br>";
@@ -38,24 +38,24 @@ $algorithm = "AES-256-CBC";
 $iv = "1234567890123456";
 
 // Encrypt folder
-encrypt_decrypt_data("folder", null, $algorithm, $iv, $dir);
+HiddenTunnel::encrypt_decrypt_data("folder", null, $algorithm, $iv, $dir);
 
 // Decrypt folder
-decrypt_data("folder", null, $algorithm, $iv, $dir);
+HiddenTunnel::decrypt_data("folder", null, $algorithm, $iv, $dir);
 
 // Encrypt file
 $file = "/path/to/file";
-encrypt_decrypt_data("file", $file, $algorithm, $iv);
+HiddenTunnel::encrypt_decrypt_data("file", $file, $algorithm, $iv);
 
 // Decrypt file
-decrypt_data("file", $file . "_enc", $algorithm, $iv);
+HiddenTunnel::decrypt_data("file", $file . "_enc", $algorithm, $iv);
 
 // Encrypt text
 $text = "This is a sample text to be encrypted.";
-$encrypted_text = encrypt_decrypt_data("text", $text, $algorithm, $iv);
+$encrypted_text = HiddenTunnel::encrypt_decrypt_data("text", $text, $algorithm, $iv);
 
 // Decrypt text
-$decrypted_text = decrypt_data("text", $encrypted_text, $algorithm, $iv);
+$decrypted_text = HiddenTunnel::decrypt_data("text", $encrypted_text, $algorithm, $iv);
 
 ```
 ### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
