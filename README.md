@@ -62,7 +62,9 @@ $encrypted_text = HiddenTunnel::encrypt_decrypt_data("text", $text, $algorithm, 
 $decrypted_text = HiddenTunnel::decrypt_data("text", $encrypted_text, $algorithm, $iv);
 
 ```
-## ❯ HiddenTunnel Eraser
+## ❯ HiddenTunnel File Shredder
+Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
+PHP is unfortunately a high level programming language.
 ```php
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
 
