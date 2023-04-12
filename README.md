@@ -62,6 +62,25 @@ $encrypted_text = HiddenTunnel::encrypt_decrypt_data("text", $text, $algorithm, 
 $decrypted_text = HiddenTunnel::decrypt_data("text", $encrypted_text, $algorithm, $iv);
 
 ```
+## ❯ HiddenTunnel Eraser
+```php
+// Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
+
+require_once "HiddenTunnel.php";
+
+HiddenTunnelEraser::Eraser1($file_path);
+HiddenTunnelEraser::Eraser2($file_path); // Best
+HiddenTunnelEraser::Eraser3($file_path);
+HiddenTunnelEraser::Eraser4($file_path);
+HiddenTunnelEraser::Eraser5($file_path);
+HiddenTunnelEraser::Eraser6($file_path);
+HiddenTunnelEraser::Eraser7($file_path);
+HiddenTunnelEraser::Eraser8($file_path);
+HiddenTunnelEraser::Eraser9($file_path);
+HiddenTunnelEraser::Eraser10($file_path);
+HiddenTunnelEraser::Eraser11($file_path);
+HiddenTunnelEraser::Eraser12($file_path);
+```
 ### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
 
 ## ❯ Developer Note
