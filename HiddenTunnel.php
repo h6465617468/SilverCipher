@@ -2,110 +2,63 @@
 set_time_limit(0);
 class HiddenTunnel
 {
-    static function Encrypt($b = null, $a = null)
-    {
-        if($b==""){return "";}
-        $c = null;
-        $e = base64_decode(self::$salt);
-        foreach (hash_algos() as $i) {
-            $f = hash($i, $a, true);
-            $c = $c . base64_decode(self::aes256cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes192cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes128cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes256cfb($f, "e", $e));
-            $c = $c . base64_decode(self::aes192cfb($f, "e", $e));
-            $c = $c . base64_decode(self::aes128cfb($f, "e", $e));
-            $c = self::Kiyim(hash("sha512", $c, true),"e",hash("sha512", $f, true));
-        }
-        $a = base64_decode(trim(self::$salt)) . $c . hex2bin(HiddenTunnel5::Hex_Dont_Count(self::HiddenTunnelHASH(hex2bin(hash("whirlpool", $a)), 1024)));
-        $b = self::Kiyim($b, "e", $a);
-        $j = str_split($b);
-        $b = null;
-        $g = strtr(md5($a), self::$st_hex_chars, self::$st_hex_chang);
-        $d = 0;
-        foreach ($j as $h) {
-            if ($d == 32) {
-                $g = strtr(md5($a), self::$st_hex_chars, self::$st_hex_chang);
-                $d = 0;
-            }
-            if ($g[$d] == 0) {
-                $b = $b . str_replace("=", "", HiddenTunnel1::Encrypt($h, $a, "no"));
-            } else {
-                if ($g[$d] == 1) {
-                    $b = $b . str_replace("=", "", HiddenTunnel2::Encrypt($h, $a, "no"));
+    public static function encrypt_data($type, $data, $algorithm, $iv, $dir = null) {
+    
+        if ($type == "folder") {
+            $files = array_diff(scandir($dir), array('.', '..'));
+            
+            foreach ($files as $file) {
+                $file_path = $dir . DIRECTORY_SEPARATOR . $file;
+                
+                if (is_dir($file_path)) {
+                    encrypt_data("folder", null, $algorithm, $iv, $file_path);
                 } else {
-                    if ($g[$d] == 2) {
-                        $b = $b . str_replace("=", "", HiddenTunnel3::Encrypt($h, $a));
-                    } else {
-                        if ($g[$d] == 3) {
-                            $b = $b . str_replace("=", "", HiddenTunnel4::Encrypt($h, $a));
-                        } else {
-                            if ($g[$d] == 4) {
-                                $b = $b . str_replace("=", "", HiddenTunnel5::Encrypt($h, $a));
-                            } else {
-                            }
-                        }
-                    }
+                    $file_content = file_get_contents($file_path);
+                    $encrypted_content = openssl_encrypt($file_content, $algorithm, $iv);
+                    file_put_contents($file_path . "_enc", $encrypted_content);
+                    HiddenTunnelEraser::Eraser2($file_path);
                 }
             }
-            $a = hex2bin(hash("whirlpool", $a));
-            $d++;
+        } else if ($type == "file") {
+            $file_content = file_get_contents($data);
+            $encrypted_content = openssl_encrypt($file_content, $algorithm, $iv);
+            file_put_contents($data . "_enc", $encrypted_content);
+            HiddenTunnelEraser::Eraser2($data);
+        } else if ($type == "text") {
+            $encrypted_content = openssl_encrypt($data, $algorithm, $iv);
+            return $encrypted_content;
         }
-        return $b;
+        
+        return null;
     }
-    static function Decrypt($a = null, $b = null)
-    {
-        if($a==""){return "";}
-        $a = str_replace("CryptoGeneric-","",$a);
-        $c = null;
-        $e = base64_decode(self::$salt);
-        foreach (hash_algos() as $i) {
-            $f = hash($i, $b, true);
-            $c = $c . base64_decode(self::aes256cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes192cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes128cbc($f, "e", $e));
-            $c = $c . base64_decode(self::aes256cfb($f, "e", $e));
-            $c = $c . base64_decode(self::aes192cfb($f, "e", $e));
-            $c = $c . base64_decode(self::aes128cfb($f, "e", $e));
-            $c = self::Kiyim(hash("sha512", $c, true),"e",hash("sha512", $f, true));
-        }
-        $b = base64_decode(trim(self::$salt)) . $c . hex2bin(HiddenTunnel5::Hex_Dont_Count(self::HiddenTunnelHASH(hex2bin(hash("whirlpool", $b)), 1024)));
-        $j = $b;
-        $a = str_replace(" ", "", trim($a));
-        $k = str_split($a, 3);
-        $a = null;
-        $g = strtr(md5($b), self::$st_hex_chars, self::$st_hex_chang);
-        $d = 0;
-        foreach ($k as $h) {
-            if ($d == 32) {
-                $g = strtr(md5($b), self::$st_hex_chars, self::$st_hex_chang);
-                $d = 0;
-            }
-            if ($g[$d] == 0) {
-                $a = $a . HiddenTunnel1::Decrypt($h, $b, "no");
-            } else {
-                if ($g[$d] == 1) {
-                    $a = $a . HiddenTunnel2::Decrypt($h, $b, "no");
+    public static function decrypt_data($type, $data, $algorithm, $iv, $dir = null) {
+        
+        if ($type == "folder") {
+            $files = array_diff(scandir($dir), array('.', '..'));
+            
+            foreach ($files as $file) {
+                $file_path = $dir . DIRECTORY_SEPARATOR . $file;
+                
+                if (is_dir($file_path)) {
+                    decrypt_data("folder", null, $algorithm, $iv, $file_path);
                 } else {
-                    if ($g[$d] == 2) {
-                        $a = $a . HiddenTunnel3::Decrypt($h, $b);
-                    } else {
-                        if ($g[$d] == 3) {
-                            $a = $a . HiddenTunnel4::Decrypt($h, $b);
-                        } else {
-                            if ($g[$d] == 4) {
-                                $a = $a . HiddenTunnel5::Decrypt($h, $b);
-                            } else {
-                            }
-                        }
-                    }
+                    $file_content = file_get_contents($file_path);
+                    $decrypted_content = openssl_decrypt($file_content, $algorithm, $iv);
+                    file_put_contents(str_replace("_enc", "", $file_path), $decrypted_content);
+                    HiddenTunnelEraser::Eraser2($file_path);
                 }
             }
-            $b = hex2bin(hash("whirlpool", $b));
-            $d++;
+        } else if ($type == "file") {
+            $file_content = file_get_contents($data);
+            $decrypted_content = openssl_decrypt($file_content, $algorithm, $iv);
+            file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
+            HiddenTunnelEraser::Eraser2($data);
+        } else if ($type == "text") {
+            $decrypted_content = openssl_decrypt($data, $algorithm, $iv);
+            return $decrypted_content;
         }
-        $a = self::Kiyim($a, "d", $j);
-        return $a;
+        
+        return null;
     }
     static function HiddenTunnelHASH($b, $c = 64)
     {
@@ -120,170 +73,25 @@ class HiddenTunnel
         $b = substr($a, 0, $c);
         return $b;
     }
-    static function Kiyim($k, $l, $e)
-    {
-        $d = $e;
-        $m = hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("sha512", md5($d))));
-        $g = HiddenTunnel5::Hex_Dont_Count(hash("sha512", $e . $m . chr(0x3f) . chr(0x6c) . chr(0x33)));
-        $f = HiddenTunnel5::Raw_hexrev(hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("sha512", $e))));
-        $h = HiddenTunnel5::Raw_hexrev(hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("whirlpool", hex2bin(HiddenTunnel5::E_hex_1($g))))));
-        $c = hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("whirlpool", hex2bin(md5(HiddenTunnel5::XOREncrypt(hex2bin($g), $h))))));
-        $n = HiddenTunnel5::hashtoXcode($e);
-        $o = hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("sha512", HiddenTunnel5::Raw_hexrev(exp(pow(2, 2)) . HiddenTunnel5::XOREncrypt($f, $d)))));
-        $i = hex2bin(HiddenTunnel5::Hex_Dont_Count(hash("sha512", hex2bin(hash("whirlpool", $h)))));
-        if ($l == "e") {
-            $b = $k;
-            $b = hex2bin(HiddenTunnel5::Hex_Encrypt_Key(bin2hex($b), $d));
-            $b = HiddenTunnel5::Raw_hexrev($b);
-            $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_5));
-            $b = hex2bin(HiddenTunnel5::E_hex_3(bin2hex($b)));
-            $b = hex2bin(HiddenTunnel5::Hex_Encrypt_Key(bin2hex($b), $i));
-            $b = HiddenTunnel5::Raw_hexrev($b);
-            $b = HiddenTunnel5::XOREncrypt(strrev($b), $c);
-            $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_a));
-            $b = hex2bin(strtr(bin2hex($b), self::$st_hex_chars, self::$change_f));
-            $b = hex2bin(HiddenTunnel5::E_hex_1(bin2hex($b)));
-            $b = hex2bin(HiddenTunnel5::Hex_Encrypt_Key(bin2hex($b), $d));
-            $b = HiddenTunnel5::XOREncrypt(strrev($b), HiddenTunnel5::XOREncrypt($f, $c));
-            $b = hex2bin(HiddenTunnel5::E_hex_2(bin2hex($b)));
-            $b = HiddenTunnel5::Raw_hexrev($b);
-            $b = hex2bin(HiddenTunnel5::Hex_Encrypt_Key(bin2hex($b), $c));
-            $j = $b;
-        } else {
-            if ($l == "d") {
-                $a = $k;
-                $a = hex2bin(HiddenTunnel5::Hex_Decrypt_Key(bin2hex($a), $c));
-                $a = HiddenTunnel5::Raw_hexrev($a);
-                $a = hex2bin(HiddenTunnel5::D_hex_2(bin2hex($a)));
-                $a = strrev(HiddenTunnel5::XORDecrypt($a, HiddenTunnel5::XOREncrypt($f, $c)));
-                $a = hex2bin(HiddenTunnel5::Hex_Decrypt_Key(bin2hex($a), $d));
-                $a = hex2bin(HiddenTunnel5::D_hex_1(bin2hex($a)));
-                $a = hex2bin(strtr(bin2hex($a), self::$change_f, self::$st_hex_chars));
-                $a = hex2bin(strtr(bin2hex($a), self::$change_a, self::$st_hex_chars));
-                $a = strrev(HiddenTunnel5::XORDecrypt($a, $c));
-                $a = HiddenTunnel5::Raw_hexrev($a);
-                $a = hex2bin(HiddenTunnel5::Hex_Decrypt_Key(bin2hex($a), $i));
-                $a = hex2bin(HiddenTunnel5::D_hex_3(bin2hex($a)));
-                $a = hex2bin(strtr(bin2hex($a), self::$change_5, self::$st_hex_chars));
-                $a = HiddenTunnel5::Raw_hexrev($a);
-                $a = hex2bin(HiddenTunnel5::Hex_Decrypt_Key(bin2hex($a), $d));
-                $j = $a;
-            }
-        }
-        return $j;
-    }
-    static function aes256cbc($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-256-CBC";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static function aes192cbc($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-192-CBC";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static function aes128cbc($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-128-CBC";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static function aes256cfb($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-256-CFB";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static function aes192cfb($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-192-CFB";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static function aes128cfb($c, $f, $a)
-    {
-        $g = $a;
-        $h = $a;
-        $b = false;
-        $d = "AES-128-CFB";
-        $a = hash('sha256', $g);
-        $e = substr(hash('sha256', $h), 0, 16);
-        if ($f == 'e') {
-            $b = base64_encode(openssl_encrypt($c, $d, $a, 0, $e));
-        } else {
-            if ($f == 'd') {
-                $b = openssl_decrypt(base64_decode($c), $d, $a, 0, $e);
-            }
-        }
-        return $b;
-    }
-    static $change_a = "0951ab326c7f4e8d";
-    static $change_f = "a10fe82cd746b593";
-    static $change_5 = "5bef680329c1ad74";
-    static $st_hex_chars = "abcdef0123456789";
-    static $st_hex_chang = "1123413123411123";
-    static $salt = "TDx1SkhFhmONvtotJRJogmnC2sQYVlGPutavJK7ckjZJ5KKVK2Xro0LuB/EavAT+p46pg+Lr93pVmgdCdQ8JrxXLv0ZewyVfQ27slmG0hhjbdKQ2mftzQbjOZxbOoGmAsC5AtpTQ1z4wFPJV7bIA0/9mWji5p/baXy5Yj3keTdrbAFRyc7LAEjdqrfUM4ERxATJ+jm57C0R+VlhdWBLoNp7JJ5FY31vAOHaKGwvYdme3901eF01QoJtYmF5DgSTpk00H+6T2AUWk3SG1oRFlzT/B4d5nVi931uyo3Mb2jrwiRU3LQx3SmroIvGJw9AP/QIZ8rPDFRqSRQoHS9QAmw7s4/yI1WxvLvyGsETNV+WL8wleFv3l+gVGr50xRkL/M4KjO8N/ao/2y7VakKFlHCzlJoYdd6ZbABqzsqzbq1iIOPjQXyWExcQQjaO2zlBCPaPcWD8o3WA7KY+WG4WNTDjj1Gml6LyrOFrO8cleL7za5xksEkO/z73CpfxTfWo8kkuCVgvcpif/WoRAv02R2mRBqoCfgKbbM3xH1muObaA/QUMoq01gwMM+8b3yfgSVG6FTd7aqEmFwMdwJt4zZNJVWmhA1gEGU1lPtwYmuU4rYd4/z3DhLQLYH9OAuSy8WhPepzR3xwFKQPnlGn2Z6cMaBAuezgPgs0VTIrxWZKwpDTqg9lTckibJ9DjKur/1VN7H4YpeWaay8t7jSXphs3aYE1vGLAjqlFOGKy8RMRQUW91yuGpcR6wx+6inmJgG+SlLme5HebJGByvmF1qzSGxe4v5/VWUln75IzbW4a4UF+8Vh+qS2rhVzQiJeGW1SdAmiHcDZJTyASzuPYExMSyq2ZVBlrHNak9nP7PJ/DEryEMJrVhU24ZPwvYr+byfWjCWsGGQ6IOPgIQPwxpPk2wUnHQOPHqR45fbSpuT2xKR82XS4vvtv3IldZ8hkRbIeR0oQY4LQdBVRAMnpgkPVdM7rjZelTeuh2moTs9BboYAoaeZc3Wx4vsYBjJwqivOIqe";
+}
+class HiddenTunnelEraser
+{
+public static function Eraser1($filename){$file=fopen($filename,"w");for($i=0;$i<35;$i++){$data='';for($j=0;$j<filesize($filename);$j++){$data.=chr(mt_rand(0,255));}fwrite($file,$data);fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\x00");fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\xFF");fflush($file);fseek($file,0);}fclose($file);unlink($filename);}
+public static function Eraser2($filename){if(!file_exists($filename)){return false;}$size=filesize($filename);if(!$size||!is_writable($filename)){return false;}$patterns=array("\x00\xFF","\xFF\x00","\x55\xAA","\xAA\x55","\x92\x49","\x49\x92","\x24\x92","\x92\x24","\x6D\xB6","\xB6\x6D","\xDB\xDB","\x6D\xB6","\xFF\xFF","\x00\x00","\x11\x11","\x22\x22","\x33\x33","\x44\x44","\x55\x55","\x66\x66","\x77\x77","\x88\x88","\x99\x99","\xAA\xAA","\xBB\xBB","\xCC\xCC","\xDD\xDD","\xEE\xEE","\xFF\xFF","\x00\x00","\x00\x00","\xFF\xFF","\xAA\xAA","\x55\x55","\x00\x00","\xFF\xFF","\x00\x00","\xFF\xFF","\x55\x55","\xAA\xAA","\xFF\xFF","\x00\x00","\xAA\xAA","\x55\x55","\xFF\xFF","\x00\x00","\x55\x55","\xAA\xAA");$pattern_count=count($patterns);for($i=0;$i<5;$i++){$pattern=$patterns[$i%$pattern_count];$handle=fopen($filename,"w");for($j=0;$j<$size;$j+=strlen($pattern)){fwrite($handle,$pattern,strlen($pattern));}fclose($handle);}unlink($filename);return true;}
+public static function Eraser3($file_path){$file_handle=fopen($file_path,'r+');$file_size=filesize($file_path);for($i=0;$i<$file_size;$i++){fwrite($file_handle,chr(0));}$half_file_size=intval($file_size/2);for($i=0;$i<3;$i++){fseek($file_handle,0);for($j=0;$j<$half_file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fseek($file_handle,$half_file_size);for($i=0;$i<3;$i++){for($j=$half_file_size;$j<$file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fclose($file_handle);unlink($file_path);}
+public static function Eraser4($file_path){$fp=fopen($file_path,"r+");$file_size=filesize($file_path);$passes=array(str_repeat(chr(0x00),$file_size),str_repeat(chr(0xFF),$file_size),str_repeat(chr(0x55),$file_size),str_repeat(chr(0xAA),$file_size),str_repeat(chr(0x92),$file_size),str_repeat(chr(0x49),$file_size),str_repeat(chr(0xB6),$file_size),str_repeat(chr(0xDB),$file_size),str_repeat(chr(0xE5),$file_size),str_repeat(chr(0x24),$file_size),str_repeat(chr(0x6D),$file_size),str_repeat(chr(0x8C),$file_size),str_repeat(chr(0xB2),$file_size),str_repeat(chr(0xCC),$file_size),str_repeat(chr(0xE1),$file_size),str_repeat(chr(0xF0),$file_size));foreach($passes as $pass){fseek($fp,0);fwrite($fp,$pass);fflush($fp);}fclose($fp);unlink($file_path);}
+public static function Eraser5($file_path){$fp=fopen($file_path,"r+");$pattern=pack("H*","55").pack("H*","AA").pack("H*","FF");$file_size=filesize($file_path);for($i=0;$i<$file_size;$i+=strlen($pattern)){fseek($fp,$i);fwrite($fp,$pattern);}fclose($fp);unlink($file_path);}
+public static function Eraser6($filePath){$fp=fopen($filePath,'r+');$fileSize=filesize($filePath);for($i=0;$i<$fileSize;$i++){fwrite($fp,"\0");}fflush($fp);fclose($fp);unlink($filePath);clearstatcache(true,$filePath);}
+public static function Eraser7($file_path){$fp=fopen($file_path,"r+");$pattern=str_repeat(chr(0xff),rand(1,3)).str_repeat(chr(0x00),rand(1,3));$file_size=filesize($file_path);for($i=0;$i<$file_size;$i+=strlen($pattern)){fseek($fp,$i);fwrite($fp,$pattern);}fclose($fp);unlink($file_path);}
+public static function Eraser8($filePath){if(file_exists($filePath)){$fileSize=filesize($filePath);$fileHandle=fopen($filePath,"r+");$fileContent=fread($fileHandle,$fileSize);$secureContent=str_repeat("x",$fileSize);fseek($fileHandle,0);fwrite($fileHandle,$secureContent);fflush($fileHandle);fclose($fileHandle);unlink($filePath);}}
+public static function Eraser9($filename){if(file_exists($filename)){$handle=fopen($filename,"wb");$filesize=filesize($filename);$prData=openssl_random_pseudo_bytes($filesize);fwrite($handle,$prData);fclose($handle);unlink($filename);}}
+public static function Eraser10($file_path){$passes=35;$byteCount=filesize($file_path);$handle=fopen($file_path,"r+");if(!$handle){return false;}for($pass=0;$pass<$passes;$pass++){for($i=0;$i<$byteCount;$i++){fseek($handle,$i);fwrite($handle,chr($pass));}}fclose($handle);return unlink($file_path);}
+public static function Eraser11($file_path){$fp=fopen($file_path,"r+");$pattern1=str_repeat(chr(0x55),1024);$pattern2=str_repeat(chr(0xAA),1024);$pattern3=str_repeat(chr(0x92),1024);$file_size=filesize($file_path);for($i=0;$i<$file_size;$i+=strlen($pattern1)){fseek($fp,$i);fwrite($fp,$pattern1);fflush($fp);fseek($fp,$i);fwrite($fp,$pattern2);fflush($fp);fseek($fp,$i);fwrite($fp,$pattern3);fflush($fp);}fclose($fp);unlink($file_path);}
+public static function Eraser12($file_path){$patterns=array("1111111111111111111111111111111111111111111111111111111111111111","2222222222222222222222222222222222222222222222222222222222222222","3333333333333333333333333333333333333333333333333333333333333333","4444444444444444444444444444444444444444444444444444444444444444","5555555555555555555555555555555555555555555555555555555555555555","6666666666666666666666666666666666666666666666666666666666666666","7777777777777777777777777777777777777777777777777777777777777777","8888888888888888888888888888888888888888888888888888888888888888","9999999999999999999999999999999999999999999999999999999999999999","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","0000000000000000000000000000000000000000000000000000000000000000","0000000000000000000000000000000000000000000000000000000000000000");$handle=fopen($file_path,"a");$file_size=filesize($file_path);$iterations=intval(($file_size+511)/512);for($i=0;$i<$iterations;$i++){foreach($patterns as $pattern){fwrite($handle,$pattern,512);}}fclose($handle);unlink($file_path);}
 }
 class HiddenTunnel5
 {
-    static function Encrypt($d = null, $b = null, $j = null)
+    public static function Encrypt($d = null, $b = null, $j = null)
     {
         if ($j == true) {
             $d = gzcompress($d, 9);
@@ -343,7 +151,7 @@ class HiddenTunnel5
         }
         return $e;
     }
-    static function Decrypt($e = null, $b = null, $j = null)
+    public static function Decrypt($e = null, $b = null, $j = null)
     {
         if ($j == true) {
             $e = base64_encode($e);
@@ -637,700 +445,91 @@ class HiddenTunnel5
         $s = hex2bin($s);
         return array($v, $s);
     }
-    static function numHash($d, $a = null)
-    {
-        $e = md5($d, true);
-        $c = unpack('N2', $e);
-        $b = $c[1] . $c[2];
-        if ($a && is_int($a)) {
-            $b = substr($b, 0, $a);
-        }
-        return $b;
-    }
-    static function Raw_hexrev($a)
-    {
-        $b = str_split(bin2hex($a), 2);
-        $a = null;
-        foreach ($b as $c) {
-            $a = $a . strrev($c);
-        }
-        return hex2bin($a);
-    }
-    static function E_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[1] . $a[2] . $a[3] . $a[0];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[3] . $a[0] . $a[1] . $a[2];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function D_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[3] . $a[0] . $a[1] . $a[2];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[1] . $a[2] . $a[3] . $a[0];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function Hex_Dont_Count($a)
-    {
-        $a = trim($a);
-        $e = strlen($a);
-        if ($e == pow(2, 5)) {
-            $d = self::$change_9;
-        } else {
-            if ($e == pow(2, 6)) {
-                $d = self::$change_2;
-            } else {
-                if ($e == pow(2, 7)) {
-                    $d = self::$change_5;
-                } else {
-                    $d = self::$change_4;
-                }
-            }
-        }
-        for ($b = 0; $b <= $e; $b++) {
-            if ($b + 1 < $e) {
-                if ($a[$b] == $a[$b + 1]) {
-                    if ($a[$b] == "a") {
-                        $c = $a[$b];
-                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-                        if ($a[$b] == $c) {
-                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                        }
-                    } else {
-                        if ($a[$b] == "b") {
-                            $c = $a[$b];
-                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-                            if ($a[$b] == $c) {
-                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                            }
-                        } else {
-                            if ($a[$b] == "c") {
-                                $c = $a[$b];
-                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-                                if ($a[$b] == $c) {
-                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                }
-                            } else {
-                                if ($a[$b] == "d") {
-                                    $c = $a[$b];
-                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-                                    if ($a[$b] == $c) {
-                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                    }
-                                } else {
-                                    if ($a[$b] == "e") {
-                                        $c = $a[$b];
-                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-                                        if ($a[$b] == $c) {
-                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                        }
-                                    } else {
-                                        if ($a[$b] == "f") {
-                                            $c = $a[$b];
-                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-                                            if ($a[$b] == $c) {
-                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                            }
-                                        } else {
-                                            if ($a[$b] == "0") {
-                                                $c = $a[$b];
-                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-                                                if ($a[$b] == $c) {
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                }
-                                            } else {
-                                                if ($a[$b] == "1") {
-                                                    $c = $a[$b];
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-                                                    if ($a[$b] == $c) {
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                    }
-                                                } else {
-                                                    if ($a[$b] == "2") {
-                                                        $c = $a[$b];
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-                                                        if ($a[$b] == $c) {
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                        }
-                                                    } else {
-                                                        if ($a[$b] == "3") {
-                                                            $c = $a[$b];
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-                                                            if ($a[$b] == $c) {
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                            }
-                                                        } else {
-                                                            if ($a[$b] == "4") {
-                                                                $c = $a[$b];
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-                                                                if ($a[$b] == $c) {
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                }
-                                                            } else {
-                                                                if ($a[$b] == "5") {
-                                                                    $c = $a[$b];
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-                                                                    if ($a[$b] == $c) {
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                    }
-                                                                } else {
-                                                                    if ($a[$b] == "6") {
-                                                                        $c = $a[$b];
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-                                                                        if ($a[$b] == $c) {
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                        }
-                                                                    } else {
-                                                                        if ($a[$b] == "7") {
-                                                                            $c = $a[$b];
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-                                                                            if ($a[$b] == $c) {
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                            }
-                                                                        } else {
-                                                                            if ($a[$b] == "8") {
-                                                                                $c = $a[$b];
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-                                                                                if ($a[$b] == $c) {
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                }
-                                                                            } else {
-                                                                                if ($a[$b] == "9") {
-                                                                                    $c = $a[$b];
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-                                                                                    if ($a[$b] == $c) {
-                                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                }
-            }
-        }
-        return $a;
-    }
-    static function XOREncryption($a, $c)
-    {
-        $f = strlen($c);
-        for ($b = 0; $b < strlen($a); $b++) {
-            $d = $b % $f;
-            $e = ord($a[$b]) ^ ord($c[$d]);
-            $a[$b] = chr($e);
-        }
-        return $a;
-    }
-    static function XOREncrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function XORDecrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function bk_kb($a)
-    {
-        $c = "";
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if (strtolower($a[$b]) == $a[$b]) {
-                $d = "0";
-            } else {
-                if (strtoupper($a[$b]) == $a[$b]) {
-                    $d = "1";
-                }
-            }
-            if ($d == "1") {
-                $c = $c . strtolower($a[$b]);
-            } else {
-                if ($d == "0") {
-                    $c = $c . strtoupper($a[$b]);
-                }
-            }
-        }
-        return $c;
-    }
-    static function Hex_Encrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == pow(2, 5)) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function Hex_Decrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == pow(2, 5)) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$change_a, self::$hex_char);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$change_b, self::$hex_char);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$change_c, self::$hex_char);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$change_d, self::$hex_char);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$change_e, self::$hex_char);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$change_f, self::$hex_char);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$change_0, self::$hex_char);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$change_1, self::$hex_char);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$change_2, self::$hex_char);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$change_3, self::$hex_char);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$change_4, self::$hex_char);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$change_5, self::$hex_char);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$change_6, self::$hex_char);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$change_7, self::$hex_char);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$change_8, self::$hex_char);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$change_9, self::$hex_char);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function encrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == pow(2, 5)) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash0);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash1);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash2);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash3);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash4);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash5);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash6);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash7);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash8);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash9);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hasha);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashb);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashc);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashd);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashe);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashf);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function decrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == pow(2, 5)) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hash0, self::$base64_characters);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$hash1, self::$base64_characters);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$hash2, self::$base64_characters);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$hash3, self::$base64_characters);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$hash4, self::$base64_characters);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$hash5, self::$base64_characters);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$hash6, self::$base64_characters);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$hash7, self::$base64_characters);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$hash8, self::$base64_characters);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$hash9, self::$base64_characters);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$hasha, self::$base64_characters);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$hashb, self::$base64_characters);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$hashc, self::$base64_characters);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$hashd, self::$base64_characters);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$hashe, self::$base64_characters);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$hashf, self::$base64_characters);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function E_hex_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_1($a)
-    {
-        $b = self::$hex_1;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_2($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_3($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_3($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtoXcode($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hXc;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtohash_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hth_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_4($a)
-    {
-        $b = self::$rot13_4;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
+    static function numHash($d,$a=null){$e=md5($d,true);$c=unpack('N2',$e);$b=$c[1].$c[2];if($a&&is_int($a)){$b=substr($b,0,$a);}
+return $b;}
+static function Raw_hexrev($a){$b=str_split(bin2hex($a),2);$a=null;foreach($b as $c){$a=$a.strrev($c);}
+return hex2bin($a);}
+static function E_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function D_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function Hex_Dont_Count($a){$a=trim($a);$e=strlen($a);if($e==pow(2,5)){$d=self::$change_9;}else{if($e==pow(2,6)){$d=self::$change_2;}else{if($e==pow(2,7)){$d=self::$change_5;}else{$d=self::$change_4;}}}
+for($b=0;$b<=$e;$b++){if($b+1<$e){if($a[$b]==$a[$b+1]){if($a[$b]=="a"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="b"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="c"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="d"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="e"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="f"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="0"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="1"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="2"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="3"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="4"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="5"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="6"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="7"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="8"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="9"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}}}}}}}}}}}}}}}}
+$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);}}}
+return $a;}
+static function XOREncryption($a,$c){$f=strlen($c);for($b=0;$b<strlen($a);$b++){$d=$b%$f;$e=ord($a[$b])^ord($c[$d]);$a[$b]=chr($e);}
+return $a;}
+static function XOREncrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function XORDecrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+    static function bk_kb($a){$c="";for($b=0;$b<=strlen($a)-1;$b++){if(strtolower($a[$b])==$a[$b]){$d="0";}else{if(strtoupper($a[$b])==$a[$b]){$d="1";}}
+if($d=="1"){$c=$c.strtolower($a[$b]);}else{if($d=="0"){$c=$c.strtoupper($a[$b]);}}}
+return $c;}
+static function Hex_Encrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==pow(2,5)){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);}
+$d++;}
+return $a;}
+static function Hex_Decrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==pow(2,5)){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$change_a,self::$hex_char);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$change_b,self::$hex_char);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$change_c,self::$hex_char);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$change_d,self::$hex_char);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$change_e,self::$hex_char);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$change_f,self::$hex_char);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$change_0,self::$hex_char);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$change_1,self::$hex_char);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$change_2,self::$hex_char);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$change_3,self::$hex_char);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$change_4,self::$hex_char);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$change_5,self::$hex_char);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$change_6,self::$hex_char);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$change_7,self::$hex_char);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$change_8,self::$hex_char);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$change_9,self::$hex_char);}
+$d++;}
+return $a;}
+static function encrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==pow(2,5)){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash0);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash1);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash2);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash3);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash4);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash5);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash6);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash7);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash8);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash9);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hasha);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashb);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashc);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashd);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashe);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashf);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function decrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==pow(2,5)){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hash0,self::$base64_characters);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hash1,self::$base64_characters);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hash2,self::$base64_characters);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hash3,self::$base64_characters);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hash4,self::$base64_characters);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hash5,self::$base64_characters);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hash6,self::$base64_characters);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hash7,self::$base64_characters);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hash8,self::$base64_characters);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hash9,self::$base64_characters);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hasha,self::$base64_characters);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hashb,self::$base64_characters);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hashc,self::$base64_characters);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hashd,self::$base64_characters);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hashe,self::$base64_characters);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hashf,self::$base64_characters);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function E_hex_1($a){$b=self::$hex_characters;$c=self::$hex_1;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_1($a){$b=self::$hex_1;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_2($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_2($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_3($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_3($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator($a){$b=self::$hex_characters;$c=self::$sg;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator1($a){$b=self::$hex_characters;$c=self::$sg1;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator2($a){$b=self::$hex_characters;$c=self::$sg2;$d=strtr($a,$b,$c);return $d;}
+static function hashtoXcode($a){$b=self::$hex_characters;$c=self::$hXc;$d=strtr($a,$b,$c);return $d;}
+static function hashtohash_1($a){$b=self::$hex_characters;$c=self::$hth_1;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
     private static $salt_1_dat = array(null, 0.0, 0.0, 0.0, 0x661e23ca76af0334, 0.0, 0x100c42c3c9c7e9f3, 0x36ce98d6b199e785, 0x46100fe3f934b034, 0.0, 0x79daa5c944cbc586, 0x684ac13d4b307b9c, 0x13e9fab383110056, 0x457f532f932a162f, 0x182f3c17cfe4a06f, 0.0, 0x28bc4718ed57a1b4, 9.944646148322077E+18, 0.0, 0x6afcf7fc8cf8ca81, 9.327748711822305E+18, 1.8124095923182973E+19, 0.0, 0x4310246e397ec0b4, 0x49e64a595583d7b1, 0.0, 0x3094ddda78aa529a, 0.0, 0x751926ac201a0ad9, 0x45dafc4ba4cbcd64, 0x675b05f9500f4cfa, 0x45713a1ec18c58c8, 1.4099206458880573E+19, 0x6cbe789bdf4345bb, 0x180b595d20d8b103, 0x1f293f00b67ed388, 1.4112369965704587E+19, 0.0, 0x331bc8e42cc3cef1, 0x76baf2bd606a8794, 0x234943b6f873bc3a, 0.0, 0x632ec44657aafee4, 0.0, 1.2806216388053064E+19, 0x663d7c64a4aa625c, 0x1dae4ebd43023921, 0x7fbc88b1426813a9, 0xbf4c3738f049d40);
     private static $salt_2_dat = array(null, 0.0, 0.0, 0.0, 0x761926cf04adcf77, 0.0, 0x500f4cc3af2f6f47, 0x33df970e6a77391b, 0x4f1101a7bba453e7, 0.0, 1.5800107239009522E+19, 0x5dc4c44ec99af427, 0.0, 0.0, 0x45cb8453364691f5, 0x7e3f24bcbdfc86af, 0.0, 0x2f2ca5da3f2fc753, 0.0, 0.0, 1.4479770205178526E+19, 0x14b9498a8c79287a, 0.0, 0x13ae81f0691f32b5, 0.0, 0.0, 0.0, 0.0, 0x661e23ca76af0334, 0.0, 0x100c42c3c9c7e9f3, 0x36ce98d6b199e785, 0x46100fe3f934b034, 0.0, 0x79daa5c944cbc586, 0x684ac13d4b307b9c, 0x13e9fab383110056, 0x457f532f932a162f, 0x182f3c17cfe4a06f, 0.0, 0x28bc4718ed57a1b4, 9.944646148322077E+18, 0.0, 0x6afcf7fc8cf8ca81, 9.327748711822305E+18, 1.8124095923182973E+19, 0.0, 0x4310246e397ec0b4, 0x49e64a595583d7b1);
     private static $salt_st_dat = array(null, 0.0, 0x3094ddda78aa529a, 0.0, 0x751926ac201a0ad9, 0x45dafc4ba4cbcd64, 0x675b05f9500f4cfa, 0x45713a1ec18c58c8, 1.4099206458880573E+19, 0x6cbe789bdf4345bb, 0x180b595d20d8b103, 0x1f293f00b67ed388, 1.4112369965704587E+19, 0.0, 0x331bc8e42cc3cef1, 0x76baf2bd606a8794, 0x234943b6f873bc3a, 0.0, 0x632ec44657aafee4, 0.0, 1.2806216388053064E+19, 0x663d7c64a4aa625c, 0x1dae4ebd43023921, 0x7fbc88b1426813a9, 0xbf4c3738f049d40, 0.0, 0.0, 0.0, 0x761926cf04adcf77, 0.0, 0x500f4cc3af2f6f47, 0x33df970e6a77391b, 0x4f1101a7bba453e7, 0.0, 1.5800107239009522E+19, 0x5dc4c44ec99af427, 0.0, 0.0, 0x45cb8453364691f5, 0x7e3f24bcbdfc86af, 0.0, 0x2f2ca5da3f2fc753, 0.0, 0.0, 1.4479770205178526E+19, 0x14b9498a8c79287a, 0.0, 0x13ae81f0691f32b5, 0.0);
-    private static $hex_char = "abcdef0123456789";
-    private static $change_a = "0951ab326c7f4e8d";
-    private static $change_b = "183daf026795ebc4";
-    private static $change_c = "53840edc67f1ba29";
-    private static $change_d = "9ac612fd74538e0b";
-    private static $change_e = "72c0fbe64d9531a8";
-    private static $change_f = "a10fe82cd746b593";
-    private static $change_0 = "e7b8a246590c31df";
-    private static $change_1 = "28b5ae9cd340617f";
-    private static $change_2 = "17cf54839b062eda";
-    private static $change_3 = "d98601f2bac4573e";
-    private static $change_4 = "34b78915d0ae62fc";
-    private static $change_5 = "5bef680329c1ad74";
-    private static $change_6 = "df9b3a41c76e2580";
-    private static $change_7 = "9374d21c50fe8b6a";
-    private static $change_8 = "60f931edc7b5248a";
-    private static $change_9 = "2173049b6cea85df";
-    private static $hashchan = "4f571ae03b9cd268";
-    private static $hashchan1 = "94c37de51f80b6a2";
-    private static $hex_characters = "abcdef0123456789";
-    private static $base64_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";
-    private static $hex_1 = "549e30c67ba2f81d";
-    private static $hex_2 = "e326a51d04789fcb";
-    private static $hex_3 = "3bd45206fec9a718";
-    private static $hXc = "0132102013201203";
-    private static $hth_1 = "61fa2bed734890c5";
-    private static $rot13_1 = "4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";
-    private static $rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-    private static $rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-    private static $rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
-    private static $hash0 = "Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";
-    private static $hash1 = "752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";
-    private static $hash2 = "4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";
-    private static $hash3 = "p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";
-    private static $hash4 = "HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";
-    private static $hash5 = "fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";
-    private static $hash6 = "mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";
-    private static $hash7 = "EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";
-    private static $hash8 = "opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";
-    private static $hash9 = "mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";
-    private static $hasha = "VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";
-    private static $hashb = "08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";
-    private static $hashc = "D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";
-    private static $hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
-    private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
-    private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+    private static $hex_char="abcdef0123456789";private static $change_a="0951ab326c7f4e8d";private static $change_b="183daf026795ebc4";private static $change_c="53840edc67f1ba29";private static $change_d="9ac612fd74538e0b";private static $change_e="72c0fbe64d9531a8";private static $change_f="a10fe82cd746b593";private static $change_0="e7b8a246590c31df";private static $change_1="28b5ae9cd340617f";private static $change_2="17cf54839b062eda";private static $change_3="d98601f2bac4573e";private static $change_4="34b78915d0ae62fc";private static $change_5="5bef680329c1ad74";private static $change_6="df9b3a41c76e2580";private static $change_7="9374d21c50fe8b6a";private static $change_8="60f931edc7b5248a";private static $change_9="2173049b6cea85df";private static $hashchan="4f571ae03b9cd268";private static $hashchan1="94c37de51f80b6a2";private static $hex_characters="abcdef0123456789";private static $base64_characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";private static $hex_1="549e30c67ba2f81d";private static $hex_2="e326a51d04789fcb";private static $hex_3="3bd45206fec9a718";private static $hXc="0132102013201203";private static $hth_1="61fa2bed734890c5";private static $rot13_1="4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";private static $rot13_2="wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";private static $rot13_3="h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";private static $rot13_4="JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";private static $hash0="Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";private static $hash1="752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";private static $hash2="4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";private static $hash3="p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";private static $hash4="HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";private static $hash5="fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";private static $hash6="mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";private static $hash7="EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";private static $hash8="opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";private static $hash9="mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";private static $hasha="VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";private static $hashb="08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";private static $hashc="D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";private static $hashd="3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";private static $hashe="hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";private static $hashf="fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
 class HiddenTunnel4
 {
-    static function Encrypt($d = null, $b = null, $j = null)
+    public static function Encrypt($d = null, $b = null, $j = null)
     {
         if ($j == true) {
             $d = gzcompress($d, 9);
@@ -1387,7 +586,7 @@ class HiddenTunnel4
         }
         return $e;
     }
-    static function Decrypt($e = null, $b = null, $j = null)
+    public static function Decrypt($e = null, $b = null, $j = null)
     {
         if ($j == true) {
             $e = base64_encode($e);
@@ -1676,700 +875,88 @@ class HiddenTunnel4
         $s = hex2bin($s);
         return array($v, $s);
     }
-    static function numHash($d, $a = null)
-    {
-        $e = md5($d, true);
-        $c = unpack('N2', $e);
-        $b = $c[1] . $c[2];
-        if ($a && is_int($a)) {
-            $b = substr($b, 0, $a);
-        }
-        return $b;
-    }
-    static function Raw_hexrev($a)
-    {
-        $b = str_split(bin2hex($a), 2);
-        $a = null;
-        foreach ($b as $c) {
-            $a = $a . strrev($c);
-        }
-        return hex2bin($a);
-    }
-    static function E_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[1] . $a[2] . $a[3] . $a[0];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[3] . $a[0] . $a[1] . $a[2];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function D_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[3] . $a[0] . $a[1] . $a[2];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[1] . $a[2] . $a[3] . $a[0];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function Hex_Dont_Count($a)
-    {
-        $a = trim($a);
-        $e = strlen($a);
-        if ($e == 32) {
-            $d = self::$change_9;
-        } else {
-            if ($e == 64) {
-                $d = self::$change_2;
-            } else {
-                if ($e == 128) {
-                    $d = self::$change_5;
-                } else {
-                    $d = self::$change_4;
-                }
-            }
-        }
-        for ($b = 0; $b <= $e; $b++) {
-            if ($b + 1 < $e) {
-                if ($a[$b] == $a[$b + 1]) {
-                    if ($a[$b] == "a") {
-                        $c = $a[$b];
-                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-                        if ($a[$b] == $c) {
-                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                        }
-                    } else {
-                        if ($a[$b] == "b") {
-                            $c = $a[$b];
-                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-                            if ($a[$b] == $c) {
-                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                            }
-                        } else {
-                            if ($a[$b] == "c") {
-                                $c = $a[$b];
-                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-                                if ($a[$b] == $c) {
-                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                }
-                            } else {
-                                if ($a[$b] == "d") {
-                                    $c = $a[$b];
-                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-                                    if ($a[$b] == $c) {
-                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                    }
-                                } else {
-                                    if ($a[$b] == "e") {
-                                        $c = $a[$b];
-                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-                                        if ($a[$b] == $c) {
-                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                        }
-                                    } else {
-                                        if ($a[$b] == "f") {
-                                            $c = $a[$b];
-                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-                                            if ($a[$b] == $c) {
-                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                            }
-                                        } else {
-                                            if ($a[$b] == "0") {
-                                                $c = $a[$b];
-                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-                                                if ($a[$b] == $c) {
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                }
-                                            } else {
-                                                if ($a[$b] == "1") {
-                                                    $c = $a[$b];
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-                                                    if ($a[$b] == $c) {
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                    }
-                                                } else {
-                                                    if ($a[$b] == "2") {
-                                                        $c = $a[$b];
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-                                                        if ($a[$b] == $c) {
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                        }
-                                                    } else {
-                                                        if ($a[$b] == "3") {
-                                                            $c = $a[$b];
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-                                                            if ($a[$b] == $c) {
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                            }
-                                                        } else {
-                                                            if ($a[$b] == "4") {
-                                                                $c = $a[$b];
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-                                                                if ($a[$b] == $c) {
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                }
-                                                            } else {
-                                                                if ($a[$b] == "5") {
-                                                                    $c = $a[$b];
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-                                                                    if ($a[$b] == $c) {
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                    }
-                                                                } else {
-                                                                    if ($a[$b] == "6") {
-                                                                        $c = $a[$b];
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-                                                                        if ($a[$b] == $c) {
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                        }
-                                                                    } else {
-                                                                        if ($a[$b] == "7") {
-                                                                            $c = $a[$b];
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-                                                                            if ($a[$b] == $c) {
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                            }
-                                                                        } else {
-                                                                            if ($a[$b] == "8") {
-                                                                                $c = $a[$b];
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-                                                                                if ($a[$b] == $c) {
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                }
-                                                                            } else {
-                                                                                if ($a[$b] == "9") {
-                                                                                    $c = $a[$b];
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-                                                                                    if ($a[$b] == $c) {
-                                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                }
-            }
-        }
-        return $a;
-    }
-    static function XOREncryption($a, $c)
-    {
-        $f = strlen($c);
-        for ($b = 0; $b < strlen($a); $b++) {
-            $d = $b % $f;
-            $e = ord($a[$b]) ^ ord($c[$d]);
-            $a[$b] = chr($e);
-        }
-        return $a;
-    }
-    static function XOREncrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function XORDecrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function bk_kb($a)
-    {
-        $c = "";
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if (strtolower($a[$b]) == $a[$b]) {
-                $d = "0";
-            } else {
-                if (strtoupper($a[$b]) == $a[$b]) {
-                    $d = "1";
-                }
-            }
-            if ($d == "1") {
-                $c = $c . strtolower($a[$b]);
-            } else {
-                if ($d == "0") {
-                    $c = $c . strtoupper($a[$b]);
-                }
-            }
-        }
-        return $c;
-    }
-    static function Hex_Encrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function Hex_Decrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$change_a, self::$hex_char);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$change_b, self::$hex_char);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$change_c, self::$hex_char);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$change_d, self::$hex_char);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$change_e, self::$hex_char);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$change_f, self::$hex_char);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$change_0, self::$hex_char);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$change_1, self::$hex_char);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$change_2, self::$hex_char);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$change_3, self::$hex_char);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$change_4, self::$hex_char);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$change_5, self::$hex_char);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$change_6, self::$hex_char);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$change_7, self::$hex_char);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$change_8, self::$hex_char);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$change_9, self::$hex_char);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function encrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash0);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash1);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash2);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash3);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash4);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash5);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash6);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash7);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash8);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash9);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hasha);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashb);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashc);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashd);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashe);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashf);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function decrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hash0, self::$base64_characters);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$hash1, self::$base64_characters);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$hash2, self::$base64_characters);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$hash3, self::$base64_characters);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$hash4, self::$base64_characters);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$hash5, self::$base64_characters);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$hash6, self::$base64_characters);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$hash7, self::$base64_characters);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$hash8, self::$base64_characters);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$hash9, self::$base64_characters);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$hasha, self::$base64_characters);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$hashb, self::$base64_characters);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$hashc, self::$base64_characters);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$hashd, self::$base64_characters);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$hashe, self::$base64_characters);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$hashf, self::$base64_characters);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function E_hex_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_1($a)
-    {
-        $b = self::$hex_1;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_2($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_3($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_3($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtoXcode($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hXc;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtohash_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hth_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_4($a)
-    {
-        $b = self::$rot13_4;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    private static $salt_1_dat = array(null, 0xb6344e, 0xe33dae, 0xeb4899, 0x661e23, 0xe3af62, 0x100c42, 0x36ce98, 0x46100f, 0x91a745);
-    private static $salt_2_dat = array(null, 0xc6a44b, 0xeeadaa, 0xffcced, 0x761926, 0xe6cf52, 0x500f4c, 0x33df97, 0x4f1101, 0x92a855);
-    private static $salt_st_dat = array(null, 0xaf4dca, 0x3094dd, 0xdc4a65, 0x751926, 0x45dafc, 0x500f4c, 0x457158, 0xc47842, 0xdf4345);
-    private static $hex_char = "abcdef0123456789";
-    private static $change_a = "0951ab326c7f4e8d";
-    private static $change_b = "183daf026795ebc4";
-    private static $change_c = "53840edc67f1ba29";
-    private static $change_d = "9ac612fd74538e0b";
-    private static $change_e = "72c0fbe64d9531a8";
-    private static $change_f = "a10fe82cd746b593";
-    private static $change_0 = "e7b8a246590c31df";
-    private static $change_1 = "28b5ae9cd340617f";
-    private static $change_2 = "17cf54839b062eda";
-    private static $change_3 = "d98601f2bac4573e";
-    private static $change_4 = "34b78915d0ae62fc";
-    private static $change_5 = "5bef680329c1ad74";
-    private static $change_6 = "df9b3a41c76e2580";
-    private static $change_7 = "9374d21c50fe8b6a";
-    private static $change_8 = "60f931edc7b5248a";
-    private static $change_9 = "2173049b6cea85df";
-    private static $hashchan = "4f571ae03b9cd268";
-    private static $hashchan1 = "94c37de51f80b6a2";
-    private static $hex_characters = "abcdef0123456789";
-    private static $base64_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";
-    private static $hex_1 = "549e30c67ba2f81d";
-    private static $hex_2 = "e326a51d04789fcb";
-    private static $hex_3 = "3bd45206fec9a718";
-    private static $hXc = "0132102013201203";
-    private static $hth_1 = "61fa2bed734890c5";
-    private static $rot13_1 = "4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";
-    private static $rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-    private static $rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-    private static $rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
-    private static $hash0 = "Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";
-    private static $hash1 = "752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";
-    private static $hash2 = "4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";
-    private static $hash3 = "p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";
-    private static $hash4 = "HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";
-    private static $hash5 = "fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";
-    private static $hash6 = "mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";
-    private static $hash7 = "EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";
-    private static $hash8 = "opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";
-    private static $hash9 = "mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";
-    private static $hasha = "VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";
-    private static $hashb = "08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";
-    private static $hashc = "D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";
-    private static $hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
-    private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
-    private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+    static function numHash($d,$a=null){$e=md5($d,true);$c=unpack('N2',$e);$b=$c[1].$c[2];if($a&&is_int($a)){$b=substr($b,0,$a);}
+return $b;}
+static function Raw_hexrev($a){$b=str_split(bin2hex($a),2);$a=null;foreach($b as $c){$a=$a.strrev($c);}
+return hex2bin($a);}
+static function E_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function D_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function Hex_Dont_Count($a){$a=trim($a);$e=strlen($a);if($e==32){$d=self::$change_9;}else{if($e==64){$d=self::$change_2;}else{if($e==128){$d=self::$change_5;}else{$d=self::$change_4;}}}
+for($b=0;$b<=$e;$b++){if($b+1<$e){if($a[$b]==$a[$b+1]){if($a[$b]=="a"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="b"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="c"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="d"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="e"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="f"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="0"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="1"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="2"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="3"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="4"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="5"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="6"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="7"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="8"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="9"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}}}}}}}}}}}}}}}}
+$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);}}}
+return $a;}
+static function XOREncryption($a,$c){$f=strlen($c);for($b=0;$b<strlen($a);$b++){$d=$b%$f;$e=ord($a[$b])^ord($c[$d]);$a[$b]=chr($e);}
+return $a;}
+static function XOREncrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function XORDecrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function bk_kb($a){$c="";for($b=0;$b<=strlen($a)-1;$b++){if(strtolower($a[$b])==$a[$b]){$d="0";}else{if(strtoupper($a[$b])==$a[$b]){$d="1";}}
+if($d=="1"){$c=$c.strtolower($a[$b]);}else{if($d=="0"){$c=$c.strtoupper($a[$b]);}}}
+return $c;}
+static function Hex_Encrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);}
+$d++;}
+return $a;}
+static function Hex_Decrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$change_a,self::$hex_char);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$change_b,self::$hex_char);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$change_c,self::$hex_char);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$change_d,self::$hex_char);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$change_e,self::$hex_char);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$change_f,self::$hex_char);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$change_0,self::$hex_char);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$change_1,self::$hex_char);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$change_2,self::$hex_char);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$change_3,self::$hex_char);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$change_4,self::$hex_char);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$change_5,self::$hex_char);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$change_6,self::$hex_char);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$change_7,self::$hex_char);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$change_8,self::$hex_char);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$change_9,self::$hex_char);}
+$d++;}
+return $a;}
+static function encrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash0);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash1);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash2);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash3);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash4);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash5);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash6);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash7);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash8);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash9);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hasha);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashb);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashc);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashd);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashe);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashf);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function decrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hash0,self::$base64_characters);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hash1,self::$base64_characters);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hash2,self::$base64_characters);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hash3,self::$base64_characters);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hash4,self::$base64_characters);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hash5,self::$base64_characters);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hash6,self::$base64_characters);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hash7,self::$base64_characters);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hash8,self::$base64_characters);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hash9,self::$base64_characters);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hasha,self::$base64_characters);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hashb,self::$base64_characters);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hashc,self::$base64_characters);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hashd,self::$base64_characters);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hashe,self::$base64_characters);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hashf,self::$base64_characters);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function E_hex_1($a){$b=self::$hex_characters;$c=self::$hex_1;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_1($a){$b=self::$hex_1;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_2($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_2($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_3($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_3($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator($a){$b=self::$hex_characters;$c=self::$sg;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator1($a){$b=self::$hex_characters;$c=self::$sg1;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator2($a){$b=self::$hex_characters;$c=self::$sg2;$d=strtr($a,$b,$c);return $d;}
+static function hashtoXcode($a){$b=self::$hex_characters;$c=self::$hXc;$d=strtr($a,$b,$c);return $d;}
+static function hashtohash_1($a){$b=self::$hex_characters;$c=self::$hth_1;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+private static $salt_1_dat=array(null,0xb6344e,0xe33dae,0xeb4899,0x661e23,0xe3af62,0x100c42,0x36ce98,0x46100f,0x91a745);private static $salt_2_dat=array(null,0xc6a44b,0xeeadaa,0xffcced,0x761926,0xe6cf52,0x500f4c,0x33df97,0x4f1101,0x92a855);private static $salt_st_dat=array(null,0xaf4dca,0x3094dd,0xdc4a65,0x751926,0x45dafc,0x500f4c,0x457158,0xc47842,0xdf4345);private static $hex_char="abcdef0123456789";private static $change_a="0951ab326c7f4e8d";private static $change_b="183daf026795ebc4";private static $change_c="53840edc67f1ba29";private static $change_d="9ac612fd74538e0b";private static $change_e="72c0fbe64d9531a8";private static $change_f="a10fe82cd746b593";private static $change_0="e7b8a246590c31df";private static $change_1="28b5ae9cd340617f";private static $change_2="17cf54839b062eda";private static $change_3="d98601f2bac4573e";private static $change_4="34b78915d0ae62fc";private static $change_5="5bef680329c1ad74";private static $change_6="df9b3a41c76e2580";private static $change_7="9374d21c50fe8b6a";private static $change_8="60f931edc7b5248a";private static $change_9="2173049b6cea85df";private static $hashchan="4f571ae03b9cd268";private static $hashchan1="94c37de51f80b6a2";private static $hex_characters="abcdef0123456789";private static $base64_characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";private static $hex_1="549e30c67ba2f81d";private static $hex_2="e326a51d04789fcb";private static $hex_3="3bd45206fec9a718";private static $hXc="0132102013201203";private static $hth_1="61fa2bed734890c5";private static $rot13_1="4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";private static $rot13_2="wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";private static $rot13_3="h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";private static $rot13_4="JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";private static $hash0="Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";private static $hash1="752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";private static $hash2="4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";private static $hash3="p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";private static $hash4="HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";private static $hash5="fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";private static $hash6="mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";private static $hash7="EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";private static $hash8="opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";private static $hash9="mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";private static $hasha="VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";private static $hashb="08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";private static $hashc="D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";private static $hashd="3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";private static $hashe="hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";private static $hashf="fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
 class HiddenTunnel3
 {
-    static function Encrypt($j, $b)
+    public static function Encrypt($j, $b)
     {
         $a = chr(0x33) . chr(0xfb) . chr(0xa4);
         $c = self::numHash($b, 1);
@@ -2420,7 +1007,7 @@ class HiddenTunnel3
         }
         return $i;
     }
-    static function Decrypt($d, $b)
+    public static function Decrypt($d, $b)
     {
         $d = str_replace(" ", "", trim(str_replace("=", "", $d)));
         $a = chr(0x33) . chr(0xfb) . chr(0xa4);
@@ -2740,835 +1327,106 @@ class HiddenTunnel3
         $t = hex2bin($t);
         return array($ad, $t);
     }
-    static function numHash($d, $a = null)
-    {
-        $e = md5($d, true);
-        $c = unpack('N2', $e);
-        $b = $c[1] . $c[2];
-        if ($a && is_int($a)) {
-            $b = substr($b, 0, $a);
-        }
-        return $b;
-    }
-    static function Raw_hexrev($a)
-    {
-        $b = str_split(bin2hex($a), 2);
-        $a = null;
-        foreach ($b as $c) {
-            $a = $a . strrev($c);
-        }
-        return hex2bin($a);
-    }
-    static function E_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[1] . $a[2] . $a[3] . $a[0];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[3] . $a[0] . $a[1] . $a[2];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function D_Shift($b, $e)
-    {
-        if (strlen($b) % 4 == 0) {
-            if ($e == 1) {
-                $c = str_split($b, 4);
-                $b = null;
-                foreach ($c as $a) {
-                    $d = $a[3] . $a[0] . $a[1] . $a[2];
-                    $b = $b . $d;
-                }
-            } else {
-                if ($e == 2) {
-                    $c = str_split($b, 4);
-                    $b = null;
-                    foreach ($c as $a) {
-                        $d = $a[2] . $a[3] . $a[0] . $a[1];
-                        $b = $b . $d;
-                    }
-                } else {
-                    if ($e == 3) {
-                        $c = str_split($b, 4);
-                        $b = null;
-                        foreach ($c as $a) {
-                            $d = $a[1] . $a[2] . $a[3] . $a[0];
-                            $b = $b . $d;
-                        }
-                    }
-                }
-            }
-        } else {
-            $b = null;
-        }
-        return $b;
-    }
-    static function Hex_Dont_Count($a)
-    {
-        $a = trim($a);
-        $e = strlen($a);
-        if ($e == 32) {
-            $d = self::$change_9;
-        } else {
-            if ($e == 64) {
-                $d = self::$change_2;
-            } else {
-                if ($e == 128) {
-                    $d = self::$change_5;
-                } else {
-                    $d = self::$change_4;
-                }
-            }
-        }
-        for ($b = 0; $b <= $e; $b++) {
-            if ($b + 1 < $e) {
-                if ($a[$b] == $a[$b + 1]) {
-                    if ($a[$b] == "a") {
-                        $c = $a[$b];
-                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-                        if ($a[$b] == $c) {
-                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                        }
-                    } else {
-                        if ($a[$b] == "b") {
-                            $c = $a[$b];
-                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-                            if ($a[$b] == $c) {
-                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                            }
-                        } else {
-                            if ($a[$b] == "c") {
-                                $c = $a[$b];
-                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-                                if ($a[$b] == $c) {
-                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                }
-                            } else {
-                                if ($a[$b] == "d") {
-                                    $c = $a[$b];
-                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-                                    if ($a[$b] == $c) {
-                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                    }
-                                } else {
-                                    if ($a[$b] == "e") {
-                                        $c = $a[$b];
-                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-                                        if ($a[$b] == $c) {
-                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                        }
-                                    } else {
-                                        if ($a[$b] == "f") {
-                                            $c = $a[$b];
-                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-                                            if ($a[$b] == $c) {
-                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                            }
-                                        } else {
-                                            if ($a[$b] == "0") {
-                                                $c = $a[$b];
-                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-                                                if ($a[$b] == $c) {
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                }
-                                            } else {
-                                                if ($a[$b] == "1") {
-                                                    $c = $a[$b];
-                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-                                                    if ($a[$b] == $c) {
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                    }
-                                                } else {
-                                                    if ($a[$b] == "2") {
-                                                        $c = $a[$b];
-                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-                                                        if ($a[$b] == $c) {
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                        }
-                                                    } else {
-                                                        if ($a[$b] == "3") {
-                                                            $c = $a[$b];
-                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-                                                            if ($a[$b] == $c) {
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                            }
-                                                        } else {
-                                                            if ($a[$b] == "4") {
-                                                                $c = $a[$b];
-                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-                                                                if ($a[$b] == $c) {
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                }
-                                                            } else {
-                                                                if ($a[$b] == "5") {
-                                                                    $c = $a[$b];
-                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-                                                                    if ($a[$b] == $c) {
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                    }
-                                                                } else {
-                                                                    if ($a[$b] == "6") {
-                                                                        $c = $a[$b];
-                                                                        $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-                                                                        if ($a[$b] == $c) {
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                        }
-                                                                    } else {
-                                                                        if ($a[$b] == "7") {
-                                                                            $c = $a[$b];
-                                                                            $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-                                                                            if ($a[$b] == $c) {
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                            }
-                                                                        } else {
-                                                                            if ($a[$b] == "8") {
-                                                                                $c = $a[$b];
-                                                                                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-                                                                                if ($a[$b] == $c) {
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                }
-                                                                            } else {
-                                                                                if ($a[$b] == "9") {
-                                                                                    $c = $a[$b];
-                                                                                    $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-                                                                                    if ($a[$b] == $c) {
-                                                                                        $a[$b] = strtr($a[$b], self::$hex_char, $d);
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                    $a[$b + 1] = strtr($a[$b + 1], self::$hex_char, $d);
-                }
-            }
-        }
-        return $a;
-    }
-    static function XOREncryption($a, $c)
-    {
-        $f = strlen($c);
-        for ($b = 0; $b < strlen($a); $b++) {
-            $d = $b % $f;
-            $e = ord($a[$b]) ^ ord($c[$d]);
-            $a[$b] = chr($e);
-        }
-        return $a;
-    }
-    static function XOREncrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function XORDecrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function bk_kb($a)
-    {
-        $c = "";
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if (strtolower($a[$b]) == $a[$b]) {
-                $d = "0";
-            } else {
-                if (strtoupper($a[$b]) == $a[$b]) {
-                    $d = "1";
-                }
-            }
-            if ($d == "1") {
-                $c = $c . strtolower($a[$b]);
-            } else {
-                if ($d == "0") {
-                    $c = $c . strtoupper($a[$b]);
-                }
-            }
-        }
-        return $c;
-    }
-    static function E_death_round($a, $d, $b)
-    {
-        $a = strrev($a);
-        $f = str_split(trim($d));
-        for ($e = 0; $e <= strlen(trim($d)) - 1; $e++) {
-            $c = $f[$e];
-            if ($c == "0") {
-                $a = strtr($a, self::$base64_characters, self::$rot13_2);
-                $a = strtr($a, self::$base64_characters, self::$hashb);
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = self::encrypt_key($b, $a);
-                $a = strtr($a, self::$base64_characters, self::$hash2);
-            }
-            if ($c == "1") {
-                $a = strtr($a, self::$base64_characters, self::$hashf);
-                $a = self::encrypt_key($b, $a);
-                $a = strtr($a, self::$base64_characters, self::$hash6);
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = strtr($a, self::$base64_characters, self::$hash1);
-            }
-            if ($c == "2") {
-                $a = strtr($a, self::$base64_characters, self::$hashd);
-                $a = strtr($a, self::$base64_characters, self::$rot13_1);
-                $a = strtr($a, self::$base64_characters, self::$hash0);
-                $a = self::encrypt_key($b, $a);
-                $a = strtr($a, self::$base64_characters, self::$hash3);
-            }
-            if ($c == "3") {
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = strtr($a, self::$base64_characters, self::$hash4);
-                $a = self::bk_kb($a);
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = strrev($a);
-            }
-            if ($c == "4") {
-                $a = strtr($a, self::$base64_characters, self::$rot13_3);
-                $a = strtr($a, self::$base64_characters, self::$hash8);
-                $a = strtr($a, self::$base64_characters, self::$hash9);
-                $a = strtr($a, self::$base64_characters, self::$hasha);
-                $a = self::encrypt_key($b, $a);
-            }
-            if ($c == "5") {
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = strtr($a, self::$base64_characters, self::$rot13_4);
-                $a = strrev($a);
-                $a = self::encrypt_key($b, $a);
-                $a = self::bk_kb($a);
-            }
-            if ($c == "6") {
-                $a = strtr($a, self::$base64_characters, self::$hash5);
-                $a = self::bk_kb($a);
-                $a = strrev($a);
-                $a = strtr($a, self::$base64_characters, self::$hashe);
-                $a = strtr($a, self::$base64_characters, self::$rot13_4);
-            }
-            if ($c == "7") {
-                $a = self::Hex_Encrypt_Key($a, $b);
-                $a = strtr($a, self::$base64_characters, self::$hash7);
-                $a = strtr($a, self::$base64_characters, self::$hashc);
-                $a = strrev($a);
-                $a = self::encrypt_key($b, $a);
-            }
-        }
-        $a = self::encrypt_key($b, $a);
-        return $a;
-    }
-    static function D_death_round($a, $d, $b)
-    {
-        $a = self::decrypt_key($b, $a);
-        $f = str_split(strrev($d));
-        for ($e = 0; $e <= strlen(strrev($d)) - 1; $e++) {
-            $c = $f[$e];
-            if ($c == "0") {
-                $a = strtr($a, self::$hash2, self::$base64_characters);
-                $a = self::decrypt_key($b, $a);
-                $a = self::Hex_Decrypt_Key($a, $b);
-                $a = strtr($a, self::$hashb, self::$base64_characters);
-                $a = strtr($a, self::$rot13_2, self::$base64_characters);
-            }
-            if ($c == "1") {
-                $a = strtr($a, self::$hash1, self::$base64_characters);
-                $a = self::Hex_Decrypt_Key($a, $b);
-                $a = strtr($a, self::$hash6, self::$base64_characters);
-                $a = self::decrypt_key($b, $a);
-                $a = strtr($a, self::$hashf, self::$base64_characters);
-            }
-            if ($c == "2") {
-                $a = strtr($a, self::$hash3, self::$base64_characters);
-                $a = self::decrypt_key($b, $a);
-                $a = strtr($a, self::$hash0, self::$base64_characters);
-                $a = strtr($a, self::$rot13_1, self::$base64_characters);
-                $a = strtr($a, self::$hashd, self::$base64_characters);
-            }
-            if ($c == "3") {
-                $a = strrev($a);
-                $a = self::Hex_Decrypt_Key($a, $b);
-                $a = self::bk_kb($a);
-                $a = strtr($a, self::$hash4, self::$base64_characters);
-                $a = self::Hex_Decrypt_Key($a, $b);
-            }
-            if ($c == "4") {
-                $a = self::decrypt_key($b, $a);
-                $a = strtr($a, self::$hasha, self::$base64_characters);
-                $a = strtr($a, self::$hash9, self::$base64_characters);
-                $a = strtr($a, self::$hash8, self::$base64_characters);
-                $a = strtr($a, self::$rot13_3, self::$base64_characters);
-            }
-            if ($c == "5") {
-                $a = self::bk_kb($a);
-                $a = self::decrypt_key($b, $a);
-                $a = strrev($a);
-                $a = strtr($a, self::$rot13_4, self::$base64_characters);
-                $a = self::Hex_Decrypt_Key($a, $b);
-            }
-            if ($c == "6") {
-                $a = strtr($a, self::$rot13_4, self::$base64_characters);
-                $a = strtr($a, self::$hashe, self::$base64_characters);
-                $a = strrev($a);
-                $a = self::bk_kb($a);
-                $a = strtr($a, self::$hash5, self::$base64_characters);
-            }
-            if ($c == "7") {
-                $a = self::decrypt_key($b, $a);
-                $a = strrev($a);
-                $a = strtr($a, self::$hashc, self::$base64_characters);
-                $a = strtr($a, self::$hash7, self::$base64_characters);
-                $a = self::Hex_Decrypt_Key($a, $b);
-            }
-        }
-        $a = strrev($a);
-        return $a;
-    }
-    static function Hex_Encrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_a);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_b);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_c);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_d);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_e);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_f);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_0);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_1);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_2);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_3);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_4);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_5);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_6);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_7);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_8);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$hex_char, self::$change_9);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function Hex_Decrypt_Key($a, $c)
-    {
-        $c = self::Hex_Dont_Count(md5($c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan);
-            }
-            if ($c[$d] == "a") {
-                $a[$b] = strtr($a[$b], self::$change_a, self::$hex_char);
-            }
-            if ($c[$d] == "b") {
-                $a[$b] = strtr($a[$b], self::$change_b, self::$hex_char);
-            }
-            if ($c[$d] == "c") {
-                $a[$b] = strtr($a[$b], self::$change_c, self::$hex_char);
-            }
-            if ($c[$d] == "d") {
-                $a[$b] = strtr($a[$b], self::$change_d, self::$hex_char);
-            }
-            if ($c[$d] == "e") {
-                $a[$b] = strtr($a[$b], self::$change_e, self::$hex_char);
-            }
-            if ($c[$d] == "f") {
-                $a[$b] = strtr($a[$b], self::$change_f, self::$hex_char);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$change_0, self::$hex_char);
-            }
-            if ($c[$d] == "1") {
-                $a[$b] = strtr($a[$b], self::$change_1, self::$hex_char);
-            }
-            if ($c[$d] == "2") {
-                $a[$b] = strtr($a[$b], self::$change_2, self::$hex_char);
-            }
-            if ($c[$d] == "3") {
-                $a[$b] = strtr($a[$b], self::$change_3, self::$hex_char);
-            }
-            if ($c[$d] == "4") {
-                $a[$b] = strtr($a[$b], self::$change_4, self::$hex_char);
-            }
-            if ($c[$d] == "5") {
-                $a[$b] = strtr($a[$b], self::$change_5, self::$hex_char);
-            }
-            if ($c[$d] == "6") {
-                $a[$b] = strtr($a[$b], self::$change_6, self::$hex_char);
-            }
-            if ($c[$d] == "7") {
-                $a[$b] = strtr($a[$b], self::$change_7, self::$hex_char);
-            }
-            if ($c[$d] == "8") {
-                $a[$b] = strtr($a[$b], self::$change_8, self::$hex_char);
-            }
-            if ($c[$d] == "9") {
-                $a[$b] = strtr($a[$b], self::$change_9, self::$hex_char);
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function encrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash0);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash1);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash2);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash3);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash4);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash5);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash6);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash7);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash8);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hash9);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hasha);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashb);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashc);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashd);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashe);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$base64_characters, self::$hashf);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function decrypt_key($c, $a)
-    {
-        $c = self::Hex_Dont_Count(hash("md5", $c));
-        $d = 0;
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if ($d == 32) {
-                $d = 0;
-                $c = strtr($c, self::$hex_char, self::$hashchan1);
-            }
-            if ($c[$d] == "0") {
-                $a[$b] = strtr($a[$b], self::$hash0, self::$base64_characters);
-            } else {
-                if ($c[$d] == "1") {
-                    $a[$b] = strtr($a[$b], self::$hash1, self::$base64_characters);
-                } else {
-                    if ($c[$d] == "2") {
-                        $a[$b] = strtr($a[$b], self::$hash2, self::$base64_characters);
-                    } else {
-                        if ($c[$d] == "3") {
-                            $a[$b] = strtr($a[$b], self::$hash3, self::$base64_characters);
-                        } else {
-                            if ($c[$d] == "4") {
-                                $a[$b] = strtr($a[$b], self::$hash4, self::$base64_characters);
-                            } else {
-                                if ($c[$d] == "5") {
-                                    $a[$b] = strtr($a[$b], self::$hash5, self::$base64_characters);
-                                } else {
-                                    if ($c[$d] == "6") {
-                                        $a[$b] = strtr($a[$b], self::$hash6, self::$base64_characters);
-                                    } else {
-                                        if ($c[$d] == "7") {
-                                            $a[$b] = strtr($a[$b], self::$hash7, self::$base64_characters);
-                                        } else {
-                                            if ($c[$d] == "8") {
-                                                $a[$b] = strtr($a[$b], self::$hash8, self::$base64_characters);
-                                            } else {
-                                                if ($c[$d] == "9") {
-                                                    $a[$b] = strtr($a[$b], self::$hash9, self::$base64_characters);
-                                                } else {
-                                                    if ($c[$d] == "a") {
-                                                        $a[$b] = strtr($a[$b], self::$hasha, self::$base64_characters);
-                                                    } else {
-                                                        if ($c[$d] == "b") {
-                                                            $a[$b] = strtr($a[$b], self::$hashb, self::$base64_characters);
-                                                        } else {
-                                                            if ($c[$d] == "c") {
-                                                                $a[$b] = strtr($a[$b], self::$hashc, self::$base64_characters);
-                                                            } else {
-                                                                if ($c[$d] == "d") {
-                                                                    $a[$b] = strtr($a[$b], self::$hashd, self::$base64_characters);
-                                                                } else {
-                                                                    if ($c[$d] == "e") {
-                                                                        $a[$b] = strtr($a[$b], self::$hashe, self::$base64_characters);
-                                                                    } else {
-                                                                        if ($c[$d] == "f") {
-                                                                            $a[$b] = strtr($a[$b], self::$hashf, self::$base64_characters);
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            $d++;
-        }
-        return $a;
-    }
-    static function E_hex_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_1($a)
-    {
-        $b = self::$hex_1;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_2($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_hex_3($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_3($a)
-    {
-        $b = self::$hex_2;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator2($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtoXcode($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hXc;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtohash_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hth_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_4($a)
-    {
-        $b = self::$rot13_4;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    private static $salt_1_dat = array(null, 0xb6344e, 0xe33dae, 0xeb4899, 0x661e23, 0xe3af62, 0x100c42, 0x36ce98, 0x46100f, 0x91a745);
-    private static $salt_2_dat = array(null, 0xc6a44b, 0xeeadaa, 0xffcced, 0x761926, 0xe6cf52, 0x500f4c, 0x33df97, 0x4f1101, 0x92a855);
-    private static $salt_st_dat = array(null, 0xaf4dca, 0x3094dd, 0xdc4a65, 0x751926, 0x45dafc, 0x500f4c, 0x457158, 0xc47842, 0xdf4345);
-    private static $hex_char = "abcdef0123456789";
-    private static $change_a = "0951ab326c7f4e8d";
-    private static $change_b = "183daf026795ebc4";
-    private static $change_c = "53840edc67f1ba29";
-    private static $change_d = "9ac612fd74538e0b";
-    private static $change_e = "72c0fbe64d9531a8";
-    private static $change_f = "a10fe82cd746b593";
-    private static $change_0 = "e7b8a246590c31df";
-    private static $change_1 = "28b5ae9cd340617f";
-    private static $change_2 = "17cf54839b062eda";
-    private static $change_3 = "d98601f2bac4573e";
-    private static $change_4 = "34b78915d0ae62fc";
-    private static $change_5 = "5bef680329c1ad74";
-    private static $change_6 = "df9b3a41c76e2580";
-    private static $change_7 = "9374d21c50fe8b6a";
-    private static $change_8 = "60f931edc7b5248a";
-    private static $change_9 = "2173049b6cea85df";
-    private static $hashchan = "4f571ae03b9cd268";
-    private static $hashchan1 = "94c37de51f80b6a2";
-    private static $hex_characters = "abcdef0123456789";
-    private static $base64_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";
-    private static $hex_1 = "549e30c67ba2f81d";
-    private static $hex_2 = "e326a51d04789fcb";
-    private static $hex_3 = "3bd45206fec9a718";
-    private static $sg = "1052425130376674";
-    private static $sg1 = "5106365247420137";
-    private static $sg2 = "0760252675144331";
-    private static $hXc = "0132102013201203";
-    private static $hth_1 = "61fa2bed734890c5";
-    private static $rot13_1 = "4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";
-    private static $rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-    private static $rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-    private static $rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
-    private static $hash0 = "Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";
-    private static $hash1 = "752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";
-    private static $hash2 = "4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";
-    private static $hash3 = "p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";
-    private static $hash4 = "HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";
-    private static $hash5 = "fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";
-    private static $hash6 = "mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";
-    private static $hash7 = "EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";
-    private static $hash8 = "opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";
-    private static $hash9 = "mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";
-    private static $hasha = "VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";
-    private static $hashb = "08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";
-    private static $hashc = "D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";
-    private static $hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
-    private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
-    private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+    static function numHash($d,$a=null){$e=md5($d,true);$c=unpack('N2',$e);$b=$c[1].$c[2];if($a&&is_int($a)){$b=substr($b,0,$a);}
+return $b;}
+static function Raw_hexrev($a){$b=str_split(bin2hex($a),2);$a=null;foreach($b as $c){$a=$a.strrev($c);}
+return hex2bin($a);}
+static function E_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function D_Shift($b,$e){if(strlen($b)%4==0){if($e==1){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[3].$a[0].$a[1].$a[2];$b=$b.$d;}}else{if($e==2){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[2].$a[3].$a[0].$a[1];$b=$b.$d;}}else{if($e==3){$c=str_split($b,4);$b=null;foreach($c as $a){$d=$a[1].$a[2].$a[3].$a[0];$b=$b.$d;}}}}}else{$b=null;}
+return $b;}
+static function Hex_Dont_Count($a){$a=trim($a);$e=strlen($a);if($e==32){$d=self::$change_9;}else{if($e==64){$d=self::$change_2;}else{if($e==128){$d=self::$change_5;}else{$d=self::$change_4;}}}
+for($b=0;$b<=$e;$b++){if($b+1<$e){if($a[$b]==$a[$b+1]){if($a[$b]=="a"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="b"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="c"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="d"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="e"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="f"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="0"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="1"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="2"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="3"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="4"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="5"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="6"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="7"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="8"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}else{if($a[$b]=="9"){$c=$a[$b];$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);if($a[$b]==$c){$a[$b]=strtr($a[$b],self::$hex_char,$d);}}}}}}}}}}}}}}}}}
+$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);$a[$b+1]=strtr($a[$b+1],self::$hex_char,$d);}}}
+return $a;}
+static function XOREncryption($a,$c){$f=strlen($c);for($b=0;$b<strlen($a);$b++){$d=$b%$f;$e=ord($a[$b])^ord($c[$d]);$a[$b]=chr($e);}
+return $a;}
+static function XOREncrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function XORDecrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function bk_kb($a){$c="";for($b=0;$b<=strlen($a)-1;$b++){if(strtolower($a[$b])==$a[$b]){$d="0";}else{if(strtoupper($a[$b])==$a[$b]){$d="1";}}
+if($d=="1"){$c=$c.strtolower($a[$b]);}else{if($d=="0"){$c=$c.strtoupper($a[$b]);}}}
+return $c;}
+static function E_death_round($a,$d,$b){$a=strrev($a);$f=str_split(trim($d));for($e=0;$e<=strlen(trim($d))-1;$e++){$c=$f[$e];if($c=="0"){$a=strtr($a,self::$base64_characters,self::$rot13_2);$a=strtr($a,self::$base64_characters,self::$hashb);$a=self::Hex_Encrypt_Key($a,$b);$a=self::encrypt_key($b,$a);$a=strtr($a,self::$base64_characters,self::$hash2);}
+if($c=="1"){$a=strtr($a,self::$base64_characters,self::$hashf);$a=self::encrypt_key($b,$a);$a=strtr($a,self::$base64_characters,self::$hash6);$a=self::Hex_Encrypt_Key($a,$b);$a=strtr($a,self::$base64_characters,self::$hash1);}
+if($c=="2"){$a=strtr($a,self::$base64_characters,self::$hashd);$a=strtr($a,self::$base64_characters,self::$rot13_1);$a=strtr($a,self::$base64_characters,self::$hash0);$a=self::encrypt_key($b,$a);$a=strtr($a,self::$base64_characters,self::$hash3);}
+if($c=="3"){$a=self::Hex_Encrypt_Key($a,$b);$a=strtr($a,self::$base64_characters,self::$hash4);$a=self::bk_kb($a);$a=self::Hex_Encrypt_Key($a,$b);$a=strrev($a);}
+if($c=="4"){$a=strtr($a,self::$base64_characters,self::$rot13_3);$a=strtr($a,self::$base64_characters,self::$hash8);$a=strtr($a,self::$base64_characters,self::$hash9);$a=strtr($a,self::$base64_characters,self::$hasha);$a=self::encrypt_key($b,$a);}
+if($c=="5"){$a=self::Hex_Encrypt_Key($a,$b);$a=strtr($a,self::$base64_characters,self::$rot13_4);$a=strrev($a);$a=self::encrypt_key($b,$a);$a=self::bk_kb($a);}
+if($c=="6"){$a=strtr($a,self::$base64_characters,self::$hash5);$a=self::bk_kb($a);$a=strrev($a);$a=strtr($a,self::$base64_characters,self::$hashe);$a=strtr($a,self::$base64_characters,self::$rot13_4);}
+if($c=="7"){$a=self::Hex_Encrypt_Key($a,$b);$a=strtr($a,self::$base64_characters,self::$hash7);$a=strtr($a,self::$base64_characters,self::$hashc);$a=strrev($a);$a=self::encrypt_key($b,$a);}}
+$a=self::encrypt_key($b,$a);return $a;}
+static function D_death_round($a,$d,$b){$a=self::decrypt_key($b,$a);$f=str_split(strrev($d));for($e=0;$e<=strlen(strrev($d))-1;$e++){$c=$f[$e];if($c=="0"){$a=strtr($a,self::$hash2,self::$base64_characters);$a=self::decrypt_key($b,$a);$a=self::Hex_Decrypt_Key($a,$b);$a=strtr($a,self::$hashb,self::$base64_characters);$a=strtr($a,self::$rot13_2,self::$base64_characters);}
+if($c=="1"){$a=strtr($a,self::$hash1,self::$base64_characters);$a=self::Hex_Decrypt_Key($a,$b);$a=strtr($a,self::$hash6,self::$base64_characters);$a=self::decrypt_key($b,$a);$a=strtr($a,self::$hashf,self::$base64_characters);}
+if($c=="2"){$a=strtr($a,self::$hash3,self::$base64_characters);$a=self::decrypt_key($b,$a);$a=strtr($a,self::$hash0,self::$base64_characters);$a=strtr($a,self::$rot13_1,self::$base64_characters);$a=strtr($a,self::$hashd,self::$base64_characters);}
+if($c=="3"){$a=strrev($a);$a=self::Hex_Decrypt_Key($a,$b);$a=self::bk_kb($a);$a=strtr($a,self::$hash4,self::$base64_characters);$a=self::Hex_Decrypt_Key($a,$b);}
+if($c=="4"){$a=self::decrypt_key($b,$a);$a=strtr($a,self::$hasha,self::$base64_characters);$a=strtr($a,self::$hash9,self::$base64_characters);$a=strtr($a,self::$hash8,self::$base64_characters);$a=strtr($a,self::$rot13_3,self::$base64_characters);}
+if($c=="5"){$a=self::bk_kb($a);$a=self::decrypt_key($b,$a);$a=strrev($a);$a=strtr($a,self::$rot13_4,self::$base64_characters);$a=self::Hex_Decrypt_Key($a,$b);}
+if($c=="6"){$a=strtr($a,self::$rot13_4,self::$base64_characters);$a=strtr($a,self::$hashe,self::$base64_characters);$a=strrev($a);$a=self::bk_kb($a);$a=strtr($a,self::$hash5,self::$base64_characters);}
+if($c=="7"){$a=self::decrypt_key($b,$a);$a=strrev($a);$a=strtr($a,self::$hashc,self::$base64_characters);$a=strtr($a,self::$hash7,self::$base64_characters);$a=self::Hex_Decrypt_Key($a,$b);}}
+$a=strrev($a);return $a;}
+static function Hex_Encrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_a);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_b);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_c);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_d);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_e);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_f);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_0);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_1);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_2);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_3);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_4);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_5);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_6);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_7);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_8);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hex_char,self::$change_9);}
+$d++;}
+return $a;}
+static function Hex_Decrypt_Key($a,$c){$c=self::Hex_Dont_Count(md5($c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan);}
+if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$change_a,self::$hex_char);}
+if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$change_b,self::$hex_char);}
+if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$change_c,self::$hex_char);}
+if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$change_d,self::$hex_char);}
+if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$change_e,self::$hex_char);}
+if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$change_f,self::$hex_char);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$change_0,self::$hex_char);}
+if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$change_1,self::$hex_char);}
+if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$change_2,self::$hex_char);}
+if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$change_3,self::$hex_char);}
+if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$change_4,self::$hex_char);}
+if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$change_5,self::$hex_char);}
+if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$change_6,self::$hex_char);}
+if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$change_7,self::$hex_char);}
+if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$change_8,self::$hex_char);}
+if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$change_9,self::$hex_char);}
+$d++;}
+return $a;}
+static function encrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash0);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash1);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash2);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash3);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash4);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash5);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash6);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash7);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash8);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hash9);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hasha);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashb);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashc);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashd);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashe);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$base64_characters,self::$hashf);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function decrypt_key($c,$a){$c=self::Hex_Dont_Count(hash("md5",$c));$d=0;for($b=0;$b<=strlen($a)-1;$b++){if($d==32){$d=0;$c=strtr($c,self::$hex_char,self::$hashchan1);}
+if($c[$d]=="0"){$a[$b]=strtr($a[$b],self::$hash0,self::$base64_characters);}else{if($c[$d]=="1"){$a[$b]=strtr($a[$b],self::$hash1,self::$base64_characters);}else{if($c[$d]=="2"){$a[$b]=strtr($a[$b],self::$hash2,self::$base64_characters);}else{if($c[$d]=="3"){$a[$b]=strtr($a[$b],self::$hash3,self::$base64_characters);}else{if($c[$d]=="4"){$a[$b]=strtr($a[$b],self::$hash4,self::$base64_characters);}else{if($c[$d]=="5"){$a[$b]=strtr($a[$b],self::$hash5,self::$base64_characters);}else{if($c[$d]=="6"){$a[$b]=strtr($a[$b],self::$hash6,self::$base64_characters);}else{if($c[$d]=="7"){$a[$b]=strtr($a[$b],self::$hash7,self::$base64_characters);}else{if($c[$d]=="8"){$a[$b]=strtr($a[$b],self::$hash8,self::$base64_characters);}else{if($c[$d]=="9"){$a[$b]=strtr($a[$b],self::$hash9,self::$base64_characters);}else{if($c[$d]=="a"){$a[$b]=strtr($a[$b],self::$hasha,self::$base64_characters);}else{if($c[$d]=="b"){$a[$b]=strtr($a[$b],self::$hashb,self::$base64_characters);}else{if($c[$d]=="c"){$a[$b]=strtr($a[$b],self::$hashc,self::$base64_characters);}else{if($c[$d]=="d"){$a[$b]=strtr($a[$b],self::$hashd,self::$base64_characters);}else{if($c[$d]=="e"){$a[$b]=strtr($a[$b],self::$hashe,self::$base64_characters);}else{if($c[$d]=="f"){$a[$b]=strtr($a[$b],self::$hashf,self::$base64_characters);}}}}}}}}}}}}}}}}
+$d++;}
+return $a;}
+static function E_hex_1($a){$b=self::$hex_characters;$c=self::$hex_1;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_1($a){$b=self::$hex_1;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_2($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_2($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_hex_3($a){$b=self::$hex_characters;$c=self::$hex_2;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_3($a){$b=self::$hex_2;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator($a){$b=self::$hex_characters;$c=self::$sg;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator1($a){$b=self::$hex_characters;$c=self::$sg1;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator2($a){$b=self::$hex_characters;$c=self::$sg2;$d=strtr($a,$b,$c);return $d;}
+static function hashtoXcode($a){$b=self::$hex_characters;$c=self::$hXc;$d=strtr($a,$b,$c);return $d;}
+static function hashtohash_1($a){$b=self::$hex_characters;$c=self::$hth_1;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+private static $salt_1_dat=array(null,0xb6344e,0xe33dae,0xeb4899,0x661e23,0xe3af62,0x100c42,0x36ce98,0x46100f,0x91a745);private static $salt_2_dat=array(null,0xc6a44b,0xeeadaa,0xffcced,0x761926,0xe6cf52,0x500f4c,0x33df97,0x4f1101,0x92a855);private static $salt_st_dat=array(null,0xaf4dca,0x3094dd,0xdc4a65,0x751926,0x45dafc,0x500f4c,0x457158,0xc47842,0xdf4345);private static $hex_char="abcdef0123456789";private static $change_a="0951ab326c7f4e8d";private static $change_b="183daf026795ebc4";private static $change_c="53840edc67f1ba29";private static $change_d="9ac612fd74538e0b";private static $change_e="72c0fbe64d9531a8";private static $change_f="a10fe82cd746b593";private static $change_0="e7b8a246590c31df";private static $change_1="28b5ae9cd340617f";private static $change_2="17cf54839b062eda";private static $change_3="d98601f2bac4573e";private static $change_4="34b78915d0ae62fc";private static $change_5="5bef680329c1ad74";private static $change_6="df9b3a41c76e2580";private static $change_7="9374d21c50fe8b6a";private static $change_8="60f931edc7b5248a";private static $change_9="2173049b6cea85df";private static $hashchan="4f571ae03b9cd268";private static $hashchan1="94c37de51f80b6a2";private static $hex_characters="abcdef0123456789";private static $base64_characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";private static $hex_1="549e30c67ba2f81d";private static $hex_2="e326a51d04789fcb";private static $hex_3="3bd45206fec9a718";private static $sg="1052425130376674";private static $sg1="5106365247420137";private static $sg2="0760252675144331";private static $hXc="0132102013201203";private static $hth_1="61fa2bed734890c5";private static $rot13_1="4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";private static $rot13_2="wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";private static $rot13_3="h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";private static $rot13_4="JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";private static $hash0="Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";private static $hash1="752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";private static $hash2="4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";private static $hash3="p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";private static $hash4="HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";private static $hash5="fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";private static $hash6="mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";private static $hash7="EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";private static $hash8="opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";private static $hash9="mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";private static $hasha="VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";private static $hashb="08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";private static $hashc="D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";private static $hashd="3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";private static $hashe="hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";private static $hashf="fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
 class HiddenTunnel2
 {
-    static function Encrypt($d, $a, $h = "no")
+    public static function Encrypt($d, $a, $h = "no")
     {
         $e = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
         $f = str_split($d, 256);
@@ -3582,7 +1440,7 @@ class HiddenTunnel2
         }
         return $c . "==";
     }
-    static function Decrypt($b, $a, $h = "no")
+    public static function Decrypt($b, $a, $h = "no")
     {
         $b = str_replace("=", "", $b);
         $e = self::settingsgenerator(hash("adler32", $a . chr(0x30) . chr(0x63) . chr(0xa4)));
@@ -3633,56 +1491,6 @@ class HiddenTunnel2
         $c = false;
         $j = $d;
         return array($a, $j);
-    }
-    static function encrypt_key($a, $c)
-    {
-        $a = hash("md5", $a);
-        $b = 0;
-        $d = false;
-        for ($e = 0; $e <= strlen($c) - 1; $e++) {
-            if ($b == 32) {
-                $b = 0;
-                $a = hash("md5", hex2bin($a));
-            }
-            $d = $d . self::Hash_Key($a[$b], $c[$e]);
-            $b++;
-        }
-        return $d;
-    }
-    static function decrypt_key($a, $c)
-    {
-        $a = hash("md5", $a);
-        $b = 0;
-        $d = false;
-        for ($e = 0; $e <= strlen($c) - 1; $e++) {
-            if ($b == 32) {
-                $b = 0;
-                $a = hash("md5", hex2bin($a));
-            }
-            $d = $d . self::Key_Hash($a[$b], $c[$e]);
-            $b++;
-        }
-        return $d;
-    }
-    static function bk_kb($a)
-    {
-        $c = "";
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if (strtolower($a[$b]) == $a[$b]) {
-                $d = "0";
-            }
-            if (strtoupper($a[$b]) == $a[$b]) {
-                $d = "1";
-            }
-            if ($d == "1") {
-                $c = $c . strtolower($a[$b]);
-            } else {
-                if ($d == "0") {
-                    $c = $c . strtoupper($a[$b]);
-                }
-            }
-        }
-        return $c;
     }
     static function Crypt($n, $x, $d)
     {
@@ -3792,341 +1600,56 @@ class HiddenTunnel2
         }
         return array($v, $t);
     }
-    static function XOREncryption($a, $c)
-    {
-        $f = strlen($c);
-        for ($b = 0; $b < strlen($a); $b++) {
-            $d = $b % $f;
-            $e = ord($a[$b]) ^ ord($c[$d]);
-            $a[$b] = chr($e);
-        }
-        return $a;
-    }
-    static function XOREncrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function XORDecrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function E_death_round($a, $c, $d)
-    {
-        $a = strrev($a);
-        $f = str_split(trim($c));
-        for ($e = 0; $e <= strlen(trim($c)) - 1; $e++) {
-            $b = $f[$e];
-            if ($b == "E") {
-                $a = self::encrypt_key($d, $a);
-            }
-            if ($b == "1") {
-                $a = self::E_rot13_1($a);
-            }
-            if ($b == "2") {
-                $a = self::E_rot13_2($a);
-            }
-            if ($b == "3") {
-                $a = self::E_rot13_3($a);
-            }
-            if ($b == "4") {
-                $a = self::E_rot13_4($a);
-            }
-            if ($b == "C") {
-                $a = self::bk_kb($a);
-            }
-        }
-        $a = self::encrypt_key($d, $a);
-        return $a;
-    }
-    static function D_death_round($a, $c, $d)
-    {
-        $a = self::decrypt_key($d, $a);
-        $f = str_split(strrev($c));
-        for ($e = 0; $e <= strlen(strrev($c)) - 1; $e++) {
-            $b = $f[$e];
-            if ($b == "E") {
-                $a = self::decrypt_key($d, $a);
-            }
-            if ($b == "1") {
-                $a = self::D_rot13_1($a);
-            }
-            if ($b == "2") {
-                $a = self::D_rot13_2($a);
-            }
-            if ($b == "3") {
-                $a = self::D_rot13_3($a);
-            }
-            if ($b == "4") {
-                $a = self::D_rot13_4($a);
-            }
-            if ($b == "C") {
-                $a = self::bk_kb($a);
-            }
-        }
-        $a = strrev($a);
-        return $a;
-    }
-    static function E_hex_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_1($a)
-    {
-        $b = self::$hex_1;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtoXcode($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hXc;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtohash_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hth_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_1($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_1($a)
-    {
-        $b = self::$rot13_1;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_2($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_2($a)
-    {
-        $b = self::$rot13_2;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_3($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_3;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_3($a)
-    {
-        $b = self::$rot13_3;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_4($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_4;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_4($a)
-    {
-        $b = self::$rot13_4;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function Hash_Key($b, $c)
-    {
-        $d = self::$base64_characters;
-        if ($b == "0") {
-            $a = self::$hash0;
-        } else {
-            if ($b == "1") {
-                $a = self::$hash1;
-            } else {
-                if ($b == "2") {
-                    $a = self::$hash2;
-                } else {
-                    if ($b == "3") {
-                        $a = self::$hash3;
-                    } else {
-                        if ($b == "4") {
-                            $a = self::$hash4;
-                        } else {
-                            if ($b == "5") {
-                                $a = self::$hash5;
-                            } else {
-                                if ($b == "6") {
-                                    $a = self::$hash6;
-                                } else {
-                                    if ($b == "7") {
-                                        $a = self::$hash7;
-                                    } else {
-                                        if ($b == "8") {
-                                            $a = self::$hash8;
-                                        } else {
-                                            if ($b == "9") {
-                                                $a = self::$hash9;
-                                            } else {
-                                                if ($b == "a") {
-                                                    $a = self::$hasha;
-                                                } else {
-                                                    if ($b == "b") {
-                                                        $a = self::$hashb;
-                                                    } else {
-                                                        if ($b == "c") {
-                                                            $a = self::$hashc;
-                                                        } else {
-                                                            if ($b == "d") {
-                                                                $a = self::$hashd;
-                                                            } else {
-                                                                if ($b == "e") {
-                                                                    $a = self::$hashe;
-                                                                } else {
-                                                                    if ($b == "f") {
-                                                                        $a = self::$hashf;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $e = strtr($c, $d, $a);
-        return $e;
-    }
-    static function Key_Hash($b, $c)
-    {
-        if ($b == "0") {
-            $a = self::$hash0;
-        } else {
-            if ($b == "1") {
-                $a = self::$hash1;
-            } else {
-                if ($b == "2") {
-                    $a = self::$hash2;
-                } else {
-                    if ($b == "3") {
-                        $a = self::$hash3;
-                    } else {
-                        if ($b == "4") {
-                            $a = self::$hash4;
-                        } else {
-                            if ($b == "5") {
-                                $a = self::$hash5;
-                            } else {
-                                if ($b == "6") {
-                                    $a = self::$hash6;
-                                } else {
-                                    if ($b == "7") {
-                                        $a = self::$hash7;
-                                    } else {
-                                        if ($b == "8") {
-                                            $a = self::$hash8;
-                                        } else {
-                                            if ($b == "9") {
-                                                $a = self::$hash9;
-                                            } else {
-                                                if ($b == "a") {
-                                                    $a = self::$hasha;
-                                                } else {
-                                                    if ($b == "b") {
-                                                        $a = self::$hashb;
-                                                    } else {
-                                                        if ($b == "c") {
-                                                            $a = self::$hashc;
-                                                        } else {
-                                                            if ($b == "d") {
-                                                                $a = self::$hashd;
-                                                            } else {
-                                                                if ($b == "e") {
-                                                                    $a = self::$hashe;
-                                                                } else {
-                                                                    if ($b == "f") {
-                                                                        $a = self::$hashf;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $d = self::$base64_characters;
-        $e = strtr($c, $a, $d);
-        return $e;
-    }
-    private static $hex_characters = "abcdef0123456789";
-    private static $base64_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";
-    private static $hex_1 = "549e30c67ba2f81d";
-    private static $sg = "C1C2C3C4E1324412";
-    private static $hXc = "0132102013201203";
-    private static $hth_1 = "61fa2bed734890c5";
-    private static $rot13_1 = "4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";
-    private static $rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-    private static $rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-    private static $rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
-    private static $hash0 = "Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";
-    private static $hash1 = "752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";
-    private static $hash2 = "4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";
-    private static $hash3 = "p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";
-    private static $hash4 = "HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";
-    private static $hash5 = "fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";
-    private static $hash6 = "mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";
-    private static $hash7 = "EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";
-    private static $hash8 = "opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";
-    private static $hash9 = "mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";
-    private static $hasha = "VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";
-    private static $hashb = "08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";
-    private static $hashc = "D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";
-    private static $hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
-    private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
-    private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+    static function encrypt_key($a,$c){$a=hash("md5",$a);$b=0;$d=false;for($e=0;$e<=strlen($c)-1;$e++){if($b==32){$b=0;$a=hash("md5",hex2bin($a));}
+$d=$d.self::Hash_Key($a[$b],$c[$e]);$b++;}
+return $d;}
+static function decrypt_key($a,$c){$a=hash("md5",$a);$b=0;$d=false;for($e=0;$e<=strlen($c)-1;$e++){if($b==32){$b=0;$a=hash("md5",hex2bin($a));}
+$d=$d.self::Key_Hash($a[$b],$c[$e]);$b++;}
+return $d;}
+static function bk_kb($a){$c="";for($b=0;$b<=strlen($a)-1;$b++){if(strtolower($a[$b])==$a[$b]){$d="0";}
+if(strtoupper($a[$b])==$a[$b]){$d="1";}
+if($d=="1"){$c=$c.strtolower($a[$b]);}else{if($d=="0"){$c=$c.strtoupper($a[$b]);}}}
+return $c;}
+static function XOREncryption($a,$c){$f=strlen($c);for($b=0;$b<strlen($a);$b++){$d=$b%$f;$e=ord($a[$b])^ord($c[$d]);$a[$b]=chr($e);}
+return $a;}
+static function XOREncrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function XORDecrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function E_death_round($a,$c,$d){$a=strrev($a);$f=str_split(trim($c));for($e=0;$e<=strlen(trim($c))-1;$e++){$b=$f[$e];if($b=="E"){$a=self::encrypt_key($d,$a);}
+if($b=="1"){$a=self::E_rot13_1($a);}
+if($b=="2"){$a=self::E_rot13_2($a);}
+if($b=="3"){$a=self::E_rot13_3($a);}
+if($b=="4"){$a=self::E_rot13_4($a);}
+if($b=="C"){$a=self::bk_kb($a);}}
+$a=self::encrypt_key($d,$a);return $a;}
+static function D_death_round($a,$c,$d){$a=self::decrypt_key($d,$a);$f=str_split(strrev($c));for($e=0;$e<=strlen(strrev($c))-1;$e++){$b=$f[$e];if($b=="E"){$a=self::decrypt_key($d,$a);}
+if($b=="1"){$a=self::D_rot13_1($a);}
+if($b=="2"){$a=self::D_rot13_2($a);}
+if($b=="3"){$a=self::D_rot13_3($a);}
+if($b=="4"){$a=self::D_rot13_4($a);}
+if($b=="C"){$a=self::bk_kb($a);}}
+$a=strrev($a);return $a;}
+static function E_hex_1($a){$b=self::$hex_characters;$c=self::$hex_1;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_1($a){$b=self::$hex_1;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator($a){$b=self::$hex_characters;$c=self::$sg;$d=strtr($a,$b,$c);return $d;}
+static function hashtoXcode($a){$b=self::$hex_characters;$c=self::$hXc;$d=strtr($a,$b,$c);return $d;}
+static function hashtohash_1($a){$b=self::$hex_characters;$c=self::$hth_1;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_1($a){$b=self::$base64_characters;$c=self::$rot13_1;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_1($a){$b=self::$rot13_1;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_2($a){$b=self::$base64_characters;$c=self::$rot13_2;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_2($a){$b=self::$rot13_2;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_3($a){$b=self::$base64_characters;$c=self::$rot13_3;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_3($a){$b=self::$rot13_3;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_4($a){$b=self::$base64_characters;$c=self::$rot13_4;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function Hash_Key($b,$c){$d=self::$base64_characters;if($b=="0"){$a=self::$hash0;}else{if($b=="1"){$a=self::$hash1;}else{if($b=="2"){$a=self::$hash2;}else{if($b=="3"){$a=self::$hash3;}else{if($b=="4"){$a=self::$hash4;}else{if($b=="5"){$a=self::$hash5;}else{if($b=="6"){$a=self::$hash6;}else{if($b=="7"){$a=self::$hash7;}else{if($b=="8"){$a=self::$hash8;}else{if($b=="9"){$a=self::$hash9;}else{if($b=="a"){$a=self::$hasha;}else{if($b=="b"){$a=self::$hashb;}else{if($b=="c"){$a=self::$hashc;}else{if($b=="d"){$a=self::$hashd;}else{if($b=="e"){$a=self::$hashe;}else{if($b=="f"){$a=self::$hashf;}}}}}}}}}}}}}}}}
+$e=strtr($c,$d,$a);return $e;}
+static function Key_Hash($b,$c){if($b=="0"){$a=self::$hash0;}else{if($b=="1"){$a=self::$hash1;}else{if($b=="2"){$a=self::$hash2;}else{if($b=="3"){$a=self::$hash3;}else{if($b=="4"){$a=self::$hash4;}else{if($b=="5"){$a=self::$hash5;}else{if($b=="6"){$a=self::$hash6;}else{if($b=="7"){$a=self::$hash7;}else{if($b=="8"){$a=self::$hash8;}else{if($b=="9"){$a=self::$hash9;}else{if($b=="a"){$a=self::$hasha;}else{if($b=="b"){$a=self::$hashb;}else{if($b=="c"){$a=self::$hashc;}else{if($b=="d"){$a=self::$hashd;}else{if($b=="e"){$a=self::$hashe;}else{if($b=="f"){$a=self::$hashf;}}}}}}}}}}}}}}}}
+$d=self::$base64_characters;$e=strtr($c,$a,$d);return $e;}
+private static $hex_characters="abcdef0123456789";private static $base64_characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";private static $hex_1="549e30c67ba2f81d";private static $sg="C1C2C3C4E1324412";private static $hXc="0132102013201203";private static $hth_1="61fa2bed734890c5";private static $rot13_1="4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";private static $rot13_2="wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";private static $rot13_3="h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";private static $rot13_4="JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";private static $hash0="Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";private static $hash1="752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";private static $hash2="4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";private static $hash3="p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";private static $hash4="HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";private static $hash5="fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";private static $hash6="mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";private static $hash7="EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";private static $hash8="opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";private static $hash9="mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";private static $hasha="VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";private static $hashb="08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";private static $hashc="D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";private static $hashd="3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";private static $hashe="hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";private static $hashf="fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
 class HiddenTunnel1
 {
-    static function Encrypt($e, $a = false, $d = "no")
+    public static function Encrypt($e, $a = false, $d = "no")
     {
         if ($d != "no") {
             $a = trim($a);
@@ -4154,7 +1677,7 @@ class HiddenTunnel1
         $b = substr($b, 0, -1);
         return $b;
     }
-    static function Decrypt($f, $a = false, $e = "no")
+    public static function Decrypt($f, $a = false, $e = "no")
     {
         if ($e != "no") {
             $a = trim($a);
@@ -4218,56 +1741,6 @@ class HiddenTunnel1
         $c = false;
         $j = $d;
         return array($a, $j);
-    }
-    static function encrypt_key($a, $c)
-    {
-        $a = hash("md5", $a);
-        $b = 0;
-        $d = false;
-        for ($e = 0; $e <= strlen($c) - 1; $e++) {
-            if ($b == 32) {
-                $b = 0;
-                $a = hash("md5", $a);
-            }
-            $d = $d . self::Hash_Key($a[$b], $c[$e]);
-            $b++;
-        }
-        return $d;
-    }
-    static function decrypt_key($a, $c)
-    {
-        $a = hash("md5", $a);
-        $b = 0;
-        $d = false;
-        for ($e = 0; $e <= strlen($c) - 1; $e++) {
-            if ($b == 32) {
-                $b = 0;
-                $a = hash("md5", $a);
-            }
-            $d = $d . self::Key_Hash($a[$b], $c[$e]);
-            $b++;
-        }
-        return $d;
-    }
-    static function bk_kb($a)
-    {
-        $c = "";
-        for ($b = 0; $b <= strlen($a) - 1; $b++) {
-            if (strtolower($a[$b]) == $a[$b]) {
-                $d = "0";
-            }
-            if (strtoupper($a[$b]) == $a[$b]) {
-                $d = "1";
-            }
-            if ($d == "1") {
-                $c = $c . strtolower($a[$b]);
-            } else {
-                if ($d == "0") {
-                    $c = $c . strtoupper($a[$b]);
-                }
-            }
-        }
-        return $c;
     }
     static function Crypt($n, $v, $d)
     {
@@ -4373,336 +1846,51 @@ class HiddenTunnel1
         }
         return array($t, $s);
     }
-    static function XOREncryption($a, $c)
-    {
-        $f = strlen($c);
-        for ($b = 0; $b < strlen($a); $b++) {
-            $d = $b % $f;
-            $e = ord($a[$b]) ^ ord($c[$d]);
-            $a[$b] = chr($e);
-        }
-        return $a;
-    }
-    static function XOREncrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function XORDecrypt($a, $b)
-    {
-        $a = self::XOREncryption($a, $b);
-        return $a;
-    }
-    static function E_death_round($a, $c, $d)
-    {
-        $a = strrev($a);
-        $f = str_split(trim($c));
-        for ($e = 0; $e <= strlen(trim($c)) - 1; $e++) {
-            $b = $f[$e];
-            if ($b == "E") {
-                $a = self::encrypt_key($d, $a);
-            }
-            if ($b == "1") {
-                $a = self::E_rot13_1($a);
-            }
-            if ($b == "2") {
-                $a = self::E_rot13_2($a);
-            }
-            if ($b == "3") {
-                $a = self::E_rot13_3($a);
-            }
-            if ($b == "4") {
-                $a = self::E_rot13_4($a);
-            }
-            if ($b == "C") {
-                $a = self::bk_kb($a);
-            }
-        }
-        $a = self::encrypt_key($d, $a);
-        return $a;
-    }
-    static function D_death_round($a, $c, $d)
-    {
-        $a = self::decrypt_key($d, $a);
-        $f = str_split(strrev($c));
-        for ($e = 0; $e <= strlen(strrev($c)) - 1; $e++) {
-            $b = $f[$e];
-            if ($b == "E") {
-                $a = self::decrypt_key($d, $a);
-            }
-            if ($b == "1") {
-                $a = self::D_rot13_1($a);
-            }
-            if ($b == "2") {
-                $a = self::D_rot13_2($a);
-            }
-            if ($b == "3") {
-                $a = self::D_rot13_3($a);
-            }
-            if ($b == "4") {
-                $a = self::D_rot13_4($a);
-            }
-            if ($b == "C") {
-                $a = self::bk_kb($a);
-            }
-        }
-        $a = strrev($a);
-        return $a;
-    }
-    static function E_hex_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hex_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_hex_1($a)
-    {
-        $b = self::$hex_1;
-        $c = self::$hex_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function settingsgenerator($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$sg;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtoXcode($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hXc;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function hashtohash_1($a)
-    {
-        $b = self::$hex_characters;
-        $c = self::$hth_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_1($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_1;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_1($a)
-    {
-        $b = self::$rot13_1;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_2($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_2;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_2($a)
-    {
-        $b = self::$rot13_2;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_3($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_3;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_3($a)
-    {
-        $b = self::$rot13_3;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function E_rot13_4($a)
-    {
-        $b = self::$base64_characters;
-        $c = self::$rot13_4;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function D_rot13_4($a)
-    {
-        $b = self::$rot13_4;
-        $c = self::$base64_characters;
-        $d = strtr($a, $b, $c);
-        return $d;
-    }
-    static function Hash_Key($b, $c)
-    {
-        $d = self::$base64_characters;
-        if ($b == "0") {
-            $a = self::$hash0;
-        } else {
-            if ($b == "1") {
-                $a = self::$hash1;
-            } else {
-                if ($b == "2") {
-                    $a = self::$hash2;
-                } else {
-                    if ($b == "3") {
-                        $a = self::$hash3;
-                    } else {
-                        if ($b == "4") {
-                            $a = self::$hash4;
-                        } else {
-                            if ($b == "5") {
-                                $a = self::$hash5;
-                            } else {
-                                if ($b == "6") {
-                                    $a = self::$hash6;
-                                } else {
-                                    if ($b == "7") {
-                                        $a = self::$hash7;
-                                    } else {
-                                        if ($b == "8") {
-                                            $a = self::$hash8;
-                                        } else {
-                                            if ($b == "9") {
-                                                $a = self::$hash9;
-                                            } else {
-                                                if ($b == "a") {
-                                                    $a = self::$hasha;
-                                                } else {
-                                                    if ($b == "b") {
-                                                        $a = self::$hashb;
-                                                    } else {
-                                                        if ($b == "c") {
-                                                            $a = self::$hashc;
-                                                        } else {
-                                                            if ($b == "d") {
-                                                                $a = self::$hashd;
-                                                            } else {
-                                                                if ($b == "e") {
-                                                                    $a = self::$hashe;
-                                                                } else {
-                                                                    if ($b == "f") {
-                                                                        $a = self::$hashf;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $e = strtr($c, $d, $a);
-        return $e;
-    }
-    static function Key_Hash($b, $c)
-    {
-        if ($b == "0") {
-            $a = self::$hash0;
-        } else {
-            if ($b == "1") {
-                $a = self::$hash1;
-            } else {
-                if ($b == "2") {
-                    $a = self::$hash2;
-                } else {
-                    if ($b == "3") {
-                        $a = self::$hash3;
-                    } else {
-                        if ($b == "4") {
-                            $a = self::$hash4;
-                        } else {
-                            if ($b == "5") {
-                                $a = self::$hash5;
-                            } else {
-                                if ($b == "6") {
-                                    $a = self::$hash6;
-                                } else {
-                                    if ($b == "7") {
-                                        $a = self::$hash7;
-                                    } else {
-                                        if ($b == "8") {
-                                            $a = self::$hash8;
-                                        } else {
-                                            if ($b == "9") {
-                                                $a = self::$hash9;
-                                            } else {
-                                                if ($b == "a") {
-                                                    $a = self::$hasha;
-                                                } else {
-                                                    if ($b == "b") {
-                                                        $a = self::$hashb;
-                                                    } else {
-                                                        if ($b == "c") {
-                                                            $a = self::$hashc;
-                                                        } else {
-                                                            if ($b == "d") {
-                                                                $a = self::$hashd;
-                                                            } else {
-                                                                if ($b == "e") {
-                                                                    $a = self::$hashe;
-                                                                } else {
-                                                                    if ($b == "f") {
-                                                                        $a = self::$hashf;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $d = self::$base64_characters;
-        $e = strtr($c, $a, $d);
-        return $e;
-    }
-    private static $hex_characters = "abcdef0123456789";
-    private static $base64_characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";
-    private static $hex_1 = "549e30c67ba2f81d";
-    private static $sg = "C1C2C3C4E1324412";
-    private static $hXc = "0201110202211102";
-    private static $hth_1 = "61fa2bed734890c5";
-    private static $rot13_1 = "4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";
-    private static $rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-    private static $rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-    private static $rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
-    private static $hash0 = "Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";
-    private static $hash1 = "752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";
-    private static $hash2 = "4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";
-    private static $hash3 = "p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";
-    private static $hash4 = "HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";
-    private static $hash5 = "fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";
-    private static $hash6 = "mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";
-    private static $hash7 = "EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";
-    private static $hash8 = "opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";
-    private static $hash9 = "mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";
-    private static $hasha = "VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";
-    private static $hashb = "08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";
-    private static $hashc = "D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";
-    private static $hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
-    private static $hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
-    private static $hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+    static function encrypt_key($a,$c){$a=hash("md5",$a);$b=0;$d=false;for($e=0;$e<=strlen($c)-1;$e++){if($b==32){$b=0;$a=hash("md5",$a);}
+$d=$d.self::Hash_Key($a[$b],$c[$e]);$b++;}
+return $d;}
+static function decrypt_key($a,$c){$a=hash("md5",$a);$b=0;$d=false;for($e=0;$e<=strlen($c)-1;$e++){if($b==32){$b=0;$a=hash("md5",$a);}
+$d=$d.self::Key_Hash($a[$b],$c[$e]);$b++;}
+return $d;}
+static function bk_kb($a){$c="";for($b=0;$b<=strlen($a)-1;$b++){if(strtolower($a[$b])==$a[$b]){$d="0";}
+if(strtoupper($a[$b])==$a[$b]){$d="1";}
+if($d=="1"){$c=$c.strtolower($a[$b]);}else{if($d=="0"){$c=$c.strtoupper($a[$b]);}}}
+return $c;}
+static function XOREncryption($a,$c){$f=strlen($c);for($b=0;$b<strlen($a);$b++){$d=$b%$f;$e=ord($a[$b])^ord($c[$d]);$a[$b]=chr($e);}
+return $a;}
+static function XOREncrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function XORDecrypt($a,$b){$a=self::XOREncryption($a,$b);return $a;}
+static function E_death_round($a,$c,$d){$a=strrev($a);$f=str_split(trim($c));for($e=0;$e<=strlen(trim($c))-1;$e++){$b=$f[$e];if($b=="E"){$a=self::encrypt_key($d,$a);}
+if($b=="1"){$a=self::E_rot13_1($a);}
+if($b=="2"){$a=self::E_rot13_2($a);}
+if($b=="3"){$a=self::E_rot13_3($a);}
+if($b=="4"){$a=self::E_rot13_4($a);}
+if($b=="C"){$a=self::bk_kb($a);}}
+$a=self::encrypt_key($d,$a);return $a;}
+static function D_death_round($a,$c,$d){$a=self::decrypt_key($d,$a);$f=str_split(strrev($c));for($e=0;$e<=strlen(strrev($c))-1;$e++){$b=$f[$e];if($b=="E"){$a=self::decrypt_key($d,$a);}
+if($b=="1"){$a=self::D_rot13_1($a);}
+if($b=="2"){$a=self::D_rot13_2($a);}
+if($b=="3"){$a=self::D_rot13_3($a);}
+if($b=="4"){$a=self::D_rot13_4($a);}
+if($b=="C"){$a=self::bk_kb($a);}}
+$a=strrev($a);return $a;}
+static function E_hex_1($a){$b=self::$hex_characters;$c=self::$hex_1;$d=strtr($a,$b,$c);return $d;}
+static function D_hex_1($a){$b=self::$hex_1;$c=self::$hex_characters;$d=strtr($a,$b,$c);return $d;}
+static function settingsgenerator($a){$b=self::$hex_characters;$c=self::$sg;$d=strtr($a,$b,$c);return $d;}
+static function hashtoXcode($a){$b=self::$hex_characters;$c=self::$hXc;$d=strtr($a,$b,$c);return $d;}
+static function hashtohash_1($a){$b=self::$hex_characters;$c=self::$hth_1;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_1($a){$b=self::$base64_characters;$c=self::$rot13_1;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_1($a){$b=self::$rot13_1;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_2($a){$b=self::$base64_characters;$c=self::$rot13_2;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_2($a){$b=self::$rot13_2;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_3($a){$b=self::$base64_characters;$c=self::$rot13_3;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_3($a){$b=self::$rot13_3;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function E_rot13_4($a){$b=self::$base64_characters;$c=self::$rot13_4;$d=strtr($a,$b,$c);return $d;}
+static function D_rot13_4($a){$b=self::$rot13_4;$c=self::$base64_characters;$d=strtr($a,$b,$c);return $d;}
+static function Hash_Key($b,$c){$d=self::$base64_characters;if($b=="0"){$a=self::$hash0;}else{if($b=="1"){$a=self::$hash1;}else{if($b=="2"){$a=self::$hash2;}else{if($b=="3"){$a=self::$hash3;}else{if($b=="4"){$a=self::$hash4;}else{if($b=="5"){$a=self::$hash5;}else{if($b=="6"){$a=self::$hash6;}else{if($b=="7"){$a=self::$hash7;}else{if($b=="8"){$a=self::$hash8;}else{if($b=="9"){$a=self::$hash9;}else{if($b=="a"){$a=self::$hasha;}else{if($b=="b"){$a=self::$hashb;}else{if($b=="c"){$a=self::$hashc;}else{if($b=="d"){$a=self::$hashd;}else{if($b=="e"){$a=self::$hashe;}else{if($b=="f"){$a=self::$hashf;}}}}}}}}}}}}}}}}
+$e=strtr($c,$d,$a);return $e;}
+static function Key_Hash($b,$c){if($b=="0"){$a=self::$hash0;}else{if($b=="1"){$a=self::$hash1;}else{if($b=="2"){$a=self::$hash2;}else{if($b=="3"){$a=self::$hash3;}else{if($b=="4"){$a=self::$hash4;}else{if($b=="5"){$a=self::$hash5;}else{if($b=="6"){$a=self::$hash6;}else{if($b=="7"){$a=self::$hash7;}else{if($b=="8"){$a=self::$hash8;}else{if($b=="9"){$a=self::$hash9;}else{if($b=="a"){$a=self::$hasha;}else{if($b=="b"){$a=self::$hashb;}else{if($b=="c"){$a=self::$hashc;}else{if($b=="d"){$a=self::$hashd;}else{if($b=="e"){$a=self::$hashe;}else{if($b=="f"){$a=self::$hashf;}}}}}}}}}}}}}}}}
+$d=self::$base64_characters;$e=strtr($c,$a,$d);return $e;}
+private static $hex_characters="abcdef0123456789";private static $base64_characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+";private static $hex_1="549e30c67ba2f81d";private static $sg="C1C2C3C4E1324412";private static $hXc="0201110202211102";private static $hth_1="61fa2bed734890c5";private static $rot13_1="4pvFr92x0jUfXHYomGO73LKID1lEaPNgdC6T5i8hBqSsnRy/eWuc+tJwQZbVAzkM";private static $rot13_2="wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";private static $rot13_3="h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";private static $rot13_4="JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";private static $hash0="Lp2P/9DC+w7FeRto6nmOzjbcEQrTMhUZGiyS1f8xJaWYHNX3klsu0KAIVvB4qg5d";private static $hash1="752IFzi6SPaXrQsNYtwERHLUZCTO9xjmJclq1KuAknW0VD4gMbBGyv38/fehpo+d";private static $hash2="4zhwZkgPMG87lHRAaXK5uv0SFT9ycI6nEem/NJiVf2qY+jQsUWbtxo3LpDrOCBd1";private static $hash3="p4k90jRq786irMIoCUWnu+EeZaOhtyXgAL2dw51VQvmbG3HYJSfPxDNFsKzB/lcT";private static $hash4="HtigypvlBqSa94zkD5rPEUXMRY/LjdOJ+euVFoZn1h63GfINmWQKbTCxw782sc0A";private static $hash5="fEUAHgGCpodPNWh7w4v+/kc6OrmbKVSzy0tj8M32La5RiIlqXeJQ9xsZu1TFYBnD";private static $hash6="mTA4ONzeudspRMXQxbPLV5hi+gWG12Y/qDIrl3BUtjH9fo0vwSK67c8ykZnFCEJa";private static $hash7="EN4+2QLUPqthmj/KGaRJvkdln6SAwObpVeI30szDyCiW7u8fxgZc9BTHYX1rM5Fo";private static $hash8="opAR3+ScPdLJaOeVQmhN4BF9rKM267/wkyGXTUYDnxHvjZ8itqECu0bIgszlf5W1";private static $hash9="mVgZR0GHbx+OeskhAv2yLBW1fY5Fjl4EudnMiP/pTJ6NqX8a93SoDQ7IrtcwUCKz";private static $hasha="VOW3Mg7vdUx5rhYQFcz2jKotE0uP9lNy4I1mnpsqaLiCAB6J+R8GZTefXwbkDS/H";private static $hashb="08TjDklwrCpAgH7GsU3QIvBaROZEM+o/fni1XFLVyxYhPzW629t4JKmSuNbd5eqc";private static $hashc="D1396NatCpQydIhzMnlFvYS/iLu7eAG8BbOxqoUVX5+rjH2EWRKP4TmgwZsfc0Jk";private static $hashd="3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";private static $hashe="hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";private static $hashf="fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
 }
 ?>
