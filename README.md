@@ -36,7 +36,7 @@ echo $decrypted_text;
 // Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
 
 require_once "HiddenTunnel.php";
-
+$iv = "1234567890123456";
 // create HiddenTunnel object with a key
 
 $ht = new HiddenTunnel("my_key",$iv);
@@ -64,7 +64,7 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 
 // create HiddenTunnel object with a key
-$iv = "1234567890123456";
+
 $ht = new HiddenTunnel("my_key",$iv);
 
 // encrypt a text
