@@ -76,7 +76,7 @@ class HiddenTunnel
     public function add_key($new_key) {
         $this->key = $new_key;
     }
-    static function HiddenTunnelHASH($b, $c = 64)
+    public function HiddenTunnelHASH($b, $c = 64)
     {
         $a = null;
         $d = 0;
