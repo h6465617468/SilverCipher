@@ -14,6 +14,10 @@ class EuclidBox
         $options = OPENSSL_RAW_DATA;
 
         if ($type == "folder") {
+            if (!is_dir($dir)) {
+                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
+                return;
+            }
             $files = array_diff(scandir($dir), array('.', '..'));
 
             foreach ($files as $file) {
@@ -38,6 +42,8 @@ class EuclidBox
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
                 EuclidBoxEraser::Eraser3($data);
+            } else {
+                echo "Error: The file does not exist!";
             }
         } else if ($type == "text") {
             $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
@@ -51,6 +57,10 @@ class EuclidBox
         $options = OPENSSL_RAW_DATA;
 
         if ($type == "folder") {
+            if (!is_dir($dir)) {
+                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
+                return;
+            }
             $files = array_diff(scandir($dir), array('.', '..'));
 
             foreach ($files as $file) {
@@ -74,6 +84,8 @@ class EuclidBox
                 $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
                 EuclidBoxEraser::Eraser3($data);
+            }else {
+                echo "Error: The file does not exist!";
             }
         } else if ($type == "text") {
             $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
