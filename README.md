@@ -124,10 +124,10 @@ EuclidBoxEraser::Eraser10($file_path);
 EuclidBoxEraser::Eraser11($file_path);
 EuclidBoxEraser::Eraser12($file_path);
 ```
-# ❯ Contributing
+## ❯ Contributing
 EuclidBox is an open-source project that welcomes contributions from anyone. If you want to contribute to EuclidBox, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
 
-# ❯ Developer Note
+## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
 # ❯ Encryption Transactions
