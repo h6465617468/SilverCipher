@@ -4,7 +4,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 | Name | Folder Encryption | File Encryption | Text Encryption | File Shredder | Type | Security |
 | --- | --- | --- | --- | --- | --- | --- |
-| SilverCipher Tool | Yes | Yes | Yes | DoD 5220.22-M | Symetric/Block | Very High |
+| SilverCipher Tool | Yes | Yes | Yes | All Shredders(Powerful) | Symetric/Block | Very High |
 | SilverCipher5 Cryptography | - | - | Yes | - | Symetric | Very High |
 
 | Type | Supported Encryption Algorithms |
@@ -103,9 +103,10 @@ Operations such as file shredding require data to be written directly into memor
 PHP is unfortunately a high level programming language.
 ```php
 require_once "SilverCipher.php";
+SilverCipherEraser::Eraser0($file_path); // Best
 SilverCipherEraser::Eraser1($file_path);
 SilverCipherEraser::Eraser2($file_path);
-SilverCipherEraser::Eraser3($file_path); // Best
+SilverCipherEraser::Eraser3($file_path);
 SilverCipherEraser::Eraser4($file_path);
 SilverCipherEraser::Eraser5($file_path);
 SilverCipherEraser::Eraser6($file_path);
