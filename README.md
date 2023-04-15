@@ -9,7 +9,7 @@ require_once "EuclidBox.php";
 Invoke the EuclidBox Unique Encryption Algorithm library you are using with require(),require_once() at the project file.
 Add the library you will use
 ```php
-require_once "EuclidBox5.php"; // Best Slow,Secure
+require_once "EuclidBox5.php"; // Best
 require_once "EuclidBox4.php";
 require_once "EuclidBox3.php";
 require_once "EuclidBox2.php";
@@ -33,12 +33,6 @@ Encrypt with EuclidBox's own unique encryption algorithm
 $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
-
-$ht = new EuclidBox5($key); // Best
-//$ht = new EuclidBox4($key);
-//$ht = new EuclidBox3($key);
-//$ht = new EuclidBox2($key);
-//$ht = new EuclidBox1($key); // Fast
 
 $encrypted_text=$ht->Encrypt($plain_text);
 $encrypted_text=$ht->Decrypt($encrypted_text);
