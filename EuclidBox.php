@@ -105,6 +105,8 @@ class EuclidBox
             if(file_exists($data)){
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
+                    file_put_contents(substr($data, 0, -4), "");
+                    EuclidBoxEraser::Eraser3($data);
                     return;
                 }
                 try {
