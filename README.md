@@ -1,4 +1,4 @@
-# ❯ HiddenTunnel Cryptography
+# ❯ TreeBox Cryptography
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
 ## ❯ How to use?
@@ -6,23 +6,23 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 ## ❯ Text Encryption
 ```php
-// How to use HiddenTunnel Latest Version
+// How to use TreeBox Latest Version
 // How to Encrypt with HiddenTunnel
 // How to Decrypt with HiddenTunnel
 
-// Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
+// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "HiddenTunnel.php";
+require_once "TreeBox.php";
 
 $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
 
-$ht = new HiddenTunnel5($key); // Best
-//$ht = new HiddenTunnel4($key);
-//$ht = new HiddenTunnel3($key);
-//$ht = new HiddenTunnel2($key);
-//$ht = new HiddenTunnel1($key); // Fast
+$ht = new TreeBox5($key); // Best
+//$ht = new TreeBox4($key);
+//$ht = new TreeBox3($key);
+//$ht = new TreeBox2($key);
+//$ht = new TreeBox1($key); // Fast
 
 $encrypted_text=$ht->Encrypt($plain_text);
 $encrypted_text=$ht->Decrypt($encrypted_text);
@@ -32,22 +32,22 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-### [ ❯ Encryption Tool](https://github.com/XPROCION/HiddenTunnel/blob/main/encryption_tool.php)
+### [ ❯ Encryption Tool](https://github.com/XPROCION/TreeBox/blob/main/encryption_tool.php)
 
-## ❯ HiddenTunnel Military Level Folder/File/Text Encryption
+## ❯ TreeBox Military Level Folder/File/Text Encryption
 
 ### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 
 ```php
-// Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
+// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "HiddenTunnel.php";
+require_once "TreeBox.php";
 
 $iv = "1234567890123456";
 
-// create HiddenTunnel object with a key
+// create TreeBox object with a key
 
-$ht = new HiddenTunnel("my_key",$iv);
+$ht = new TreeBox("my_key",$iv);
 
 // encrypt a folder example: __DIR__."/path"
 $ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
@@ -58,9 +58,9 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 // Note: All files in the folder will be encrypted and saved with '_enc' suffix.
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
-// create HiddenTunnel object with a key
+// create TreeBox object with a key
 
-$ht = new HiddenTunnel("my_key",$iv);
+$ht = new TreeBox("my_key",$iv);
 
 // encrypt a file
 $ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
@@ -71,9 +71,9 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 
-// create HiddenTunnel object with a key
+// create TreeBox object with a key
 
-$ht = new HiddenTunnel("my_key",$iv);
+$ht = new TreeBox("my_key",$iv);
 
 // encrypt a text
 $encrypted_text = $ht->encrypt_data("text", "my secret data", "AES-256-CBC");
@@ -83,7 +83,7 @@ $decrypted_text = $ht->decrypt_data("text", $encrypted_text, "AES-256-CBC");
 
 echo $decrypted_text; // output: my secret data
 ```
-## ❯ HiddenTunnel File Shredder
+## ❯ TreeBox File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 ```php
