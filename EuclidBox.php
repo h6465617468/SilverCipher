@@ -46,9 +46,9 @@ class EuclidBox
             if(file_exists($data) && substr($data, -4) !== "_enc"){
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
-                    file_put_contents($file_path . "_enc","");
-                    file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                    EuclidBoxEraser::Eraser3($file_path);
+                    file_put_contents($data . "_enc","");
+                    file_put_contents($data, openssl_random_pseudo_bytes(32));
+                    EuclidBoxEraser::Eraser3($data);
                     return;
                 }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
