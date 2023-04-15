@@ -2,7 +2,19 @@
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
 ## ❯ Getting Started
-Invoke the EuclidBox library you are using with require(),require_once() at the project file.
+Invoke the EuclidBox Folder/File/Text Encryption library you are using with require(),require_once() at the project file.
+```php
+require_once "EuclidBox.php";
+```
+Invoke the EuclidBox Unique Encryption Algorithm library you are using with require(),require_once() at the project file.
+Add the library you will use
+```php
+require_once "EuclidBox5.php"; // Best Slow,Secure
+require_once "EuclidBox4.php";
+require_once "EuclidBox3.php";
+require_once "EuclidBox2.php";
+require_once "EuclidBox1.php"; // Fast,Low Security
+```
 ### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
 ### [ ❯ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
 ### ❯ Other Unique Encryption Algorithm
@@ -17,12 +29,6 @@ Encrypt with EuclidBox's own unique encryption algorithm
 // How to Decrypt with EuclidBox
 
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
-
-require_once "EuclidBox5.php";
-//require_once "EuclidBox4.php";
-//require_once "EuclidBox3.php";
-//require_once "EuclidBox2.php";
-//require_once "EuclidBox1.php";
 
 $plain_text = "Hello World"; // Unlimited Text Size
 
@@ -49,8 +55,6 @@ echo $decrypted_text;
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
-
-require_once "EuclidBox.php";
 /*
 Supported Encryption Algorithms:
 AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AES-192-CFB, AES-192-CTR, AES-192-ECB, AES-192-OFB, AES-256-CBC, AES-256-CFB, AES-256-CTR, AES-256-ECB, AES-256-OFB, BF-CBC, BF-CFB, BF-ECB, BF-OFB, CAMELLIA-128-CBC, CAMELLIA-128-CFB, CAMELLIA-128-CTR, CAMELLIA-128-ECB, CAMELLIA-128-OFB, CAMELLIA-192-CBC, CAMELLIA-192-CFB, CAMELLIA-192-CTR, CAMELLIA-192-ECB, CAMELLIA-192-OFB, CAMELLIA-256-CBC, CAMELLIA-256-CFB, CAMELLIA-256-CTR, CAMELLIA-256-ECB, CAMELLIA-256-OFB, CAST5-CBC, CAST5-CFB, CAST5-ECB, CAST5-OFB, CHACHA20, CHACHA20-POLY1305, DES-CBC, DES-CFB, DES-CFB1, DES-CFB8, DES-ECB, DES-EDE, DES-EDE-CBC, DES-EDE-CFB, DES-EDE-OFB, DES-EDE3, DES-EDE3-CBC, DES-EDE3-CFB, DES-EDE3-OFB, DES-OFB, IDEA-CBC, IDEA-CFB, IDEA-ECB, IDEA-OFB, RC2-40-CBC, RC2-64-CBC, RC2-CBC, RC2-CFB, RC2-ECB, RC2-OFB, RC4, RC4-40, SEED-CBC, SEED-CFB, SEED-CTR, SEED-ECB, SEED-OFB
