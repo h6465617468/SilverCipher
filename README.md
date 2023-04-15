@@ -3,10 +3,10 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 # Getting Started
 ### Download EuclidBox Cryptography
-### [ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
-### [ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
+### [ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox.php)
+### [ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox5.php)
 #### Download Other Unique Encryption Algorithm Library
-#### [ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
+#### [ EuclidBox4](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox4.php) , [ EuclidBox3](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox3.php) , [ EuclidBox2](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox2.php) , [ EuclidBox1](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox1.php)
 
 Invoke the EuclidBox Folder/File/Text Encryption library you are using with require(),require_once() at the project file.
 ```php
@@ -101,7 +101,7 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-#### [ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
+#### [ Encryption Tool](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/encryption_tool.php)
 
 ## EuclidBox File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
