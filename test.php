@@ -1,5 +1,9 @@
 <?php
-require_once "EuclidBox.php";
+require_once "EuclidBox5.php";
+require_once "EuclidBox4.php";
+require_once "EuclidBox3.php";
+require_once "EuclidBox2.php";
+require_once "EuclidBox1.php";
 $plain_text="Hello World Test 123456789ABC";
 $key="Hello World123456789";
 echo "Plain Text:<br>".$plain_text."<br><br>";
