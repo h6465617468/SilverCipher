@@ -73,8 +73,14 @@ class EuclidBox
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
+                    if (empty($file_content)) {
+                        continue;
+                    }
                     try {
                         $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                        if ($decrypted_content === false) {
+                            throw new Exception("Failed to decrypt file content");
+                        }
                     } catch (Exception $e) {
                         echo "Error decrypting file $file_path: " . $e->getMessage() . "\n";
                         continue;
@@ -86,21 +92,33 @@ class EuclidBox
         } else if ($type == "file") {
             if(file_exists($data)){
                 $file_content = file_get_contents($data);
+                if (empty($file_content)) {
+                    return;
+                }
                 try {
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                    if ($decrypted_content === false) {
+                        throw new Exception("Failed to decrypt file content");
+                    }
                 } catch (Exception $e) {
                     echo "Error decrypting file $data: " . $e->getMessage() . "\n";
                     return;
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
                 EuclidBoxEraser::Eraser3($data);
-            }else {
+            } else {
                 echo "Error: The file does not exist!";
                 return;
             }
         } else if ($type == "text") {
+            if (empty($data)) {
+                throw new Exception("Data content is empty");
+            }
             try {
                 $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
+                if ($decrypted_content === false) {
+                    throw new Exception("Failed to decrypt file content");
+                }
             } catch (Exception $e) {
                 echo "Error decrypting : " . $e->getMessage() . "\n";
                 return;
