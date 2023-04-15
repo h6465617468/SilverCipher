@@ -28,7 +28,7 @@ AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AE
 /*  Folder Encryption  */
 /* ------------------- */
 
-// FOLDER ENCRYPTION
+// Folder Encryption
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
 $key="my_key";
@@ -49,7 +49,7 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 /*  File Encryption    */
 /* ------------------- */
 
-// FILE ENCRYPTION
+// File Encryption
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
 $key="my_key";
@@ -69,7 +69,7 @@ $ht->decrypt_data("file", $decrypt_file_path, $algo);
 /*  Text Encryption    */
 /* ------------------- */
 
-// TEXT ENCRYPTION
+// Text Encryption
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
 $key="my_key";
@@ -87,7 +87,7 @@ echo $decrypted_text; // output: my secret data
 /*  Euclid5 Encryption */
 /* ------------------- */
 
-// Euclid5 ENCRYPTION
+// Euclid5 Encryption
 // Encrypt with EuclidBox's own unique encryption algorithm
 // Put 'EuclidBox5.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox5.php";
@@ -103,7 +103,7 @@ echo $decrypted_text;
 /*  File Shredder      */
 /* ------------------- */
 
-// Euclid5 File Shredder
+// File Shredder
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
 EuclidBoxEraser::Eraser1($file_path);
