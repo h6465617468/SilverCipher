@@ -5,6 +5,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 | Name | Folder Encryption | File Encryption | Text Encryption | File Shredder |
 | --- | --- | --- | --- | --- |
 | SilverCipher | Yes | Yes | Yes | DoD 5220.22-M |
+| SilverCipher5 | - | - | Yes | - |
 
 # Supported Encryption Algorithms:
 ## Vanilla :
