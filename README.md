@@ -115,7 +115,13 @@ SilverCipherEraser::Eraser10($file_path);
 SilverCipherEraser::Eraser11($file_path);
 SilverCipherEraser::Eraser12($file_path);
 ```
-
+## SilverCipher Hash
+```php
+require_once "SilverCipher.php";
+$text="hello world";
+$ht = new SilverCipher();
+echo $ht->hash($text,1024);
+```
 ## Contributing
 SilverCipher is an open-source project that welcomes contributions from anyone. If you want to contribute to SilverCipher, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
 
