@@ -55,9 +55,9 @@ AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AE
 // FOLDER ENCRYPTION
 $key="my_key";
 $iv = "1234567890123456";
-$dir = __DIR__."/path";
+$dir = "/path";
 // OR
-// $dir = "/path";
+// $dir = __DIR__."/path";
 $algo="AES-256-CBC";
 $ht = new EuclidBox($key,$iv); // $iv required
 // encrypt a folder
