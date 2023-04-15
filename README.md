@@ -8,7 +8,7 @@ Invoke the EuclidBox library you are using with require(),require_once() at the 
 ### ❯ Other Unique Encryption Algorithm
 #### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
 # ❯ Usage
-## ❯ Text Encryption
+## ❯ EuclidBox Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
 ```php
 // Encrypt with EuclidBox's own unique encryption algorithm
@@ -44,7 +44,7 @@ echo $decrypted_text;
 
 #### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
-## ❯ Military Level Folder/File/Text Encryption
+## ❯ EuclidBox Military Level Folder/File/Text Encryption
 #### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
