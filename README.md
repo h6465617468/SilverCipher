@@ -6,7 +6,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ### [ Latest Version LavaCipher](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher.php)
 ### [ Latest Version LavaCipher5 Unique Encryption Algorithm](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher5.php)
 #### Download Other Unique Encryption Algorithm Library
-#### [ EuclidBox4](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher4.php) , [ EuclidBox3](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher3.php) , [ EuclidBox2](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher2.php) , [ EuclidBox1](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher1.php)
+#### [LavaCipher4](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher4.php) , [LavaCipher3](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher3.php) , [LavaCipher2](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher2.php) , [LavaCipher1](https://github.com/eenonde/LavaCipher/blob/main/LavaCipher1.php)
 # Usage
 ```php
 /*
