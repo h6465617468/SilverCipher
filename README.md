@@ -130,7 +130,7 @@ EuclidBox is an open-source project that welcomes contributions from anyone. If 
 ## ❯ Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
-# ❯ Encryption Transactions
+# ❯ Other
 
 If you are using this encryption algorithm, you should know them.
 
