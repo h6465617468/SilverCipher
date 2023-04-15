@@ -3,8 +3,8 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 # Setup
 ### Download SilverCipher
-### [ Latest Version LavaCipher](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher.php)
-### [ Latest Version LavaCipher5 Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher5.php)
+### [ Latest Version SilverCipher](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher.php)
+### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher5.php)
 #### Download Other Unique Encryption Algorithm Library
 #### [SilverCipher4](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher1.php)
 # Usage
@@ -90,7 +90,7 @@ echo $decrypted_text;
 /* ------------------- */
 
 // File Shredder
-require_once "LavaCipher.php";
+require_once "SilverCipher.php";
 SilverCipherEraser::Eraser1($file_path);
 SilverCipherEraser::Eraser2($file_path);
 SilverCipherEraser::Eraser3($file_path); // Best
