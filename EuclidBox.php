@@ -32,8 +32,8 @@ class EuclidBox
                     EuclidBoxEraser::Eraser3($file_path);
                 }
             }
-        } else if ($type == "file") {
-            if(substr($data, -4) !== "_enc"){
+        }else if ($type == "file") {
+            if(file_exists($data) && substr($data, -4) !== "_enc"){
                 $file_content = file_get_contents($data);
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
