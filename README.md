@@ -92,8 +92,8 @@ PHP is unfortunately a high level programming language.
 require_once "TreeBox.php";
 
 TreeBoxEraser::Eraser1($file_path);
-TreeBoxEraser::Eraser2($file_path); // Best
-TreeBoxEraser::Eraser3($file_path);
+TreeBoxEraser::Eraser2($file_path);
+TreeBoxEraser::Eraser3($file_path); // Best
 TreeBoxEraser::Eraser4($file_path);
 TreeBoxEraser::Eraser5($file_path);
 TreeBoxEraser::Eraser6($file_path);
