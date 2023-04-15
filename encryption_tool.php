@@ -41,7 +41,7 @@
     </head>
     <a id="error1" href="" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
-                include "EuclidBox.php";
+                include "EuclidBox5.php";
                 $temel=false;
                 if(isset($_POST["enc"]))
                 {
