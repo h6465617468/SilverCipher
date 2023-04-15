@@ -4,12 +4,10 @@ class SilverCipher
 {
     private $iv;
     private $key;
-
-    public function __construct($key, $iv = null, $salt = null) {
+    public function __construct($key=null, $iv = null) {
         $this->key = $key;
         $this->iv = $iv;
     }
-
     public function encrypt_data($type, $data, $algorithm, $dir = null) {
         $options = OPENSSL_RAW_DATA;
 
@@ -64,7 +62,6 @@ class SilverCipher
 
         return null;
     }
-
     public function decrypt_data($type, $data, $algorithm, $dir=null) {
         $options = OPENSSL_RAW_DATA;
 
@@ -178,9 +175,7 @@ class SilverCipher
             $hash21 = hash('sha512', $data . $salt . $key);
             $hash22 = hash('whirlpool', $data . $salt . $key);
             $hash23 = hash('sha3-256', $data . $salt . $key);
-
             $concatenatedHash = $hash1 . $hash2 . $hash3 . $hash4 . $hash5 . $hash6 . $hash7 . $hash8 . $hash9 . $hash10 . $hash11 . $hash12 . $hash13 . $hash14 . $hash15 . $hash16 . $hash17 . $hash18 . $hash19 . $hash20 . $hash21 . $hash22 . $hash23;
-
             $b = bin2hex(openssl_encrypt($concatenatedHash, "AES-256-CBC", "12345678901234561234567890123456", OPENSSL_RAW_DATA, hex2bin(hash("tiger128,3",$a."x"))));
             $data=$b;
             $a .= $b;
