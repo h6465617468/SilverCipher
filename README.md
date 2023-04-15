@@ -110,7 +110,7 @@ LavaCipherEraser::Eraser11($file_path);
 LavaCipherEraser::Eraser12($file_path);
 
 /*
-LavaCipher Folder/File Shredder
+LavaCipher Folder/File Encryption
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 
