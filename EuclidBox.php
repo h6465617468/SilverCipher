@@ -31,6 +31,12 @@ class EuclidBox
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
+                    if (empty($file_content)) {
+                        file_put_contents($file_path . "_enc","");
+                        file_put_contents($file_path, openssl_random_pseudo_bytes(32));
+                        EuclidBoxEraser::Eraser3($file_path);
+                        continue;
+                    }
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
                     EuclidBoxEraser::Eraser3($file_path);
@@ -39,6 +45,12 @@ class EuclidBox
         }else if ($type == "file") {
             if(file_exists($data) && substr($data, -4) !== "_enc"){
                 $file_content = file_get_contents($data);
+                if (empty($file_content)) {
+                    file_put_contents($file_path . "_enc","");
+                    file_put_contents($file_path, openssl_random_pseudo_bytes(32));
+                    EuclidBoxEraser::Eraser3($file_path);
+                    return;
+                }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
                 EuclidBoxEraser::Eraser3($data);
