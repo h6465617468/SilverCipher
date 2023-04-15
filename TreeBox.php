@@ -26,14 +26,14 @@ class TreeBox
                     $file_content = file_get_contents($file_path);
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
-                    TreeBoxEraser::Eraser2($file_path);
+                    TreeBoxEraser::Eraser3($file_path);
                 }
             }
         } else if ($type == "file") {
             $file_content = file_get_contents($data);
             $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
             file_put_contents($data . "_enc", $encrypted_content);
-            TreeBoxEraser::Eraser2($data);
+            TreeBoxEraser::Eraser3($data);
         } else if ($type == "text") {
             $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $encrypted_content;
@@ -58,14 +58,14 @@ class TreeBox
                     $file_content = file_get_contents($file_path);
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents(str_replace("_enc", "", $file_path), $decrypted_content);
-                    TreeBoxEraser::Eraser2($file_path);
+                    TreeBoxEraser::Eraser3($file_path);
                 }
             }
         } else if ($type == "file") {
             $file_content = file_get_contents($data);
             $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
             file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
-            TreeBoxEraser::Eraser2($data);
+            TreeBoxEraser::Eraser3($data);
         } else if ($type == "text") {
             $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $decrypted_content;
