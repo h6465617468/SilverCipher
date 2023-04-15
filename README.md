@@ -4,7 +4,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 | Name | Folder Encryption | File Encryption | Text Encryption | File Shredder |
 | --- | --- | --- | --- | --- |
-| SilverCipher | ✅ | ✅ | ✅ | ✅ |
+| SilverCipher | Yes | Yes | Yes | DoD 5220.22-M |
 
 # Supported Encryption Algorithms:
 ## Vanilla :
