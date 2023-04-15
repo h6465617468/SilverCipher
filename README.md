@@ -3,7 +3,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 ## ❯ How to use?
 ### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
-### [ ❯ Latest Version EuclidBox Unique Encryption Algorithm v5](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
+### [ ❯ Latest Version EuclidBox Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
 ## ❯ Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
 ```php
