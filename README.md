@@ -46,7 +46,7 @@ echo $decrypted_text;
 
 ## ❯ EuclidBox Military Level Folder/File/Text Encryption
 #### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
-Encrypts all subfolders and files. Encryption takes the data before it is fragmented so that it cannot be recovered. It does not re-encrypt the previously encrypted file.
+Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file.
 ```php
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 
