@@ -18,8 +18,6 @@ Add the library you will use
 require_once "EuclidBox5.php";
 ```
 # Usage
-#### Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
-Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
 /*
 Supported Encryption Algorithms:
@@ -100,15 +98,10 @@ echo $encrypted_text;
 echo "<br>";
 echo $decrypted_text;
 
-```
-#### [ Encryption Tool](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/encryption_tool.php)
-
-## EuclidBox File Shredder
-Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
-PHP is unfortunately a high level programming language.
-```php
+/* ------------------- */
+/*  File Shredder      */
+/* ------------------- */
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
-
 require_once "EuclidBox.php";
 
 EuclidBoxEraser::Eraser1($file_path);
@@ -123,7 +116,17 @@ EuclidBoxEraser::Eraser9($file_path);
 EuclidBoxEraser::Eraser10($file_path);
 EuclidBoxEraser::Eraser11($file_path);
 EuclidBoxEraser::Eraser12($file_path);
+
 ```
+#### [ Encryption Tool](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/encryption_tool.php)
+## EuclidBox Folder/File Shredder
+#### Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
+
+## EuclidBox File Shredder
+Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
+PHP is unfortunately a high level programming language.
+
 ## Contributing
 EuclidBox is an open-source project that welcomes contributions from anyone. If you want to contribute to EuclidBox, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
 
