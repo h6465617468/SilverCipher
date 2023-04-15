@@ -19,7 +19,6 @@ AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AE
 /* ------------------- */
 
 // Folder Encryption
-// Put 'LavaCipher.php' in your project file, then require(),require_once() it in your own file
 require_once "LavaCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -40,7 +39,6 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 /* ------------------- */
 
 // File Encryption
-// Put 'LavaCipher.php' in your project file, then require(),require_once() it in your own file
 require_once "LavaCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -60,7 +58,6 @@ $ht->decrypt_data("file", $decrypt_file_path, $algo);
 /* ------------------- */
 
 // Text Encryption
-// Put 'LavaCipher.php' in your project file, then require(),require_once() it in your own file
 require_once "LavaCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -78,8 +75,6 @@ echo $decrypted_text; // output: my secret data
 /* ------------------- */
 
 // LavaCipher5 Encryption
-// Encrypt with LavaCipher's own unique encryption algorithm
-// Put 'LavaCipher5.php' in your project file, then require(),require_once() it in your own file
 require_once "LavaCipher5.php";
 $plain_text = "Hello World"; // Unlimited Text Size
 $key = "123"; // Unlimited Key Size
@@ -94,7 +89,6 @@ echo $decrypted_text;
 /* ------------------- */
 
 // File Shredder
-// Put 'LavaCipher.php' in your project file, then require(),require_once() it in your own file
 require_once "LavaCipher.php";
 LavaCipherEraser::Eraser1($file_path);
 LavaCipherEraser::Eraser2($file_path);
