@@ -87,22 +87,22 @@ echo $decrypted_text; // output: my secret data
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 ```php
-// Put 'HiddenTunnel.php' in your project file, then require(),require_once() it in your own file
+// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "HiddenTunnel.php";
+require_once "TreeBox.php";
 
-HiddenTunnelEraser::Eraser1($file_path);
-HiddenTunnelEraser::Eraser2($file_path); // Best
-HiddenTunnelEraser::Eraser3($file_path);
-HiddenTunnelEraser::Eraser4($file_path);
-HiddenTunnelEraser::Eraser5($file_path);
-HiddenTunnelEraser::Eraser6($file_path);
-HiddenTunnelEraser::Eraser7($file_path);
-HiddenTunnelEraser::Eraser8($file_path);
-HiddenTunnelEraser::Eraser9($file_path);
-HiddenTunnelEraser::Eraser10($file_path);
-HiddenTunnelEraser::Eraser11($file_path);
-HiddenTunnelEraser::Eraser12($file_path);
+TreeBoxEraser::Eraser1($file_path);
+TreeBoxEraser::Eraser2($file_path); // Best
+TreeBoxEraser::Eraser3($file_path);
+TreeBoxEraser::Eraser4($file_path);
+TreeBoxEraser::Eraser5($file_path);
+TreeBoxEraser::Eraser6($file_path);
+TreeBoxEraser::Eraser7($file_path);
+TreeBoxEraser::Eraser8($file_path);
+TreeBoxEraser::Eraser9($file_path);
+TreeBoxEraser::Eraser10($file_path);
+TreeBoxEraser::Eraser11($file_path);
+TreeBoxEraser::Eraser12($file_path);
 ```
 
 ## ❯ Developer Note
