@@ -1,5 +1,5 @@
 <?php 
-class LavaCipher3
+class SilverCipher3
 {
     private $key;
     public function __construct($key=null) {
