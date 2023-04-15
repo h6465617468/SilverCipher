@@ -21,7 +21,7 @@ class TreeBox
 
                 if (is_dir($file_path)) {
                     $ht1 = new TreeBox($this->key, $this->iv);
-                    $ht1->encrypt_data("folder", null, "AES-256-CBC", $file_path);
+                    $ht1->encrypt_data("folder", null, $algorithm, $file_path);
                 } else {
                     $file_content = file_get_contents($file_path);
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
