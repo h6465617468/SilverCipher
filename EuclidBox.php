@@ -17,15 +17,15 @@ class EuclidBox
             $files = array_diff(scandir($dir), array('.', '..'));
 
             foreach ($files as $file) {
-                if (substr($file, -4) === "_enc") {
-                    continue;
-                }
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
                 if (is_dir($file_path)) {
                     $ht1 = new EuclidBox($this->key, $this->iv);
                     $ht1->encrypt_data("folder", null, $algorithm, $file_path);
                 } else {
+                    if (substr($file, -4) === "_enc") {
+                        continue;
+                    }
                     $file_content = file_get_contents($file_path);
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
@@ -55,11 +55,13 @@ class EuclidBox
 
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
-
                 if (is_dir($file_path)) {
                     $ht2 = new EuclidBox($this->key, $this->iv);
                     $ht2->decrypt_data("folder", null, $algorithm, $file_path);
                 } else {
+                    if (substr($file, -4) !== "_enc") {
+                        continue;
+                    }
                     $file_content = file_get_contents($file_path);
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents(str_replace("_enc", "", $file_path), $decrypted_content);
@@ -67,10 +69,12 @@ class EuclidBox
                 }
             }
         } else if ($type == "file") {
-            $file_content = file_get_contents($data);
-            $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-            file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
-            EuclidBoxEraser::Eraser3($data);
+            if(file_exists($data)){
+                $file_content = file_get_contents($data);
+                $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
+                EuclidBoxEraser::Eraser3($data);
+            }
         } else if ($type == "text") {
             $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $decrypted_content;
