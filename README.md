@@ -54,25 +54,30 @@ AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AE
 */
 // create EuclidBox object with a key
 $iv = "1234567890123456";
+$dir = "/path"; // example: __DIR__."/path"
+$algo="AES-256-CBC";
 $ht = new EuclidBox("my_key",$iv);
-// encrypt a folder example: __DIR__."/path"
-$ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+// encrypt a folder
+$ht->encrypt_data("folder", null, $algo, $dir);
 
 // decrypt the encrypted folder
-$ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
+$ht->decrypt_data("folder", null, $algo, $dir);
 
 // Note: All files in the folder will be encrypted and saved with '_enc' suffix.
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
 // create EuclidBox object with a key
 $iv = "1234567890123456";
+$encrypt_file_path="file_to_encrypt.txt";
+$decrypt_file_path="file_to_encrypt.txt_enc";
+$algo="AES-256-CBC";
 $ht = new EuclidBox("my_key",$iv);
 
 // encrypt a file
-$ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
+$ht->encrypt_data("file", $encrypt_file_path, $algo);
 
 // decrypt the encrypted file
-$ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
+$ht->decrypt_data("file", $decrypt_file_path, $algo);
 
 // Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
@@ -80,12 +85,13 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // create EuclidBox object with a key
 $iv = "1234567890123456";
 $ht = new EuclidBox("my_key",$iv);
-
+$plain_text="my secret data";
+$algo="AES-256-CBC";
 // encrypt a text
-$encrypted_text = $ht->encrypt_data("text", "my secret data", "AES-256-CBC");
+$encrypted_text = $ht->encrypt_data("text", $plain_text, $algo);
 
 // decrypt the encrypted text
-$decrypted_text = $ht->decrypt_data("text", $encrypted_text, "AES-256-CBC");
+$decrypted_text = $ht->decrypt_data("text", $encrypted_text, $algo);
 
 echo $decrypted_text; // output: my secret data
 ```
