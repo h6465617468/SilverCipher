@@ -8,7 +8,7 @@ Invoke the EuclidBox library you are using with require(),require_once() at the 
 ### ❯ Other Unique Encryption Algorithm
 #### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
 ## ❯ Usage
-## ❯ Text Encryption
+### ❯ Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
 ```php
 // Encrypt with EuclidBox's own unique encryption algorithm
@@ -42,11 +42,11 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
+#### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
-## ❯ EuclidBox Military Level Folder/File/Text Encryption
+### ❯ EuclidBox Military Level Folder/File/Text Encryption
 
-### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+#### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 
 ```php
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
