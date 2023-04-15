@@ -110,11 +110,11 @@ LavaCipherEraser::Eraser11($file_path);
 LavaCipherEraser::Eraser12($file_path);
 
 /*
-## LavaCipher Folder/File Shredder
-#### Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+LavaCipher Folder/File Shredder
+Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 
-## LavaCipher File Shredder
+LavaCipher File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 */
