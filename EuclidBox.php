@@ -15,7 +15,7 @@ class EuclidBox
 
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
+                echo "Error: The directory does not exist! Change __DIR__.'".$dir."'";
                 return;
             }
             $files = array_diff(scandir($dir), array('.', '..'));
@@ -58,7 +58,7 @@ class EuclidBox
 
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
+                echo "Error: The directory does not exist! Change __DIR__.'".$dir."'";
                 return;
             }
             $files = array_diff(scandir($dir), array('.', '..'));
@@ -73,7 +73,12 @@ class EuclidBox
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
-                    $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                    try {
+                        $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                    } catch (Exception $e) {
+                        echo "Error decrypting file $file_path: " . $e->getMessage() . "\n";
+                        continue;
+                    }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                     EuclidBoxEraser::Eraser3($file_path);
                 }
@@ -81,14 +86,25 @@ class EuclidBox
         } else if ($type == "file") {
             if(file_exists($data)){
                 $file_content = file_get_contents($data);
-                $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                try {
+                    $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                } catch (Exception $e) {
+                    echo "Error decrypting file $data: " . $e->getMessage() . "\n";
+                    return;
+                }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
                 EuclidBoxEraser::Eraser3($data);
             }else {
                 echo "Error: The file does not exist!";
+                return;
             }
         } else if ($type == "text") {
-            $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
+            try {
+                $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
+            } catch (Exception $e) {
+                echo "Error decrypting : " . $e->getMessage() . "\n";
+                return;
+            }
             return $decrypted_content;
         }
 
