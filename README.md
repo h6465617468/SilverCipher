@@ -88,7 +88,7 @@ echo $decrypted_text; // output: my secret data
 // LavaCipher5 Encryption
 // Encrypt with LavaCipher's own unique encryption algorithm
 // Put 'LavaCipher5.php' in your project file, then require(),require_once() it in your own file
-require_once "EuclidBox5.php";
+require_once "LavaCipher5.php";
 $plain_text = "Hello World"; // Unlimited Text Size
 $key = "123"; // Unlimited Key Size
 $encrypted_text=$ht->Encrypt($plain_text);
@@ -121,7 +121,7 @@ LavaCipherEraser::Eraser12($file_path);
 #### [ Encryption Tool](https://github.com/eenonde/LavaCipher/blob/main/encryption_tool.php)
 
 ## Contributing
-EuclidBox is an open-source project that welcomes contributions from anyone. If you want to contribute to EuclidBox, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
+LavaCipher is an open-source project that welcomes contributions from anyone. If you want to contribute to LavaCipher, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
 
 ## Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
