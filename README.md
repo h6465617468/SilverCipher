@@ -1,7 +1,7 @@
-# ❯ EuclidBox Cryptography
+# EuclidBox Cryptography
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
-## ❯ Getting Started
+## Getting Started
 Invoke the EuclidBox Folder/File/Text Encryption library you are using with require(),require_once() at the project file.
 ```php
 require_once "EuclidBox.php";
@@ -11,14 +11,14 @@ Add the library you will use
 ```php
 require_once "EuclidBox5.php"; // Best
 ```
-### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
-### [ ❯ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
-### ❯ Other Unique Encryption Algorithm
-#### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
-# ❯ Usage
+### [ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
+### [ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
+### Other Unique Encryption Algorithm
+#### [ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
+# Usage
 
-## ❯ EuclidBox Military Level Folder/File/Text Encryption
-#### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+## EuclidBox Military Level Folder/File/Text Encryption
+#### Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
@@ -75,7 +75,7 @@ $decrypted_text = $ht->decrypt_data("text", $encrypted_text, $algo);
 echo $decrypted_text; // output: my secret data
 ```
 
-## ❯ EuclidBox Text Encryption
+## EuclidBox Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
 ```php
 // Encrypt with EuclidBox's own unique encryption algorithm
@@ -97,9 +97,9 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-#### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
+#### [ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
-## ❯ EuclidBox File Shredder
+## EuclidBox File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 ```php
@@ -120,17 +120,17 @@ EuclidBoxEraser::Eraser10($file_path);
 EuclidBoxEraser::Eraser11($file_path);
 EuclidBoxEraser::Eraser12($file_path);
 ```
-## ❯ Contributing
+## Contributing
 EuclidBox is an open-source project that welcomes contributions from anyone. If you want to contribute to EuclidBox, you can fork the project on GitHub and submit a pull request with your changes. You can also report issues and suggest improvements on the GitHub issue tracker.
 
-## ❯ Developer Note
+## Developer Note
 If you're into encryption, you should take a look at file shredders.(DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes) It will be more secure if you use it together with RSA or Elliptic-curve cryptography algorithm. When using this encryption algorithm in your project, I recommend you to use it by adding or changing different functions.
 
-# ❯ Other
+# Other
 
 If you are using this encryption algorithm, you should know them.
 
-## ❯ PHP Disable Cache
+## PHP Disable Cache
 ```php
 header("Expires: on, 01 Jan 1 00:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -138,7 +138,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 ```
-## ❯ Secure DoD 5220.22-M, AES-256-CBC Folder Upload Encryption
+## Secure DoD 5220.22-M, AES-256-CBC Folder Upload Encryption
 ```php
 function encryptFile($inputFile, $outputFile, $key, $iv) {
     $inputHandle = fopen($inputFile, 'rb');
@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo 'Tüm dosyalar başarıyla şifrelendi ve öğütüldü!';
 }
 ```
-## ❯ Secure DoD 5220.22-M, AES-256-CBC Folder Upload Decryption
+## Secure DoD 5220.22-M, AES-256-CBC Folder Upload Decryption
 ```php
 $encrypted_folder = $_POST['encrypted_folder'];
 $decrypted_folder = $_POST['decrypted_folder'];
@@ -208,7 +208,7 @@ function decryptFolder($encrypted_folder, $decrypted_folder, $encryption_key) {
     }
 }
 ```
-## ❯ Secure DoD 5220.22-M, AES-256-CBC File Upload
+## Secure DoD 5220.22-M, AES-256-CBC File Upload
 ```php
 $error_msg = "Dosya yüklenirken bir hata oluştu.";
 $encryption_key = 'my_secret_key';
@@ -238,7 +238,7 @@ if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] === UPLOA
 }
 ```
 
-## ❯ Secure DoD 5220.22-M, AES-256-CBC Image Upload
+## Secure DoD 5220.22-M, AES-256-CBC Image Upload
 ```php
 $target_dir = "uploads/"; // yükleme dizini
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -281,7 +281,7 @@ if ($uploadOk == 0) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 }
 ```
-## ❯ Best File Shredder
+## Best File Shredder
 ```php
 // Most compliant with Gutmann
 function gutmann_delete_file($filename) {
@@ -338,9 +338,9 @@ function secure_delete_file_x1($file_path) {
 //use
 secure_delete_file_x1("file.txt");
 ```
-## ❯ PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key, Load Key
+## PHPSECLIB3 Elliptic Curve Encryption, Decryption, Generate Key, Load Key
 ### i like these
-### [ ❯ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
+### [ PHPSECLIB3](https://github.com/phpseclib/phpseclib)
 ```php
 // Generate Key
 require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
@@ -393,7 +393,7 @@ $plaintext = 'Hello, World!';
 $ciphertext = $ec->encrypt($plaintext);
 $decrypted = $ec->decrypt($ciphertext);
 ```
-## ❯ PHPSECLIB3/OPENSSL RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
+## PHPSECLIB3/OPENSSL RSA Verify, Generate Key / JS Encrypt Sign, Generate Key
 ```php
 // OPENSSL Verify
 $result = openssl_verify($asdasdasd1["text"], base64_decode($asdasdasd1["sign"]), "-----BEGIN PUBLIC KEY-----...", OPENSSL_ALGO_SHA256);
@@ -411,7 +411,7 @@ $private = RSA::createKey((int)$_POST["size"]);
 $public = $private->getPublicKey();
 ```
 ### i like these
-### [ ❯ JSEncrypt](https://github.com/travist/jsencrypt)
+### [ JSEncrypt](https://github.com/travist/jsencrypt)
 ```javascript
 // JSEncrypt Generate Key
 /* <input id="olusturrsa" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:%5;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:white!important;" type="button" value="Browser Kullanarak Oluştur"> */
@@ -446,9 +446,9 @@ var cryptx = new JSEncrypt();
 cryptx.setPrivateKey("-----BEGIN RSA PRIVATE KEY-----");
 cache_signp=cryptx.sign(plaintext, CryptoJS.SHA256, "sha256");
 ```
-## ❯ AES Encrypt Decrypt CryptoJS
+## AES Encrypt Decrypt CryptoJS
 ### i like these
-### [ ❯ Stackoverflow CryptoJS](https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs)
+### [ Stackoverflow CryptoJS](https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs)
 ```php
 // PHP
 function cryptoJsAesDecrypt($passphrase, $jsonString){
@@ -509,7 +509,7 @@ function crypto_decrypt_AES(encrypted,passAES){
   return dec;
 }
 ```
-## ❯ Javascript RSA Message POST Begin Public Key Encrypt
+## Javascript RSA Message POST Begin Public Key Encrypt
 ```php
 <!DOCTYPE html>
 <html>
@@ -552,7 +552,7 @@ function crypto_decrypt_AES(encrypted,passAES){
 </body>
 </html>
 ```
-## ❯ PHP  RSA Message POST Begin Private Key Decrypt
+## PHP  RSA Message POST Begin Private Key Decrypt
 ```php
 // Özel anahtar dosyası
 $private_key = openssl_pkey_get_private("file:///path/to/private.key");
@@ -568,7 +568,7 @@ openssl_private_decrypt($encrypted_message, $decrypted_message, $private_key);
 // Deşifrelenmiş mesaj
 echo $decrypted_message;
 ```
-## ❯ Javascript RSA Message AJAX POST (Generate Key)
+## Javascript RSA Message AJAX POST (Generate Key)
 ```php
 // jsencrypt kütüphanesini yükleyin
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
@@ -595,7 +595,7 @@ $.ajax({
   }
 });
 ```
-## ❯ Other File Shredder
+## Other File Shredder
 ```php
 function secure_delete_file_ac_n($file_path) {
     $fp = fopen($file_path, "r+");
@@ -747,5 +747,5 @@ function wipe_file($file_path){$patterns=array("11111111111111111111111111111111
 wipe_file("file.txt");
 ```
 
-## ❯ End Note
+## End Note
 This project is a student project. It's very safe, but don't expect flexibility. The producer produced this project when he was just starting high school. There is a big difference with the current knowledge of the producer.
