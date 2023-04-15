@@ -15,7 +15,7 @@ class EuclidBox
 
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'$dir' ";
+                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
                 return;
             }
             $files = array_diff(scandir($dir), array('.', '..'));
@@ -58,7 +58,7 @@ class EuclidBox
 
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'$dir' ";
+                echo "Error: The directory does not exist! Change __DIR__.'$dir'";
                 return;
             }
             $files = array_diff(scandir($dir), array('.', '..'));
