@@ -42,10 +42,10 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-##### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
+#### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
 ### ❯ EuclidBox Military Level Folder/File/Text Encryption
-##### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
+#### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 Encrypts all subfolders and files. Encryption takes the data before it is fragmented so that it cannot be recovered. It does not re-encrypt the previously encrypted file.
 ```php
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
