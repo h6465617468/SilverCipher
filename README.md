@@ -1,28 +1,28 @@
-# ❯ TreeBox Cryptography
+# ❯ EuclidBox Cryptography
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
 ## ❯ How to use?
-### [ ❯ Latest Version TreeBox v1.17](https://github.com/eenonde/TreeBox/blob/main/TreeBox.php)
+### [ ❯ Latest Version EuclidBox v1.17](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
 
 ## ❯ Text Encryption
 ```php
-// How to use TreeBox Latest Version
-// How to Encrypt with TreeBox
-// How to Decrypt with TreeBox
+// How to use EuclidBox Latest Version
+// How to Encrypt with EuclidBox
+// How to Decrypt with EuclidBox
 
-// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
+// Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "TreeBox.php";
+require_once "EuclidBox.php";
 
 $plain_text = "Hello World"; // Unlimited Text Size
 
 $key = "123"; // Unlimited Key Size
 
-$ht = new TreeBox5($key); // Best
-//$ht = new TreeBox4($key);
-//$ht = new TreeBox3($key);
-//$ht = new TreeBox2($key);
-//$ht = new TreeBox1($key); // Fast
+$ht = new EuclidBox5($key); // Best
+//$ht = new EuclidBox4($key);
+//$ht = new EuclidBox3($key);
+//$ht = new EuclidBox2($key);
+//$ht = new EuclidBox1($key); // Fast
 
 $encrypted_text=$ht->Encrypt($plain_text);
 $encrypted_text=$ht->Decrypt($encrypted_text);
@@ -32,22 +32,22 @@ echo "<br>";
 echo $decrypted_text;
 ```
 
-### [ ❯ Encryption Tool](https://github.com/eenonde/TreeBox/blob/main/encryption_tool.php)
+### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
 ## ❯ TreeBox Military Level Folder/File/Text Encryption
 
 ### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 
 ```php
-// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
+// Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "TreeBox.php";
+require_once "EuclidBox.php";
 
 $iv = "1234567890123456";
 
-// create TreeBox object with a key
+// create EuclidBox object with a key
 
-$ht = new TreeBox("my_key",$iv);
+$ht = new EuclidBox("my_key",$iv);
 /*
  Supported Encryption Algorithms:
 AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AES-192-CFB, AES-192-CTR, AES-192-ECB, AES-192-OFB, AES-256-CBC, AES-256-CFB, AES-256-CTR, AES-256-ECB, AES-256-OFB, BF-CBC, BF-CFB, BF-ECB, BF-OFB, CAMELLIA-128-CBC, CAMELLIA-128-CFB, CAMELLIA-128-CTR, CAMELLIA-128-ECB, CAMELLIA-128-OFB, CAMELLIA-192-CBC, CAMELLIA-192-CFB, CAMELLIA-192-CTR, CAMELLIA-192-ECB, CAMELLIA-192-OFB, CAMELLIA-256-CBC, CAMELLIA-256-CFB, CAMELLIA-256-CTR, CAMELLIA-256-ECB, CAMELLIA-256-OFB, CAST5-CBC, CAST5-CFB, CAST5-ECB, CAST5-OFB, CHACHA20, CHACHA20-POLY1305, DES-CBC, DES-CFB, DES-CFB1, DES-CFB8, DES-ECB, DES-EDE, DES-EDE-CBC, DES-EDE-CFB, DES-EDE-OFB, DES-EDE3, DES-EDE3-CBC, DES-EDE3-CFB, DES-EDE3-OFB, DES-OFB, IDEA-CBC, IDEA-CFB, IDEA-ECB, IDEA-OFB, RC2-40-CBC, RC2-64-CBC, RC2-CBC, RC2-CFB, RC2-ECB, RC2-OFB, RC4, RC4-40, SEED-CBC, SEED-CFB, SEED-CTR, SEED-ECB, SEED-OFB
@@ -61,9 +61,9 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 // Note: All files in the folder will be encrypted and saved with '_enc' suffix.
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
-// create TreeBox object with a key
+// create EuclidBox object with a key
 
-$ht = new TreeBox("my_key",$iv);
+$ht = new EuclidBox("my_key",$iv);
 
 // encrypt a file
 $ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
@@ -74,9 +74,9 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 
-// create TreeBox object with a key
+// create EuclidBox object with a key
 
-$ht = new TreeBox("my_key",$iv);
+$ht = new EuclidBox("my_key",$iv);
 
 // encrypt a text
 $encrypted_text = $ht->encrypt_data("text", "my secret data", "AES-256-CBC");
@@ -86,26 +86,26 @@ $decrypted_text = $ht->decrypt_data("text", $encrypted_text, "AES-256-CBC");
 
 echo $decrypted_text; // output: my secret data
 ```
-## ❯ TreeBox File Shredder
+## ❯ EuclidBox File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 ```php
-// Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
+// Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 
-require_once "TreeBox.php";
+require_once "EuclidBox.php";
 
-TreeBoxEraser::Eraser1($file_path);
-TreeBoxEraser::Eraser2($file_path);
-TreeBoxEraser::Eraser3($file_path); // Best
-TreeBoxEraser::Eraser4($file_path);
-TreeBoxEraser::Eraser5($file_path);
-TreeBoxEraser::Eraser6($file_path);
-TreeBoxEraser::Eraser7($file_path);
-TreeBoxEraser::Eraser8($file_path);
-TreeBoxEraser::Eraser9($file_path);
-TreeBoxEraser::Eraser10($file_path);
-TreeBoxEraser::Eraser11($file_path);
-TreeBoxEraser::Eraser12($file_path);
+EuclidBoxEraser::Eraser1($file_path);
+EuclidBoxEraser::Eraser2($file_path);
+EuclidBoxEraser::Eraser3($file_path); // Best
+EuclidBoxEraser::Eraser4($file_path);
+EuclidBoxEraser::Eraser5($file_path);
+EuclidBoxEraser::Eraser6($file_path);
+EuclidBoxEraser::Eraser7($file_path);
+EuclidBoxEraser::Eraser8($file_path);
+EuclidBoxEraser::Eraser9($file_path);
+EuclidBoxEraser::Eraser10($file_path);
+EuclidBoxEraser::Eraser11($file_path);
+EuclidBoxEraser::Eraser12($file_path);
 ```
 
 ## ❯ Developer Note
