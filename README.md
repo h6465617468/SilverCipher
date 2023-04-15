@@ -7,16 +7,6 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ### [ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox5.php)
 #### Download Other Unique Encryption Algorithm Library
 #### [ EuclidBox4](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox4.php) , [ EuclidBox3](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox3.php) , [ EuclidBox2](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox2.php) , [ EuclidBox1](https://github.com/eenonde/EuclidBox-Cryptography/blob/main/EuclidBox1.php)
-
-Invoke the EuclidBox Folder/File/Text Encryption library you are using with require(),require_once() at the project file.
-```php
-require_once "EuclidBox.php";
-```
-Invoke the EuclidBox Unique Encryption Algorithm library you are using with require(),require_once() at the project file.
-Add the library you will use
-```php
-require_once "EuclidBox5.php";
-```
 # Usage
 ```php
 /*
