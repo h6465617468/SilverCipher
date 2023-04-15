@@ -78,6 +78,7 @@ echo $decrypted_text; // output: my secret data
 require_once "LavaCipher5.php";
 $plain_text = "Hello World"; // Unlimited Text Size
 $key = "123"; // Unlimited Key Size
+$ht = new LavaCipher5($key); // $key required
 $encrypted_text=$ht->Encrypt($plain_text);
 $encrypted_text=$ht->Decrypt($encrypted_text);
 echo $encrypted_text;
