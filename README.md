@@ -15,13 +15,13 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 
 | SilverCipher File Shredder | Method |
 | --- | --- |
-| File Shredder 1 | Overwrites the file 35 times with random data and then fills the file with null bytes. |
-| File Shredder 2 | Overwrites the file with a set of predefined patterns. |
-| File Shredder 3 | Overwrites the file with random data in three passes. |
-| File Shredder 4 | Overwrites the file with a set of predefined patterns in a loop. |
-| File Shredder 5 | Overwrites the file with a specific pattern (55 AA FF). |
-| File Shredder 6 | Overwrites the file with null bytes and then truncates the file to 0 bytes. |
-| File Shredder 7 | Overwrites the file with a random pattern in a loop. |
+| File Shredder 1 | The function uses a loop to write random data to the file, with each iteration writing one byte of random data. This is done 35 times to ensure that the file is completely overwritten with random data. After this, two more loops are used to write null bytes and all ones to the file. |
+| File Shredder 2 | This function also takes a filename as an argument and overwrites the contents of the file with specific patterns of bytes. It uses an array of 42 different patterns and writes each pattern five times to the file. Finally, the file is deleted. |
+| File Shredder 3 | The function uses a loop to write null bytes to the entire file. After this, it uses two loops to write random data to the first half of the file, and another two loops to write random data to the second half of the file. Each iteration of the loops writes one byte of random data to the file. All three functions ensure that the file is completely overwritten with either random data or specific patterns of bytes, making it much more difficult for anyone to recover the original contents of the file. |
+| File Shredder 4 | This function overwrites the contents of the file with a series of pre-determined byte sequences (e.g., all zeros, all ones, alternating 0s and 1s, etc.). It performs multiple passes with different sequences. |
+| File Shredder 5 | This function overwrites the contents of the file with a repeating pattern of bytes (0x55, 0xAA, 0xFF). |
+| File Shredder 6 | This function overwrites the contents of the file with null bytes (chr(0)), flushes the file buffer, and then deletes the file. |
+| File Shredder 7 | This function overwrites the contents of the file with a random pattern of bytes (a combination of '0xff' and '0x00' bytes), with the pattern length randomly selected between 1 and 3 bytes. The function then closes the file handle and deletes the file. |
 | File Shredder 8 | This function replaces the contents of a file with "x" characters, effectively erasing the original data. It does this by reading the file contents, creating a string of "x" characters the same length as the file, writing that string to the file, flushing the file buffer to ensure it's written immediately, closing the file, and then deleting it. |
 | File Shredder 9 | This function uses OpenSSL to generate a pseudorandom byte string the same length as the file, overwriting the original data. It does this by opening the file for writing, generating the random bytes, writing them to the file, closing the file, and then deleting it. |
 | File Shredder 10 | This function overwrites the contents of a file with a series of bytes (0-34) repeated 35 times, effectively erasing the original data. It does this by opening the file for reading and writing, iterating over the file's bytes 35 times, and overwriting each byte with the current pass number. It then closes the file and deletes it. |
