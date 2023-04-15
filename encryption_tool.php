@@ -10,7 +10,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="keywords" content="">
-        <meta name="description" content="EuclidBox Cryptography Tool">
+        <meta name="description" content="LavaCipher Cryptography Tool">
         <meta name="author" content="">
         <meta name="robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html;UTF-8">
@@ -18,7 +18,7 @@
         <meta http-equiv="expires" content="Mon,08 Apr 2019 13:26:49 GMT">
         <meta http-equiv="revisit-after" content="1 days">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AntaresCrypt Encryption Tool</title>
+        <title>LavaCipher Encryption Tool</title>
         <link rel="shortcut icon" href="icon.jpg" />
         <style>*{color:grey;}</style>
 
@@ -29,7 +29,7 @@
     </head>
     <a id="error1" href="" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
-                include "EuclidBox5.php";
+                include "LavaCipher5.php";
                 $temel=false;
                 if(isset($_POST["enc"]))
                 {
@@ -87,7 +87,7 @@
                             <?php
                         }
                     }
-                            $ht = new EuclidBox5($key);
+                            $ht = new LavaCipher5($key);
                             $start=microtime(true);
                             $temel=$ht->Encrypt($data);
                             $end=microtime(true);
@@ -132,7 +132,7 @@
                             <?php
                         }
                     }
-                        $ht = new EuclidBox5($key);
+                        $ht = new LavaCipher5($key);
                         $start=microtime(true);
                         $temel=$ht->Decrypt($_POST["data"]);
                         $end=microtime(true);
@@ -154,7 +154,7 @@
 ?>
         <div style="word-wrap: break-word;margin:auto;text-align:center;">
         <br>
-        <h1>EuclidBox5 Encryption Tool</h1>
+        <h1>LavaCipher5 Encryption Tool</h1>
             <form  action="" method="post">
                 <label>
             <?php
