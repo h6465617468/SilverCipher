@@ -32,12 +32,12 @@ class SilverCipher
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser3($file_path);
+                        SilverCipherEraser::Eraser0($file_path);
                         continue;
                     }
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
-                    SilverCipherEraser::Eraser3($file_path);
+                    SilverCipherEraser::Eraser0($file_path);
                 }
             }
         }else if ($type == "file") {
@@ -46,12 +46,12 @@ class SilverCipher
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser3($data);
+                    SilverCipherEraser::Eraser0($data);
                     return;
                 }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
-                SilverCipherEraser::Eraser3($data);
+                SilverCipherEraser::Eraser0($data);
             } else {
                 echo "Error: The file does not exist!";
             }
@@ -84,7 +84,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($data, 0, -4), "");
-                        SilverCipherEraser::Eraser3($data);
+                        SilverCipherEraser::Eraser0($data);
                         continue;
                     }
                     try {
@@ -97,7 +97,7 @@ class SilverCipher
                         continue;
                     }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
-                    SilverCipherEraser::Eraser3($file_path);
+                    SilverCipherEraser::Eraser0($file_path);
                 }
             }
         } else if ($type == "file") {
@@ -105,7 +105,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
-                    SilverCipherEraser::Eraser3($data);
+                    SilverCipherEraser::Eraser0($data);
                     return;
                 }
                 try {
@@ -118,7 +118,7 @@ class SilverCipher
                     return;
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
-                SilverCipherEraser::Eraser3($data);
+                SilverCipherEraser::Eraser0($data);
             } else {
                 echo "Error: The file does not exist!";
                 return;
@@ -185,6 +185,7 @@ class SilverCipher
 }
 class SilverCipherEraser
 {
+public static function Eraser0($filename){if(!file_exists($filename)){return false;}$methods=array("DoD5220.22-M","NSA","ATA","Cryptographic","Purge","Clear","Gutmann");foreach($methods as $method){$file=fopen($filename,"r+");$size=filesize($filename);$pattern='';if($method=="DoD5220.22-M"){$pattern=str_repeat(chr(0x55),$size);}elseif($method=="NSA"){$pattern=str_repeat(chr(0x00),$size);}elseif($method=="ATA"){$pattern=str_repeat(chr(0xFF),$size);}elseif($method=="Cryptographic"){$pattern=openssl_random_pseudo_bytes($size);}elseif($method=="Purge"){$pattern=str_repeat(chr(0x00),$size);}elseif($method=="Clear"){$pattern=str_repeat(chr(0xFF),$size);}elseif($method=="Gutmann"){$pattern='';for($i=0;$i<35;$i++){$pattern.=chr($i%256);}$pattern=str_repeat($pattern,(int)(($size+34)/35));}$iterator=new FilesystemIterator(dirname($filename));foreach($iterator as $fileinfo){if($fileinfo->isFile()&&$fileinfo->getFilename()==basename($filename)){fwrite($file,$pattern);fflush($file);fseek($file,0);break;}}fclose($file);}unlink($filename);}
 public static function Eraser1($filename){if(!file_exists($filename)){return false;}$file=fopen($filename,"w");for($i=0;$i<35;$i++){$data='';for($j=0;$j<filesize($filename);$j++){$data.=chr(mt_rand(0,255));}fwrite($file,$data);fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\x00");fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\xFF");fflush($file);fseek($file,0);}fclose($file);unlink($filename);}
 public static function Eraser2($filename){if(!file_exists($filename)){return false;}$size=filesize($filename);if(!$size||!is_writable($filename)){return false;}$patterns=array("\x00\xFF","\xFF\x00","\x55\xAA","\xAA\x55","\x92\x49","\x49\x92","\x24\x92","\x92\x24","\x6D\xB6","\xB6\x6D","\xDB\xDB","\x6D\xB6","\xFF\xFF","\x00\x00","\x11\x11","\x22\x22","\x33\x33","\x44\x44","\x55\x55","\x66\x66","\x77\x77","\x88\x88","\x99\x99","\xAA\xAA","\xBB\xBB","\xCC\xCC","\xDD\xDD","\xEE\xEE","\xFF\xFF","\x00\x00","\x00\x00","\xFF\xFF","\xAA\xAA","\x55\x55","\x00\x00","\xFF\xFF","\x00\x00","\xFF\xFF","\x55\x55","\xAA\xAA","\xFF\xFF","\x00\x00","\xAA\xAA","\x55\x55","\xFF\xFF","\x00\x00","\x55\x55","\xAA\xAA");$pattern_count=count($patterns);for($i=0;$i<5;$i++){$pattern=$patterns[$i%$pattern_count];$handle=fopen($filename,"w");for($j=0;$j<$size;$j+=strlen($pattern)){fwrite($handle,$pattern,strlen($pattern));}fclose($handle);}unlink($filename);return true;}
 public static function Eraser3($file_path){if(!file_exists($file_path)){return false;}$file_handle=fopen($file_path,'r+');$file_size=filesize($file_path);for($i=0;$i<$file_size;$i++){fwrite($file_handle,chr(0));}$half_file_size=intval($file_size/2);for($i=0;$i<3;$i++){fseek($file_handle,0);for($j=0;$j<$half_file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fseek($file_handle,$half_file_size);for($i=0;$i<3;$i++){for($j=$half_file_size;$j<$file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fclose($file_handle);unlink($file_path);}
