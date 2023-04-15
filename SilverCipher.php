@@ -5,9 +5,9 @@ class SilverCipher
     private $iv;
     private $key;
 
-    public function __construct($key, $iv = null) {
-        $this->iv = $iv;
+    public function __construct($key, $iv = null, $salt = null) {
         $this->key = $key;
+        $this->iv = $iv;
     }
 
     public function encrypt_data($type, $data, $algorithm, $dir = null) {
@@ -147,18 +147,45 @@ class SilverCipher
     public function add_key($new_key) {
         $this->key = $new_key;
     }
-    public static function Hash($b, $c = 64)
+    public static function Hash($b, $length=1024)
     {
-        $a = null;
-        $d = 0;
-        while ($d <= $c / 64) {
-            if($a==null){$a = $a . hash("gost", $b);}else{
-            $a = $a . hash("gost", $b . hex2bin($a));
-            }
-            $d++;
+        $a = '';
+        $dx = 0;
+        $data=$b;
+        while (strlen($a) < $length) {
+            $key=hash('gost', $a.$b);
+            $salt=hash('gost', $a.$b);
+            $hash1 = hash('sha3-512', $data . $salt . $key);
+            $hash2 = hash('ripemd160', $data . $salt . $key);
+            $hash3 = hash('tiger128,3', $data . $salt . $key);
+            $hash4 = hash('gost', $data . $salt . $key);
+            $hash5 = hash('adler32', $data . $salt . $key);
+            $hash6 = hash('crc32', $data . $salt . $key);
+            $hash7 = hash('crc32b', $data . $salt . $key);
+            $hash8 = hash('snefru', $data . $salt . $key);
+            $hash9 = hash('fnv132', $data . $salt . $key);
+            $hash10 = hash('fnv1a32', $data . $salt . $key);
+            $hash11 = hash('fnv164', $data . $salt . $key);
+            $hash12 = hash('fnv1a64', $data . $salt . $key);
+            $hash13 = hash('joaat', $data . $salt . $key);
+            $hash14 = hash('haval128,3', $data . $salt . $key);
+            $hash15 = hash('haval160,3', $data . $salt . $key);
+            $hash16 = hash('haval192,3', $data . $salt . $key);
+            $hash17 = hash('haval224,3', $data . $salt . $key);
+            $hash18 = hash('haval256,3', $data . $salt . $key);
+            $hash19 = hash('ripemd256', $data . $salt . $key);
+            $hash20 = hash('sha256', $data . $salt . $key);
+            $hash21 = hash('sha512', $data . $salt . $key);
+            $hash22 = hash('whirlpool', $data . $salt . $key);
+            $hash23 = hash('sha3-256', $data . $salt . $key);
+
+            $concatenatedHash = $hash1 . $hash2 . $hash3 . $hash4 . $hash5 . $hash6 . $hash7 . $hash8 . $hash9 . $hash10 . $hash11 . $hash12 . $hash13 . $hash14 . $hash15 . $hash16 . $hash17 . $hash18 . $hash19 . $hash20 . $hash21 . $hash22 . $hash23;
+
+            $b = bin2hex(openssl_encrypt($concatenatedHash, "AES-256-CBC", "12345678901234561234567890123456", OPENSSL_RAW_DATA, hex2bin(hash("tiger128,3",$a."x"))));
+            $data=$b;
+            $a .= $b;
         }
-        $b = substr($a, 0, $c);
-        return $b;
+        return substr($a, 0, $length);
     }
 }
 class SilverCipherEraser
