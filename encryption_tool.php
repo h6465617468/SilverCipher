@@ -22,7 +22,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="keywords" content="">
-        <meta name="description" content="TreeBox Cryptography Tool">
+        <meta name="description" content="EuclidBox Cryptography Tool">
         <meta name="author" content="">
         <meta name="robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html;UTF-8">
@@ -41,7 +41,7 @@
     </head>
     <a id="error1" href="" style="font-size:64px;color:#221e1e;">Refresh Page</a>
             <?php
-                include "TreeBox.php";
+                include "EuclidBox.php";
                 $temel=false;
                 if(isset($_POST["enc"]))
                 {
@@ -99,7 +99,7 @@
                             <?php
                         }
                     }
-                            $ht = new TreeBox5($key);
+                            $ht = new EuclidBox5($key);
                             $start=microtime(true);
                             $temel=$ht->Encrypt($data);
                             $end=microtime(true);
@@ -144,7 +144,7 @@
                             <?php
                         }
                     }
-                        $ht = new TreeBox5($key);
+                        $ht = new EuclidBox5($key);
                         $start=microtime(true);
                         $temel=$ht->Decrypt($_POST["data"]);
                         $end=microtime(true);
@@ -166,7 +166,7 @@
 ?>
         <div style="word-wrap: break-word;margin:auto;text-align:center;">
         <br>
-        <h1>TreeBox5 Encryption Tool</h1>
+        <h1>EuclidBox5 Encryption Tool</h1>
             <form  action="" method="post">
                 <label>
             <?php
