@@ -17,6 +17,9 @@ class EuclidBox
             $files = array_diff(scandir($dir), array('.', '..'));
 
             foreach ($files as $file) {
+                if (substr($file, -4) === "_enc") {
+                    continue;
+                }
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
                 if (is_dir($file_path)) {
