@@ -101,9 +101,9 @@ echo $decrypted_text;
 /* ------------------- */
 /*  File Shredder      */
 /* ------------------- */
+
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
-
 EuclidBoxEraser::Eraser1($file_path);
 EuclidBoxEraser::Eraser2($file_path);
 EuclidBoxEraser::Eraser3($file_path); // Best
