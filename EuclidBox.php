@@ -64,15 +64,16 @@ class EuclidBox
                     }
                     $file_content = file_get_contents($file_path);
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-                    file_put_contents(str_replace("_enc", "", $file_path), $decrypted_content);
+                    file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                     EuclidBoxEraser::Eraser3($file_path);
                 }
             }
         } else if ($type == "file") {
             if(file_exists($data)){
+                echo $data;
                 $file_content = file_get_contents($data);
                 $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-                file_put_contents(str_replace("_enc", "", $data), $decrypted_content);
+                file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                 EuclidBoxEraser::Eraser3($data);
             }
         } else if ($type == "text") {
