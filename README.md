@@ -13,10 +13,20 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 | SilverCipher | SilverCipher1, SilverCipher2, SilverCipher3, SilverCipher4, SilverCipher5 |
 | AntaresCrypt | AntaresCryptv1.0, AntaresCryptv1.1, AntaresCryptv1.2, AntaresCryptv1.3, AntaresCryptv1.4, AntaresCryptv1.5, AntaresCryptv1.6, AntaresCrypt X7500roundedition |
 
-| Type | Supported File Shredder |
+| SilverCipher File Shredder | Method |
 | --- | --- |
-| SilverCipher File Shredder | DoD 5220.22-M,Pseudorandom Data,Random Data,Write Zeroes |
-
+| File Shredder 1 | Overwrites the file 35 times with random data and then fills the file with null bytes. |
+| File Shredder 2 | Overwrites the file with a set of predefined patterns. |
+| File Shredder 3 | Overwrites the file with random data in three passes. |
+| File Shredder 4 | Overwrites the file with a set of predefined patterns in a loop. |
+| File Shredder 5 | Overwrites the file with a specific pattern (55 AA FF). |
+| File Shredder 6 | Overwrites the file with null bytes and then truncates the file to 0 bytes. |
+| File Shredder 7 | Overwrites the file with a random pattern in a loop. |
+| File Shredder 8 | This function replaces the contents of a file with "x" characters, effectively erasing the original data. It does this by reading the file contents, creating a string of "x" characters the same length as the file, writing that string to the file, flushing the file buffer to ensure it's written immediately, closing the file, and then deleting it. |
+| File Shredder 9 | This function uses OpenSSL to generate a pseudorandom byte string the same length as the file, overwriting the original data. It does this by opening the file for writing, generating the random bytes, writing them to the file, closing the file, and then deleting it. |
+| File Shredder 10 | This function overwrites the contents of a file with a series of bytes (0-34) repeated 35 times, effectively erasing the original data. It does this by opening the file for reading and writing, iterating over the file's bytes 35 times, and overwriting each byte with the current pass number. It then closes the file and deletes it. |
+| File Shredder 11 | This function overwrites the contents of a file with three alternating byte patterns (0x55, 0xAA, and 0x92) to erase the original data. It does this by opening the file for reading and writing, calculating the file size, and then iterating over the file in 1024-byte chunks, overwriting each chunk with the three byte patterns in sequence. It then closes the file and deletes it. |
+| File Shredder 12 | This function overwrites the contents of a file with a set of predefined byte patterns to erase the original data. It does this by opening the file for appending, calculating the file size, and then iterating over the file in 512-byte chunks, writing each predefined pattern in sequence to the end of the file. It then closes the file and deletes it. |
 # Setup
 ### Download SilverCipher
 ### [ Latest Version SilverCipher](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher.php)
