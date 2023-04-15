@@ -10,10 +10,6 @@ Invoke the EuclidBox Unique Encryption Algorithm library you are using with requ
 Add the library you will use
 ```php
 require_once "EuclidBox5.php"; // Best
-require_once "EuclidBox4.php";
-require_once "EuclidBox3.php";
-require_once "EuclidBox2.php";
-require_once "EuclidBox1.php"; // Fast,Low Security
 ```
 ### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
 ### [ ❯ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
