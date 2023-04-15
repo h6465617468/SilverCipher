@@ -1,9 +1,16 @@
 # EuclidBox
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
-## ❯ How to use?
+## ❯ Getting Started
+Invoke the EuclidBox library you are using with require(),require_once() at the project file.
 ### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
-### [ ❯ Latest Version EuclidBox Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
+### [ ❯ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
+### ❯ Other Unique Encryption Algorithm
+#### [ ❯ Latest Version EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php)
+#### [ ❯ Latest Version EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php)
+#### [ ❯ Latest Version EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php)
+#### [ ❯ Latest Version EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
+## ❯ Usage
 ## ❯ Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
 ```php
