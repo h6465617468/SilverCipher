@@ -87,6 +87,7 @@ echo $decrypted_text; // output: my secret data
 /*  Euclid5 Encryption */
 /* ------------------- */
 
+// Euclid5 ENCRYPTION
 // Encrypt with EuclidBox's own unique encryption algorithm
 // Put 'EuclidBox5.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox5.php";
@@ -102,6 +103,7 @@ echo $decrypted_text;
 /*  File Shredder      */
 /* ------------------- */
 
+// Euclid5 File Shredder
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 require_once "EuclidBox.php";
 EuclidBoxEraser::Eraser1($file_path);
