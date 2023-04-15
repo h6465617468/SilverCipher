@@ -64,7 +64,7 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 
 $ht = new EuclidBox("my_key",$iv);
 
-// encrypt a file
+// encrypt a file example: __DIR__."/path"
 $ht->encrypt_data("file", "file_to_encrypt.txt", "AES-256-CBC");
 
 // decrypt the encrypted file
