@@ -5,7 +5,9 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 ### [ ❯ Latest Version EuclidBox5](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
 
 ## ❯ Text Encryption
+Encrypt with EuclidBox's own unique encryption algorithm
 ```php
+// Encrypt with EuclidBox's own unique encryption algorithm
 // How to use EuclidBox Latest Version
 // How to Encrypt with EuclidBox
 // How to Decrypt with EuclidBox
