@@ -17,7 +17,7 @@ class EuclidBox
             $files = array_diff(scandir($dir), array('.', '..'));
 
             foreach ($files as $file) {
-                if (substr($file, -4) === "_enc") {
+                if (strlen($file) >= 5 && substr($file, -4) === "_enc") {
                     continue;
                 }
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
@@ -33,10 +33,12 @@ class EuclidBox
                 }
             }
         } else if ($type == "file") {
-            $file_content = file_get_contents($data);
-            $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-            file_put_contents($data . "_enc", $encrypted_content);
-            EuclidBoxEraser::Eraser3($data);
+            if(strlen($file_path) >= 5 && substr($file_path, -4) !== "_enc"){
+                $file_content = file_get_contents($data);
+                $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                file_put_contents($data . "_enc", $encrypted_content);
+                EuclidBoxEraser::Eraser3($data);
+            }
         } else if ($type == "text") {
             $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $encrypted_content;
