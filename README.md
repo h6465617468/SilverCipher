@@ -69,7 +69,7 @@ echo $decrypted_text; // output: my secret data
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
 ```php
-require_once "SilverCipher5.php";
+require_once "SilverCipher5.php"; // Only uses SilverCipher Encryption Algorithms
 $plain_text = "Hello World"; // Unlimited Text Size
 $key = "123"; // Unlimited Key Size
 $ht = new SilverCipher5($key); // $key required
