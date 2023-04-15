@@ -6,7 +6,7 @@ Invoke the EuclidBox library you are using with require(),require_once() at the 
 ### [ ❯ Latest Version EuclidBox](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox.php)
 ### [ ❯ Latest Version EuclidBox5 Unique Encryption Algorithm](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox5.php)
 ### ❯ Other Unique Encryption Algorithm
-#### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php), [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php), [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php), [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
+#### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
 ## ❯ Usage
 ## ❯ Text Encryption
 Encrypt with EuclidBox's own unique encryption algorithm
