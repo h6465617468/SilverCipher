@@ -48,14 +48,12 @@ echo $decrypted_text;
 // Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
 
 require_once "EuclidBox.php";
-
-$iv = "1234567890123456";
 /*
 Supported Encryption Algorithms:
 AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AES-192-CFB, AES-192-CTR, AES-192-ECB, AES-192-OFB, AES-256-CBC, AES-256-CFB, AES-256-CTR, AES-256-ECB, AES-256-OFB, BF-CBC, BF-CFB, BF-ECB, BF-OFB, CAMELLIA-128-CBC, CAMELLIA-128-CFB, CAMELLIA-128-CTR, CAMELLIA-128-ECB, CAMELLIA-128-OFB, CAMELLIA-192-CBC, CAMELLIA-192-CFB, CAMELLIA-192-CTR, CAMELLIA-192-ECB, CAMELLIA-192-OFB, CAMELLIA-256-CBC, CAMELLIA-256-CFB, CAMELLIA-256-CTR, CAMELLIA-256-ECB, CAMELLIA-256-OFB, CAST5-CBC, CAST5-CFB, CAST5-ECB, CAST5-OFB, CHACHA20, CHACHA20-POLY1305, DES-CBC, DES-CFB, DES-CFB1, DES-CFB8, DES-ECB, DES-EDE, DES-EDE-CBC, DES-EDE-CFB, DES-EDE-OFB, DES-EDE3, DES-EDE3-CBC, DES-EDE3-CFB, DES-EDE3-OFB, DES-OFB, IDEA-CBC, IDEA-CFB, IDEA-ECB, IDEA-OFB, RC2-40-CBC, RC2-64-CBC, RC2-CBC, RC2-CFB, RC2-ECB, RC2-OFB, RC4, RC4-40, SEED-CBC, SEED-CFB, SEED-CTR, SEED-ECB, SEED-OFB
 */
 // create EuclidBox object with a key
-
+$iv = "1234567890123456";
 $ht = new EuclidBox("my_key",$iv);
 // encrypt a folder example: __DIR__."/path"
 $ht->encrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
@@ -67,7 +65,7 @@ $ht->decrypt_data("folder", null, "AES-256-CBC", "/path/to/folder");
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 
 // create EuclidBox object with a key
-
+$iv = "1234567890123456";
 $ht = new EuclidBox("my_key",$iv);
 
 // encrypt a file
@@ -80,7 +78,7 @@ $ht->decrypt_data("file", "file_to_encrypt.txt_enc", "AES-256-CBC");
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 
 // create EuclidBox object with a key
-
+$iv = "1234567890123456";
 $ht = new EuclidBox("my_key",$iv);
 
 // encrypt a text
