@@ -70,10 +70,9 @@ class EuclidBox
             }
         } else if ($type == "file") {
             if(file_exists($data)){
-                echo $data;
                 $file_content = file_get_contents($data);
                 $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-                file_put_contents(substr($file_path, 0, -4), $decrypted_content);
+                file_put_contents(substr($data, 0, -4), $decrypted_content);
                 EuclidBoxEraser::Eraser3($data);
             }
         } else if ($type == "text") {
