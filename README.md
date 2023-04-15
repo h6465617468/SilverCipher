@@ -40,7 +40,7 @@ echo $decrypted_text;
 
 ### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
-## ❯ TreeBox Military Level Folder/File/Text Encryption
+## ❯ EuclidBox Military Level Folder/File/Text Encryption
 
 ### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
 
