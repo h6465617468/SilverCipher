@@ -16,29 +16,6 @@ require_once "EuclidBox5.php"; // Best
 ### ❯ Other Unique Encryption Algorithm
 #### [ ❯ EuclidBox4](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox4.php) , [ ❯ EuclidBox3](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox3.php) , [ ❯ EuclidBox2](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox2.php) , [ ❯ EuclidBox1](https://github.com/eenonde/EuclidBox/blob/main/EuclidBox1.php)
 # ❯ Usage
-## ❯ EuclidBox Text Encryption
-Encrypt with EuclidBox's own unique encryption algorithm
-```php
-// Encrypt with EuclidBox's own unique encryption algorithm
-// How to use EuclidBox Latest Version
-// How to Encrypt with EuclidBox
-// How to Decrypt with EuclidBox
-
-// Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
-
-$plain_text = "Hello World"; // Unlimited Text Size
-
-$key = "123"; // Unlimited Key Size
-
-$encrypted_text=$ht->Encrypt($plain_text);
-$encrypted_text=$ht->Decrypt($encrypted_text);
-
-echo $encrypted_text;
-echo "<br>";
-echo $decrypted_text;
-```
-
-#### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
 
 ## ❯ EuclidBox Military Level Folder/File/Text Encryption
 #### ❯ Uses the [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) file shredding method
@@ -97,6 +74,31 @@ $decrypted_text = $ht->decrypt_data("text", $encrypted_text, $algo);
 
 echo $decrypted_text; // output: my secret data
 ```
+
+## ❯ EuclidBox Text Encryption
+Encrypt with EuclidBox's own unique encryption algorithm
+```php
+// Encrypt with EuclidBox's own unique encryption algorithm
+// How to use EuclidBox Latest Version
+// How to Encrypt with EuclidBox
+// How to Decrypt with EuclidBox
+
+// Put 'EuclidBox.php' in your project file, then require(),require_once() it in your own file
+
+$plain_text = "Hello World"; // Unlimited Text Size
+
+$key = "123"; // Unlimited Key Size
+
+$encrypted_text=$ht->Encrypt($plain_text);
+$encrypted_text=$ht->Decrypt($encrypted_text);
+
+echo $encrypted_text;
+echo "<br>";
+echo $decrypted_text;
+```
+
+#### [ ❯ Encryption Tool](https://github.com/eenonde/EuclidBox/blob/main/encryption_tool.php)
+
 ## ❯ EuclidBox File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
