@@ -2,13 +2,13 @@
 It is an advanced symmetric encryption algorithm that can be used on PHP, inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It produces different results each time. The strength of this encryption algorithm is stronger than AES. It drives the attacker crazy because it consumes a lot of processor power when encrypting, contains many different encryption methods, and has too many loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of breaking the encryption increase abnormally. This encryption algorithm is run on PHP only.
 
 ## ❯ How to use?
-### [ ❯ Latest Version HiddenTunnel v1.17](https://github.com/XPROCION/HiddenTunnel/blob/main/HiddenTunnel.php)
+### [ ❯ Latest Version TreeBox v1.17](https://github.com/XPROCION/TreeBox/blob/main/TreeBox.php)
 
 ## ❯ Text Encryption
 ```php
 // How to use TreeBox Latest Version
-// How to Encrypt with HiddenTunnel
-// How to Decrypt with HiddenTunnel
+// How to Encrypt with TreeBox
+// How to Decrypt with TreeBox
 
 // Put 'TreeBox.php' in your project file, then require(),require_once() it in your own file
 
