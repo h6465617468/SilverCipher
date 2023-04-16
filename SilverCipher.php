@@ -224,7 +224,7 @@ class SilverCipher
                     file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
                     SilverCipherEraser::Eraser14($data);
-                    return;
+                    return true;
                 }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
@@ -289,7 +289,7 @@ class SilverCipher
                     file_put_contents(substr($data, 0, -4), "");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
                     SilverCipherEraser::Eraser14($data);
-                    return;
+                    return true;
                 }
                 try {
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
