@@ -28,6 +28,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## Folder Encryption/Decryption
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
+### Example 1
 ```php
 // php
 require_once "SilverCipher.php";
@@ -45,6 +46,29 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 // Note: All files in the folder will be encrypted and saved with '_enc' suffix.
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 ```
+### Example 2
+```php
+require_once "SilverCipher.php";
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+$datax = "/path";
+echo $sc->EncryptDirectory($datax);
+echo $sc->DecryptDirectory($datax);
+```
+### Example 3
+```php
+require_once "SilverCipher.php";
+/*
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+*/
+$sc = new SilverCipher("12345678901234561234567890123456","1234567890123456","AES-256-CBC");
+$datax = "/path";
+echo $sc->Encrypt($datax);
+echo $sc->Decrypt($datax);
+```
 ## File Encryption/Decryption
 ```php
 // php
@@ -61,6 +85,31 @@ $ht->encrypt_data("file", $encrypt_file_path, $algo);
 $ht->decrypt_data("file", $decrypt_file_path, $algo);
 // Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
+```
+### Example 2
+```php
+require_once "SilverCipher.php";
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+$encrypt_file_path="file_to_encrypt.txt";
+$decrypt_file_path="file_to_encrypt.txt_enc";
+echo $sc->EncryptFile($encrypt_file_path);
+echo $sc->DecryptFile($decrypt_file_path);
+```
+### Example 3
+```php
+require_once "SilverCipher.php";
+/*
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+*/
+$sc = new SilverCipher("12345678901234561234567890123456","1234567890123456","AES-256-CBC");
+$encrypt_file_path="file_to_encrypt.txt";
+$decrypt_file_path="file_to_encrypt.txt_enc";
+echo $sc->Encrypt($encrypt_file_path);
+echo $sc->Decrypt($decrypt_file_path);
 ```
 ## Text Encryption/Decryption
 ```php
