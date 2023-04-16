@@ -64,6 +64,7 @@ require_once "SilverCipher.php";
 $sc = new SilverCipher();
 $sc->setKey("12345678901234561234567890123456");
 $sc->setIV("1234567890123456");
+$sc->setAlgorithm("AES-256-CBC");
 */
 $sc = new SilverCipher("12345678901234561234567890123456","1234567890123456","AES-256-CBC");
 $datax = "/path";
@@ -107,6 +108,7 @@ require_once "SilverCipher.php";
 $sc = new SilverCipher();
 $sc->setKey("12345678901234561234567890123456");
 $sc->setIV("1234567890123456");
+$sc->setAlgorithm("AES-256-CBC");
 */
 $sc = new SilverCipher("12345678901234561234567890123456","1234567890123456","AES-256-CBC");
 $encrypt_file_path="file_to_encrypt.txt";
