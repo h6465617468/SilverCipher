@@ -265,6 +265,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($data, 0, -4), "");
+                        file_put_contents($data, openssl_random_pseudo_bytes(32));
                         SilverCipherEraser::Eraser14($data);
                         continue;
                     }
@@ -286,6 +287,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
+                    file_put_contents($data, openssl_random_pseudo_bytes(32));
                     SilverCipherEraser::Eraser14($data);
                     return;
                 }
