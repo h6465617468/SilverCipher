@@ -22,7 +22,7 @@ It is an advanced symmetric encryption algorithm that can be used on PHP, inspir
 # Usage
 
 ## Folder Encryption/Decryption
-Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) ,[DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
+Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
 require_once "SilverCipher.php";
