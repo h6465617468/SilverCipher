@@ -113,6 +113,8 @@ SilverCipherEraser::Eraser9($file_path);
 SilverCipherEraser::Eraser10($file_path);
 SilverCipherEraser::Eraser11($file_path);
 SilverCipherEraser::Eraser12($file_path);
+SilverCipherEraser::Eraser13($file_path);
+SilverCipherEraser::Eraser14($file_path);
 ```
 ## SilverCipher Hash
 ```php
