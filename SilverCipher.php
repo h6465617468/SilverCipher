@@ -33,7 +33,7 @@ class SilverCipher
     public function setIV($new_iv) {
         $this->iv = $new_iv;
     }
-    public function setAlgorithm($algo) {
+    public function setAlgo($algo) {
         $this->algo = $algo;
     }
     public function generateKey($algo) {
