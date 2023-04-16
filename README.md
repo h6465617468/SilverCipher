@@ -78,7 +78,7 @@ echo $decrypted_text;
 ```
 Output:
 ```
-b�c�Zw���?vA,
+(RAW DATA)
 my secret data
 ```
 ## SilverCipher5 Encryption
