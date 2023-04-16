@@ -28,7 +28,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## Folder Encryption/Decryption
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
-### Example 1
+### Example 1 (Advanced)
 ```php
 // php
 require_once "SilverCipher.php";
@@ -72,7 +72,7 @@ echo $sc->Encrypt($datax);
 echo $sc->Decrypt($datax);
 ```
 ## File Encryption/Decryption
-### Example 1
+### Example 1 (Advanced)
 ```php
 // php
 require_once "SilverCipher.php";
@@ -117,7 +117,7 @@ echo $sc->Encrypt($encrypt_file_path);
 echo $sc->Decrypt($decrypt_file_path);
 ```
 ## Text Encryption/Decryption
-### Example 1
+### Example 1 (Advanced)
 ```php
 // php
 require_once "SilverCipher.php";
