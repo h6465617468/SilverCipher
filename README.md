@@ -70,6 +70,7 @@ echo $sc->Encrypt($datax);
 echo $sc->Decrypt($datax);
 ```
 ## File Encryption/Decryption
+### Example 1
 ```php
 // php
 require_once "SilverCipher.php";
