@@ -103,7 +103,6 @@ class SilverCipher
     }
     public function Decrypt($data, $key=null, $iv=null) {
         if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
-            echo "killed";
             return false;
         }
         $algo=$this->algo;
@@ -127,7 +126,6 @@ class SilverCipher
     }
     public function DecryptFile($data, $key=null, $iv=null) {
         if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
-            echo "killed";
             return false;
         }
         $algo=$this->algo;
@@ -153,7 +151,6 @@ class SilverCipher
     }
     public function DecryptDirectory($data, $key=null, $iv=null) {
         if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
-            echo "killed";
             return false;
         }
         $algo=$this->algo;
