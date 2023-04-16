@@ -37,7 +37,7 @@ $dir = "/path";
 // OR
 // $dir = __DIR__."/path";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
-$ht = new SilverCipher($key,$iv); // key,iv required
+$ht = new SilverCipher($key,$iv); // key and iv required
 // encrypt a folder
 $ht->encrypt_data("folder", null, $algo, $dir);
 // decrypt the encrypted folder
@@ -54,7 +54,7 @@ $iv = "1234567890123456"; // required
 $encrypt_file_path="file_to_encrypt.txt";
 $decrypt_file_path="file_to_encrypt.txt_enc";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
-$ht = new SilverCipher($key,$iv); // key,iv required
+$ht = new SilverCipher($key,$iv); // key and iv required
 // encrypt a file
 $ht->encrypt_data("file", $encrypt_file_path, $algo);
 // decrypt the encrypted file
@@ -70,7 +70,7 @@ $key="my_key"; // required
 $iv = "1234567890123456"; // required
 $plain_text="my secret data";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
-$ht = new SilverCipher($key,$iv); // key,iv required
+$ht = new SilverCipher($key,$iv); // key and iv required
 // encrypt a text
 $encrypted_text = $ht->encrypt_data("text", $plain_text, $algo);
 // decrypt the encrypted text
