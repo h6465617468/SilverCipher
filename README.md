@@ -31,8 +31,8 @@ Encrypts all subfolders and files. Before encrypting, it takes the data and part
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key";
-$iv = "1234567890123456";
+$key="my_key"; // required
+$iv = "1234567890123456"; // required
 $dir = "/path";
 // OR
 // $dir = __DIR__."/path";
@@ -49,8 +49,8 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key";
-$iv = "1234567890123456";
+$key="my_key"; // required
+$iv = "1234567890123456"; // required
 $encrypt_file_path="file_to_encrypt.txt";
 $decrypt_file_path="file_to_encrypt.txt_enc";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
@@ -66,8 +66,8 @@ $ht->decrypt_data("file", $decrypt_file_path, $algo);
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key";
-$iv = "1234567890123456";
+$key="my_key"; // required
+$iv = "1234567890123456"; // required
 $plain_text="my secret data";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
 $ht = new SilverCipher($key,$iv); // key,iv required
