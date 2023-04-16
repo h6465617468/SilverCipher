@@ -29,6 +29,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
 ```php
+// php
 require_once "SilverCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -46,6 +47,7 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 ```
 ## File Encryption/Decryption
 ```php
+// php
 require_once "SilverCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -62,6 +64,7 @@ $ht->decrypt_data("file", $decrypt_file_path, $algo);
 ```
 ## Text Encryption/Decryption
 ```php
+// php
 require_once "SilverCipher.php";
 $key="my_key";
 $iv = "1234567890123456";
@@ -84,6 +87,7 @@ my secret data
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
 ```php
+// php
 require_once "SilverCipher5.php"; // Only uses SilverCipher Encryption Algorithms
 $plain_text = "Hello World"; // Unlimited Text Size
 $key = "123"; // Unlimited Key Size
@@ -103,6 +107,7 @@ Hello World
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
 PHP is unfortunately a high level programming language.
 ```php
+// php
 require_once "SilverCipher.php";
 SilverCipherEraser::Eraser0($file_path); // Best
 SilverCipherEraser::Eraser1($file_path);
@@ -122,6 +127,7 @@ SilverCipherEraser::Eraser14($file_path);
 ```
 ## SilverCipher Hash
 ```php
+// php
 require_once "SilverCipher.php";
 $text="hello world";
 $lenght=1024;
