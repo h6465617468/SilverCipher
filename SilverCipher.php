@@ -188,8 +188,7 @@ class SilverCipher
         if ($type == "folder") {
             if (!is_dir($dir)) {
                 if (!is_dir(__DIR__.$dir)) {
-                    echo "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
-                    return;
+                    return "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
                 } else {
                     $dir = __DIR__.$dir;
                 }
@@ -230,7 +229,7 @@ class SilverCipher
                 file_put_contents($data . "_enc", $encrypted_content);
                 SilverCipherEraser::Eraser14($data);
             } else {
-                echo "Error: The file does not exist!";
+                return "Error: The file does not exist!";
             }
         } else if ($type == "text") {
             $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
@@ -246,8 +245,7 @@ class SilverCipher
         if ($type == "folder") {
             if (!is_dir($dir)) {
                 if (!is_dir(__DIR__.$dir)) {
-                    echo "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
-                    return;
+                    return "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
                 } else {
                     $dir = __DIR__.$dir;
                 }
@@ -275,8 +273,7 @@ class SilverCipher
                             throw new Exception("Failed to decrypt file content");
                         }
                     } catch (Exception $e) {
-                        echo "Error decrypting file $file_path: " . $e->getMessage() . "\n";
-                        continue;
+                        return "Error decrypting file $file_path: " . $e->getMessage() . "\n";
                     }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                     SilverCipherEraser::Eraser14($file_path);
@@ -297,14 +294,12 @@ class SilverCipher
                         throw new Exception("Failed to decrypt file content");
                     }
                 } catch (Exception $e) {
-                    echo "Error decrypting file $data: " . $e->getMessage() . "\n";
-                    return;
+                    return "Error decrypting file $data: " . $e->getMessage() . "\n";
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
                 SilverCipherEraser::Eraser14($data);
             } else {
-                echo "Error: The file does not exist!";
-                return;
+                return "Error: The file does not exist!";
             }
         } else if ($type == "text") {
             if (empty($data)) {
@@ -316,8 +311,7 @@ class SilverCipher
                     throw new Exception("Failed to decrypt content");
                 }
             } catch (Exception $e) {
-                echo "Error decrypting : " . $e->getMessage() . "\n";
-                return;
+                return "Error decrypting : " . $e->getMessage() . "\n";
             }
             return $decrypted_content;
         }
