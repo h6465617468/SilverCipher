@@ -32,7 +32,7 @@ Encrypts all subfolders and files. Before encrypting, it takes the data and part
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key"; // required
+$key="12345678901234561234567890123456"; // required
 $iv = "1234567890123456"; // required
 $dir = "/path";
 // OR
@@ -76,7 +76,7 @@ echo $sc->Decrypt($datax);
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key"; // required
+$key="12345678901234561234567890123456"; // required
 $iv = "1234567890123456"; // required
 $encrypt_file_path="file_to_encrypt.txt";
 $decrypt_file_path="file_to_encrypt.txt_enc";
@@ -121,7 +121,7 @@ echo $sc->Decrypt($decrypt_file_path);
 ```php
 // php
 require_once "SilverCipher.php";
-$key="my_key"; // required
+$key="12345678901234561234567890123456"; // required
 $iv = "1234567890123456"; // required
 $plain_text="my secret data";
 $algo="AES-256-CBC"; // Only uses Vanilla Encryption Algorithms
