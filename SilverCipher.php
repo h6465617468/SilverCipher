@@ -24,7 +24,7 @@ class SilverCipher
     public function add_iv($new_iv) {
         $this->iv = $new_iv;
     }
-    public function add_algo($algo) {
+    public function add_algorithm($algo) {
         $this->algo = $algo;
     }
     public function setKey($new_key) {
