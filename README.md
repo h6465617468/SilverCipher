@@ -117,6 +117,7 @@ echo $sc->Encrypt($encrypt_file_path);
 echo $sc->Decrypt($decrypt_file_path);
 ```
 ## Text Encryption/Decryption
+### Example 1
 ```php
 // php
 require_once "SilverCipher.php";
@@ -137,6 +138,33 @@ Output:
 ```
 (RAW DATA)
 my secret data
+```
+### Example 2 (Easy)
+```php
+require_once "SilverCipher.php";
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+$sc->setAlgorithm("AES-256-CBC");
+$plain_text="Hello World";
+echo $cipher_text=$sc->EncryptText($plain_text);
+echo "<br>";
+echo $sc->DecryptText($cipher_text);
+```
+### Example 3 (Auto)
+```php
+require_once "SilverCipher.php";
+/*
+$sc = new SilverCipher();
+$sc->setKey("12345678901234561234567890123456");
+$sc->setIV("1234567890123456");
+$sc->setAlgorithm("AES-256-CBC");
+*/
+$sc = new SilverCipher("12345678901234561234567890123456","1234567890123456","AES-256-CBC");
+$plain_text="Hello World";
+echo $cipher_text=$sc->Encrypt($plain_text);
+echo "<br>";
+echo $sc->Decrypt($cipher_text);
 ```
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
