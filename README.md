@@ -130,7 +130,7 @@ $ht = new SilverCipher($key,$iv); // key and iv required
 $encrypted_text = $ht->encrypt_data("text", $plain_text, $algo);
 // decrypt the encrypted text
 $decrypted_text = $ht->decrypt_data("text", $encrypted_text, $algo);
-echo base64_encode($encrypted_text);
+echo $encrypted_text;
 echo "<br>";
 echo $decrypted_text;
 ```
