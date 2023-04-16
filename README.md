@@ -87,7 +87,14 @@ $ht = new SilverCipher($key,$iv); // $key,$iv required
 $encrypted_text = $ht->encrypt_data("text", $plain_text, $algo);
 // decrypt the encrypted text
 $decrypted_text = $ht->decrypt_data("text", $encrypted_text, $algo);
-echo $decrypted_text; // output: my secret data
+echo $encrypted_text;
+echo "<br>";
+echo $decrypted_text;
+```
+Output:
+```
+b�c�Zw���?vA,
+my secret data
 ```
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
@@ -104,8 +111,8 @@ echo $decrypted_text;
 ```
 Output:
 ```
-b�c�Zw���?vA,
-my secret data
+e7eApDnSg9VETXiEqyFxGWn6g2RO8S==
+Hello World
 ```
 ## SilverCipher File Shredder
 Operations such as file shredding require data to be written directly into memory areas, and therefore low-level programming languages are better suited for these operations. The use of these languages can increase the processing speed of files and minimize memory usage.
