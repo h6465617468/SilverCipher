@@ -4,20 +4,184 @@ class SilverCipher
 {
     private $iv;
     private $key;
-    public function __construct($key=null, $iv = null) {
+    private $algo;
+    public function __construct($key = null, $iv = null,$algo = "AES-256-CBC") {
+        $this->algo=$algo;
+        if ($key == null || $key == "" || $key == false) {
+            $this->key = $this->generateKey($this->algo);
+        } else {
+            $this->key = $key;
+        }
+        if ($iv == null || $iv == "" || $iv == false) {
+            $this->iv = $this->generateIV($this->algo);
+        } else {
+            $this->iv = $iv;
+        }
+    }
+    public function add_key($new_key) {
+        $this->key = $new_key;
+    }
+    public function add_iv($new_iv) {
+        $this->iv = $new_iv;
+    }
+    public function setKey($new_key) {
+        $this->key = $new_key;
+    }
+    public function setIV($new_iv) {
+        $this->iv = $new_iv;
+    }
+    public function setAlgo($algo) {
+        $this->algo = $algo;
+    }
+    public function generateKey($algo) {
+        if($algo == null || $algo == "" || $algo == false) {
+            $algo=$this->algo;
+        }
+        $keyLength = openssl_cipher_iv_length($algo);
+        $key = openssl_random_pseudo_bytes($keyLength);
         $this->key = $key;
+        return $key;
+    }
+    public function generateIV($algo) {
+        if($algo == null || $algo == "" || $algo == false) {
+            $algo=$this->algo;
+        }
+        $ivLength = openssl_cipher_iv_length($algo);
+        $iv = openssl_random_pseudo_bytes($ivLength);
         $this->iv = $iv;
+        return $iv;
+    }
+    public function testKey($key) {
+        if ($key == null || $key == "" || $key == false) {
+            if($this->key == null || $this->key == "" || $this->key == false) {
+                $this->generateKey($this->algo);
+            }
+        } else {
+            $this->key = $key;
+        }
+    }
+    public function testIV($iv) {
+        if ($iv == null || $iv == "" || $iv == false) {
+            if ($this->iv == null || $this->iv == "" || $this->iv == false) {
+                $this->generateIV($this->algo);
+            }
+        } else {
+            $this->iv = $iv;
+        }
+    }
+    public function nullkillKey($key) {
+        if ($key == null || $key == "" || $key == false) {
+            if($this->key == null || $this->key == "" || $this->key == false) {
+                return false;
+            }
+        }else {
+            $this->key = $key;
+        }
+        return true;
+    }
+    public function nullkillIV($iv) {
+        if ($iv == null || $iv == "" || $iv == false) {
+            if($this->iv == null || $this->iv == "" || $this->iv == false) {
+                return false;
+            }
+        }else {
+            $this->iv = $iv;
+        }
+        return true;
+    }
+    public function Encrypt($data, $key=null, $iv=null) {
+        $this->testKey($key);
+        $this->testIV($key);
+        $algo=$this->algo;
+        if(is_dir($data) || is_dir(__DIR__.$data)) {
+            return $this->encrypt_data("folder", null, $algo, $data);
+        } else if(file_exists($data)) {
+            return $this->encrypt_data("file", $data, $algo);
+        } else {
+            return base64_encode($this->encrypt_data("text", $data, $algo));
+        }
+    }
+    public function Decrypt($data, $key=null, $iv=null) {
+        if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
+            echo "killed";
+            return false;
+        }
+        $algo=$this->algo;
+        if(is_dir($data) || is_dir(__DIR__.$data)) {
+            return $this->decrypt_data("folder", null, $algo, $data);
+        } else if(file_exists($data)) {
+            return $this->decrypt_data("file", $data, $algo);
+        } else {
+            return $this->decrypt_data("text", base64_decode($data), $algo);
+        }
+    }
+    public function EncryptFile($data, $key=null, $iv=null) {
+        $this->testKey($key);
+        $this->testIV($key);
+        $algo=$this->algo;
+        if(file_exists($data)) {
+            return $this->encrypt_data("file", $data, $algo);
+        } else {
+            return false;
+        }
+    }
+    public function DecryptFile($data, $key=null, $iv=null) {
+        if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
+            echo "killed";
+            return false;
+        }
+        $algo=$this->algo;
+        if(file_exists($data)) {
+            return $this->decrypt_data("file", $data, $algo);
+        } else {
+            return false;
+        }
+    }
+    public function EncryptDirectory($data, $key=null, $iv=null) {
+        $this->testKey($key);
+        $this->testIV($key);
+        $algo=$this->algo;
+        if(is_dir($data)) {
+            return $this->encrypt_data("folder", null, $algo, $data);
+        } else {
+            if(is_dir(__DIR__.$data)) {
+                return $this->encrypt_data("folder", null, $algo, __DIR__.$data);
+            } else {
+                return false;
+            }
+        }
+    }
+    public function DecryptDirectory($data, $key=null, $iv=null) {
+        if($this->nullkillKey($key)!=true || $this->nullkillIV($iv)!=true){
+            echo "killed";
+            return false;
+        }
+        $algo=$this->algo;
+        if(is_dir($data)) {
+            return $this->decrypt_data("folder", null, $algo, $data);
+        } else {
+            if(is_dir(__DIR__.$data)) {
+                return $this->decrypt_data("folder", null, $algo, __DIR__.$data);
+            } else {
+                return false;
+            }
+        }
     }
     public function encrypt_data($type, $data, $algorithm, $dir = null) {
+        if($algorithm == null || $algorithm == "" || $algorithm == false) {
+            $algorithm=$this->algo;
+        }
         $options = OPENSSL_RAW_DATA;
-
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'".$dir."'";
-                return;
+                if (!is_dir(__DIR__.$dir)) {
+                    echo "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
+                    return;
+                } else {
+                    $dir = __DIR__.$dir;
+                }
             }
             $files = array_diff(scandir($dir), array('.', '..'));
-
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
 
@@ -32,12 +196,12 @@ class SilverCipher
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser0($file_path);
+                        SilverCipherEraser::Eraser14($file_path);
                         continue;
                     }
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     file_put_contents($file_path . "_enc", $encrypted_content);
-                    SilverCipherEraser::Eraser0($file_path);
+                    SilverCipherEraser::Eraser14($file_path);
                 }
             }
         }else if ($type == "file") {
@@ -46,12 +210,12 @@ class SilverCipher
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser0($data);
+                    SilverCipherEraser::Eraser14($data);
                     return;
                 }
                 $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                 file_put_contents($data . "_enc", $encrypted_content);
-                SilverCipherEraser::Eraser0($data);
+                SilverCipherEraser::Eraser14($data);
             } else {
                 echo "Error: The file does not exist!";
             }
@@ -59,19 +223,23 @@ class SilverCipher
             $encrypted_content = openssl_encrypt($data, $algorithm, $this->key, $options, $this->iv);
             return $encrypted_content;
         }
-
-        return null;
+        return true;
     }
     public function decrypt_data($type, $data, $algorithm, $dir=null) {
+        if($algorithm == null || $algorithm == "" || $algorithm == false) {
+            $algorithm=$this->algo;
+        }
         $options = OPENSSL_RAW_DATA;
-
         if ($type == "folder") {
             if (!is_dir($dir)) {
-                echo "Error: The directory does not exist! Change __DIR__.'".$dir."'";
-                return;
+                if (!is_dir(__DIR__.$dir)) {
+                    echo "Error: The directory does not exist! __DIR__".$dir." and ".$dir;
+                    return;
+                } else {
+                    $dir = __DIR__.$dir;
+                }
             }
             $files = array_diff(scandir($dir), array('.', '..'));
-
             foreach ($files as $file) {
                 $file_path = $dir . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($file_path)) {
@@ -84,7 +252,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($data, 0, -4), "");
-                        SilverCipherEraser::Eraser0($data);
+                        SilverCipherEraser::Eraser14($data);
                         continue;
                     }
                     try {
@@ -97,7 +265,7 @@ class SilverCipher
                         continue;
                     }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
-                    SilverCipherEraser::Eraser0($file_path);
+                    SilverCipherEraser::Eraser14($file_path);
                 }
             }
         } else if ($type == "file") {
@@ -105,7 +273,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
-                    SilverCipherEraser::Eraser0($data);
+                    SilverCipherEraser::Eraser14($data);
                     return;
                 }
                 try {
@@ -118,7 +286,7 @@ class SilverCipher
                     return;
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
-                SilverCipherEraser::Eraser0($data);
+                SilverCipherEraser::Eraser14($data);
             } else {
                 echo "Error: The file does not exist!";
                 return;
@@ -130,7 +298,7 @@ class SilverCipher
             try {
                 $decrypted_content = openssl_decrypt($data, $algorithm, $this->key, $options, $this->iv);
                 if ($decrypted_content === false) {
-                    throw new Exception("Failed to decrypt file content");
+                    throw new Exception("Failed to decrypt content");
                 }
             } catch (Exception $e) {
                 echo "Error decrypting : " . $e->getMessage() . "\n";
@@ -138,11 +306,7 @@ class SilverCipher
             }
             return $decrypted_content;
         }
-
-        return null;
-    }
-    public function add_key($new_key) {
-        $this->key = $new_key;
+        return true;
     }
     public static function Hash($b, $length=1024)
     {
@@ -185,7 +349,7 @@ class SilverCipher
 }
 class SilverCipherEraser
 {
-public static function Eraser0($filename){$filesize=filesize($filename);for($k=0;$k<1;$k++){$pattern=pack("H*","FF");$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);$pattern=pack("H*","00");$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"),pack("H*","11"),pack("H*","22"),pack("H*","33"),pack("H*","44"),pack("H*","55"),pack("H*","66"),pack("H*","77"),pack("H*","88"),pack("H*","99"),pack("H*","AA"),pack("H*","BB"),pack("H*","CC"),pack("H*","DD"),pack("H*","EE"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);}$patterns=array(pack("H*","55"),pack("H*","AA"),pack("H*","92"),pack("H*","49"),pack("H*","24"),pack("H*","12"),pack("H*","09"),pack("H*","49"),pack("H*","24"),pack("H*","12"),pack("H*","09"),pack("H*","6D"),pack("H*","B6"),pack("H*","DB"),pack("H*","6D"),pack("H*","B6"),pack("H*","DB"),pack("H*","FF"),pack("H*","00"),pack("H*","11"),pack("H*","22"),pack("H*","33"),pack("H*","44"),pack("H*","55"),pack("H*","66"),pack("H*","77"),pack("H*","88"),pack("H*","99"),pack("H*","AA"),pack("H*","BB"),pack("H*","CC"),pack("H*","DD"),pack("H*","EE"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<35;$i++){fwrite($handle,$pattern);}fclose($handle);}$pattern=openssl_random_pseudo_bytes($filesize);$handle=fopen($filename,'w');fwrite($handle,$pattern);fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern,$filesize-$i-1);}fclose($handle);}$key=openssl_random_pseudo_bytes(32);$iv=openssl_random_pseudo_bytes(16);$plaintext=file_get_contents($filename);$ciphertext=openssl_encrypt($plaintext,"AES-256-CBC",$key,OPENSSL_RAW_DATA,$iv);$handle=fopen($filename,'w');fwrite($handle,$ciphertext);fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i+=2){fwrite($handle,$pattern);}fclose($handle);$handle=fopen($filename,'r+');for($i=1;$i<$filesize;$i+=2){fwrite($handle,$pattern);}fclose($handle);}}unlink($filename);}
+public static function Eraser0($filename){$filesize=filesize($filename);for($k=0;$k<1;$k++){$pattern=pack("H*","FF");$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);$pattern=pack("H*","00");$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"),pack("H*","11"),pack("H*","22"),pack("H*","33"),pack("H*","44"),pack("H*","55"),pack("H*","66"),pack("H*","77"),pack("H*","88"),pack("H*","99"),pack("H*","AA"),pack("H*","BB"),pack("H*","CC"),pack("H*","DD"),pack("H*","EE"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}fclose($handle);}$patterns=array(pack("H*","55"),pack("H*","AA"),pack("H*","92"),pack("H*","49"),pack("H*","24"),pack("H*","12"),pack("H*","09"),pack("H*","49"),pack("H*","24"),pack("H*","12"),pack("H*","09"),pack("H*","6D"),pack("H*","B6"),pack("H*","DB"),pack("H*","6D"),pack("H*","B6"),pack("H*","DB"),pack("H*","FF"),pack("H*","00"),pack("H*","11"),pack("H*","22"),pack("H*","33"),pack("H*","44"),pack("H*","55"),pack("H*","66"),pack("H*","77"),pack("H*","88"),pack("H*","99"),pack("H*","AA"),pack("H*","BB"),pack("H*","CC"),pack("H*","DD"),pack("H*","EE"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<5;$i++){fwrite($handle,$pattern);}fclose($handle);}$pattern=openssl_random_pseudo_bytes($filesize);$handle=fopen($filename,'w');fwrite($handle,$pattern);fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern);}for($i=0;$i<$filesize;$i++){fwrite($handle,$pattern,$filesize-$i-1);}fclose($handle);}$key=openssl_random_pseudo_bytes(32);$iv=openssl_random_pseudo_bytes(16);$plaintext=file_get_contents($filename);$ciphertext=openssl_encrypt($plaintext,"AES-256-CBC",$key,OPENSSL_RAW_DATA,$iv);$handle=fopen($filename,'w');fwrite($handle,$ciphertext);fclose($handle);$patterns=array(pack("H*","00"),pack("H*","FF"));foreach($patterns as $pattern){$handle=fopen($filename,'r+');for($i=0;$i<$filesize;$i+=2){fwrite($handle,$pattern);}fclose($handle);$handle=fopen($filename,'r+');for($i=1;$i<$filesize;$i+=2){fwrite($handle,$pattern);}fclose($handle);}}unlink($filename);}
 public static function Eraser1($filename){if(!file_exists($filename)){return false;}$file=fopen($filename,"w");for($i=0;$i<35;$i++){$data='';for($j=0;$j<filesize($filename);$j++){$data.=chr(mt_rand(0,255));}fwrite($file,$data);fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\x00");fflush($file);fseek($file,0);}for($i=0;$i<filesize($filename);$i++){fwrite($file,"\xFF");fflush($file);fseek($file,0);}fclose($file);unlink($filename);}
 public static function Eraser2($filename){if(!file_exists($filename)){return false;}$size=filesize($filename);if(!$size||!is_writable($filename)){return false;}$patterns=array("\x00\xFF","\xFF\x00","\x55\xAA","\xAA\x55","\x92\x49","\x49\x92","\x24\x92","\x92\x24","\x6D\xB6","\xB6\x6D","\xDB\xDB","\x6D\xB6","\xFF\xFF","\x00\x00","\x11\x11","\x22\x22","\x33\x33","\x44\x44","\x55\x55","\x66\x66","\x77\x77","\x88\x88","\x99\x99","\xAA\xAA","\xBB\xBB","\xCC\xCC","\xDD\xDD","\xEE\xEE","\xFF\xFF","\x00\x00","\x00\x00","\xFF\xFF","\xAA\xAA","\x55\x55","\x00\x00","\xFF\xFF","\x00\x00","\xFF\xFF","\x55\x55","\xAA\xAA","\xFF\xFF","\x00\x00","\xAA\xAA","\x55\x55","\xFF\xFF","\x00\x00","\x55\x55","\xAA\xAA");$pattern_count=count($patterns);for($i=0;$i<5;$i++){$pattern=$patterns[$i%$pattern_count];$handle=fopen($filename,"w");for($j=0;$j<$size;$j+=strlen($pattern)){fwrite($handle,$pattern,strlen($pattern));}fclose($handle);}unlink($filename);return true;}
 public static function Eraser3($file_path){if(!file_exists($file_path)){return false;}$file_handle=fopen($file_path,'r+');$file_size=filesize($file_path);for($i=0;$i<$file_size;$i++){fwrite($file_handle,chr(0));}$half_file_size=intval($file_size/2);for($i=0;$i<3;$i++){fseek($file_handle,0);for($j=0;$j<$half_file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fseek($file_handle,$half_file_size);for($i=0;$i<3;$i++){for($j=$half_file_size;$j<$file_size;$j++){$rand_num=rand(0,255);fwrite($file_handle,chr($rand_num));}}fclose($file_handle);unlink($file_path);}
