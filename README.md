@@ -46,7 +46,7 @@ $ht->decrypt_data("folder", null, $algo, $dir);
 // Note: All files in the folder will be encrypted and saved with '_enc' suffix.
 // The decrypted files will have the same name as the encrypted files without the '_enc' suffix.
 ```
-### Example 2
+### Example 2 (Easy)
 ```php
 require_once "SilverCipher.php";
 $sc = new SilverCipher();
@@ -56,7 +56,7 @@ $datax = "/path";
 echo $sc->EncryptDirectory($datax);
 echo $sc->DecryptDirectory($datax);
 ```
-### Example 3
+### Example 3 (Auto)
 ```php
 require_once "SilverCipher.php";
 /*
@@ -87,7 +87,7 @@ $ht->decrypt_data("file", $decrypt_file_path, $algo);
 // Note: The encrypted file will be saved as 'file_to_encrypt.txt_enc'
 // and the decrypted file will be saved as 'file_to_encrypt.txt'
 ```
-### Example 2
+### Example 2 (Easy)
 ```php
 require_once "SilverCipher.php";
 $sc = new SilverCipher();
@@ -98,7 +98,7 @@ $decrypt_file_path="file_to_encrypt.txt_enc";
 echo $sc->EncryptFile($encrypt_file_path);
 echo $sc->DecryptFile($decrypt_file_path);
 ```
-### Example 3
+### Example 3 (Auto)
 ```php
 require_once "SilverCipher.php";
 /*
