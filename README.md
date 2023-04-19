@@ -3,15 +3,16 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 This project is written using PHP and Javascript programming language.
 
-| Name | Folder Encryption | File Encryption | Text Encryption | File Shredder | Type | Security |
-| --- | --- | --- | --- | --- | --- | --- |
-| SilverCipher Tool | Yes | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High |
-| SilverCipher5 Cryptography | - | - | Yes | - | Symetric | Very High |
+| Name | Folder Encryption | File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SilverCipher Tool | Yes | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
+| SilverCipher5 Cryptography | - | - | Yes | - | Symetric | Very High | No |
+| SilverCipherMini Cryptography | - | - | Yes | - | Symetric/Block | Sufficient | Yes |
 
 | Type | Supported Encryption Algorithms |
 | --- | --- |
 | Vanilla | AES-128-CBC, AES-128-CFB, AES-128-CTR, AES-128-ECB, AES-128-OFB, AES-192-CBC, AES-192-CFB, AES-192-CTR, AES-192-ECB, AES-192-OFB, AES-256-CBC, AES-256-CFB, AES-256-CTR, AES-256-ECB, AES-256-OFB, BF-CBC, BF-CFB, BF-ECB, BF-OFB, CAMELLIA-128-CBC, CAMELLIA-128-CFB, CAMELLIA-128-CTR, CAMELLIA-128-ECB, CAMELLIA-128-OFB, CAMELLIA-192-CBC, CAMELLIA-192-CFB, CAMELLIA-192-CTR, CAMELLIA-192-ECB, CAMELLIA-192-OFB, CAMELLIA-256-CBC, CAMELLIA-256-CFB, CAMELLIA-256-CTR, CAMELLIA-256-ECB, CAMELLIA-256-OFB, CAST5-CBC, CAST5-CFB, CAST5-ECB, CAST5-OFB, CHACHA20, CHACHA20-POLY1305, DES-CBC, DES-CFB, DES-CFB1, DES-CFB8, DES-ECB, DES-EDE, DES-EDE-CBC, DES-EDE-CFB, DES-EDE-OFB, DES-EDE3, DES-EDE3-CBC, DES-EDE3-CFB, DES-EDE3-OFB, DES-OFB, IDEA-CBC, IDEA-CFB, IDEA-ECB, IDEA-OFB, RC2-40-CBC, RC2-64-CBC, RC2-CBC, RC2-CFB, RC2-ECB, RC2-OFB, RC4, RC4-40, SEED-CBC, SEED-CFB, SEED-CTR, SEED-ECB, SEED-OFB |
-| SilverCipher | SilverCipher1, SilverCipher2, SilverCipher3, SilverCipher4, SilverCipher5 |
+| SilverCipher | SilverCipherMini(JS,PHP), SilverCipher1, SilverCipher2, SilverCipher3, SilverCipher4, SilverCipher5 |
 | AntaresCrypt | AntaresCryptv1.0, AntaresCryptv1.1, AntaresCryptv1.2, AntaresCryptv1.3, AntaresCryptv1.4, AntaresCryptv1.5, AntaresCryptv1.6, AntaresCryptv1.7, AntaresCrypt X7500roundedition |
 
 ## Description
@@ -165,6 +166,34 @@ $plain_text="Hello World";
 echo $cipher_text=$sc->Encrypt($plain_text);
 echo "<br>";
 echo $sc->Decrypt($cipher_text);
+```
+## SilverCipherMini Encryption Javascript and PHP
+Javascript
+```html
+<script src="SilverCipherMini.js"></script>
+```
+```javascript
+const cipher = new SilverCipherMini("123");
+const encryptedText = cipher.Encrypt("123");
+const decryptedText = cipher.Decrypt(encryptedText);
+document.write("Encrypted: "+encryptedText);
+document.write("<br>");
+document.write("Decrypted: "+decryptedText);
+```
+PHP
+```php
+require_once "SilverCipherMini.php";
+$plain_text="123";
+$key="123";
+echo "Plain Text:<br>".$plain_text."<br><br>";
+echo "<br><br>";
+echo "Example SilverCipherMini Encrypted Text<br>";
+$ht = new SilverCipherMini($key);
+echo "Encrypted Text:<br>";
+echo $encrypted_text=$ht->Encrypt($plain_text);
+echo "<br><br>";
+echo "Decrypted Text:<br>";
+echo $decrypted_text=$ht->Decrypt($encrypted_text);
 ```
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
