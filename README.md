@@ -186,8 +186,6 @@ require_once "SilverCipherMini.php";
 $plain_text="123";
 $key="123";
 echo "Plain Text:<br>".$plain_text."<br><br>";
-echo "<br><br>";
-echo "Example SilverCipherMini Encrypted Text<br>";
 $ht = new SilverCipherMini($key);
 echo "Encrypted Text:<br>";
 echo $encrypted_text=$ht->Encrypt($plain_text);
