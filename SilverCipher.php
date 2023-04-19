@@ -205,28 +205,28 @@ class SilverCipher
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
+                    $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                    file_put_contents($file_path . "_enc", $encrypted_content);
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
                         SilverCipherEraser::Eraser14($file_path);
                         continue;
                     }
-                    $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-                    file_put_contents($file_path . "_enc", $encrypted_content);
                     SilverCipherEraser::Eraser14($file_path);
                 }
             }
         }else if ($type == "file") {
             if(file_exists($data) && substr($data, -4) !== "_enc"){
                 $file_content = file_get_contents($data);
+                $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
+                file_put_contents($data . "_enc", $encrypted_content);
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
                     SilverCipherEraser::Eraser14($data);
                     return true;
                 }
-                $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
-                file_put_contents($data . "_enc", $encrypted_content);
                 SilverCipherEraser::Eraser14($data);
             } else {
                 return "Error: The file does not exist!";
@@ -261,12 +261,6 @@ class SilverCipher
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
-                    if (empty($file_content)) {
-                        file_put_contents(substr($data, 0, -4), "");
-                        file_put_contents($data, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser14($data);
-                        continue;
-                    }
                     try {
                         $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                         if ($decrypted_content === false) {
@@ -276,18 +270,18 @@ class SilverCipher
                         return "Error decrypting file $file_path: " . $e->getMessage() . "\n";
                     }
                     file_put_contents(substr($file_path, 0, -4), $decrypted_content);
+                    if (empty($file_content)) {
+                        file_put_contents(substr($data, 0, -4), "");
+                        file_put_contents($data, openssl_random_pseudo_bytes(32));
+                        SilverCipherEraser::Eraser14($data);
+                        continue;
+                    }
                     SilverCipherEraser::Eraser14($file_path);
                 }
             }
         } else if ($type == "file") {
             if(file_exists($data)){
                 $file_content = file_get_contents($data);
-                if (empty($file_content)) {
-                    file_put_contents(substr($data, 0, -4), "");
-                    file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser14($data);
-                    return true;
-                }
                 try {
                     $decrypted_content = openssl_decrypt($file_content, $algorithm, $this->key, $options, $this->iv);
                     if ($decrypted_content === false) {
@@ -297,6 +291,12 @@ class SilverCipher
                     return "Error decrypting file $data: " . $e->getMessage() . "\n";
                 }
                 file_put_contents(substr($data, 0, -4), $decrypted_content);
+                if (empty($file_content)) {
+                    file_put_contents(substr($data, 0, -4), "");
+                    file_put_contents($data, openssl_random_pseudo_bytes(32));
+                    SilverCipherEraser::Eraser14($data);
+                    return true;
+                }
                 SilverCipherEraser::Eraser14($data);
             } else {
                 return "Error: The file does not exist!";
