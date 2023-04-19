@@ -109,17 +109,14 @@ class SilverCipherMini {
     return hexString;
   }
   Encrypt(e) {
-    console.log(e.length);
     let a = this.key;
     let f = this.settingsgenerator(this.adler32(a).toString(CryptoJS.enc.Hex));
-    //console.log(f);
     let g = e.match(/.{1,256}/g);
     let b="";
     let c="";
     var aHash = CryptoJS.SHA512(a).toString(CryptoJS.enc.Hex);
     g.forEach((h) => {
       c = this.Enc(h, aHash, f);
-      //console.log("EH-MAIN:"+c[1]);
       aHash = CryptoJS.SHA512(aHash + c[1]).toString(CryptoJS.enc.Hex);
       b = b + c[0] + ":";
     });
@@ -130,7 +127,6 @@ class SilverCipherMini {
   Decrypt(f) {
     let a = this.key;
     let g = this.settingsgenerator(this.adler32(a).toString(CryptoJS.enc.Hex));
-    //console.log(g);
     let b = f.toString().split(":");
     let c = "";
     let i = b.length;
@@ -138,7 +134,6 @@ class SilverCipherMini {
     a = CryptoJS.SHA512(a).toString(CryptoJS.enc.Hex);
     for (var j = 0; j < i; j++) {
       d = this.Dec(b[j], a, g);
-      //console.log("DH-MAIN:"+d[1]);
       a = CryptoJS.SHA512(a + d[1]).toString(CryptoJS.enc.Hex);
       c += d[0];
     }
@@ -154,7 +149,6 @@ class SilverCipherMini {
       b = CryptoJS.SHA512(b).toString(CryptoJS.enc.Hex);
       a += d[0] + ".";
       e += d[1];
-      //console.log("E-D1:"+d[1]);
     }
     var j = e;
     c = CryptoJS.SHA512(c).toString(CryptoJS.enc.Hex);
@@ -175,9 +169,7 @@ class SilverCipherMini {
       b = CryptoJS.SHA512(b).toString(CryptoJS.enc.Hex);
       a += c[0];
       d += c[1];
-      console.log("D-C0:"+c[0]);
     }
-    //console.log("TEST:"+d);
     var j = d;
     return [a, j];
   }
@@ -190,21 +182,15 @@ class SilverCipherMini {
     var p = this.hex2bin(this.E_hex_1(d));
     var m = this.XOREncrypt(k, p);
     var g = this.hashtoXcode(d);
-    //console.log(k,p,m,g);
     
     if (v == "e") {
-      //console.log("ENC Start:" + n);
       n = this.StringTouint8Array(n);
       var b = this.XOREncrypt(n, m);
-      //console.log("1. XOR: " + b);
       b = this.XOREncrypt(b, this.XOREncrypt(k, m));
-      //console.log("2. XOR: " + b);
       b = this.bin2hex(b);
-      //console.log("bin2hex: " + b);
       for (var o = 1; o <= 10; o++) {
         b = this.E_hex_1(b);
       }
-      console.log("E-HEX1B: " + b);
       var i = d;
       var a = 0;
       var c = '';
@@ -229,40 +215,25 @@ class SilverCipherMini {
         }
         a++;
       }, this);
-      console.log("EncC: " + c);
-      console.log("EncH: " + h);
       var s = h;
       var l = '';
       var f = '';
       c = this.E_hex_1(c);
-      //console.log("E-HEX1: " + c);
       var e = this.hex2bin(c);
-      //console.log("HEX2BIN: " + this.bin2hex(e));
-      //console.log("K-Q XOR:" + this.bin2hex(this.XOREncrypt(k, q)));
       e = this.XOREncrypt(e, this.XOREncrypt(k, q));
-      //console.log("SXOR1: " + this.bin2hex(e));
       e = this.XOREncrypt(e, k);
-      //console.log("SXOR2: " + this.bin2hex(e));
       j='';
-      console.log("J START"+this.bin2hex(e)+"J END");
       j = this.base64_encode(e);
       var t = j.replace(/=/g, '');
-      //console.log("ENC END B64: " + t);
     }else {
         if (v === "d") {
           n = n.trim();
           c = n;
-          //console.log("DEC START: " + n);
           b = this.base64_decode(c);
-          //console.log("UNI8ARRAY B64 DEC: " + b);
           b = this.XORDecrypt(b, k);
-          //console.log("DXOR2: " + b);
           b = this.XORDecrypt(b, this.XOREncrypt(k, q));
-          //console.log("DXOR1: " + b);
           e = this.bin2hex(b);
-          //console.log("BIN2HEX: " + e);
           e = this.D_hex_1(e);
-          //console.log("D-HEX1: " + e);
           l=[];
           for (let i = 0; i < e.length; i+=2) {
             l.push(e.substring(i, i+2));
@@ -289,35 +260,23 @@ class SilverCipherMini {
             c += u;
             r += h;
           },this);
-          //console.log("C: " + c);
-          //console.log("H,(R): " + r);
           s = r;
-          //console.log("S");
-          //console.log(s);
           l = '';
           f = '';
           for (let o = 1; o <= 10; o++) {
             c = this.D_hex_1(c.toString());
           }
           var j='';
-          //console.log("D-HEX1B: " + c);
           j = this.hex2bin(c);
-          //console.log("hex2bin: " + j);
           j = this.XORDecrypt(j, this.XOREncrypt(k, m));
-          //console.log("2. XOR: " + j);
           j = this.XORDecrypt(j, m);
-          //console.log("1. XOR: " + j);
           if (j === "") {
             exit;
           }
           j=this.uint8ArrayToString(j);
-          //console.log("DEC END:" + n);
           var t = j;
         }
       }
-      //console.log("S-"+s);
-      console.log("T1:");
-      console.log(t);
       return [t, s];
     }
      encrypt_key(a, c) {
@@ -389,8 +348,6 @@ class SilverCipherMini {
           return this.XOREncrypt(data, key);
         }
      E_death_round(a, c, d) {
-      console.log("B64?");
-      console.log(a);
         a = a.toString().split("").reverse().join("");
         let f = c.trim().toString().split("");
         let b, e, result;
