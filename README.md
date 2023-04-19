@@ -180,6 +180,11 @@ document.write("Encrypted: "+encryptedText);
 document.write("<br>");
 document.write("Decrypted: "+decryptedText);
 ```
+Output:
+```
+Encrypted: A0KCtSEs
+Decrypted: 123
+```
 PHP
 ```php
 require_once "SilverCipherMini.php";
@@ -192,6 +197,15 @@ echo $encrypted_text=$ht->Encrypt($plain_text);
 echo "<br><br>";
 echo "Decrypted Text:<br>";
 echo $decrypted_text=$ht->Decrypt($encrypted_text);
+```
+Output:
+```
+Plain Text:
+123
+Encrypted Text:
+A0KCtSEs
+Decrypted Text:
+123
 ```
 ## SilverCipher5 Encryption
 #### [ Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
