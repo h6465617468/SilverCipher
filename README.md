@@ -1,7 +1,7 @@
 # SilverCipher
 Complex library of folder, file and text encryption and unique encryption algorithm
 
-This project is written using PHP programming language.
+This project is written using PHP and Javascript programming language.
 
 | Name | Folder Encryption | File Encryption | Text Encryption | File Shredder | Type | Security |
 | --- | --- | --- | --- | --- | --- | --- |
