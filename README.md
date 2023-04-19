@@ -22,7 +22,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ### Download SilverCipher
 ### [ Latest Version SilverCipher](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher.php)
 ### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher5.php)
-### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/SilverCipherMini.js)
+### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/js/SilverCipherMini.min.js)
 #### Download Other Unique Encryption Algorithm Library
 #### [SilverCipher4](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher1.php)
 # Usage
