@@ -170,9 +170,14 @@ echo "<br>";
 echo $sc->Decrypt($cipher_text);
 ```
 ## SilverCipherMini Encryption Javascript and PHP
-Html
+HTML
 ```html
 <script src="SilverCipherMini.js"></script>
+```
+Dynamically load a JS file in JavaScript
+```javascript
+function loadJS(e,t=!0){let o=document.createElement("script");o.setAttribute("src",e),o.setAttribute("type","text/javascript"),o.setAttribute("async",t),document.body.appendChild(o),o.addEventListener("load",()=>{console.log("File loaded")}),o.addEventListener("error",e=>{console.log("Error on loading file",e)})}
+loadJS("SilverCipherMini.js", false);  // async false
 ```
 Javascript
 ```javascript
