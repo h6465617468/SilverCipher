@@ -29,7 +29,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## Folder Encryption/Decryption
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
-If it can't find the folder, it automatically adds  _ ___DIR____ and checks the folder again.
+If it can't find the folder, it automatically adds  _ ___DIR___ _ and checks the folder again.
 ### Example 1 (Advanced)
 ```php
 // php
