@@ -6,8 +6,8 @@ This project is written using PHP and Javascript programming language.
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
 | --- | --- | --- | --- | --- | --- | --- |
 | SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
-| SilverCipher5 Cryptography | - | Yes | - | Symetric | Very High | No |
-| SilverCipherMini Cryptography | - | Yes | - | Symetric/Block | Sufficient | Yes |
+| SilverCipher5 Cryptography | Available | Yes | - | Symetric | Very High | No |
+| SilverCipherMini Cryptography | Available | Yes | - | Symetric/Block | Sufficient | Yes |
 
 | Type | Supported Encryption Algorithms |
 | --- | --- |
