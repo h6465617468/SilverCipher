@@ -170,10 +170,11 @@ echo "<br>";
 echo $sc->Decrypt($cipher_text);
 ```
 ## SilverCipherMini Encryption Javascript and PHP
-Javascript
+Html
 ```html
 <script src="SilverCipherMini.js"></script>
 ```
+Javascript
 ```javascript
 const cipher = new SilverCipherMini("123");
 const encryptedText = cipher.Encrypt("123");
