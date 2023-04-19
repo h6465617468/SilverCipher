@@ -177,7 +177,7 @@ HTML
 ```
 Dynamically load a JS file in JavaScript
 ```javascript
-const loadScript=function(r){return new Promise(function(n,t){const e=document.createElement("script");e.src=r,e.addEventListener("load",function(){n(!0)}),document.head.appendChild(e)})},waterfall=function(n){return n.reduce(function(n,t){return n.then(function(){return t().then(function(n){return!0})})},Promise.resolve([]))},loadScriptsInOrder=function(n){n=n.map(function(n){return loadScript(n)});return waterfall(n)};
+const loadScript=function(r){return new Promise(function(n,e){const t=document.createElement("script");t.src=r,t.addEventListener("load",function(){n(!0)}),document.head.appendChild(t)})},waterfall=function(n){return n.reduce(function(n,e){return n.then(function(){return"function"==typeof e?e().then(function(n){return!0}):Promise.resolve(e)})},Promise.resolve([]))},loadScriptsInOrder=function(n){n=n.map(function(n){return loadScript(n)});return waterfall(n)};
 loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', 'SilverCipherMini.js']).then(function () {
     // All scripts are loaded completely
     // Do something
