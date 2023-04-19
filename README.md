@@ -177,9 +177,10 @@ HTML
 ```
 Dynamically load a JS file in JavaScript
 ```javascript
-function loadJS(e,t=!0){let o=document.createElement("script");o.setAttribute("src",e),o.setAttribute("type","text/javascript"),o.setAttribute("async",t),document.body.appendChild(o),o.addEventListener("load",()=>{console.log("File loaded")}),o.addEventListener("error",e=>{console.log("Error on loading file",e)})}
-loadJS("https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js", false);  // async false
-loadJS("SilverCipherMini.js", false);  // async false
+function loadScript(s){return new Promise(function(o,n){let c=document.createElement("script");c.src=s,c.async=!1,c.onload=function(){o(s)},c.onerror=function(){n(s)},document.body.appendChild(c)})}let scripts=["https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js","SilverCipherMini.js"],promises=[];scripts.forEach(function(o){promises.push(loadScript(o))}),Promise.all(promises).then(function(){
+ // code
+
+}).catch(function(o){console.log(o+" failed to load")});
 ```
 Javascript
 ```javascript
