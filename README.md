@@ -172,11 +172,13 @@ echo $sc->Decrypt($cipher_text);
 ## SilverCipherMini Encryption Javascript and PHP
 HTML
 ```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script src="SilverCipherMini.js"></script>
 ```
 Dynamically load a JS file in JavaScript
 ```javascript
 function loadJS(e,t=!0){let o=document.createElement("script");o.setAttribute("src",e),o.setAttribute("type","text/javascript"),o.setAttribute("async",t),document.body.appendChild(o),o.addEventListener("load",()=>{console.log("File loaded")}),o.addEventListener("error",e=>{console.log("Error on loading file",e)})}
+loadJS("https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js", false);  // async false
 loadJS("SilverCipherMini.js", false);  // async false
 ```
 Javascript
