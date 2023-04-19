@@ -4,6 +4,7 @@ require_once "SilverCipher4.php";
 require_once "SilverCipher3.php";
 require_once "SilverCipher2.php";
 require_once "SilverCipher1.php";
+require_once "SilverCipherMini.php";
 $plain_text="Hello World Test 123456789ABC";
 $key="Hello World123456789";
 echo "Plain Text:<br>".$plain_text."<br><br>";
@@ -26,6 +27,10 @@ echo $encrypted_text=$ht->Encrypt($plain_text);
 echo "<br><br>";
 echo "Example SilverCipher5 Encrypted Text(5)<br>";
 $ht = new SilverCipher5($key); // Best
+echo $encrypted_text=$ht->Encrypt($plain_text);
+echo "<br><br>";
+echo "Example SilverCipherMini Encrypted Text(6)<br>";
+$ht = new SilverCipherMini($key);
 echo $encrypted_text=$ht->Encrypt($plain_text);
 echo "<br><br>";
 echo "Decrypted Text:<br>";
