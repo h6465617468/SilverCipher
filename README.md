@@ -3,11 +3,11 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 This project is written using PHP and Javascript programming language.
 
-| Name | Folder Encryption | File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| SilverCipher Tool | Yes | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
-| SilverCipher5 Cryptography | - | - | Yes | - | Symetric | Very High | No |
-| SilverCipherMini Cryptography | - | - | Yes | - | Symetric/Block | Sufficient | Yes |
+| Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
+| --- | --- | --- | --- | --- | --- | --- |
+| SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
+| SilverCipher5 Cryptography | - | Yes | - | Symetric | Very High | No |
+| SilverCipherMini Cryptography | - | Yes | - | Symetric/Block | Sufficient | Yes |
 
 | Type | Supported Encryption Algorithms |
 | --- | --- |
