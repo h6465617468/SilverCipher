@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SilverCipherMini Encryption Tool</title>
         <link rel="shortcut icon" href="icon.jpg" />
-        <style>*{color:grey;}</style>
+        <style>*{color:grey;} .imgx {height:400px;width:100%;max-width:400px;}</style>
         <script src="js/crypto-js.min.js"></script>
         <script src="js/SilverCipherMini.min.js"></script>
 
@@ -32,7 +32,7 @@
                 Text&nbsp;</label></label><br>
                 <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala');kopyala.select();document.execCommand('copy');}});</script>
                 <input type="button" value="Copy" id="k" style="width:200px;height:42;background-color:#3e3938;color:#dd674a;border:1px solid black;"><br>   
-                <textarea name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required></textarea><br><x style='visibility:hidden;'>AntaresCrypt</x><br>
+                <textarea name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required></textarea><br><label id="encdectime"></label><br><x style='visibility:hidden;'>SilverCipherMini</x><br>
                 <label>
                 Password&nbsp;</label>
                 <br>
@@ -51,15 +51,15 @@
 <div class="row slideanim">
 <div class="col-sm-6">
 <h3 style="color:#dd674a;display:block;">TEXT - QR - CODE</h3>
-            <a style="display:block;" id='textqr' target="_blank" href="" title="Link to Google.com">
-                <img id='textqrimg' style="height:400px;width:100%;max-width:400px;" src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=&choe=UTF-8" title="Link to Google.com" />
+            <a id='textqr' target="_blank" style="display:block;margin:0 auto;text-align:center;" href="" title="Link to Google.com">
+                <img id='textqrimg' class="imgx" src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=&choe=UTF-8" title="Link to Google.com" />
             </a>
 </div>
 <div class="col-sm-6">
 <h3 style="color:#dd674a;display:block;">PASS - QR - CODE</h3>
 
-            <a style="display:block;" id='keyqr' target="_blank" href="" title="Link to Google.com">
-                <img id="keyqrimg" style="height:400px;width:100%;max-width:400px;" src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=&choe=UTF-8" title="Link to Google.com" />
+            <a id='keyqr' target="_blank" style="display:block;margin:0 auto;text-align:center;" href="" title="Link to Google.com">
+                <img id="keyqrimg" class="imgx" src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=&choe=UTF-8" title="Link to Google.com" />
             </a>
 
 </div>
@@ -83,24 +83,56 @@
                 var key = $('textarea[name="key"]').val();
                 var toenctext = $('textarea[name="data"]').val();
                 var cipher = new SilverCipherMini(key);
-                var encryptedData = cipher.Encrypt(toenctext);
+                var dt123 = new Date();var timeaaa=-(dt123.getTime());
+                var encryptedData;
+                new Promise((resolve)=>{resolve();}).then( ()=>{
+                encryptedData = cipher.Encrypt(toenctext);
+                }).finally(() => {
+                var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(encryptedData);
-                $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(encryptedData)+"&choe=UTF-8");
-                $('#keyqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
-                $('#textqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(encryptedData)+"&choe=UTF-8");
+                if(encryptedData.length<2954){
+                    $('#textqrimg').attr("style","visibility:visible!important");
+                    $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(encryptedData)+"&choe=UTF-8");
+                    $('#textqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(encryptedData)+"&choe=UTF-8");
+                } else {
+                    $('#textqrimg').attr("style","visibility:hidden!important");
+                }
+                if(key.length<2954){
+                    $('#keyqrimg').attr("style","visibility:visible!important");
                 $('#keyqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
+                $('#keyqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
+                } else {
+                    $('#keyqrimg').attr("style","visibility:hidden!important");
+                }
+                });
             });
             $('#dec').on('click', function() {
                 // DeŞifrelenecek veri
                 var key = $('textarea[name="key"]').val();
                 var todectext = $('textarea[name="data"]').val();
                 var cipher = new SilverCipherMini(key);
-                var decryptedText = cipher.Decrypt(todectext);
+                var dt123 = new Date();var timeaaa=-(dt123.getTime());
+                var decryptedText;
+                new Promise((resolve)=>{resolve();}).then( ()=>{
+                decryptedText = cipher.Decrypt(todectext);
+                }).finally(() => {
+                var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(decryptedText);
-                $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(decryptedText)+"&choe=UTF-8");
-                $('#keyqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
-                $('#textqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(decryptedText)+"&choe=UTF-8");
-                $('#keyqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
+                if(decryptedText.length<2954){
+                    $('#textqrimg').attr("style","visibility:visible!important");
+                    $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(decryptedText)+"&choe=UTF-8");
+                    $('#textqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(decryptedText)+"&choe=UTF-8");
+                } else {
+                    $('#textqrimg').attr("style","visibility:hidden!important");
+                }
+                if(key.length<2954){
+                    $('#keyqrimg').attr("style","visibility:visible!important");
+                    $('#keyqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
+                    $('#keyqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
+                } else {
+                    $('#keyqrimg').attr("style","visibility:hidden!important");
+                }
+                });
             });
             });
         </script>
