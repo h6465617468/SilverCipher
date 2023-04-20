@@ -5,8 +5,12 @@ class SilverCipher
     private $iv;
     private $key;
     private $algo;
-    public function __construct($key = null, $iv = null,$algo = "AES-256-CBC") {
-        $this->algo=$algo;
+    public function __construct($key = null, $iv = null,$algo = null) {
+        if ($algo == null || $algo == "" || $algo == false) {
+            $this->algo = "AES-256-CBC";
+        } else {
+            $this->algo = $algo;
+        }
         if ($key == null || $key == "" || $key == false) {
             $this->key = $this->generateKey($this->algo);
         } else {
