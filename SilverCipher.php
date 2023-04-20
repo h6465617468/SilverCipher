@@ -267,7 +267,6 @@ class SilverCipher
                         continue;
                     }
                     $file_content = file_get_contents($file_path);
-                    file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                     if (empty($file_content)) {
                         file_put_contents(substr($data, 0, -4), "");
                         file_put_contents($data, openssl_random_pseudo_bytes(32));
@@ -282,6 +281,7 @@ class SilverCipher
                         } catch (Exception $e) {
                             return "Error decrypting file $file_path: " . $e->getMessage() . "\n";
                         }
+                        file_put_contents(substr($file_path, 0, -4), $decrypted_content);
                         SilverCipherEraser::Eraser14($file_path);
                     }
                 }
