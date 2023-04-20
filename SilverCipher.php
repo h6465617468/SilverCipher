@@ -211,7 +211,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
-                        unlink($file_path);
+                        SilverCipherEraser::Eraser12($file_path);
                         continue;
                     } else {
                         $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -225,7 +225,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
-                    unlink($data);
+                    SilverCipherEraser::Eraser12($data);
                     return true;
                 } else {
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -267,7 +267,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($file_path, 0, -4), "");
-                        unlink($file_path);
+                        SilverCipherEraser::Eraser12($file_path);
                         continue;
                     } else {
                         try {
@@ -288,7 +288,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
-                    unlink($data);
+                    SilverCipherEraser::Eraser12($data);
                     return true;
                 } else {
                     try {
