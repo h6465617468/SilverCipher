@@ -211,9 +211,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents($file_path . "_enc","");
-                        file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser9($file_path);
-                        echo "123";
+                        unlink($file_path);
                         continue;
                     } else {
                         $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -227,8 +225,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents($data . "_enc","");
-                    file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser9($data);
+                    unlink($data);
                     return true;
                 } else {
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -270,8 +267,7 @@ class SilverCipher
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
                         file_put_contents(substr($file_path, 0, -4), "");
-                        file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser9($file_path);
+                        unlink($file_path);
                         continue;
                     } else {
                         try {
@@ -292,8 +288,7 @@ class SilverCipher
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
                     file_put_contents(substr($data, 0, -4), "");
-                    file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser9($data);
+                    unlink($data);
                     return true;
                 } else {
                     try {
