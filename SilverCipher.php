@@ -210,9 +210,10 @@ class SilverCipher
                     }
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
-                        touch($file_path . "_enc");
+                        file_put_contents($file_path . "_enc","");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser14($file_path);
+                        SilverCipherEraser::Eraser9($file_path);
+                        echo "123";
                         continue;
                     } else {
                         $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -225,9 +226,9 @@ class SilverCipher
             if(file_exists($data) && substr($data, -4) !== "_enc"){
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
-                    touch($data . "_enc");
+                    file_put_contents($data . "_enc","");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser14($data);
+                    SilverCipherEraser::Eraser9($data);
                     return true;
                 } else {
                     $encrypted_content = openssl_encrypt($file_content, $algorithm, $this->key, $options, $this->iv);
@@ -268,9 +269,9 @@ class SilverCipher
                     }
                     $file_content = file_get_contents($file_path);
                     if (empty($file_content)) {
-                        touch(substr($file_path, 0, -4));
+                        file_put_contents(substr($file_path, 0, -4), "");
                         file_put_contents($file_path, openssl_random_pseudo_bytes(32));
-                        SilverCipherEraser::Eraser14($file_path);
+                        SilverCipherEraser::Eraser9($file_path);
                         continue;
                     } else {
                         try {
@@ -290,9 +291,9 @@ class SilverCipher
             if(file_exists($data)){
                 $file_content = file_get_contents($data);
                 if (empty($file_content)) {
-                    touch(substr($data, 0, -4));
+                    file_put_contents(substr($data, 0, -4), "");
                     file_put_contents($data, openssl_random_pseudo_bytes(32));
-                    SilverCipherEraser::Eraser14($data);
+                    SilverCipherEraser::Eraser9($data);
                     return true;
                 } else {
                     try {
