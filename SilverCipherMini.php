@@ -100,7 +100,6 @@ class SilverCiphermini
         foreach ($h as $i) {
             $d = self::Crypt($i, "e", $b);
             $b = hash("sha512", $b);
-            //echo "FlushX değeri:".$i."<br>";
             $a = $a . $d[0] . ".";
             $e = $e . $d[1];
         }
@@ -139,18 +138,13 @@ class SilverCiphermini
         $m = self::XOREncrypt($k, $p);
         $g = self::hashtoXcode($d);
         if ($v == "e") {
-            //echo "ENC Start:" . $n . "\n";
             $n = self::StringTouint8Array($n);
             $b = self::XOREncrypt($n, $m);
-            //echo "1. XOR: " . self::uint8ArrayToHex($b) . "\n";
             $b = self::XOREncrypt($b, self::XOREncrypt($k, $m));
-            //echo "2. XOR: " . self::uint8ArrayToHex($b) . "\n";
             $b = self::uint8ArrayToHex($b);
-            //echo "bin2hex: " . $b . "\n";
             for ($o = 1; $o <= 10; $o++) {
             $b = self::E_hex_1($b);
             }
-            //echo "E-HEX1B: " . $b . "\n";
             $i = $d;
             $a = 0;
             $c = '';
@@ -175,39 +169,24 @@ class SilverCiphermini
             }
             $a++;
             }
-            //echo "EncC: " . $c . "\n";
-            //echo "EncH: " . $h . "\n";
             $s = $h;
             $l = '';
             $f = '';
             $c = self::E_hex_1($c);
-            //echo "E-HEX1: " . $c . "\n";
             $e = self::hexToUint8Array($c);
-            //echo "HEX2BIN: " . self::uint8ArrayToHex($e) . "\n";
-            //echo "K-Q XOR: " . self::uint8ArrayToHex(self::XOREncrypt($k, $q)) . "\n";
             $e = self::XOREncrypt($e, self::XOREncrypt($k, $q));
-            //echo "SXOR1: " . self::uint8ArrayToHex($e) . "\n";
             $e = self::XOREncrypt($e, $k);
-            //echo "SXOR2: " . self::uint8ArrayToHex($e) . "\n";
             $j = self::uni8array_base64_encode($e);
             $t = str_replace("=", "", $j);
-            //$t=$j;
-            //echo "ENC END B64: " . $t . "\n";
         } else {
             if ($v == "d") {
                 $n = trim($n);
                 $c = $n;
-                //echo "DEC START: " . $n . "<br>";
                 $b = self::uni8array_base64_decode($c);
-                //echo "UNI8ARRAY B64 DEC: " . self::uint8ArrayToHex($b) . "<br>";
                 $b = self::XORDecrypt($b, $k);
-                //echo "DXOR2: " . self::uint8ArrayToHex($b) . "<br>";
                 $b = self::XORDecrypt($b, self::XOREncrypt($k, $q));
-                //echo "DXOR1: " . self::uint8ArrayToHex($b) . "<br>";
                 $e = self::uint8ArrayToHex($b);
-                //echo "BIN2HEX: " . $e . "<br>";
                 $e = self::D_hex_1($e);
-                //echo "D-HEX1: " . $e . "<br>";
                 $l = array();
                 for ($i = 0; $i < strlen($e); $i += 2) {
                 array_push($l, substr($e, $i, 2));
@@ -234,26 +213,19 @@ class SilverCiphermini
                 $c .= $u;
                 $r .= $h;
                 }
-                //echo "C: " . $c . "<br>";
-                //echo "H,(R): " . $r . "<br>";
                 $s = $r;
                 $l = '';
                 $f = '';
                 for ($o = 1; $o <= 10; $o++) {
                 $c = self::D_hex_1($c);
                 }
-                //echo "D-HEX1B: " . $c . "<br>";
                 $j = self::hexToUint8Array($c);
-                //echo "hex2bin: " . self::uint8ArrayToHex($j) . "<br>";
                 $j = self::XORDecrypt($j, self::XOREncrypt($k, $m));
-                //echo "2. XOR: " . self::uint8ArrayToHex($j) . "<br>";
                 $j = self::XORDecrypt($j, $m);
-                //echo "1. XOR: " . self::uint8ArrayToHex($j) . "<br>";
                 if ($j === "") {
                 exit;
                 }
                 $j = self::uint8ArrayToString($j);
-                //echo "DEC END:" . $n . "<br>";
                 $t = $j;
             }
         }
