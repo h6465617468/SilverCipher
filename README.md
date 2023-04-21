@@ -19,15 +19,15 @@ This project is written using PHP and Javascript programming language.
 SilverCipher has Folder, File and Text encryption options. While encrypting Folder and File, it takes the data, shreds the original file, then creates a file to write the encrypted data. Its original encryption algorithm, SilverCipher5, is inspired by the AES and XOR encryption algorithm. You can take an example to design your own encryption algorithm by looking at the source code. It gives different results each time. It is very hard to crack as it consumes a lot of processing power when encrypting, contains many different encryption methods, and has a lot of loops. It is in no way affected by the Brute Force attack. According to the length of the data to be encrypted, the encryption time and the difficulty of cracking the increase abnormally.
 
 # Demo
-## [ Online Encryption Tool](https://eenonde.github.io/SilverCipher/)
+## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/)
 
 # Setup
 ### Download SilverCipher
-### [ Latest Version SilverCipher](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher.php)
-### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher5.php)
-### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/eenonde/SilverCipher/blob/main/js/SilverCipherMini.min.js)
+### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
+### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
+### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
 #### Download Other Unique Encryption Algorithm Library
-#### [SilverCipher4](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/eenonde/SilverCipher/blob/main/SilverCipher1.php)
+#### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher1.php)
 # Usage
 
 ## Folder Encryption/Decryption
@@ -224,7 +224,7 @@ Decrypted Text:
 123
 ```
 ## SilverCipher5 Encryption
-#### [ Download Encryption Tool](https://github.com/eenonde/SilverCipher/blob/main/encryption_tool.php)
+#### [ Download Encryption Tool](https://github.com/h6465617468/SilverCipher/blob/main/encryption_tool.php)
 ```php
 // php
 require_once "SilverCipher5.php"; // Only uses SilverCipher Encryption Algorithms
