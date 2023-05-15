@@ -151,6 +151,25 @@ input[type="file"]::after {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+/* a elementinin stilini belirle */
+a {
+  /* metin rengini beyaz yap */
+  color: white;
+  /* arka plan rengini koyu gri yap */
+  background-color: #333;
+  /* kenar boşluklarını ayarla */
+  padding: 8px 12px;
+  /* kenar yuvarlaklığını ayarla */
+  border-radius: 4px;
+  /* metin dekorasyonunu kaldır */
+  text-decoration: none;
+}
+
+/* a elementinin üzerine gelindiğinde stilini belirle */
+a:hover {
+  /* arka plan rengini açık gri yap */
+  background-color: #555;
+}
 </style>
 <!--CSS END-->
 
@@ -209,8 +228,9 @@ input[type="file"]::after {
           <p style="margin-top:10px;margin-bottom:10px;">SİMETRİK ŞİFRELEME OLARAK SCM KULLANILIR XOR TABANLI HASH HARİTASI KULLANARAK HEX DEĞERLERİNDE İŞLEME YAPAN ŞİFRELEME KULLANIR.</p>
           <p style="margin-bottom:10px;">ASİMETRİK ŞİFRELEME OLARAK RSA KULLANIR BİT DEĞERİNE GÖRE MATEMATİKSEL ZORLUĞU ARTAN ŞİFRELEME KULLANIR.</p>
           <p>İMZALAMA OLARAK RSA KULLANIR. GÜVENLİK SEBEBİYLE İMZA ŞİFRELENMİŞ VERİNİN İÇİNDE JSON FORMATINDA GÖNDERİLİR.</p>
-          <hr></hr>
+          <p>PROJE AÇIK KAYNAK KODLUDUR.</p>
           <p><a href="https://github.com/h6465617468/SilverCipher/blob/main/index.html">Source Codes</a></p>
+          <br><br>
 
 
 
