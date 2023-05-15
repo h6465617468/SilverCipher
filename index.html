@@ -619,6 +619,7 @@ dosya.addEventListener("change", function() {
 var config_shield = document.getElementById("config_shield").value;
 if(config_shield == "" || config_shield == null){
     alert("Ayar Koruma Anahtarı Zorunlu");
+    dosya.value = "";
     return;
 }
   // seçilen ilk dosyayı al
