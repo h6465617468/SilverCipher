@@ -172,6 +172,53 @@ a:hover {
   /* arka plan rengini açık gri yap */
   background-color: #555;
 }
+/* seçim elementinin kenarlığı ve arka plan rengi */
+select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  min-width: 300px;
+  width: 100%;
+  max-width: 644px;
+  height: 50px;
+  border: 2px solid #007bff; /* mavi kenarlık */
+  font-size: 24px;
+  background-color: #eee; /* gri arka plan */
+  position: relative; /* pozisyonu göreli yap */
+}
+
+/* seçim elementinin üzerine geldiğinde veya tıkladığında arka plan rengi ve kenarlığı */
+select:hover {
+  background-color: #ddd; /* açık gri arka plan */
+}
+
+select:focus {
+  border-color: #004080; /* koyu mavi kenarlık */
+}
+
+/* seçim elementinin sağ tarafına bir ok simgesi eklemek */
+select::after {
+  content: "▼"; /* ok karakteri */
+  position: absolute; /* pozisyonu mutlak yap */
+  right: 10px; /* sağa hizala */
+  top: 50%; /* ortala */
+  transform: translateY(-50%); /* ortala */
+}
+
+/* seçeneklerin yazı tipi, yazı boyutu ve yazı rengi */
+option {
+  font-family: Roboto, sans-serif; /* Roboto yazı tipi */
+  font-size: 18px; /* 18px yazı boyutu */
+  color: #000; /* siyah yazı rengi */
+}
+
+/* seçilen seçeneğin arka plan rengi ve yazı rengi */
+option:checked {
+  background-color: #0f0; /* yeşil arka plan */
+  color: #fff; /* beyaz yazı rengi */
+}
+
 </style>
 <!--CSS END-->
 
@@ -182,7 +229,13 @@ a:hover {
             
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SCM-RSA Hybrid Encryption</h1>
           <input type="password" id="ortak" class="container" style="border-radius: 15px;margin-bottom:10px;" placeholder="🔑 Ortak Anahtar" autocomplete="off">
-
+          <div style="text-align: center;overflow: none!important;">
+            <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px; border:2px solid #007bff;font-size:24px;border-radius: 15px;">
+            <option value="1" style="color:gray;">Mode SIGN-MIX (Slow)</option>
+            <option value="2" selected style="color:green;">Mode Flex-Dual (Fast)</option>
+            </select>
+          </div>
+          <br>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;">Şifrelenmiş RSA Mesajı</h1>
           <textarea id="arkadasinin_sifreli_mesaji" class="container" style="border-radius:0!important;" autocomplete="off" placeholder="Şifrelenmiş RSA Mesajı..."></textarea>
           <div style="text-align: center;"><button type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;" onclick="friend_decrypt_encrypted_message()">🔓 Mesajı Oku</button></div>
@@ -313,6 +366,28 @@ a:hover {
 
 <!--SCRIPTS-->
 <script>
+function changeText_JS(value) {
+  // seçim elementini bul
+  var select = document.getElementById("rsamode");
+  // seçim elementinin seçili seçeneğini bul
+  var selectedOption = select.options[select.selectedIndex];
+  // seçim elementinin tüm seçeneklerini döngüye sok
+  for (var i = 0; i < select.options.length; i++) {
+    // seçeneğin değeri ve metnini al
+    var option = select.options[i];
+    var optionValue = option.value;
+    var optionText = option.text;
+    // değer ve metni eşleşirse metni değiştir
+    if (optionValue == value) {
+      select.value = value;
+      select.text = optionText;
+    }
+  }
+}
+
+
+
+var select = document.getElementById("rsamode");
 function kopyala4() {
   var textarea = document.getElementById("bizim_private_keyimiz");
   textarea.select(); // metni seç
@@ -521,14 +596,68 @@ function encryptData(cache_x_RSA,key,myprivate){
             if (isSignatureValid) {
             decryptedData += Base64.decode(plaintext);
             } else {
-            throw new Error("Invalid signature!");
+              return "";
+            /*throw new Error("Invalid signature!");*/
             }
             delete signature, plaintext;
             });
             } catch (e) {
-            //throw new Error("Decryption failed! " + e.message);
+              return "";
+            /*throw new Error("Decryption failed! " + e.message);*/
             }
             return decryptedData;
+            }
+  function encryptData_FLEXMODE(cache_x_RSA,key,myprivate)
+  {
+    var cache_signp="";
+    var sava1sf = "";
+    try {
+      var crypt123123123 = new JSEncrypt();
+    crypt123123123.setPrivateKey(myprivate.trim());
+    cache_signp=crypt123123123.sign(cache_x_RSA, CryptoJS.SHA256, "sha256");
+    var cache_109=str_splitx(cache_x_RSA,128);
+    // döngüdeki son elemanın indeksini bul
+    var lastIndex = cache_109.length - 1;
+    cache_109.forEach(function(data5, index) {
+      var crypt = new JSEncrypt();
+      crypt.setPublicKey(key.trim());
+      var hjd = Base64.encode(crypt.encrypt(data5));
+      // eğer son eleman ise # eklemeyi atla
+      if (index == lastIndex) {
+        sava1sf=sava1sf+hjd;
+      } else {
+        sava1sf=sava1sf+hjd+"#";
+      }
+    });
+
+    } catch (e) {return "";}
+    return sava1sf+"#"+cache_signp;
+  }
+          function decryptData_FLEXMODE(encryptedData, myprivate, key) {
+            var asdasdasd="";
+            try {
+// encryptedData değerini # ile böl
+var parts = encryptedData.split("#");
+// son parçayı signature değerine ata
+var signature = parts.pop();
+            
+parts.forEach(function(data10) {
+            var crypt = new JSEncrypt();
+            crypt.setPrivateKey(myprivate.trim());
+            var decryptedData1 = crypt.decrypt(Base64.decode(data10));
+            asdasdasd=asdasdasd+decryptedData1;
+            delete decryptedData1;
+            });
+            var crypt123123123 = new JSEncrypt();
+            crypt123123123.setPublicKey(key.trim());
+            var isSignatureValid = crypt123123123.verify(asdasdasd, signature, CryptoJS.SHA256);
+            if (isSignatureValid) {
+            } else {
+           return "";
+            }
+          } catch (e) {return "";}
+
+            return asdasdasd;
             }
 
     function friend_sent_encrypted_message() {
@@ -545,8 +674,15 @@ function encryptData(cache_x_RSA,key,myprivate){
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
         var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
         var encrypted="";
+        var e = document.getElementById("rsamode"); // seçim elementini bul
+        var text = e.value; // seçilen seçeneğin metnini al
+
         try {
-        encrypted = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
+        if(text=="1"){
+          encrypted = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
+        }else if(text=="2"){
+          encrypted = encryptData_FLEXMODE(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
+        }
         encrypted = cipher.Encrypt(encrypted);
         } catch (err) {
         // hata yakalama kodu
@@ -569,9 +705,15 @@ function encryptData(cache_x_RSA,key,myprivate){
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
         var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
         var encrypted="";
+        var e = document.getElementById("rsamode"); // seçim elementini bul
+        var text = e.value; // seçilen seçeneğin metnini al
         try {
         arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
-        encrypted = decryptData(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
+        if(text=="1"){
+          encrypted = decryptData(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
+        }else if(text=="2"){
+          encrypted = decryptData_FLEXMODE(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
+        }
         } catch (err) {
         // hata yakalama kodu
         alert("hata");
@@ -591,11 +733,14 @@ var bizim_public_keyimiz = document.getElementById("bizim_public_keyimiz").value
 var bizim_private_keyimiz = document.getElementById("bizim_private_keyimiz").value.trim();
 var key = CryptoJS.SHA256(config_shield).toString(CryptoJS.enc.Hex);
 var iv = CryptoJS.MD5(config_shield).toString(CryptoJS.enc.Hex);
+var e = document.getElementById("rsamode"); // seçim elementini bul
+var rsa_mode = e.value; // seçilen seçeneğin metnini al
 var ayarlar = {
   "targetpublic": encrypt_1(key,iv,target_public_key),
   "mypublic": encrypt_1(key,iv,bizim_public_keyimiz),
   "myprivate": encrypt_1(key,iv,bizim_private_keyimiz),
-  "ortak_anahtar": encrypt_1(key,iv,ortak_anahtar)
+  "ortak_anahtar": encrypt_1(key,iv,ortak_anahtar),
+  "rsa_mode": encrypt_1(key,iv,rsa_mode)
 };
 
 // ayarlar.json dosyasını oluşturmak için
@@ -632,19 +777,22 @@ if(config_shield == "" || config_shield == null){
     var target_cache_public="";
     var mypublic_cache="";
     var myprivate_cache="";
+    var rsa_mode = "2";
     // okunan veriyi JSON olarak parse et
     var ayarlar = JSON.parse(this.result);
     // ayarları konsola yazdır
     var asdas1 = document.getElementById("target_public_key");
     var asdas2 = document.getElementById("bizim_public_keyimiz");
     var asdas3 = document.getElementById("bizim_private_keyimiz");
+    var e = document.getElementById("rsamode"); // seçim elementini bul
     var key = CryptoJS.SHA256(config_shield).toString(CryptoJS.enc.Hex);
     var iv = CryptoJS.MD5(config_shield).toString(CryptoJS.enc.Hex);
     try {
-        var target_cache_public = decrypt_1(key,iv,ayarlar.targetpublic);
-        var mypublic_cache = decrypt_1(key,iv,ayarlar.mypublic);
-        var myprivate_cache = decrypt_1(key,iv,ayarlar.myprivate);
+        target_cache_public = decrypt_1(key,iv,ayarlar.targetpublic);
+        mypublic_cache = decrypt_1(key,iv,ayarlar.mypublic);
+        myprivate_cache = decrypt_1(key,iv,ayarlar.myprivate);
         ortak_anahtar = decrypt_1(key,iv,ayarlar.ortak_anahtar);
+        rsa_mode = decrypt_1(key,iv,ayarlar.rsa_mode);
     } catch (err) {
         // hata yakalama kodu
         alert("hata");
@@ -654,6 +802,7 @@ if(config_shield == "" || config_shield == null){
     asdas1.value = target_cache_public;
     asdas2.value = mypublic_cache;
     asdas3.value = myprivate_cache;
+    changeText_JS(rsa_mode);
     var asdas = document.getElementById("config_shield");
     asdas.value = "";
     if(ortak_anahtar != "" && ortak_anahtar != null){
