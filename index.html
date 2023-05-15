@@ -647,6 +647,8 @@ if(config_shield == "" || config_shield == null){
     } catch (err) {
         // hata yakalama kodu
         alert("hata");
+        dosya.value = "";
+        return false;
     }
     asdas1.value = target_cache_public;
     asdas2.value = mypublic_cache;
@@ -657,6 +659,7 @@ if(config_shield == "" || config_shield == null){
         var asdasx = document.getElementById("ortak");
         asdasx.value = ortak_anahtar;
     }
+    dosya.value = "";
     alert("İşlem Tamamlandı");
   };
   // dosyayı okumaya başla
