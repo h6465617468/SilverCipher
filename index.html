@@ -1,10 +1,9 @@
 <html>
     <head>
-        <link rel="icon" href="">
+        <link rel="icon" href="icon.jpg">
         <meta charset="utf-8">
         <title>SCM-RSA HYBRID</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <meta http-equiv="pragma" content="no-cache">
         <meta name="subject" content="">
         <meta name="description" content="">
         <Meta name="Classification" content="">
@@ -32,9 +31,12 @@
     opacity:0.9;
   }
   body {
+    /*
     background: white url("images/pexels-mnm-zameer-3308588.jpg") no-repeat center / cover;
-    background-repeat: no-repeat; /* arkaplan resmini tekrarlama */
-    background-attachment: fixed; /* arkaplan resmini sabit tut */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    */
+    background: #f0f0f0;
   }
     .a1 {
       white-space: break-word; /* divin içindeki elementlerin alt satıra geçmesini engelle */
@@ -44,17 +46,20 @@
  width: 100%; /* sabit bir genişlik */
  max-width: 644px; /* sabit bir genişlik */
  height: 150px;
- border: 2px solid #007bff;
+ border: none; /* kenarlığı kaldır */
  outline: none;
  padding: 10px;
  font-size: 18px;
  font-family: Roboto, sans-serif;
  resize: none;
- box-shadow: 0 4px 8px rgba(0,0,0,0.1);
- background: white;
- color: black;
+ background: #f0f0f0; /* arkaplan rengini açık gri yap */
+ color: #333333; /* yazı rengini koyu gri yap */
  margin: 10px auto; /* divleri sayfada ortalamak için */
  display: block; /* textarea'yı blok element yap */
+ /*box-shadow: inset 0 -1px 0 #92979B, inset 0 1px 0 #92979B;*/ /* içe doğru 1px kalınlığında gri bir çizgi hem altta hem üstte olsun */
+ box-shadow: inset 0 -1px 0 #92979B, inset 0 1px 0 #92979B, inset -1px 0 0 #92979B, inset 1px 0 0 #92979B; /* içe doğru 1px kalınlığında gri bir çizgi her yönde olsun */
+
+
  
  }
  input {
@@ -62,17 +67,18 @@
  width: 100%; /* sabit bir genişlik */
  max-width: 640px; /* sabit bir genişlik */
  height: 50px; /* istediğiniz yükseklik */
- border: 2px solid #007bff;
+ border: none; /* kenarlığı kaldır */
  outline: none;
  padding: 10px;
  font-size: 18px;
  font-family: Roboto, sans-serif;
  resize: none;
- box-shadow: 0 4px 8px rgba(0,0,0,0.1);
- background: white;
- color: black;
+ box-shadow: none; /* gölgeyi kaldır */
+ background: #f0f0f0; /* arkaplan rengini açık gri yap */
+ color: #333333; /* yazı rengini koyu gri yap */
  margin: 10px auto; /* divleri sayfada ortalamak için */
  display: block; /* input'u blok element yap */
+ box-shadow: inset 0 -1px 0 #92979B; /* içe doğru 1px kalınlığında gri bir çizgi olsun */
  }
 
 
@@ -85,28 +91,28 @@
  font-weight: bold;
  text-align: center;
  /*text-transform: uppercase;*/
- color: white;
- text-shadow: 0 0 10px rgba(0,0,0,0.5);
- background: linear-gradient(to right, #007bff, #00a8ff);
+ color: #F4A15D;
+ text-shadow: none; /* gölgeyi kaldır */
+ background: #f0f0f0; /* arkaplan rengini açık gri yap */
  padding: 10px;
- border: 2px solid #007bff;
  border-radius: 8px;
- box-shadow: 0 0 20px rgba(0,0,0,0.2);
+ box-shadow:none; /* gölgeyi kaldır */
  margin: 10px auto; /* h1'i sayfada ortalamak için */
  display: block; /* h1'i blok element yap */
  }
 
+
  button {
  min-width: 100px;
  height: 80px;
- border: 2px solid #007bff;
+ border: none; /* kenarlığı kaldır */
  outline: none;
  padding: 10px;
  font-size: 22px;
  font-family: Roboto, sans-serif;
- box-shadow: 0 4px 8px rgba(0,0,0,0.1);
- background: linear-gradient(to right, #007bff, #00a8ff);
- color: white;
+ box-shadow: none; /* gölgeyi kaldır */
+ background: #f0f0f0; /* arkaplan rengini açık gri yap */
+ color: #333333; /* yazı rengini koyu gri yap */
  margin: 0 auto; /* divleri sayfada ortalamak için */
  display: inline-block; /* textarea'yı blok element yap */
  transition: all 0.3s; /* düzgün bir geçiş için */
@@ -124,22 +130,24 @@
  }
 
 
-p {
+
+ p {
  min-width: 100px;
  width:96%;
  max-width: 620px; /* sabit bir genişlik */
- font-size: 36px;
- font-family: Arial, sans-serif;
+ font-size: 28px;
+ font-family: Roboto, sans-serif; /* Roboto yazı tipi */
  font-weight: bold;
  text-align: center;
  /*text-transform: uppercase;*/
- color: white;
- text-shadow: 0 0 10px rgba(0,0,0,0.5);
+ color: #333333; /* yazı rengini koyu gri yap */
+ text-shadow: none; /* gölgeyi kaldır */
  padding: 10px;
- box-shadow: 0 0 20px rgba(0,0,0,0.2);
+ box-shadow: none; /* gölgeyi kaldır */
  display: block; /* p'yi blok element yap */
  margin:0 auto;
  }
+
 /* dosya seçme butonunu gizle */
 input[type="file"]::file-selector-button {
   display: none;
@@ -175,49 +183,50 @@ a:hover {
 }
 /* seçim elementinin kenarlığı ve arka plan rengi */
 select {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  min-width: 300px;
-  width: 100%;
-  max-width: 644px;
-  height: 50px;
-  border: 2px solid #007bff; /* mavi kenarlık */
-  font-size: 24px;
-  background-color: #eee; /* gri arka plan */
-  position: relative; /* pozisyonu göreli yap */
+ -webkit-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+ min-width: 300px;
+ width: 100%;
+ max-width: 644px;
+ height: 50px;
+ border: none; /* kenarlığı kaldır */
+ font-size: 24px;
+ background-color: #f0f0f0; /* arka plan rengini açık gri yap */
+ position: relative; /* pozisyonu göreli yap */
 }
 
 /* seçim elementinin üzerine geldiğinde veya tıkladığında arka plan rengi ve kenarlığı */
 select:hover {
-  background-color: #ddd; /* açık gri arka plan */
+ background-color: #e0e0e0; /* daha açık gri arka plan */
 }
 
 select:focus {
-  border-color: #004080; /* koyu mavi kenarlık */
+ border-color: none; /* kenarlık rengini kaldır */
 }
 
 /* seçim elementinin sağ tarafına bir ok simgesi eklemek */
 select::after {
-  content: "▼"; /* ok karakteri */
-  position: absolute; /* pozisyonu mutlak yap */
-  right: 10px; /* sağa hizala */
-  top: 50%; /* ortala */
-  transform: translateY(-50%); /* ortala */
+ content: "▼"; /* ok karakteri */
+ position: absolute; /* pozisyonu mutlak yap */
+ right: 10px; /* sağa hizala */
+ top: 50%; /* ortala */
+ transform: translateY(-50%); /* ortala */
+ color: #333333; /* yazı rengini koyu gri yap */
 }
 
 /* seçeneklerin yazı tipi, yazı boyutu ve yazı rengi */
 option {
-  font-family: Roboto, sans-serif; /* Roboto yazı tipi */
-  font-size: 18px; /* 18px yazı boyutu */
-  color: #000; /* siyah yazı rengi */
+ font-family: Roboto, sans-serif; /* Roboto yazı tipi */
+ font-size: 18px; /* 18px yazı boyutu */
+ color: #333333; /* koyu gri yazı rengi */
 }
 
 /* seçilen seçeneğin arka plan rengi ve yazı rengi */
 option:checked {
-  background-color: #0f0; /* yeşil arka plan */
-  color: #fff; /* beyaz yazı rengi */
+ background-color: #f0f0f0; /* arka plan rengini açık gri yap */
+ color: #333333; /* yazı rengini koyu gri yap */
 }
 
 </style>
@@ -229,22 +238,27 @@ option:checked {
         <div class="a1">
             
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SCM-RSA Hybrid Encryption</h1>
-          <input type="password" id="ortak" class="container" style="border-radius: 15px;margin-bottom:10px;" placeholder="🔑 Symmetric Key" autocomplete="off">
+          <input type="password" id="ortak" class="container" style="margin-bottom:10px;" placeholder="🔑 Symmetric Key" autocomplete="off">
           <div style="text-align: center;overflow: none!important;">
-            <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px; border:2px solid #007bff;font-size:24px;border-radius: 15px;">
+            <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
             <option value="1" style="color:gray;">Hybrid SIGN-MIX (Slow)</option>
             <option value="2" selected style="color:green;">Hybrid SIGN-FLEX-DUAL (Fast)</option>
             <option value="3" style="color:gray;">Symmetric SCM-AES (Fast)</option>
             </select>
           </div>
           <br>
+          <!-- //////////////////// -->
+          <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
+
+
+            <div style="flex: 1;">
           <div style="text-align: center;">
               <button type="button" style="
               width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
               "><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↓↓ Load File ↓↓</label></button>
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Decrypt / Verify</h1>
-          <textarea spellcheck="false" id="arkadasinin_sifreli_mesaji" class="container" style="border-radius:0!important;" autocomplete="off" placeholder="Encrypted Message..."></textarea>
+          <textarea spellcheck="false" id="arkadasinin_sifreli_mesaji" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="Encrypted Message..."></textarea>
           <div style="text-align: center;"><button type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_decrypt_encrypted_message()">🔓 Read the message</button></div>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;">
             <button onclick="kopyala0()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
@@ -252,13 +266,14 @@ option:checked {
             <button onclick="clear0()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
             <button onclick="download_dec_messages()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;">Download</button>
            </div>
+          </div><!-- //////////////////// --><div style="flex: 1;">
           <div style="text-align: center;">
               <button onclick="download_enc_messages()" type="button" style="
               width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
               ">↓↓ Download File ↓↓</button>
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Encrypt / Sign</h1>
-          <textarea spellcheck="false" id="sifrelenecek_rsa_mesaji" class="container" style="border-radius:0!important;" autocomplete="off" placeholder="Message to Encrypt..."></textarea>
+          <textarea spellcheck="false" id="sifrelenecek_rsa_mesaji" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="Message to Encrypt..."></textarea>
           <div style="text-align: center;"><button type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_sent_encrypted_message()">🔒 Encrypt Message</button></div>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;">
             <button onclick="kopyala1()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
@@ -266,8 +281,11 @@ option:checked {
             <button onclick="clear1()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
             <button type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;"><input type="file" id="decryptfile" style="display:none;"><label for="decryptfile">Load File</label></button>
           </div>
+        </div>
+         </div>
+         <!-- //////////////////// -->
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Load Config File</h1>
-          <input type="password" id="config_shield" class="container" style="border-radius: 15px;margin-bottom:10px;" placeholder="🔑 Config File Protection Key" autocomplete="off">
+          <input type="password" id="config_shield" class="container" style="margin-bottom:10px;" placeholder="🔑 Config File Protection Key" autocomplete="off">
           <div style="text-align: center;">
           <button onclick="conf_download()" type="button" style="margin-bottom:10px;padding-left:10px;padding-right: 10px;border-radius:15px;">Download Config</button>
           <button type="button" style="margin-bottom:10px;padding-left:10px;padding-right: 10px;border-radius:15px;"><input type="file" id="dosya" accept="application/json" style="display:none;"><label for="dosya">Load Config</label></button>
@@ -278,12 +296,12 @@ option:checked {
              "><input type="file" id="target_public_key_file" style="display:none;"><label for="target_public_key_file">↓↓ Load File ↓↓</label></button>
           </div>
           <h1 class="container" style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Friend's public key</h1>
-          <textarea spellcheck="false" style="border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;margin-bottom:10px;" class="container" id="target_public_key" autocomplete="off" placeholder="🔑 Friend's Public Key..."></textarea>
+          <textarea spellcheck="false" style="border-radius: 15px;margin-bottom:10px;" class="container" id="target_public_key" autocomplete="off" placeholder="🔑 Friend's Public Key..."></textarea>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;">
             <button onclick="kopyala2()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
             <button onclick="yapistir2()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
             <button onclick="clear2()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
-            <button onclick="inject2()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;">INJECT-PEM</button>
+            <button onclick="inject2()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;font-size: 18px;">INJECT-PEM</button>
           </div>
           <div style="text-align: center;">
              <button onclick="download_target_public_key()" type="button" style="
@@ -291,46 +309,52 @@ option:checked {
              ">↑↑ Download File ↑↑</button>
           </div>
           <br>
+          <!-- ZZZZZZZZZZZZZZZZZZZZ -->
+          <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
+          <div style="flex: 1;">
           <div style="text-align: center;">
              <button type="button" style="
              width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
              "><input type="file" id="bizim_public_keyimiz_file" style="display:none;"><label for="bizim_public_keyimiz_file">↓↓ Load File ↓↓</label></button>
           </div>
           <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Your public key</h1>
-          <textarea id="bizim_public_keyimiz" spellcheck="false" style="border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;margin-bottom:10px;" class="container" autocomplete="off" placeholder="🔑 Your Public Key..."></textarea>
+          <textarea id="bizim_public_keyimiz" spellcheck="false" style="border-radius: 15px;margin-bottom:10px;" class="container" autocomplete="off" placeholder="🔑 Your Public Key..."></textarea>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;">
             <button onclick="kopyala3()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
             <button onclick="yapistir3()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
             <button onclick="clear3()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
-            <button onclick="inject3()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;">INJECT-PEM</button>
+            <button onclick="inject3()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;font-size: 18px;">INJECT-PEM</button>
           </div>
           <div style="text-align: center;">
              <button onclick="download_bizim_public_keyimiz()" type="button" style="
              width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
              ">↑↑ Download File ↑↑</button>
           </div>
-          <br>
+        </div><!-- ZZZZZZZZZZZZZZZZZZZZ --><div style="flex: 1;">
           <div style="text-align: center;">
              <button type="button" style="
              width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
              "><input type="file" id="bizim_private_keyimiz_file" style="display:none;"><label for="bizim_private_keyimiz_file">↓↓ Load File ↓↓</label></button>
           </div>
           <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Your private key</h1>
-          <textarea id="bizim_private_keyimiz" spellcheck="false" class="container" style="border-bottom-left-radius: 15px;border-bottom-right-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="🔑 Your Private Key..."></textarea>
+          <textarea id="bizim_private_keyimiz" spellcheck="false" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="🔑 Your Private Key..."></textarea>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;">
             <button onclick="kopyala4()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
             <button onclick="yapistir4()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
             <button onclick="clear4()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
-            <button onclick="inject4()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;">INJECT-PEM</button>
+            <button onclick="inject4()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;font-size: 18px;">INJECT-PEM</button>
           </div>
           <div style="text-align: center;">
              <button onclick="download_bizim_private_keyimiz()" type="button" style="
              width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
              ">↑↑ Download File ↑↑</button>
           </div>
+        </div>
+      </div>
+        <!-- ZZZZZZZZZZZZZZZZZZZZ -->
           <br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Change password</h1>
-          <input type="password" id="passchange" class="container" style="border-radius: 15px;margin-bottom:10px;" placeholder="🔑 New Symmetric Key" autocomplete="off">
+          <input type="password" id="passchange" class="container" style="margin-bottom:10px;" placeholder="🔑 New Symmetric Key" autocomplete="off">
           <div style="text-align: center;">
           <button onclick="passchange()" type="button" style="border-radius:15px;">Change Password</button>
           </div>
