@@ -767,7 +767,7 @@ var url = URL.createObjectURL(blob);
 // ayarlar.json dosyasını indirmek için
 var a = document.createElement("a");
 a.href = url;
-a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+a.download = "txt_" + CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
@@ -783,7 +783,7 @@ var url = URL.createObjectURL(blob);
 // ayarlar.json dosyasını indirmek için
 var a = document.createElement("a");
 a.href = url;
-a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+a.download = "enc_" + CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
@@ -802,7 +802,7 @@ var url = URL.createObjectURL(blob);
 // ayarlar.json dosyasını indirmek için
 var a = document.createElement("a");
 a.href = url;
-a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+a.download = "pem_" + CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
@@ -819,7 +819,7 @@ var url = URL.createObjectURL(blob);
 // ayarlar.json dosyasını indirmek için
 var a = document.createElement("a");
 a.href = url;
-a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+a.download = "pem_" + CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
@@ -836,7 +836,7 @@ var url = URL.createObjectURL(blob);
 // ayarlar.json dosyasını indirmek için
 var a = document.createElement("a");
 a.href = url;
-a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+a.download = "prv_" + CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
