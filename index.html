@@ -253,7 +253,7 @@ option:checked {
              ">↑↑ Clear ↑↑</button>
              <button type="button" style="
              margin-bottom:10px;
-             "><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↑↑ Text File ↑↑</label></button>
+             "><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↑↑ Load File ↑↑</label></button>
             </div>
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;">Encrypt / Sign</h1>
@@ -272,7 +272,11 @@ option:checked {
              ">↑↑ Clear ↑↑</button>
              <button type="button" style="
              margin-bottom:10px;
-             "><input type="file" id="decryptfile" style="display:none;"><label for="decryptfile">↑↑ Text File ↑↑</label></button>
+             "><input type="file" id="decryptfile" style="display:none;"><label for="decryptfile">↑↑ Load File ↑↑</label></button>
+             <br>
+             <button onclick="download_enc_messages()" type="button" style="
+             margin-bottom:10px;width:100%;font-size:28px;
+             ">↑↑ Download File ↑↑</button>
             </div>
           </div>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Load Config File</h1>
@@ -344,19 +348,19 @@ option:checked {
           <br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">RSA Key Generator</h1>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(2048)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;">2048 Bit / 2s</button>
+          <button onclick="key_gen_main(2048)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;">2048 Bit / 2s</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(3072)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;">3072 Bit / 13s</button>
+          <button onclick="key_gen_main(3072)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;">3072 Bit / 13s</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(4096)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;">4096 Bit / 45s</button>
+          <button onclick="key_gen_main(4096)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;">4096 Bit / 45s</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(8192)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;">8192 Bit / 3h</button>
+          <button onclick="key_gen_main(8192)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;">8192 Bit / 3h</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(16384)" type="button" style="width: 96% !important;max-width: 620px;">16384 Bit / 1d</button>
+          <button onclick="key_gen_main(16384)" type="button" style="width: 96% !important;max-width: 620px;font-size:28px;">16384 Bit / 1d</button>
           </div>
           <br><br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Information</h1>
@@ -735,6 +739,22 @@ parts.forEach(function(data10) {
         }
         asdas.value = encrypted;
     }
+function download_enc_messages(){
+  var textarea = document.getElementById("sifrelenecek_rsa_mesaji").value;
+// ayarlar.json dosyasını oluşturmak için
+var blob = new Blob([textarea], {type: "text/plain"});
+
+// ayarlar.json dosyasının URL'sini oluşturmak için
+var url = URL.createObjectURL(blob);
+
+// ayarlar.json dosyasını indirmek için
+var a = document.createElement("a");
+a.href = url;
+a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
 function conf_download(){
 var config_shield = document.getElementById("config_shield").value;
 var ortak_anahtar = document.getElementById("ortak").value;
