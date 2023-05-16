@@ -251,9 +251,14 @@ option:checked {
             <button onclick="clear0()" type="button" style="
              margin-bottom:10px;
              ">↑↑ Clear ↑↑</button>
-             <button type="button" style="
+             <button onclick="download_dec_messages()" type="button" style="
              margin-bottom:10px;
+             ">↑↑ Download ↑↑</button>
+             <br>
+             <button type="button" style="
+             margin-bottom:10px;width:100%;font-size:28px;
              "><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↑↑ Load File ↑↑</label></button>
+            </div>
             </div>
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;">Encrypt / Sign</h1>
@@ -301,6 +306,10 @@ option:checked {
             <button onclick="inject2()" type="button" style="
              margin-bottom:10px;font-size:22px;
              ">↑↑ INJECT-PEM ↑↑</button>
+             <br>
+             <button onclick="download_target_public_key()" type="button" style="
+             margin-bottom:10px;width:100%;font-size:28px;
+             ">↑↑ Download File ↑↑</button>
             </div>
           </div>
           <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Your public key</h1>
@@ -319,6 +328,10 @@ option:checked {
             <button onclick="inject3()" type="button" style="
              margin-bottom:10px;font-size:22px;
              ">↑↑ INJECT-PEM ↑↑</button>
+             <br>
+             <button onclick="download_bizim_public_keyimiz()" type="button" style="
+             margin-bottom:10px;width:100%;font-size:28px;
+             ">↑↑ Download File ↑↑</button>
             </div>
           </div>
           <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Your private key</h1>
@@ -337,6 +350,10 @@ option:checked {
             <button onclick="inject4()" type="button" style="
              margin-bottom:10px;font-size:22px;
              ">↑↑ INJECT-PEM ↑↑</button>
+             <br>
+             <button onclick="download_bizim_private_keyimiz()" type="button" style="
+             margin-bottom:10px;width:100%;font-size:28px;
+             ">↑↑ Download File ↑↑</button>
             </div>
           </div>
           <br>
@@ -739,6 +756,22 @@ parts.forEach(function(data10) {
         }
         asdas.value = encrypted;
     }
+    function download_dec_messages(){
+  var textarea = document.getElementById("arkadasinin_sifreli_mesaji").value;
+// ayarlar.json dosyasını oluşturmak için
+var blob = new Blob([textarea], {type: "text/plain"});
+
+// ayarlar.json dosyasının URL'sini oluşturmak için
+var url = URL.createObjectURL(blob);
+
+// ayarlar.json dosyasını indirmek için
+var a = document.createElement("a");
+a.href = url;
+a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
 function download_enc_messages(){
   var textarea = document.getElementById("sifrelenecek_rsa_mesaji").value;
 // ayarlar.json dosyasını oluşturmak için
@@ -755,6 +788,60 @@ document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
 }
+
+// ------
+// 1
+function download_target_public_key(){
+  var textarea = document.getElementById("target_public_key").value;
+// ayarlar.json dosyasını oluşturmak için
+var blob = new Blob([textarea], {type: "text/plain"});
+
+// ayarlar.json dosyasının URL'sini oluşturmak için
+var url = URL.createObjectURL(blob);
+
+// ayarlar.json dosyasını indirmek için
+var a = document.createElement("a");
+a.href = url;
+a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+// 2
+function download_bizim_public_keyimiz(){
+  var textarea = document.getElementById("bizim_public_keyimiz").value;
+// ayarlar.json dosyasını oluşturmak için
+var blob = new Blob([textarea], {type: "text/plain"});
+
+// ayarlar.json dosyasının URL'sini oluşturmak için
+var url = URL.createObjectURL(blob);
+
+// ayarlar.json dosyasını indirmek için
+var a = document.createElement("a");
+a.href = url;
+a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+// 3
+function download_bizim_private_keyimiz(){
+  var textarea = document.getElementById("bizim_private_keyimiz").value;
+// ayarlar.json dosyasını oluşturmak için
+var blob = new Blob([textarea], {type: "text/plain"});
+
+// ayarlar.json dosyasının URL'sini oluşturmak için
+var url = URL.createObjectURL(blob);
+
+// ayarlar.json dosyasını indirmek için
+var a = document.createElement("a");
+a.href = url;
+a.download = CryptoJS.MD5(textarea).toString(CryptoJS.enc.Hex) + ".txt";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+}
+// ------
 function conf_download(){
 var config_shield = document.getElementById("config_shield").value;
 var ortak_anahtar = document.getElementById("ortak").value;
