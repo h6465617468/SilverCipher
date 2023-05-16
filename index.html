@@ -239,11 +239,17 @@ option:checked {
             
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SCM-RSA Hybrid Encryption</h1>
           <input type="password" id="ortak" class="container" style="margin-bottom:10px;" placeholder="🔑 Symmetric Key" autocomplete="off">
+          <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;width: 92% !important;">
+            <button onclick="kopyalax()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
+            <button onclick="yapistirx()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
+            <button onclick="clearx()" type="button" style=" margin-bottom:10px; flex: 1;">Clear</button>
+            <button onclick="randomx()" type="button" style=" margin-bottom:10px; flex: 1;border-top-right-radius: 15px;border-bottom-right-radius: 15px;">Random</button>
+          </div>
           <div style="text-align: center;overflow: none!important;">
             <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
-            <option value="1" style="color:gray;">Hybrid SIGN-MIX (Slow)</option>
+            <option value="1" style="color:gray;">Hybrid SIGN-MIX-DUAL (Slow)</option>
             <option value="2" selected style="color:green;">Hybrid SIGN-FLEX-DUAL (Fast)</option>
-            <option value="3" style="color:gray;">Symmetric SCM-AES (Fast)</option>
+            <option value="3" style="color:gray;">Symmetric SCM-AES-DUAL (Fast)</option>
             </select>
           </div>
           <br>
@@ -415,10 +421,30 @@ function changeText_JS(value) {
     }
   }
 }
+function kopyalax() {
+  var inputx = document.getElementById("ortak").value;
+    // Metni tutacak bir element oluştur
+    var input = document.createElement("input");
+  // Elementin değerini ortak değişkenine eşitle
+  input.value = inputx;
+  // Elementi sayfaya ekle
+  document.body.appendChild(input);
+  // Elementin metnini seç
+  input.select();
+  // Metni panoya kopyala
+  document.execCommand("copy");
+  // Elementi sayfadan sil
+  document.body.removeChild(input);
+  input.select(); // metni seç
 
-
-
-var select = document.getElementById("rsamode");
+  document.execCommand("copy"); // panoya kopyala
+}
+function clearx() {
+  var input = document.getElementById("ortak");
+  input.value = ""; // metni seç
+}
+function yapistirx(){var t=document.getElementById("ortak");t&&navigator.clipboard.readText().then(function(n){t.value=n}).catch(function(n){console.error(n)})}
+function randomx(){var a="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+abcdefghjklmnopqrstuvwxyz$@?&%#",t="";for(var e,o=0;o<128;o++)t+=(e=e=void 0,e=a.length,e=Math.floor(Math.random()*e),a.charAt(e));document.getElementById("ortak").value=t}
 function kopyala4() {
   var textarea = document.getElementById("bizim_private_keyimiz");
   textarea.select(); // metni seç
@@ -867,7 +893,8 @@ var ayarlar = {
   "ortak_anahtar": encrypt_1(key,iv,ortak_anahtar),
   "rsa_mode": encrypt_1(key,iv,rsa_mode)
 };
-
+var asdasx = document.getElementById("config_shield");
+asdasx.value = "";
 // ayarlar.json dosyasını oluşturmak için
 var blob = new Blob([JSON.stringify(ayarlar)], {type: "application/json"});
 
