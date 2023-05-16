@@ -360,21 +360,28 @@ option:checked {
           </div>
           <br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">RSA Key Generator</h1>
+          <!-- V -->
+          <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
           <div style="text-align: center;">
-          <button onclick="key_gen_main(2048)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">2048 Bit / 2s</button>
+          <button onclick="key_gen_main(2048)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">2048 Bit / (2s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(3072)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">3072 Bit / 13s</button>
+          <button onclick="key_gen_main(3072)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">3072 Bit / (13s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(4096)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">4096 Bit / 45s</button>
+          <button onclick="key_gen_main(4096)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">4096 Bit / (45s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(8192)" type="button" style="margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">8192 Bit / 3h</button>
+          <button onclick="key_gen_main(5000)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">5000 Bit / (2m)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(16384)" type="button" style="width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">16384 Bit / 1d</button>
+          <button onclick="key_gen_main(8192)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">8192 Bit / (3h)</button>
           </div>
+          <div style="text-align: center;">
+          <button onclick="key_gen_main(16384)" type="button" style="flex: 1;width: 96% !important;max-width: 620px;font-size:28px;border-radius:15px;">16384 Bit / (1d)</button>
+          </div>
+          </div>
+          <!-- V -->
           <br><br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Information</h1>
           <p style="margin-bottom:10px;">It is absolutely javascript based only. Node does not use js and php script. It works on your local browser.</p>
