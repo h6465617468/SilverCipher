@@ -12,7 +12,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 
 
 # SilverCipher+RSA Online Encryption Tool
-<img src="https://github.com/h6465617468/SilverCipher/raw/main/video/scm_promotion.mp4" width="320" height="240">
+![alt text](https://github.com/h6465617468/SilverCipher/raw/main/video/scm_promotion.mp4)
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 
 # Demo
