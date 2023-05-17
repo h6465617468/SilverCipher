@@ -171,7 +171,7 @@ echo "<br>";
 echo $sc->Decrypt($cipher_text);
 ```
 ## SilverCipherMini Encryption Javascript and PHP
-#### [ Encryption Tool](https://eenonde.github.io/SilverCipher/)
+#### [ Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 HTML
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
