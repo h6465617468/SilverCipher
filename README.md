@@ -12,7 +12,6 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 
 
 # SilverCipher+RSA Online Encryption Tool
-[![Watch the video](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Screenshot_30.png)](https://github.com/h6465617468/SilverCipher/raw/main/video/scm_promotion.mp4)
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 
 # Demo
