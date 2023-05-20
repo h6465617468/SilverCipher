@@ -17,6 +17,9 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 
 # Demo
+### SCP
+## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
+### SCM
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 
 # Setup
