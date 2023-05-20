@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="icon.jpg" />
         <style>*{color:grey;} .imgx {height:400px;width:100%;max-width:400px;}</style>
         <script src="js/crypto-js.min.js"></script>
-        <script src="sc5.js"></script>
+        <script src="js/sc5.min.js"></script>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -87,8 +87,8 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
-                encryptedData = cipher.Encrypt(toenctext);
                 new Promise((resolve)=>{resolve();}).then( ()=>{
+                    encryptedData = cipher.Encrypt(toenctext);
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(encryptedData);
@@ -115,9 +115,8 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var decryptedText;
-                decryptedText = cipher.Decrypt(todectext);
                 new Promise((resolve)=>{resolve();}).then( ()=>{
-                
+                decryptedText = cipher.Decrypt(todectext);
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(decryptedText);
