@@ -474,6 +474,7 @@ class SC5 {
       return resultUint8;
     }
     Encrypt (d) {
+      d=this.base64_encode(d);
       var b = this.key;
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
@@ -617,6 +618,7 @@ class SC5 {
       //if(j==true){
       //    d=gzuncompress(d);
       //}
+      d=this.base64_decode(d);
       return d;
     }
     Enc (f, c, z) {
