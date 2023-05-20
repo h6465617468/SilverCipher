@@ -786,16 +786,17 @@ parts.forEach(function(data10) {
         }else{
           var cipher = new SC5(ortak_anahtar);
         }
-        var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
-        var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
-        var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
-        var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
-        var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
         var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
         var encrypted="";
         var e = document.getElementById("rsamode"); // seçim elementini bul
         var text = e.value; // seçilen seçeneğin metnini al
-
+        if(text!="3"){
+          var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
+        var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
+        var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
+        var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
+        var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
+        }
         try {
         if(text=="1"){
           encrypted = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
@@ -827,15 +828,18 @@ parts.forEach(function(data10) {
         }else{
           var cipher = new SC5(ortak_anahtar);
         }
-        var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
+
+        var encrypted="";
+        var e = document.getElementById("rsamode"); // seçim elementini bul
+        var text = e.value; // seçilen seçeneğin metnini al
+        if(text!="3"){
+          var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
         var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
         var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
-        var encrypted="";
-        var e = document.getElementById("rsamode"); // seçim elementini bul
-        var text = e.value; // seçilen seçeneğin metnini al
+        }
         try {
         arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
         if(text=="1"){
