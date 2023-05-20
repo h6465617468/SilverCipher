@@ -2,7 +2,7 @@
     <head>
         <link rel="icon" href="icon.jpg">
         <meta charset="utf-8">
-        <title>SC5/M-RSA HYBRID</title>
+        <title>SCM-RSA HYBRID</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
         <meta name="subject" content="">
         <meta name="description" content="">
@@ -21,8 +21,7 @@
         <link rel="shortcut icon" href="icon.jpg">
         <script src="js/crypto-js.min.js"></script>
         <script src="js/jsencrypt.min.js"></script>
-        <script src="js/SilverCipherMini.min.js"></script>
-        <script src="js/sc5.min.js"></script>
+        <script src="js/SilverCipherMini.js"></script>
 
 
 <!--CSS-->
@@ -238,7 +237,7 @@ option:checked {
     <body>
         <div class="a1">
             
-          <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SC5/M RSA Hybrid Encryption</h1>
+          <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SCM-RSA Hybrid Encryption</h1>
           <input type="password" id="ortak" class="container" style="margin-bottom:10px;" placeholder="🔑 Symmetric Key" autocomplete="off">
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;width: 92% !important;">
             <button onclick="kopyalax()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
@@ -250,13 +249,7 @@ option:checked {
             <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
             <option value="1" style="color:gray;">Hybrid SIGN-MIX-DUAL (Slow)</option>
             <option value="2" selected style="color:green;">Hybrid SIGN-FLEX-DUAL (Fast)</option>
-            <option value="3" style="color:gray;">Symmetric SC5/M-AES-DUAL (Fast)</option>
-            </select>
-          </div>
-          <div style="text-align: center;overflow: none!important;">
-            <select id="scmode" name="scmode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
-            <option value="1" style="color:gray;">SCM (Fast)</option>
-            <option value="2" selected style="color:green;">SCP (Fast)</option>
+            <option value="3" style="color:gray;">Symmetric SCM-AES-DUAL (Fast)</option>
             </select>
           </div>
           <br>
@@ -435,24 +428,6 @@ function changeText_JS(value) {
     }
   }
 }
-function changescm_JS(value) {
-  // seçim elementini bul
-  var select = document.getElementById("scmode");
-  // seçim elementinin seçili seçeneğini bul
-  var selectedOption = select.options[select.selectedIndex];
-  // seçim elementinin tüm seçeneklerini döngüye sok
-  for (var i = 0; i < select.options.length; i++) {
-    // seçeneğin değeri ve metnini al
-    var option = select.options[i];
-    var optionValue = option.value;
-    var optionText = option.text;
-    // değer ve metni eşleşirse metni değiştir
-    if (optionValue == value) {
-      select.value = value;
-      select.text = optionText;
-    }
-  }
-}
 function kopyalax() {
   var inputx = document.getElementById("ortak").value;
     // Metni tutacak bir element oluştur
@@ -499,13 +474,7 @@ function inject4() {
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
+  var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("bizim_private_keyimiz");
   var bizim_private_keyimiz = textarea.value.trim();
   if (bizim_private_keyimiz.startsWith("-----BEGIN RSA PRIVATE KEY-----")) {
@@ -524,13 +493,7 @@ function inject3() {
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
+  var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("bizim_public_keyimiz");
   var bizim_public_keyimiz = textarea.value.trim();
   if (bizim_public_keyimiz.startsWith("-----BEGIN PUBLIC KEY-----")) {
@@ -555,13 +518,7 @@ function inject2() {
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
+  var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("target_public_key");
   var target_public_key = textarea.value.trim();
   if (target_public_key.startsWith("-----BEGIN PUBLIC KEY-----")) {
@@ -615,13 +572,7 @@ function key_gen_main(sizex){
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
+    var cipher = new SilverCipherMini(ortak_anahtar);
     var crypt9 = new JSEncrypt({default_key_size: sizex});
     new Promise((resolve)=>{
     setTimeout(resolve, 100);
@@ -779,24 +730,17 @@ parts.forEach(function(data10) {
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
-        var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
-        var encrypted="";
-        var e = document.getElementById("rsamode"); // seçim elementini bul
-        var text = e.value; // seçilen seçeneğin metnini al
-        if(text!="3"){
-          var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
+        var cipher = new SilverCipherMini(ortak_anahtar);
+        var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
         var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
-        }
+        var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
+        var encrypted="";
+        var e = document.getElementById("rsamode"); // seçim elementini bul
+        var text = e.value; // seçilen seçeneğin metnini al
+
         try {
         if(text=="1"){
           encrypted = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
@@ -821,26 +765,16 @@ parts.forEach(function(data10) {
             alert("Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
-
-        var encrypted="";
-        var e = document.getElementById("rsamode"); // seçim elementini bul
-        var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
-        var text = e.value; // seçilen seçeneğin metnini al
-        if(text!="3"){
-          var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
+        var cipher = new SilverCipherMini(ortak_anahtar);
+        var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
         var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
-        
-        }
+        var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
+        var encrypted="";
+        var e = document.getElementById("rsamode"); // seçim elementini bul
+        var text = e.value; // seçilen seçeneğin metnini al
         try {
         arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
         if(text=="1"){
@@ -959,15 +893,12 @@ var key = CryptoJS.SHA256(config_shield).toString(CryptoJS.enc.Hex);
 var iv = CryptoJS.MD5(config_shield).toString(CryptoJS.enc.Hex);
 var e = document.getElementById("rsamode"); // seçim elementini bul
 var rsa_mode = e.value; // seçilen seçeneğin metnini al
-var e1 = document.getElementById("scmode"); // seçim elementini bul
-var sc_mode = e1.value; // seçilen seçeneğin metnini al
 var ayarlar = {
   "targetpublic": encrypt_1(key,iv,target_public_key),
   "mypublic": encrypt_1(key,iv,bizim_public_keyimiz),
   "myprivate": encrypt_1(key,iv,bizim_private_keyimiz),
   "ortak_anahtar": encrypt_1(key,iv,ortak_anahtar),
-  "rsa_mode": encrypt_1(key,iv,rsa_mode),
-  "sc_mode": encrypt_1(key,iv,sc_mode)
+  "rsa_mode": encrypt_1(key,iv,rsa_mode)
 };
 var asdasx = document.getElementById("config_shield");
 asdasx.value = "";
@@ -1021,7 +952,6 @@ if(config_shield == "" || config_shield == null){
         myprivate_cache = decrypt_1(key,iv,ayarlar.myprivate);
         ortak_anahtar = decrypt_1(key,iv,ayarlar.ortak_anahtar);
         rsa_mode = decrypt_1(key,iv,ayarlar.rsa_mode);
-        sc_mode = decrypt_1(key,iv,ayarlar.sc_mode);
     } catch (err) {
         // Error yakalama kodu
         alert("Error");
@@ -1032,7 +962,6 @@ if(config_shield == "" || config_shield == null){
     asdas2.value = mypublic_cache;
     asdas3.value = myprivate_cache;
     changeText_JS(rsa_mode);
-    changescm_JS(sc_mode);
     var asdas = document.getElementById("config_shield");
     asdas.value = "";
     if(ortak_anahtar != "" && ortak_anahtar != null){
@@ -1128,23 +1057,13 @@ function passchange(){
             alert("Eski Symmetric Key Required");
             return;
         }
-        var e1 = document.getElementById("scmode"); // seçim elementini bul
-        var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var cipher = new SC5(ortak_anahtar);
-        }
+    var cipher = new SilverCipherMini(ortak_anahtar);
     var ortak_anahtarnew = document.getElementById("passchange").value;
         if(ortak_anahtarnew == "" || ortak_anahtarnew == null){
             alert("Yeni Symmetric Key Required");
             return;
         }
-        if(scmode1=="1"){
-          var ciphernew = new SilverCipherMini(ortak_anahtar);
-        }else{
-          var ciphernew = new SC5(ortak_anahtar);
-        }
+    var ciphernew = new SilverCipherMini(ortak_anahtarnew);
     var asdas1 = document.getElementById("target_public_key");
     var asdas2 = document.getElementById("bizim_public_keyimiz");
     var asdas3 = document.getElementById("bizim_private_keyimiz");
