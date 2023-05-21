@@ -50,6 +50,7 @@ class SC5 {
       this.hashd = "3QjE5SfU+Y1MVbIy0a6Zm8hKoO4e2tcnFdR9uXrpWJGCxlAsvBT/kzDwiNgqP7LH";
       this.hashe = "hRa4QoBy5blILAusSC/YFXKr6qpfP9c2N13TUvtZJxGWw0e+DOM7z8idVjgHEmkn";
       this.hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpm9SVICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
+      this.ax1xxxx=0;
         if (key === null || key === undefined) {
         this.key = "123456789";
         } else {
@@ -177,15 +178,48 @@ class SC5 {
       return d;
     }
     str_split(str, length) {
+      // str parametresinin tipini bir değişkene kaydet
+      var inputType = typeof str;
+      // eğer girdi bir number ise, onu bir Uni8Array'e dönüştür
+      if (inputType == "number") {
+       // sayıyı bir dizgeye dönüştür
+       var strNum = str.toString();
+       // dizgeyi bir Uni8Array'e dönüştür
+       str = new Uint8Array(strNum.length);
+       // dizgenin her elemanını sayıya dönüştürerek Uni8Array'e atayın
+       for (var i = 0; i < strNum.length; i++) {
+        str[i] = parseInt(strNum[i]);
+       }
+      }
+      // eğer girdi bir Uni8Array ise, onu bir dizgeye dönüştür
+      if (str instanceof Uint8Array) {
+       str = String.fromCharCode.apply(null, str);
+      }
       // düzenli ifadeyi oluştur
-      // .{1,length} demek, 1 ila length kadar herhangi bir karakter anlamına gelir
-      // /g ise global arama yapmak anlamına gelir
-      var regex = new RegExp(".{1," + length + "}", "g");
+      var regex = new RegExp("(.{1," + length + "})", "gms");
+
       // match() fonksiyonu ile dizgeyi düzenli ifadeye göre eşleştiren bir dizi elde et
       var result = str.match(regex);
+      // eğer sonuç null ise, girdiyi bir diziye dönüştür
+      if (result == null) {
+       result = [str];
+      }
+      // eğer girdi bir Uni8Array ise, sonucu da bir Uni8Array'e dönüştür
+      if (inputType == "object" || inputType == "number") {
+       // sonucun her elemanını birer karakter olarak kabul eden bir dizge oluştur
+       var resultStr = result.join("");
+       // bu dizgeyi bir Uni8Array'e dönüştür
+       result = new Uint8Array(resultStr.length);
+       // sonucun her elemanını dizgedeki karşılığına göre atayın
+       for (var i = 0; i < resultStr.length; i++) {
+        result[i] = resultStr.charCodeAt(i);
+       }
+      }
+      console.log(result);
       // sonucu döndür
       return result;
-    }
+      }
+     
     strrev(str) {
       // parametrenin türünü kontrol et
       if (typeof str === "string") {
@@ -474,8 +508,6 @@ class SC5 {
       return resultUint8;
     }
     Encrypt (d) {
-      d=this.base64_encode(this.StringTouint8Array(d));
-
       var b = this.key;
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
@@ -508,12 +540,7 @@ class SC5 {
       var g=1;
       var h=1;
       for(var l of i){
-        //console.log("VVVVVVVVV:");
-        //console.log(l);
           f=this.Enc(l,b,z);
-          //console.log("F1");
-          //console.log(typeof f[1]);
-          //console.log(f[1]);
           if(k!=m){
           a="";
           a=this.CharCodeToUint8Array(this.salt_1_dat[h]);
@@ -619,7 +646,6 @@ class SC5 {
       //if(j==true){
       //    d=gzuncompress(d);
       //}
-      d=this.uint8ArrayToString(this.base64_decode(d));
       return d;
     }
     Enc (f, c, z) {
@@ -1014,8 +1040,20 @@ class SC5 {
       }
       return b; // return the result
     }
-    
     Raw_hexrev(a){
+      if (typeof a == "number") { var strNum = a.toString();
+         // dizgeyi bir Uni8Array’e dönüştür 
+         a = new Uint8Array(strNum.length); 
+         // dizgenin her elemanını sayıya dönüştürerek Uni8Array’e atayın 
+         for (var i = 0; i < strNum.length; i++) { a[i] = parseInt(strNum[i]); } } 
+         // eğer girdi bir dizge ise, onu bir Uni8Array’e dönüştür 
+         if (typeof a == "string") { 
+          // dizgeyi virgüllere göre ayırarak bir dizi oluştur 
+          var strArr = a.split(","); // bu diziyi bir Uni8Array’e dönüştür 
+          a = new Uint8Array(strArr.length); 
+          // dizinin her elemanını sayıya dönüştürerek Uni8Array’e atayın 
+          for (var i = 0; i < strArr.length; i++) { a[i] = parseInt(strArr[i]); } 
+      }
       a = this.bin2hex(a);
         var b = this.str_split(a,2);
         a = "";
