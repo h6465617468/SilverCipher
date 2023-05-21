@@ -24,7 +24,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 
 # Setup
 ### Download SilverCipher
-### [ Beta Version SCP Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/sc5.min.js)
+### [ Beta Version SCP Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
 ### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
 ### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
 ### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
