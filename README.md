@@ -174,8 +174,9 @@ echo $cipher_text=$sc->Encrypt($plain_text);
 echo "<br>";
 echo $sc->Decrypt($cipher_text);
 ```
-## SilverCipherMini Encryption Javascript and PHP
-#### [ Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
+## SCM And SCP Encryption Javascript and PHP
+#### [ SCM Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
+#### [ SCP Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
 HTML
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
@@ -190,8 +191,18 @@ loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/cryp
 });
 ```
 Javascript
+SCM
 ```javascript
 const cipher = new SilverCipherMini("123");
+const encryptedText = cipher.Encrypt("123");
+const decryptedText = cipher.Decrypt(encryptedText);
+document.write("Encrypted: "+encryptedText);
+document.write("<br>");
+document.write("Decrypted: "+decryptedText);
+```
+SCP
+```javascript
+const cipher = new SC5("123");
 const encryptedText = cipher.Encrypt("123");
 const decryptedText = cipher.Decrypt(encryptedText);
 document.write("Encrypted: "+encryptedText);
@@ -203,7 +214,7 @@ Output:
 Encrypted: A0KCtSEs
 Decrypted: 123
 ```
-PHP
+PHP SCM
 ```php
 require_once "SilverCipherMini.php";
 $plain_text="123";
