@@ -215,7 +215,6 @@ class SC5 {
         result[i] = resultStr.charCodeAt(i);
        }
       }
-      console.log(result);
       // sonucu döndür
       return result;
       }
@@ -576,7 +575,7 @@ class SC5 {
       return e;
     }
     Decrypt (e) {
-      console.log("DECRYPT STARTED");
+      //console.log("DECRYPT STARTED");
       var b = this.key;
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
