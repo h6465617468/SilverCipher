@@ -792,11 +792,15 @@ parts.forEach(function(data10) {
         var e = document.getElementById("rsamode"); // seçim elementini bul
         var text = e.value; // seçilen seçeneğin metnini al
         if(text!="3"){
+          try {
         var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
-        
         var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
+      } catch (err) {
+        // Error yakalama kodu
+        alert("Error");
+        }
         }
         try {
         if(text=="1"){
@@ -836,11 +840,15 @@ parts.forEach(function(data10) {
         var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
         var text = e.value; // seçilen seçeneğin metnini al
         if(text!="3"){
+          try {
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
         var target_public_key = cipher.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
-        
+      } catch (err) {
+        // Error yakalama kodu
+        alert("Error");
+        }
         }
         
         try {
