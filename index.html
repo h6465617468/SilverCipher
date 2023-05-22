@@ -665,7 +665,7 @@ function encryptData(cache_x_RSA,key,myprivate){
                 cache_12312asdasdas3.forEach(function(data10, index1) {
                   var crypt = new JSEncrypt();
                   crypt.setPublicKey(key.trim());
-                  cryptedasdasdas1111.push(Base64.encode(crypt.encrypt(data10)));
+                  cryptedasdasdas1111.push(crypt.encrypt(data10));
                 });
                 crypted0193.push(JSON.stringify(cryptedasdasdas1111));
       delete cache_109;
@@ -681,7 +681,7 @@ function encryptData(cache_x_RSA,key,myprivate){
             cryptedasdasdas1111.forEach(function(data10, index1) {
             var crypt = new JSEncrypt();
             crypt.setPrivateKey(myprivate.trim());
-            var decryptedData1 = crypt.decrypt(Base64.decode(data10));
+            var decryptedData1 = crypt.decrypt(data10);
             asdasdasd=asdasdasd+decryptedData1;
             delete decryptedData1;
             });
@@ -706,6 +706,7 @@ function encryptData(cache_x_RSA,key,myprivate){
             }
             return decryptedData;
             }
+          //Base64.encode()
   function encryptData_FLEXMODE(cache_x_RSA,key,myprivate)
   {
     var cache_signp="";
@@ -720,7 +721,7 @@ function encryptData(cache_x_RSA,key,myprivate){
     cache_109.forEach(function(data5, index) {
       var crypt = new JSEncrypt();
       crypt.setPublicKey(key.trim());
-      var hjd = Base64.encode(crypt.encrypt(data5));
+      var hjd = crypt.encrypt(data5);
       // eğer son eleman ise # eklemeyi atla
       if (index == lastIndex) {
         sava1sf=sava1sf+hjd;
@@ -743,7 +744,7 @@ var signature = parts.pop();
 parts.forEach(function(data10) {
             var crypt = new JSEncrypt();
             crypt.setPrivateKey(myprivate.trim());
-            var decryptedData1 = crypt.decrypt(Base64.decode(data10));
+            var decryptedData1 = crypt.decrypt(data10);
             asdasdasd=asdasdasd+decryptedData1;
             delete decryptedData1;
             });
