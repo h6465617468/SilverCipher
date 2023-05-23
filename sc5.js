@@ -553,7 +553,6 @@ class SC5 {
       if(keylen == 0) {
         keylen = 1;
       }
-      console.log(keylen);
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
       //    d = gzcompress (d, 9);
@@ -632,7 +631,6 @@ class SC5 {
       if(keylen == 0) {
         keylen = 1;
       }
-      console.log(keylen);
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
       //    e = base64_encode (e);
