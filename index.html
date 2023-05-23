@@ -648,6 +648,7 @@ function decrypt_1(key, iv, ciphertext) {
     return decrypted.toString(CryptoJS.enc.Utf8);
 }
 function encryptData(cache_x_RSA,key,myprivate){
+  cache_x_RSA = Base64.encode(cache_x_RSA);
     var cache_signp="";
       var cache_109=str_splitx(cache_x_RSA,128);
       var crypted0193=[];
@@ -705,11 +706,12 @@ function encryptData(cache_x_RSA,key,myprivate){
               return "";
             /*throw new Error("Decryption failed! " + e.message);*/
             }
-            return decryptedData;
+            return Base64.decode(decryptedData);
             }
           //Base64.encode()
   function encryptData_FLEXMODE(cache_x_RSA,key,myprivate)
   {
+    cache_x_RSA = Base64.encode(cache_x_RSA);
     var cache_signp="";
     var sava1sf = "";
     try {
@@ -758,7 +760,7 @@ parts.forEach(function(data10) {
             }
           } catch (e) {return "";}
 
-            return asdasdasd;
+            return Base64.decode(asdasdasd);
             }
 
     function friend_sent_encrypted_message() {
