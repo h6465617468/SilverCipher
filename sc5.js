@@ -728,11 +728,12 @@ class SC5 {
         var d = "";
         var h = "";
         var e = 1;
+        var ax = new Blob([f], {type: "text/plain"}).size;
         for (var k of j) {
           //console.log("A1=>"+k);
           var a = this.Crypt (k, "e", c);
           //console.log("A2=>"+a);
-          if (new Blob([f], {type: "text/plain"}).size > Math.pow (2, 7)) {
+          if (ax > Math.pow (2, 7)) {
             var b = "";
             b = this.CharCodeToUint8Array(this.salt_2_dat [e]);
             var i = this.numhash(c, 1);
@@ -781,13 +782,13 @@ class SC5 {
         }
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
-        var ax = a;
+        var ax = new Blob([a], {type: "text/plain"}).size;
         a = "";
         var h = "";
         var e = 1;
         for (var k of j) {
           var b = this.Crypt (k, "d", d);
-          if (new Blob([ax], {type: "text/plain"}).size > Math.pow (2, 7)) {
+          if (ax > Math.pow (2, 7)) {
             var c = "";
             c = this.CharCodeToUint8Array(this.salt_2_dat[e]);
             var i = this.numhash(d, 1);
