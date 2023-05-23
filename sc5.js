@@ -550,8 +550,39 @@ class SC5 {
   //   }
   //   return sum;
   // }
-
-
+  generateKeys(k, n) {
+    // Parametrelerin tiplerini kontrol edelim
+    if (typeof k === "string" && typeof n === "number") {
+      // Key değerlerini tutacak bir array tanımlayalım
+      let keys = [];
+      // n kadar round yapalım
+      for (let i = 0; i < n; i++) {
+        // k parametresi için formülleri uygulayalım
+        var t = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.md5(k))));
+        var f = this.Hex_Dont_Count (this.hash("sha512", f + t + this.convert(0x3f,0x6c,0x33)));
+        var l = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", f))));
+        var q = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.E_hex_1 (f)))))));
+        var m = this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.md5 (this.XOREncrypt(this.hex2bin(f), q)))))));
+        var g = this.hashtoXcode(f);
+        var o = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.Raw_hexrev (this.StringTouint8Array(Math.exp (Math.pow (2, 2))) + this.XOREncrypt(l, k))))));
+        var p = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool", q))))));
+  
+        // Elde edilen değerleri bir array olarak tutalım
+        var key = [t, f, l, q, m, g, o, p];
+  
+        // Key değerini arraye ekleyelim
+        keys.push(key);
+  
+        // k parametresini CryptoJS SHA512 ile güncelleyelim
+        k = CryptoJS.SHA512(k).toString();
+      }
+      // Key değerlerini döndürelim
+      return keys;
+    } else {
+      // Geçersiz parametre hatası verelim
+      console.error("Parametreler bir string ve bir sayı olmalıdır.");
+    }
+  }
     Encrypt (d) {
       d = this.StringTouint8Array(d);
       var b = this.key;
@@ -567,11 +598,11 @@ class SC5 {
       //    d = gzcompress (d, 9);
       //}
       //console.log(d);
-      var _0xmap = [0x33,0xfb,0xa4,0x90];
+      var _0xmap = [0x33, 0xfb, 0xa4, 0x90, 0x12, 0xcd, 0xef, 0x45, 0x67, 0x89, 0xab, 0xde, 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0x90, 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xef, 0xfe, 0xdc, 0xba];
       var a = this.StringTouint8Array(Math.exp(Math.pow(2, 6).toString()));
-      var _1xmap = [0xaf,0xf2,0xcc,0x45];
+      var _1xmap = [0x24, 0x8d, 0x3f, 0x71, 0xa2, 0xb5, 0x60, 0x1c, 0xe9, 0xf7, 0x53, 0x2b, 0x6e, 0xd4, 0xc8, 0x9a, 0x17, 0x80, 0x6f, 0x5d, 0x47, 0x38, 0xae, 0x91, 0x4b, 0xd3, 0xc7, 0x0a, 0x12, 0xf5, 0x69, 0x33];
       a = this.XOREncrypt(this.convert(_0xmap), this.fix(a) + this.convert(_1xmap) + this.StringTouint8Array((Math.exp(Math.pow (2, 8))+ Math.tan (Math.pow (2, 34))).toString()));
-      var _2xmap = [0xa3,0x96,0x64,0x32];
+      var _2xmap = [0xa7, 0x2e, 0xf1, 0xd9, 0x8c, 0x50, 0x63, 0x91, 0x4b, 0x3d, 0x9f, 0x17, 0xe5, 0x8a, 0x37, 0x61, 0x29, 0x40, 0x7c, 0xbd, 0x52, 0xf8, 0xe0, 0xc6, 0xa3, 0x71, 0x06, 0x98, 0x24, 0x5f, 0x86, 0x3b];
       a = this.Raw_hexrev (this.XOREncrypt(a, a + this.convert(_2xmap) + this.StringTouint8Array(Math.exp (Math.pow (2, 10)))));
       a = this.XOREncrypt(a, this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf) + this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length))))));
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a + this.StringTouint8Array(Math.pow (2, 32))))).length * 64 + Math.pow (2, 84)))), 1);
@@ -633,7 +664,6 @@ class SC5 {
       return e;
     }
     Decrypt (e) {
-      //console.log("DECRYPT STARTED");
       var b = this.key;
       e = e.replace (/ /g, "").trim ().replace (/=/g, "");
       // var keylen = this.sumNumbers(b);
@@ -745,7 +775,7 @@ class SC5 {
         var e = 1;
         var ax = f.length;
         for (var k of j) {
-          var a = this.Crypt (k, "e", c);
+          var a = this.Crypt (k, "e", c, keylen);
           if (ax > Math.pow (2, 7)) {
             var b = "";
             b = this.CharCodeToUint8Array(this.salt_2_dat [e]);
@@ -801,7 +831,7 @@ class SC5 {
         var e = 1;
         var ixa1k = 0;
         for (var k of j) {
-          var b = this.Crypt (k, "d", d);
+          var b = this.Crypt (k, "d", d, keylen);
           if (ax > Math.pow (2, 7)) {
             var c = "";
             c = this.CharCodeToUint8Array(this.salt_2_dat[e]);
@@ -834,19 +864,49 @@ class SC5 {
         var l=h;
         return [a,l];
     }
-    Crypt (r, x, f) {
+    Crypt (r, x, f, keylen) {
+      keylen += 2;
         var k = f;
-        var t = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.md5(k))));
-        f = this.Hex_Dont_Count (this.hash("sha512", f + t + this.convert(0x3f,0x6c,0x33) ));
-        var l = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", f))));
-        var q = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.E_hex_1 (f)))))));
-        var m = this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.md5 (this.XOREncrypt(this.hex2bin(f), q)))))));
-        var g = this.hashtoXcode(f);
-        var o = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.Raw_hexrev (this.StringTouint8Array(Math.exp (Math.pow (2, 2))) + this.XOREncrypt(l, k))))));
-        var p = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool", q))))));
-        var v,u,w;
+        // var t = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.md5(k))));
+        // f = this.Hex_Dont_Count (this.hash("sha512", f + t + this.convert(0x3f,0x6c,0x33) ));
+        // var l = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", f))));
+        // var q = this.Raw_hexrev (this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.E_hex_1 (f)))))));
+        // var m = this.hex2bin(this.Hex_Dont_Count (this.hash("whirlpool", this.uint8ArrayToString(this.hex2bin(this.md5 (this.XOREncrypt(this.hex2bin(f), q)))))));
+        // var g = this.hashtoXcode(f);
+        // var o = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.Raw_hexrev (this.StringTouint8Array(Math.exp (Math.pow (2, 2))) + this.XOREncrypt(l, k))))));
+        // var p = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool", q))))));
+        var v,u,w,b,c;
+        var _end_data;
+        // Örnek bir k stringi ve bir n sayısı oluşturalım
+        var k000 = this.uint8ArrayToString(k);
+        let n000 = keylen;
+        // Fonksiyondan dönen key değerlerini alalım
+        let keys000 = this.generateKeys(k000, n000);
+
+        // Key değerlerinin sayısını alalım
+        let keyCount = keys000.length;
         if (x == "e") {
-            var a = this.Raw_hexrev (r);
+          var a = "";
+          _end_data = r;
+          // Her bir key değeri için for döngüsü kullanalım
+          for (let i000 = 0; i000 < keyCount; i000++) {
+            // Key değerini bir değişkene atayalım
+            let key000 = keys000[i000];
+            //console.log("Round "+(i000+1));
+            //console.log(keys000[i000]);
+            // Key değerinin içindeki tüm elemanları konsola yazdıralım
+            for (let j000 = 0; j000 < key000.length; j000++) {
+              //console.log(key000[j000]);
+              var t = key000[0];
+              var f = key000[1];
+              var l = key000[2];
+              var q = key000[3];
+              var m = key000[4];
+              var g = key000[5];
+              var o = key000[6];
+              var p = key000[7];
+            }
+            a = this.Raw_hexrev (_end_data);
             a = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (a), k));
             a = this.Raw_hexrev (a);
             a = this.hex2bin(this.strtr (this.bin2hex (a), this.hex_char, this.change_5));
@@ -866,47 +926,53 @@ class SC5 {
             a = this.hex2bin(this.E_hex_2(this.bin2hex(a)));
             a = this.Raw_hexrev(a);
             a = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(a),m));
-            a = this.strrev(this.bin2hex(a));
-            a = this.E_hex_1(a);
-            var i=this.Hex_Dont_Count(this.bin2hex(this.openssl_random_pseudo_bytes(Math.pow(4,5)))).split("");
-            var d=0;
-            var e="";
-            var j="";
-            for(var h of a){
-              
-            if(d==Math.pow(2,7)){
-                d=0;
-                i=this.Hex_Dont_Count(this.bin2hex(this.openssl_random_pseudo_bytes(Math.pow(4,5))));
-                f=this.Hex_Dont_Count(this.hash("sha512",this.hex2bin(f)+t+this.convert(0x33,0x99,0xb4) ));
+            ////////////////////////
+            if(i000==0){
+              a = this.strrev(this.bin2hex(a));
+              a = this.E_hex_1(a);
+              var i=this.Hex_Dont_Count(this.bin2hex(this.openssl_random_pseudo_bytes(Math.pow(4,5)))).split("");
+              var d=0;
+              var e="";
+              var j="";
+              for(var h of a){
                 
-                g=this.hashtoXcode(f);
+              if(d==Math.pow(2,7)){
+                  d=0;
+                  i=this.Hex_Dont_Count(this.bin2hex(this.openssl_random_pseudo_bytes(Math.pow(4,5))));
+                  f=this.Hex_Dont_Count(this.hash("sha512",this.hex2bin(f)+t+this.convert(0x33,0x99,0xb4) ));
+                  
+                  g=this.hashtoXcode(f);
+              }
+              if (g[d] == 0) {
+                e = e + this.E_hex_1(h) + i[d];
+                j = j + i[d];
+              } else {
+                  if (g[d] == 1) {
+                      e = e + i[d] + this.E_hex_2(h);
+                      j = j + i[d];
+                  } else {
+                      if (g[d] == 2) {
+                          e = e + this.E_hex_1(h) + this.hashtohash_1(this.hashtohash_1(i[d]));
+                          j = j + this.hashtohash_1(this.hashtohash_1(i[d]));
+                      } else {
+                          if (g[d] == 3) {
+                              e = e + this.hashtohash_1(i[d]) + this.E_hex_2(h);
+                              j = j + this.hashtohash_1(i[d]);
+                          }
+                      }
+                  }
+              }
+              d++;
+              }
+              var s = j;
+              var n = "";
+              var h = "";
+              b = this.E_hex_1 (e);
+              b = this.hex2bin(b);
+            }else{
+              b=a;
             }
-            if (g[d] == 0) {
-              e = e + this.E_hex_1(h) + i[d];
-              j = j + i[d];
-            } else {
-                if (g[d] == 1) {
-                    e = e + i[d] + this.E_hex_2(h);
-                    j = j + i[d];
-                } else {
-                    if (g[d] == 2) {
-                        e = e + this.E_hex_1(h) + this.hashtohash_1(this.hashtohash_1(i[d]));
-                        j = j + this.hashtohash_1(this.hashtohash_1(i[d]));
-                    } else {
-                        if (g[d] == 3) {
-                            e = e + this.hashtohash_1(i[d]) + this.E_hex_2(h);
-                            j = j + this.hashtohash_1(i[d]);
-                        }
-                    }
-                }
-            }
-            d++;
-            }
-            var s = j;
-            var n = "";
-            var h = "";
-            var e = this.E_hex_1 (e);
-            var b = this.hex2bin(e);
+            ////////////////////////
             b = this.hex2bin(this.E_Shift (this.bin2hex (b), 3));
             b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), t));
             b = this.hex2bin(this.E_hex_2 (this.bin2hex (b)));
@@ -928,86 +994,115 @@ class SC5 {
             b = this.XOREncrypt(this.strrev(b), p);
             b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3)); 
             b = this.hex2bin(this.E_hex_2(this.bin2hex(b))); 
-            b = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b), k));
-            var c = this.E_rot13_1(this.bk_kb(this.base64_encode(b).replace(/=/g, "")));
-            v = c;
+            _end_data = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b), k));
+            s,b,a,j,e = "";
+          }
+          
+          _end_data = this.E_rot13_1(this.bk_kb(this.base64_encode(_end_data).replace(/=/g, "")));
+            v = _end_data;
         }if (x == "d") {
+          keys000.reverse();
             r = r.trim();
-            a = this.base64_decode(this.bk_kb(this.D_rot13_1(r)));
-            a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), k));
-            a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-            a = this.strrev(this.XORDecrypt(a, p));
-            a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-            a = this.strrev(this.XORDecrypt(a, o));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
-            a = this.strrev(this.XORDecrypt(a, l));
-            a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 2));
-            a = this.strrev(this.XORDecrypt(a, o));
-            a = this.Raw_hexrev(a);
-            a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-            a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
-            a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), q));
-            a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-            a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
-            a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-            a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
-            a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-            a = this.bin2hex(a);
-            a = this.D_hex_1(a);
-            n = this.str_split(a, 2);
-            e = "";
-            d = 0;
-            g = this.hashtoXcode(f);
-            u = "";
-            n.forEach((h) => {
-            if (d == Math.pow(2, 7)) {
-            d = 0;
-            f = this.Hex_Dont_Count(this.hash("sha512", this.hex2bin(f) + t + this.convert(0x33,0x99,0xb4)));
-            g = this.hashtoXcode(f);
+            _end_data = r;
+            _end_data = this.base64_decode(this.bk_kb(this.D_rot13_1(_end_data)));
+            for (let i000 = 0; i000 < keyCount; i000++) {
+              // Key değerini bir değişkene atayalım
+              let key000 = keys000[i000];
+              //console.log("Round "+(i000+1));
+              //console.log(keys000[i000]);
+              // Key değerinin içindeki tüm elemanları konsola yazdıralım
+              for (let j000 = 0; j000 < key000.length; j000++) {
+                //console.log(key000[j000]);
+                var t = key000[0];
+                var f = key000[1];
+                var l = key000[2];
+                var q = key000[3];
+                var m = key000[4];
+                var g = key000[5];
+                var o = key000[6];
+                var p = key000[7];
+              }
+              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(_end_data), k));
+              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
+              a = this.strrev(this.XORDecrypt(a, p));
+              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+              a = this.strrev(this.XORDecrypt(a, o));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
+              a = this.strrev(this.XORDecrypt(a, l));
+              a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 2));
+              a = this.strrev(this.XORDecrypt(a, o));
+              a = this.Raw_hexrev(a);
+              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
+              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
+              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), q));
+              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
+              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
+              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
+              ///////////////////////////
+              if (i000 === keyCount - 1) {
+                a = this.bin2hex(a);
+                a = this.D_hex_1(a);
+                n = this.str_split(a, 2);
+                e = "";
+                d = 0;
+                g = this.hashtoXcode(f);
+                u = "";
+                n.forEach((h) => {
+                if (d == Math.pow(2, 7)) {
+                d = 0;
+                f = this.Hex_Dont_Count(this.hash("sha512", this.hex2bin(f) + t + this.convert(0x33,0x99,0xb4)));
+                g = this.hashtoXcode(f);
+                }
+                if (g[d] == 0 || g[d] == 2) {
+                  w = this.D_hex_1(this.substr(h, 0, 1));
+                  j = this.substr(h, -1, 1);
+                }else if (g[d] == 1 || g[d] == 3) {
+                  w = this.D_hex_2(this.substr(h, -1, 1));
+                  j = this.substr(h, 0, 1);
+                }
+                d++;
+                e = e + w;
+                u = u + j;
+                });
+                s = u;
+                n = "";
+                h = "";
+                e = this.D_hex_1(e);
+                c = this.hex2bin(this.strrev(e));
+              }else{
+                c=a;
+              }
+              ///////////////////////////
+
+              c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), m));
+              c = this.Raw_hexrev(c);
+              c = this.hex2bin(this.D_hex_2(this.bin2hex(c)));
+              c = this.strrev(this.XORDecrypt(c, this.XOREncrypt(l, m)));
+              c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
+              c = this.hex2bin(this.D_hex_1(this.bin2hex(c)));
+              c = this.hex2bin(this.bin2hex(c).split('').map(function (char) {
+                return this.change_f[this.hex_characters.indexOf(char)];
+              }, this).join(''));
+              c = this.hex2bin(this.bin2hex(c).split('').map(function (char) {
+                return this.change_a[this.hex_characters.indexOf(char)];
+              }, this).join(''));
+              c = this.strrev(this.XORDecrypt(c, m));
+              c = this.Raw_hexrev(c);
+              c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), p));
+              c = this.hex2bin(this.D_hex_3(this.bin2hex(c)));
+              c = this.hex2bin(this.strtr(this.bin2hex(c), this.change_5, this.hex_char));
+              c = this.Raw_hexrev(c);
+              c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
+              _end_data = this.Raw_hexrev(c);
+              c,e,u,w,j,g,a = "";
             }
-            if (g[d] == 0 || g[d] == 2) {
-              w = this.D_hex_1(this.substr(h, 0, 1));
-              j = this.substr(h, -1, 1);
-            }else if (g[d] == 1 || g[d] == 3) {
-              w = this.D_hex_2(this.substr(h, -1, 1));
-              j = this.substr(h, 0, 1);
-            }
-            d++;
-            e = e + w;
-            u = u + j;
-            });
-            s = u;
-            n = "";
-            h = "";
-            e = this.D_hex_1(e);
-            c = this.hex2bin(this.strrev(e));
-            c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), m));
-            c = this.Raw_hexrev(c);
-            c = this.hex2bin(this.D_hex_2(this.bin2hex(c)));
-            c = this.strrev(this.XORDecrypt(c, this.XOREncrypt(l, m)));
-            c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
-            c = this.hex2bin(this.D_hex_1(this.bin2hex(c)));
-            //console.log(this.bin2hex(c));
-            c = this.hex2bin(this.bin2hex(c).split('').map(function (char) {
-              return this.change_f[this.hex_characters.indexOf(char)];
-            }, this).join(''));
-            //console.log(this.bin2hex(c));
-            c = this.hex2bin(this.bin2hex(c).split('').map(function (char) {
-              return this.change_a[this.hex_characters.indexOf(char)];
-            }, this).join(''));
-            //console.log(this.bin2hex(c));
-            c = this.strrev(this.XORDecrypt(c, m));
-            c = this.Raw_hexrev(c);
-            c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), p));
-            c = this.hex2bin(this.D_hex_3(this.bin2hex(c)));
-            c = this.hex2bin(this.strtr(this.bin2hex(c), this.change_5, this.hex_char));
-            c = this.Raw_hexrev(c);
-            c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
-            v = this.Raw_hexrev(c);
+            v = _end_data;
         }
         return [v, s];
     }
