@@ -506,8 +506,54 @@ class SC5 {
       // return the single Uint8Array
       return resultUint8;
     }
+  //   assignNumbers(md5Value) {
+  //     var hexNumbers = {
+  //       "0": 1,
+  //       "1": 2,
+  //       "2": 3,
+  //       "3": 1,
+  //       "4": 2,
+  //       "5": 3,
+  //       "6": 1,
+  //       "7": 2,
+  //       "8": 3,
+  //       "9": 1,
+  //       "a": 2,
+  //       "b": 4,
+  //       "c": 2,
+  //       "d": 4,
+  //       "e": 3,
+  //       "f": 2
+  //     };
+  //     var result = "";
+  //     for (var i = 0; i < md5Value.length; i++) {
+  //         var char = md5Value[i]; // md5 değerindeki i. karakteri al
+  //         var number = hexNumbers[char]; // bu karakteri hexNumbers objesindeki sayıya eşle
+  //         result += number; // sonuç metnine ekle
+  //     }
+  //     return result;
+  // }
+  // sumNumbers(text) {
+  //   var hash = this.md5(text); // metnin md5 karmasını hesapla
+  //   var numbers = this.assignNumbers(hash); // md5 karmadaki her bir karaktere sayı ata
+  //   var sum = 0; // toplamı tutacak değişken
+  //   for (var i = 0; i < numbers.length; i++) {
+  //       var digit = parseInt(numbers[i]); // sonuç metnindeki i. sayıyı al
+  //       sum += digit; // toplama ekle
+  //   }
+  //   return sum;
+  // }
+  
     Encrypt (d) {
       var b = this.key;
+      // var keylen = this.sumNumbers(b);
+      var keylen = 1;
+      var xlen = b.length;
+      keylen = (xlen + keylen) % 9;
+      if(keylen == 0) {
+        keylen = 1;
+      }
+      console.log(keylen);
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
       //    d = gzcompress (d, 9);
@@ -539,7 +585,8 @@ class SC5 {
       var g=1;
       var h=1;
       for(var l of i){
-          f=this.Enc(l,b,z);
+          f=this.Enc(l,b,z,keylen);
+          keylen++;
           if(k!=m){
           a="";
           a=this.CharCodeToUint8Array(this.salt_1_dat[h]);
@@ -577,12 +624,20 @@ class SC5 {
     Decrypt (e) {
       //console.log("DECRYPT STARTED");
       var b = this.key;
+      e = e.replace (/ /g, "").trim ().replace (/=/g, "");
+      // var keylen = this.sumNumbers(b);
+      var keylen = 1;
+      var xlen = b.length;
+      keylen = (xlen + keylen) % 9;
+      if(keylen == 0) {
+        keylen = 1;
+      }
+      console.log(keylen);
       var z = this.settingsgenerator(this.adler32(this.md5(b)));
       //if (j == true) {
       //    e = base64_encode (e);
       //}
       var k = b;
-      e = e.replace (/ /g, "").trim ().replace (/=/g, "");
       var _0xmap = [0x33, 0xfb, 0xa4, 0x90, 0x12, 0xcd, 0xef, 0x45, 0x67, 0x89, 0xab, 0xde, 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0x90, 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xef, 0xfe, 0xdc, 0xba];
       var a = this.StringTouint8Array(Math.exp(Math.pow(2, 6).toString()));
       var _1xmap = [0x24, 0x8d, 0x3f, 0x71, 0xa2, 0xb5, 0x60, 0x1c, 0xe9, 0xf7, 0x53, 0x2b, 0x6e, 0xd4, 0xc8, 0x9a, 0x17, 0x80, 0x6f, 0x5d, 0x47, 0x38, 0xae, 0x91, 0x4b, 0xd3, 0xc7, 0x0a, 0x12, 0xf5, 0x69, 0x33];
@@ -608,7 +663,8 @@ class SC5 {
       var f=1;
       var g=1;
       for(var m of h){
-          var i=this.Dec(m,b,z);
+          var i=this.Dec(m,b,z,keylen);
+          keylen++;
           if(l!=n){
           a="";
           a=this.CharCodeToUint8Array(this.salt_1_dat[g]);
@@ -647,7 +703,7 @@ class SC5 {
       //}
       return d;
     }
-    Enc (f, c, z) {
+    Enc (f, c, z, keylen) {
         var g = c;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
         var j = this.str_split (f, Math.pow (2, 7));
@@ -679,31 +735,31 @@ class SC5 {
 
         d = this.bk_kb(this.strrev (d));
         var _list = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < keylen; i++) {
           var g = CryptoJS.SHA512(g).toString();
           _list.push(g);
         }
         for (var i = 0; i < _list.length; i++) {
-          d = this.E_Shift(this.E_death_round(d, z, "123"),2);
+          d = this.E_death_round(d, z, "123");
           d = this.E_Shift(this.E_death_round(d, z, g),1);
-          d = this.E_Shift(this.E_death_round(d, z, _list[i]+"123"),3);
+          d = this.E_death_round(d, z, _list[i]+"123");
         }
         return [d, l];
     }
-    Dec (f, d, z) {
+    Dec (f, d, z, keylen) {
       var g = d;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
         var a = f.trim ();
         var _list = [];
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < keylen; i++) {
           var g = CryptoJS.SHA512(g).toString();
           _list.push(g);
         }
         _list.reverse();
         for (var i = 0; i < _list.length; i++) {
-        a = this.D_death_round(this.D_Shift(a,3), z, _list[i]+"123");
+        a = this.D_death_round(a, z, _list[i]+"123");
         a = this.D_death_round(this.D_Shift(a,1), z, g);
-        a = this.D_death_round(this.D_Shift(a,2), z, "123");
+        a = this.D_death_round(a, z, "123");
         }
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
