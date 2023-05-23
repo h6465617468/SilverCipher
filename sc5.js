@@ -796,7 +796,7 @@ class SC5 {
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
         var ax = a.length;
-        a = [];
+        a = "";
         var h = "";
         var e = 1;
         var ixa1k = 0;
