@@ -586,6 +586,9 @@ class SC5 {
       for(var l of i){
           f=this.Enc(l,b,z,keylen);
           keylen++;
+          if(keylen>8){
+            keylen = 1;
+          }
           if(k!=m){
           a="";
           a=this.CharCodeToUint8Array(this.salt_1_dat[h]);
@@ -614,7 +617,7 @@ class SC5 {
           g++;
           h++;
       }
-      e+="==";
+      //e+="==";
       //if(j==true){
       //    e=this.base64_decode(e);
       //}
@@ -663,6 +666,9 @@ class SC5 {
       for(var m of h){
           var i=this.Dec(m,b,z,keylen);
           keylen++;
+          if(keylen>8){
+            keylen = 1;
+          }
           if(l!=n){
           a="";
           a=this.CharCodeToUint8Array(this.salt_1_dat[g]);
