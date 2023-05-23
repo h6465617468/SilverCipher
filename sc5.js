@@ -865,7 +865,7 @@ class SC5 {
         return [a,l];
     }
     Crypt (r, x, f, keylen) {
-      keylen += 2;
+      keylen += 8;
         var k = f;
         // var t = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.md5(k))));
         // f = this.Hex_Dont_Count (this.hash("sha512", f + t + this.convert(0x3f,0x6c,0x33) ));
