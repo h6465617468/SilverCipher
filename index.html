@@ -478,7 +478,8 @@ function clearx() {
   input.value = ""; // metni seç
 }
 function yapistirx(){var t=document.getElementById("ortak");t&&navigator.clipboard.readText().then(function(n){t.value=n}).catch(function(n){console.error(n)})}
-function randomx(){var a="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+abcdefghjklmnopqrstuvwxyz$@?&%#",t="";for(var e,o=0;o<128;o++)t+=(e=e=void 0,e=a.length,e=Math.floor(Math.random()*e),a.charAt(e));document.getElementById("ortak").value=t}
+function randomInRange(a,b){var c=Math.random()*(b-a+1),d=Math.floor(c);return a+d}
+function randomx(){for(var b,c="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+abcdefghjklmnopqrstuvwxyz$@?&%#",a="",d=randomInRange(128,192),f=0;f<d;f++)a+=(b=b=void 0,b=c.length,b=Math.floor(Math.random()*b),c.charAt(b));document.getElementById("ortak").value=a}
 function kopyala4() {
   var textarea = document.getElementById("bizim_private_keyimiz");
   textarea.select(); // metni seç
