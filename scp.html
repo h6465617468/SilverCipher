@@ -85,7 +85,7 @@
             $('#enc').on('click', function() {
                 // Şifrelenecek veri
                 var key = $('textarea[name="key"]').val();
-                var toenctext = Base64.encode($('textarea[name="data"]').val());
+                var toenctext = $('textarea[name="data"]').val();
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
@@ -118,7 +118,7 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var decryptedText;
-                decryptedText = Base64.decode(cipher.Decrypt(todectext));
+                decryptedText = cipher.Decrypt(todectext);
                 new Promise((resolve)=>{resolve();}).then( ()=>{
                 
                 }).finally(() => {
