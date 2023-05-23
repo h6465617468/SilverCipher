@@ -504,7 +504,7 @@ function inject4() {
         }
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        var cipher = new SC5(ortak_anahtar);
+        var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("bizim_private_keyimiz");
   var bizim_private_keyimiz = textarea.value.trim();
   if (bizim_private_keyimiz.startsWith("-----BEGIN RSA PRIVATE KEY-----")) {
@@ -525,7 +525,7 @@ function inject3() {
         }
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        var cipher = new SC5(ortak_anahtar);
+        var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("bizim_public_keyimiz");
   var bizim_public_keyimiz = textarea.value.trim();
   if (bizim_public_keyimiz.startsWith("-----BEGIN PUBLIC KEY-----")) {
@@ -552,7 +552,7 @@ function inject2() {
         }
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        var cipher = new SC5(ortak_anahtar);
+        var cipher = new SilverCipherMini(ortak_anahtar);
   var textarea = document.getElementById("target_public_key");
   var target_public_key = textarea.value.trim();
   if (target_public_key.startsWith("-----BEGIN PUBLIC KEY-----")) {
@@ -608,7 +608,7 @@ function key_gen_main(sizex){
         }
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
-        var cipher = new SC5(ortak_anahtar);
+        var cipher = new SilverCipherMini(ortak_anahtar);
     var crypt9 = new JSEncrypt({default_key_size: sizex});
     new Promise((resolve)=>{
     setTimeout(resolve, 100);
