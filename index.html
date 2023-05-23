@@ -783,7 +783,7 @@ parts.forEach(function(data10) {
         if(text!="3"){
           try {
         var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
-        var cipher_textarea_ = new SC5(ortak_anahtar);
+        var cipher_textarea_ = new SilverCipherMini(ortak_anahtar);
         var target_public_key = cipher_textarea_.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
@@ -834,7 +834,7 @@ parts.forEach(function(data10) {
         var text = e.value; // seçilen seçeneğin metnini al
         if(text!="3"){
           try {
-        var cipher_textarea_ = new SC5(ortak_anahtar);
+        var cipher_textarea_ = new SilverCipherMini(ortak_anahtar);
         var target_public_key = cipher_textarea_.Decrypt(document.getElementById("target_public_key").value.trim());
         var bizim_public_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
@@ -1138,7 +1138,7 @@ function passchange(){
             return;
         }
 
-          var cipher = new SC5(ortak_anahtar);
+          var cipher = new SilverCipherMini(ortak_anahtar);
 
     var ortak_anahtarnew = document.getElementById("passchange").value;
         if(ortak_anahtarnew == "" || ortak_anahtarnew == null){
@@ -1146,7 +1146,7 @@ function passchange(){
             return;
         }
 
-          var ciphernew = new SC5(ortak_anahtarnew);
+          var ciphernew = new SilverCipherMini(ortak_anahtarnew);
 
     var asdas1 = document.getElementById("target_public_key");
     var asdas2 = document.getElementById("bizim_public_keyimiz");
