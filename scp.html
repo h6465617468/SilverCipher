@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="icon.jpg" />
         <style>*{color:grey;} .imgx {height:400px;width:100%;max-width:400px;}</style>
         <script src="js/crypto-js.min.js"></script>
-        <script src="js/sc5.min.js"></script>
+        <script src="sc5.js"></script>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,7 +34,7 @@
                 Text&nbsp;</label></label><br>
                 <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala');kopyala.select();document.execCommand('copy');}});</script>
                 <input type="button" value="Copy" id="k" style="width:200px;height:42;background-color:#3e3938;color:#dd674a;border:1px solid black;"><br>   
-                <textarea name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required></textarea><br><label id="encdectime"><br></label><br>
+                <textarea name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required>sadasdsasadasdsasadasdsasadasdsasadasdsasadasdsasadasdsasadasdsa</textarea><br><label id="encdectime"><br></label><br>
                 <label>
                 Password&nbsp;</label>
                 <br>
@@ -72,6 +72,8 @@
         </div>
         <br><br>
         <script>
+            var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+
             function urlencode(str) {
             let encodedStr = encodeURIComponent(str);
             encodedStr = encodedStr.replace(/[!'()*]/g, function(c) {
@@ -83,12 +85,13 @@
             $('#enc').on('click', function() {
                 // Şifrelenecek veri
                 var key = $('textarea[name="key"]').val();
-                var toenctext = $('textarea[name="data"]').val();
+                var toenctext = Base64.encode($('textarea[name="data"]').val());
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
+                encryptedData = cipher.Encrypt(toenctext);
                 new Promise((resolve)=>{resolve();}).then( ()=>{
-                    encryptedData = cipher.Encrypt(toenctext);
+                    
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(encryptedData);
@@ -115,8 +118,9 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var decryptedText;
+                decryptedText = Base64.decode(cipher.Decrypt(todectext));
                 new Promise((resolve)=>{resolve();}).then( ()=>{
-                decryptedText = cipher.Decrypt(todectext);
+                
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(decryptedText);
