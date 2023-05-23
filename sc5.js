@@ -583,6 +583,18 @@ class SC5 {
       console.error("Parametreler bir string ve bir sayı olmalıdır.");
     }
   }
+  Eadd(array, add) {
+    add = add % 256; // Toplama miktarını 256'nın modunu al
+    let result = Uint8Array.from(array, num => (num + add) & 255); // Her değeri topla ve 8 bitlik sınırı koru
+    return result;
+  }
+  
+  // Toplayarak şifrelenmiş bir Uint8Array'i deşifre eder
+  Dadd(array, add) {
+    add = add % 256; // Toplama miktarını 256'nın modunu al
+    let result = Uint8Array.from(array, num => (num - add) & 255); // Her değerden çıkar ve 8 bitlik sınırı koru
+    return result;
+  }
     Encrypt (d) {
       d = this.StringTouint8Array(d);
       var b = this.key;
@@ -907,6 +919,7 @@ class SC5 {
               var p = key000[7];
             }
             a = this.Raw_hexrev (_end_data);
+            a = this.Eadd(a,1);
             a = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (a), k));
             a = this.Raw_hexrev (a);
             a = this.hex2bin(this.strtr (this.bin2hex (a), this.hex_char, this.change_5));
@@ -925,6 +938,7 @@ class SC5 {
             a = this.XOREncrypt(this.strrev (a), this.XOREncrypt(l,m));
             a = this.hex2bin(this.E_hex_2(this.bin2hex(a)));
             a = this.Raw_hexrev(a);
+            a = this.Eadd(a,12);
             a = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(a),m));
             ////////////////////////
             if(i000==0){
@@ -974,6 +988,7 @@ class SC5 {
             }
             ////////////////////////
             b = this.hex2bin(this.E_Shift (this.bin2hex (b), 3));
+            b = this.Eadd(b,8);
             b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), t));
             b = this.hex2bin(this.E_hex_2 (this.bin2hex (b)));
             b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), l));
@@ -994,6 +1009,7 @@ class SC5 {
             b = this.XOREncrypt(this.strrev(b), p);
             b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3)); 
             b = this.hex2bin(this.E_hex_2(this.bin2hex(b))); 
+            b = this.Eadd(b,8);
             _end_data = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b), k));
             s,b,a,j,e = "";
           }
@@ -1023,6 +1039,7 @@ class SC5 {
                 var p = key000[7];
               }
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(_end_data), k));
+              a = this.Dadd(a,8);
               a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
               a = this.strrev(this.XORDecrypt(a, p));
@@ -1043,6 +1060,7 @@ class SC5 {
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
               a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
+              a = this.Dadd(a,8);
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
               ///////////////////////////
               if (i000 === keyCount - 1) {
@@ -1081,6 +1099,7 @@ class SC5 {
               ///////////////////////////
 
               c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), m));
+              c = this.Dadd(c,12);
               c = this.Raw_hexrev(c);
               c = this.hex2bin(this.D_hex_2(this.bin2hex(c)));
               c = this.strrev(this.XORDecrypt(c, this.XOREncrypt(l, m)));
@@ -1099,6 +1118,7 @@ class SC5 {
               c = this.hex2bin(this.strtr(this.bin2hex(c), this.change_5, this.hex_char));
               c = this.Raw_hexrev(c);
               c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
+              c = this.Dadd(c,1);
               _end_data = this.Raw_hexrev(c);
               c,e,u,w,j,g,a = "";
             }
