@@ -192,14 +192,28 @@ class SC5 {
        }
       }
       // eğer girdi bir Uni8Array ise, onu bir dizgeye dönüştür
-      if (str instanceof Uint8Array) {
-       str = String.fromCharCode.apply(null, str);
-      }
+      // if (str instanceof Uint8Array) {
+      //  str = String.fromCharCode.apply(null, str);
+      // }
       // düzenli ifadeyi oluştur
-      var regex = new RegExp("(.{1," + length + "})", "gms");
+      // var regex = new RegExp("(.{1," + length + "})", "gms");
 
-      // match() fonksiyonu ile dizgeyi düzenli ifadeye göre eşleştiren bir dizi elde et
-      var result = str.match(regex);
+      // // match() fonksiyonu ile dizgeyi düzenli ifadeye göre eşleştiren bir dizi elde et
+      // var result = str.match(regex);
+      if (typeof str === "string") {
+        str = this.StringTouint8Array(str);
+      }
+      var result = [];
+      var decoder = new TextDecoder("utf-8"); // string'e dönüştürmek için decoder
+
+      var uint8array = str;
+      for (var i = 0; i < uint8array.length; i += length) {
+        var subarray = uint8array.slice(i, i + length); // uni8array'i istenen uzunlukta bölüyor
+        var str = decoder.decode(subarray); // subarray'i string'e çeviriyor
+        result.push(str); // sonuç dizisine ekliyor
+      }
+
+
       // eğer sonuç null ise, girdiyi bir diziye dönüştür
       if (result == null) {
        result = [str];
@@ -718,7 +732,7 @@ class SC5 {
           //console.log("A1=>"+k);
           var a = this.Crypt (k, "e", c);
           //console.log("A2=>"+a);
-          if (f.length > Math.pow (2, 7)) {
+          if (new Blob([f], {type: "text/plain"}).size > Math.pow (2, 7)) {
             var b = "";
             b = this.CharCodeToUint8Array(this.salt_2_dat [e]);
             var i = this.numhash(c, 1);
@@ -767,12 +781,13 @@ class SC5 {
         }
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
+        var ax = a;
         a = "";
         var h = "";
         var e = 1;
         for (var k of j) {
           var b = this.Crypt (k, "d", d);
-          if (f.length > Math.pow (2, 7)) {
+          if (new Blob([ax], {type: "text/plain"}).size > Math.pow (2, 7)) {
             var c = "";
             c = this.CharCodeToUint8Array(this.salt_2_dat[e]);
             var i = this.numhash(d, 1);
