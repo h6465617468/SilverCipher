@@ -209,25 +209,18 @@ class SC5 {
       var uint8array = str;
       for (var i = 0; i < uint8array.length; i += length) {
         var subarray = uint8array.slice(i, i + length); // uni8array'i istenen uzunlukta bölüyor
-        var str = decoder.decode(subarray); // subarray'i string'e çeviriyor
+        if (inputType == "object" || inputType == "number") {
+          var str = subarray;
+        }else{
+          var str = decoder.decode(subarray); // subarray'i string'e çeviriyor
+        }
+        
         result.push(str); // sonuç dizisine ekliyor
       }
 
-
       // eğer sonuç null ise, girdiyi bir diziye dönüştür
-      if (result == null) {
+      if (subarray == null) {
        result = [str];
-      }
-      // eğer girdi bir Uni8Array ise, sonucu da bir Uni8Array'e dönüştür
-      if (inputType == "object" || inputType == "number") {
-       // sonucun her elemanını birer karakter olarak kabul eden bir dizge oluştur
-       var resultStr = result.join("");
-       // bu dizgeyi bir Uni8Array'e dönüştür
-       result = new Uint8Array(resultStr.length);
-       // sonucun her elemanını dizgedeki karşılığına göre atayın
-       for (var i = 0; i < resultStr.length; i++) {
-        result[i] = resultStr.charCodeAt(i);
-       }
       }
       // sonucu döndür
       return result;
@@ -557,8 +550,10 @@ class SC5 {
   //   }
   //   return sum;
   // }
-  
+
+
     Encrypt (d) {
+      d = this.StringTouint8Array(d);
       var b = this.key;
       // var keylen = this.sumNumbers(b);
       var keylen = 1;
@@ -608,7 +603,7 @@ class SC5 {
           a=this.CharCodeToUint8Array(this.salt_1_dat[h]);
           c=this.numhash(b,1);
           if(c!=0){
-              var ax=this.XOREncrypt(this.hex2bin(i[1]),this.CharCodeToUint8Array(this.salt_1_dat[c]));
+              var ax=this.XOREncrypt(i[1],this.CharCodeToUint8Array(this.salt_1_dat[c]));
               a=this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax))));
           }
           if(h==36){
@@ -662,7 +657,6 @@ class SC5 {
       a = this.XOREncrypt(a, this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf) + this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length))))));
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a + this.StringTouint8Array(Math.pow (2, 32))))).length * 64 + Math.pow (2, 84)))), 1);
       var h = this.str_split(e,684);
-      var d = "";
       var _3xmap = [0x12,0x69,0xf9,0x45];
       a = this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf)+ this.convert(_3xmap) + this.StringTouint8Array(Math.exp(Math.pow(2,5))))));
       if(c!=0){
@@ -677,6 +671,8 @@ class SC5 {
       var l=1;
       var f=1;
       var g=1;
+      var d = "";
+      var ixa1k = 0;
       for(var m of h){
           var i=this.Dec(m,b,z,keylen);
           keylen++;
@@ -706,7 +702,19 @@ class SC5 {
               f=0;
           }
           }
-          d=d+i[0];
+          ixa1k++;
+          if (h.length == 1) {
+            // tek round
+            d = i[0];
+          } else {
+            // birden fazla round
+            if(ixa1k == h.length){
+              d = d + i[0];
+            }else{
+              d = d + i[0] + ",";
+            }
+          }
+
           l++;
           f++;
           g++;
@@ -719,6 +727,13 @@ class SC5 {
       //if(j==true){
       //    d=gzuncompress(d);
       //}
+      if (typeof d == "string") {
+        var strArr2 = d.split(",");
+        d = new Uint8Array(strArr2.length);
+        for (var i = 0; i < strArr2.length; i++) { d[i] = parseInt(strArr2[i]); }
+      }
+      d=this.uint8ArrayToString(d);
+      // string değeri virgüllere göre ayırarak bir dizi oluştur var strArr = "97,98,99".split(","); // bu diziyi bir Uni8Array’e dönüştür var u8a = new Uint8Array(strArr.length); // dizinin her elemanını sayıya dönüştürerek Uni8Array’e atayın for (var i = 0; i < strArr.length; i++) { u8a[i] = parseInt(strArr[i]); } // Uni8Array’i bir stringe dönüştürmek için String.fromCharCode fonksiyonunu kullanın var str = String.fromCharCode.apply(null, u8a); // sonucu yazdırın console.log(str); // "abc"
       return d;
     }
     Enc (f, c, z, keylen) {
@@ -728,11 +743,9 @@ class SC5 {
         var d = "";
         var h = "";
         var e = 1;
-        var ax = new Blob([f], {type: "text/plain"}).size;
+        var ax = f.length;
         for (var k of j) {
-          //console.log("A1=>"+k);
           var a = this.Crypt (k, "e", c);
-          //console.log("A2=>"+a);
           if (ax > Math.pow (2, 7)) {
             var b = "";
             b = this.CharCodeToUint8Array(this.salt_2_dat [e]);
@@ -782,10 +795,11 @@ class SC5 {
         }
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
-        var ax = new Blob([a], {type: "text/plain"}).size;
-        a = "";
+        var ax = a.length;
+        a = [];
         var h = "";
         var e = 1;
+        var ixa1k = 0;
         for (var k of j) {
           var b = this.Crypt (k, "d", d);
           if (ax > Math.pow (2, 7)) {
@@ -801,9 +815,21 @@ class SC5 {
             e++;
             d=this.hex2bin(this.Hex_Dont_Count(this.hash("sha512",this.XOREncrypt(this.strrev(this.XOREncrypt(d+this.convert(0xb5,0xb9),c)),b[1])+c+b[1])));
           }
-          a=a+b[0];
+          ixa1k++;
+          if (j.length == 1) {
+            // tek round
+            a=b[0];
+          } else {
+            // birden fazla round
+            if(ixa1k == j.length){
+              a=a+b[0];
+            }else{
+              a=a+b[0]+",";
+            }
+          }
           h=h+b[1];
         }
+        
         b="";
         var l=h;
         return [a,l];
@@ -820,7 +846,6 @@ class SC5 {
         var p = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool", q))))));
         var v,u,w;
         if (x == "e") {
-            r = this.StringTouint8Array(r);
             var a = this.Raw_hexrev (r);
             a = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (a), k));
             a = this.Raw_hexrev (a);
@@ -983,9 +1008,7 @@ class SC5 {
             c = this.Raw_hexrev(c);
             c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
             v = this.Raw_hexrev(c);
-            v = this.uint8ArrayToString(v);
         }
-        s = s;
         return [v, s];
     }
     unpack(format, data) {
@@ -1122,7 +1145,7 @@ class SC5 {
          // dizgenin her elemanını sayıya dönüştürerek Uni8Array’e atayın 
          for (var i = 0; i < strNum.length; i++) { a[i] = parseInt(strNum[i]); } } 
          // eğer girdi bir dizge ise, onu bir Uni8Array’e dönüştür 
-         if (typeof a == "string") { 
+      if (typeof a == "string") { 
           // dizgeyi virgüllere göre ayırarak bir dizi oluştur 
           var strArr = a.split(","); // bu diziyi bir Uni8Array’e dönüştür 
           a = new Uint8Array(strArr.length); 
