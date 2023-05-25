@@ -379,7 +379,7 @@ option:checked {
           <!-- V -->
           <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
           <div style="text-align: center;">
-          <button id="btn2048" onclick="key_gen_main(2048)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">2048 Bit / (2s)</button>
+          <button id="btn2048" onclick="key_gen_main(2048);" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">2048 Bit / (2s)</button>
           </div>
           <div style="text-align: center;">
           <button id="btn3072" onclick="key_gen_main(3072)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">3072 Bit / (13s)</button>
@@ -613,14 +613,14 @@ function str_splitx(string, splitLength) {
 }
 var _process__key_gen = 0;
 function key_gen_main(sizex){
+  if(_process__key_gen==1){return;}
+  _process__key_gen=1;
   btnx("#btn2048",true);
   btnx("#btn3072",true);
   btnx("#btn4096",true);
   btnx("#btn5000",true);
   btnx("#btn8192",true);
   btnx("#btn16384",true);
-  if(_process__key_gen==1){return;}
-  _process__key_gen=1;
     var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
             alert("Symmetric Key Required");
@@ -639,6 +639,14 @@ function key_gen_main(sizex){
     setTimeout(resolve, 100);
     }).then( ()=>{
         crypt9.getKey();
+    }).catch( ()=>{
+      btnx("#btn2048",false);
+      btnx("#btn3072",false);
+      btnx("#btn4096",false);
+      btnx("#btn5000",false);
+      btnx("#btn8192",false);
+      btnx("#btn16384",false);
+      _process__key_gen=0;
     }).finally(() => {
       var publicasdasdas=crypt9.getPublicKey();
 var privateKeyElement = document.getElementById("bizim_private_keyimiz");
@@ -798,7 +806,7 @@ parts.forEach(function(data10) {
             }
 var _proces__enc_dec=0;
     function friend_sent_encrypted_message() {
-      if(_proces__enc_dec==1){return;}else{console.log("x");}
+      if(_proces__enc_dec==1){return;}
       _proces__enc_dec=1;
       var _cache_title_ = document.title;
       btnx("#encryptbtn",true);
@@ -812,6 +820,9 @@ var _proces__enc_dec=0;
         }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
+          _proces__enc_dec=0;
+          btnx("#encryptbtn",false);
+        setVisible('#loading', false);
             alert("Symmetric Key Required");
             return;
         }
@@ -835,12 +846,21 @@ var _proces__enc_dec=0;
         var bizim_public_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
       } catch (err) {
-        btnx("#encryptbtn",false);
         _proces__enc_dec=0;
+        btnx("#encryptbtn",false);
+        setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
         return;
         }
+        }
+        if(target_public_key=="" || bizim_public_keyimiz=="" || bizim_private_keyimiz==""){
+          _proces__enc_dec=0;
+        btnx("#encryptbtn",false);
+        setVisible('#loading', false);
+        // Error yakalama kodu
+        alert("Public/Private Key Empty");
+        return;
         }
         try {
         if(text=="1"){
@@ -871,7 +891,7 @@ var _proces__enc_dec=0;
     }
 
     function friend_decrypt_encrypted_message() {
-      if(_proces__enc_dec==1){return;}else{console.log("x");}
+      if(_proces__enc_dec==1){return;}
       _proces__enc_dec=1;
       var _cache_title_ = document.title;
       btnx("#decryptbtn",true);
@@ -885,6 +905,9 @@ var _proces__enc_dec=0;
         }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
+          _proces__enc_dec=0;
+          btnx("#decryptbtn",false);
+        setVisible('#loading', false);
             alert("Symmetric Key Required");
             return;
         }
@@ -911,12 +934,20 @@ var _proces__enc_dec=0;
       } catch (err) {
         _proces__enc_dec=0;
         btnx("#decryptbtn",false);
+        setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
         return;
         }
         }
-        
+        if(target_public_key=="" || bizim_public_keyimiz=="" || bizim_private_keyimiz==""){
+          _proces__enc_dec=0;
+        btnx("#decryptbtn",false);
+        setVisible('#loading', false);
+        // Error yakalama kodu
+        alert("Public/Private Key Empty");
+        return;
+        }
         try {
           var encrypted="";
           arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
