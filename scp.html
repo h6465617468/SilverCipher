@@ -89,9 +89,9 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
-                encryptedData = cipher.Encrypt(toenctext);
+                
                 new Promise((resolve)=>{resolve();}).then( ()=>{
-                    
+                encryptedData = cipher.Encrypt(toenctext);
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(encryptedData);
@@ -118,9 +118,9 @@
                 var cipher = new SC5(key);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var decryptedText;
-                decryptedText = cipher.Decrypt(todectext);
-                new Promise((resolve)=>{resolve();}).then( ()=>{
                 
+                new Promise((resolve)=>{resolve();}).then( ()=>{
+                decryptedText = cipher.Decrypt(todectext);
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(decryptedText);
