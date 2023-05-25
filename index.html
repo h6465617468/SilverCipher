@@ -852,6 +852,14 @@ var _proces__enc_dec=0;
         var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
         var encrypted="";
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
+        if(sifrelenecek_mesaj==""){
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#encryptbtn",false);
+        setVisible('#loading', false);
+            alert("Empty");
+            return;
+        }
         var e = document.getElementById("rsamode"); // seçim elementini bul
         var text = e.value; // seçilen seçeneğin metnini al
         if(text!="3"){
