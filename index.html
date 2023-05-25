@@ -817,6 +817,14 @@ var _proces__enc_dec=0;
         new Promise((resolve)=>{
         setTimeout(resolve, 100);
         }).then( ()=>{
+        }).catch( ()=>{
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#encryptbtn",false);
+          setVisible('#loading', false);
+          // Error yakalama kodu
+          alert("Error");
+          return;
         }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
@@ -907,6 +915,14 @@ var _proces__enc_dec=0;
       new Promise((resolve)=>{
         setTimeout(resolve, 100);
         }).then( ()=>{
+        }).catch( ()=>{
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+          setVisible('#loading', false);
+          // Error yakalama kodu
+          alert("Error");
+          return;
         }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
