@@ -236,7 +236,10 @@ option:checked {
 
     </head>
     <body>
-        <div class="a1">
+      <div id="loading" style="position: fixed; top: 0; width: 100%;background-color:floralwhite;opacity:1;z-index:10;display:none;">
+        <p style="font-size:32px;" id="loadingdurum">Loading...</p>
+      </div>
+        <div id="main" class="a1">
             
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">SC5/M RSA Hybrid Encryption</h1>
           <input type="password" id="ortak" class="container" style="margin-bottom:10px;" placeholder="🔑 Symmetric Key" autocomplete="off">
@@ -419,6 +422,9 @@ option:checked {
 
 <!--SCRIPTS-->
 <script>
+   function setVisible(selector, visible) {
+  document.querySelector(selector).style.display = visible ? 'block' : 'none';
+}
 function changeText_JS(value) {
   // seçim elementini bul
   var select = document.getElementById("rsamode");
@@ -609,6 +615,11 @@ function key_gen_main(sizex){
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
         var cipher = new SilverCipherMini(ortak_anahtar);
+        setVisible('#loading', true);
+        var _cache_title_ = document.title;
+        document.title = sizex+ "/Key Generating...";
+        var change = document.getElementById("loadingdurum");
+        change.innerText="RSA " + sizex + " Bit Key Generating...";
     var crypt9 = new JSEncrypt({default_key_size: sizex});
     new Promise((resolve)=>{
     setTimeout(resolve, 100);
@@ -617,10 +628,12 @@ function key_gen_main(sizex){
     }).finally(() => {
       var publicasdasdas=crypt9.getPublicKey();
 var privateKeyElement = document.getElementById("bizim_private_keyimiz");
-privateKeyElement.innerHTML = cipher.Encrypt(crypt9.getPrivateKey());
+privateKeyElement.value = cipher.Encrypt(crypt9.getPrivateKey());
 
 var publicKeyElement = document.getElementById("bizim_public_keyimiz");
-publicKeyElement.innerHTML = cipher.Encrypt(publicasdasdas);
+publicKeyElement.value = cipher.Encrypt(publicasdasdas);
+setVisible('#loading', false);
+document.title = _cache_title_;
 
     });
 }
