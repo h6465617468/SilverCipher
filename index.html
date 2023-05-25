@@ -821,6 +821,7 @@ var _proces__enc_dec=0;
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
           _proces__enc_dec=0;
+          document.title = _cache_title_;
           btnx("#encryptbtn",false);
         setVisible('#loading', false);
             alert("Symmetric Key Required");
@@ -847,6 +848,7 @@ var _proces__enc_dec=0;
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
       } catch (err) {
         _proces__enc_dec=0;
+        document.title = _cache_title_;
         btnx("#encryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
@@ -856,6 +858,7 @@ var _proces__enc_dec=0;
         }
         if(target_public_key=="" || bizim_public_keyimiz=="" || bizim_private_keyimiz==""){
           _proces__enc_dec=0;
+          document.title = _cache_title_;
         btnx("#encryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
@@ -879,6 +882,7 @@ var _proces__enc_dec=0;
           btnx("#encryptbtn",false);
           _proces__enc_dec=0;
           document.title = _cache_title_;
+          document.title = _cache_title_;
           setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
@@ -887,6 +891,7 @@ var _proces__enc_dec=0;
         asdas.value = encrypted;
         btnx("#encryptbtn",false);
         _proces__enc_dec=0;
+        document.title = _cache_title_;
       });
     }
 
@@ -906,6 +911,7 @@ var _proces__enc_dec=0;
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
           _proces__enc_dec=0;
+          document.title = _cache_title_;
           btnx("#decryptbtn",false);
         setVisible('#loading', false);
             alert("Symmetric Key Required");
@@ -933,6 +939,7 @@ var _proces__enc_dec=0;
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
       } catch (err) {
         _proces__enc_dec=0;
+        document.title = _cache_title_;
         btnx("#decryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
@@ -942,6 +949,7 @@ var _proces__enc_dec=0;
         }
         if(target_public_key=="" || bizim_public_keyimiz=="" || bizim_private_keyimiz==""){
           _proces__enc_dec=0;
+          document.title = _cache_title_;
         btnx("#decryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
@@ -964,8 +972,8 @@ var _proces__enc_dec=0;
         setVisible('#loading', false);
         } catch (err) {
           _proces__enc_dec=0;
-          btnx("#decryptbtn",false);
           document.title = _cache_title_;
+          btnx("#decryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
@@ -974,6 +982,7 @@ var _proces__enc_dec=0;
         var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
         asdas.value=encrypted;
         _proces__enc_dec=0;
+        document.title = _cache_title_;
         btnx("#decryptbtn",false);
       });
     }
