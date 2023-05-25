@@ -275,7 +275,7 @@ option:checked {
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Decrypt / Verify</h1>
           <textarea spellcheck="false" id="arkadasinin_sifreli_mesaji" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="Encrypted Message..."></textarea>
-          <div style="text-align: center;"><button type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_decrypt_encrypted_message()">🔓 Read the message</button></div>
+          <div style="text-align: center;"><button id="decryptbtn" type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_decrypt_encrypted_message()">🔓 Read the message</button></div>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;width: 92% !important;">
             <button onclick="kopyala0()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
             <button onclick="yapistir0()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
@@ -290,7 +290,7 @@ option:checked {
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Encrypt / Sign</h1>
           <textarea spellcheck="false" id="sifrelenecek_rsa_mesaji" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="Message to Encrypt..."></textarea>
-          <div style="text-align: center;"><button type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_sent_encrypted_message()">🔒 Encrypt Message</button></div>
+          <div style="text-align: center;"><button id="encryptbtn" type="button" style="border-radius:0;border-bottom-left-radius: 15px!important;border-bottom-right-radius: 15px!important;margin-bottom:10px;min-width: 300px;width: 100%;max-width: 644px;font-size:22px;" onclick="friend_sent_encrypted_message()">🔒 Encrypt Message</button></div>
           <div style="text-align: center; display: flex; justify-content: center;max-width:620px;margin:0 auto;width: 92% !important;">
             <button onclick="kopyala1()" type="button" style=" margin-bottom:10px; flex: 1;border-top-left-radius: 15px;border-bottom-left-radius: 15px;">Copy</button>
             <button onclick="yapistir1()" type="button" style=" margin-bottom:10px; flex: 1;">Paste</button>
@@ -379,22 +379,22 @@ option:checked {
           <!-- V -->
           <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
           <div style="text-align: center;">
-          <button onclick="key_gen_main(2048)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">2048 Bit / (2s)</button>
+          <button id="btn2048" onclick="key_gen_main(2048)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">2048 Bit / (2s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(3072)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">3072 Bit / (13s)</button>
+          <button id="btn3072" onclick="key_gen_main(3072)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">3072 Bit / (13s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(4096)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">4096 Bit / (45s)</button>
+          <button id="btn4096" onclick="key_gen_main(4096)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">4096 Bit / (45s)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(5000)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">5000 Bit / (2m)</button>
+          <button id="btn5000" onclick="key_gen_main(5000)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">5000 Bit / (2m)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(8192)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">8192 Bit / (3h)</button>
+          <button id="btn8192" onclick="key_gen_main(8192)" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">8192 Bit / (3h)</button>
           </div>
           <div style="text-align: center;">
-          <button onclick="key_gen_main(16384)" type="button" style="flex: 1;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">16384 Bit / (1d)</button>
+          <button id="btn16384" onclick="key_gen_main(16384)" type="button" style="flex: 1;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">16384 Bit / (1d)</button>
           </div>
           </div>
           <!-- V -->
@@ -429,6 +429,8 @@ option:checked {
    function setVisible(selector, visible) {
   document.querySelector(selector).style.display = visible ? 'block' : 'none';
 }
+function btnx(selector, disabled) { document.querySelector(selector).disabled = disabled ? 'true' : 'false'; if (disabled) { document.querySelector(selector).setAttribute("disabled", "true"); } if (!disabled) { document.querySelector(selector).removeAttribute("disabled"); } }
+
 function changeText_JS(value) {
   // seçim elementini bul
   var select = document.getElementById("rsamode");
@@ -609,8 +611,16 @@ function str_splitx(string, splitLength) {
   }
   return chunks
 }
-
+var _process__key_gen = 0;
 function key_gen_main(sizex){
+  btnx("#btn2048",true);
+  btnx("#btn3072",true);
+  btnx("#btn4096",true);
+  btnx("#btn5000",true);
+  btnx("#btn8192",true);
+  btnx("#btn16384",true);
+  if(_process__key_gen==1){return;}
+  _process__key_gen=1;
     var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
             alert("Symmetric Key Required");
@@ -636,10 +646,17 @@ privateKeyElement.value = cipher.Encrypt(crypt9.getPrivateKey());
 
 var publicKeyElement = document.getElementById("bizim_public_keyimiz");
 publicKeyElement.value = cipher.Encrypt(publicasdasdas);
+_process__key_gen=0;
 setVisible('#loading', false);
 document.title = _cache_title_;
-beep();
 
+beep();
+btnx("#btn2048",false);
+btnx("#btn3072",false);
+btnx("#btn4096",false);
+btnx("#btn5000",false);
+btnx("#btn8192",false);
+btnx("#btn16384",false);
     });
 }
 function encrypt_1(key, iv, plaintext) {
@@ -779,8 +796,20 @@ parts.forEach(function(data10) {
 
             return asdasdasd;
             }
-
+var _proces__enc_dec=0;
     function friend_sent_encrypted_message() {
+      if(_proces__enc_dec==1){return;}else{console.log("x");}
+      _proces__enc_dec=1;
+      var _cache_title_ = document.title;
+      btnx("#encryptbtn",true);
+      setVisible('#loading', true);
+      document.title = "Encoding ...";
+      var change = document.getElementById("loadingdurum");
+      change.innerText="Encoding ...";
+        new Promise((resolve)=>{
+        setTimeout(resolve, 100);
+        }).then( ()=>{
+        }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
             alert("Symmetric Key Required");
@@ -806,6 +835,8 @@ parts.forEach(function(data10) {
         var bizim_public_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
       } catch (err) {
+        btnx("#encryptbtn",false);
+        _proces__enc_dec=0;
         // Error yakalama kodu
         alert("Error");
         return;
@@ -822,15 +853,36 @@ parts.forEach(function(data10) {
           encrypted = encrypt_1(key,iv,sifrelenecek_mesaj);
         }
         encrypted = cipher.Encrypt(encrypted);
+        document.title = _cache_title_;
+        setVisible('#loading', false);
         } catch (err) {
+          btnx("#encryptbtn",false);
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
         return;
         }
         asdas.value = encrypted;
+        btnx("#encryptbtn",false);
+        _proces__enc_dec=0;
+      });
     }
 
     function friend_decrypt_encrypted_message() {
+      if(_proces__enc_dec==1){return;}else{console.log("x");}
+      _proces__enc_dec=1;
+      var _cache_title_ = document.title;
+      btnx("#decryptbtn",true);
+      setVisible('#loading', true);
+      document.title = "Decoding...";
+      var change = document.getElementById("loadingdurum");
+      change.innerText="Decoding...";
+      new Promise((resolve)=>{
+        setTimeout(resolve, 100);
+        }).then( ()=>{
+        }).finally(() => {
         var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
             alert("Symmetric Key Required");
@@ -857,6 +909,8 @@ parts.forEach(function(data10) {
         var bizim_public_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_public_keyimiz").value.trim());
         var bizim_private_keyimiz = cipher_textarea_.Decrypt(document.getElementById("bizim_private_keyimiz").value.trim());
       } catch (err) {
+        _proces__enc_dec=0;
+        btnx("#decryptbtn",false);
         // Error yakalama kodu
         alert("Error");
         return;
@@ -875,15 +929,22 @@ parts.forEach(function(data10) {
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           encrypted = decrypt_1(key,iv,arkadasinin_sifreli_mesaji);
         }
-        
+        document.title = _cache_title_;
+        setVisible('#loading', false);
         } catch (err) {
+          _proces__enc_dec=0;
+          btnx("#decryptbtn",false);
+          document.title = _cache_title_;
+        setVisible('#loading', false);
         // Error yakalama kodu
         alert("Error");
         return;
         }
         var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
         asdas.value=encrypted;
-        
+        _proces__enc_dec=0;
+        btnx("#decryptbtn",false);
+      });
     }
     function download_dec_messages(){
   var textarea = document.getElementById("arkadasinin_sifreli_mesaji").value;
