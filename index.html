@@ -623,8 +623,15 @@ function key_gen_main(sizex){
   btnx("#btn16384",true);
     var ortak_anahtar = document.getElementById("ortak").value;
         if(ortak_anahtar == "" || ortak_anahtar == null){
-            alert("Symmetric Key Required");
-            return;
+          btnx("#btn2048",false);
+          btnx("#btn3072",false);
+          btnx("#btn4096",false);
+          btnx("#btn5000",false);
+          btnx("#btn8192",false);
+          btnx("#btn16384",false);
+          _process__key_gen=0;
+          alert("Symmetric Key Required");
+          return;
         }
         var e1 = document.getElementById("scmode"); // seçim elementini bul
         var scmode1 = e1.value; // seçilen seçeneğin metnini al
