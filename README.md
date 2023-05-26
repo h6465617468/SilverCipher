@@ -1,4 +1,4 @@
-# SC Encryption Algorithm
+# SC Military Level Encryption Algorithm
 ![rsa encryption tool](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/main.png?raw=true)
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 Complex library of folder, file and text encryption and unique encryption algorithm
@@ -17,7 +17,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 
 # Demo
-### SCP Beta Version
+### SCP Beta Version (Military Level)
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
 ### SCM
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
