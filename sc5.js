@@ -1101,17 +1101,15 @@ bitOR(data, key) {
             //console.log("Round "+(i000+1));
             //console.log(keys000[i000]);
             // Key değerinin içindeki tüm elemanları konsola yazdıralım
-            for (let j000 = 0; j000 < key000.length; j000++) {
-              //console.log(key000[j000]);
-              var t = key000[0];
-              var f = key000[1];
-              var l = key000[2];
-              var q = key000[3];
-              var m = key000[4];
-              var g = key000[5];
-              var o = key000[6];
-              var p = key000[7];
-            }
+            //console.log(key000[j000]);
+            var t = key000[0];
+            var f = key000[1];
+            var l = key000[2];
+            var q = key000[3];
+            var m = key000[4];
+            var g = key000[5];
+            var o = key000[6];
+            var p = key000[7];
             a = this.Raw_hexrev (_end_data);
             a = this.EaddX(a);
             a = this.swapPairs(a);
@@ -1231,17 +1229,15 @@ bitOR(data, key) {
               //console.log("Round "+(i000+1));
               //console.log(keys000[i000]);
               // Key değerinin içindeki tüm elemanları konsola yazdıralım
-              for (let j000 = 0; j000 < key000.length; j000++) {
-                //console.log(key000[j000]);
-                var t = key000[0];
-                var f = key000[1];
-                var l = key000[2];
-                var q = key000[3];
-                var m = key000[4];
-                var g = key000[5];
-                var o = key000[6];
-                var p = key000[7];
-              }
+              //console.log(key000[j000]);
+              var t = key000[0];
+              var f = key000[1];
+              var l = key000[2];
+              var q = key000[3];
+              var m = key000[4];
+              var g = key000[5];
+              var o = key000[6];
+              var p = key000[7];
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(_end_data), k));
               a = this.Dadd(a,8);
               a = this.flipBits(a);
