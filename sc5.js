@@ -716,7 +716,12 @@ DaddX(array) {
     }
     return array;
   }
-  flipBits(array) {
+// Bir Uint8Array girdi alan ve bir Uint8Array çıktı veren bir fonksiyon tanımla
+flipBits(array) {
+  // array'in Uint8Array olduğunu kontrol et
+  if (array instanceof Uint8Array) {
+    // array'in başlangıç değerini göster
+
     // array'in her elemanını bit düzeyinde tersine çevir
     for (let i = 0; i < array.length; i++) {
       // elemanı ikili sayıya dönüştür
@@ -739,8 +744,14 @@ DaddX(array) {
       // array'in elemanını değiştir
       array[i] = decimal;
     }
+
+    // array'in son değerini göster
     return array;
+  } else {
+    // array Uint8Array değilse, hata mesajı verin
+    console.log("Geçersiz girdi tipi");
   }
+}
   // İki Uint8Array değerini birleştiren bir fonksiyon
 concatUint8Arrays(array1, array2) {
   // Birleştirilmiş dizinin boyutunu hesapla
