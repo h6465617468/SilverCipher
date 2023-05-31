@@ -34,18 +34,51 @@
                 Text&nbsp;</label></label><br>
                 <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala');kopyala.select();document.execCommand('copy');}});</script>
                 <input type="button" value="Copy" id="k" style="width:200px;height:42;background-color:#3e3938;color:#dd674a;border:1px solid black;"><br>   
-                <textarea name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required></textarea><br><label id="encdectime"><br></label><br>
-                <label>
-                Password&nbsp;</label>
-                <br>
-                <textarea placeholder="Password"  name="key" autocomplete="off" style="width: 95%; height: 60px;background-color:#3e3938;color:#dd674a;border:1px solid black;" required></textarea>
+                <textarea spellcheck="false" name="data" id="kopyala" placeholder="Plain/Encrypted Text" style="color:black;width: 95%; height: 250px;background-color:#3e3938;color:#dd674a;border:1px solid black;" autocomplete="off" required></textarea><br><label id="encdectime"><br></label>
                 <br>
                 <button style="background-color:#3e3938;color:#dd674a;border:1px solid black;" name="enc" id="enc">
                 Encrypt
                 </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button style="background-color:#3e3938;color:#dd674a;border:1px solid black;" name="dec" id="dec">
                 Decrypt
                 </button>
+                <br><br>
+                <label>
+                Password&nbsp;</label>
+                <br>
+                <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k1').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala1');kopyala.select();document.execCommand('copy');}});</script>
+                <input type="button" value="Copy" id="k1" style="width:200px;height:42;background-color:#3e3938;color:#dd674a;border:1px solid black;"><br>   
+                <textarea spellcheck="false" placeholder="Password"  name="key" id="kopyala1" autocomplete="off" style="width: 95%; height: 60px;background-color:#3e3938;color:#dd674a;border:1px solid black;" required></textarea>
+                <br>
+                <label>
+                Add Digest Round&nbsp;</label>
+                <br>
+                <input id="myInput" type="number" placeholder="Digest Round"  name="digest" autocomplete="off" style="width: 95%; height: 60px;background-color:#3e3938;color:#dd674a;border:1px solid black;font-size:32px;" value="0" required>
+                <script>
+                // input elementini seç
+                var input = document.getElementById("myInput");
+                // fare tekerleği olayını dinle
+                input.addEventListener("wheel", function(event) {
+                    // orta tuşa basılıp basılmadığını kontrol et
+                    if (event.button === 1) {
+                    // tekerleğin yönünü al
+                    var delta = event.deltaY;
+                    // tekerlek yukarı dönüyorsa değeri artır
+                    if (delta < 0) {
+                        input.value = parseInt(input.value) + 1;
+                    }
+                    // tekerlek aşağı dönüyorsa değeri azalt
+                    else if (delta > 0) {
+                        input.value = parseInt(input.value) - 1;
+                    }
+                    // olayı engelle
+                    event.preventDefault();
+                    }
+                });
+                </script>
+
+                <br>
             <br>
+            <!--
             <div style="margin:0 auto;margin-top:10px;color:black;width: 95%; height: auto;background-color:#3e3938;color:#dd674a;border:1px solid black;">
 
 <div class="container-fluid text-center">
@@ -68,6 +101,7 @@
 </div>
 </div>
 <br><br></div>
+-->
         </div>
         </div>
         <br><br>
@@ -84,9 +118,11 @@
             $(document).ready(function(){
             $('#enc').on('click', function() {
                 // Şifrelenecek veri
+                var digest = $('input[name="digest"]').val();
                 var key = $('textarea[name="key"]').val();
                 var toenctext = $('textarea[name="data"]').val();
-                var cipher = new SC5(key);
+                console.log("Girdi =>"+digest);
+                var cipher = new SC5(key,digest);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
                 
@@ -95,6 +131,7 @@
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(encryptedData);
+                /*
                 if(encryptedData.length<2954){
                     $('#textqrimg').attr("style","visibility:visible!important");
                     $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(encryptedData)+"&choe=UTF-8");
@@ -102,6 +139,8 @@
                 } else {
                     $('#textqrimg').attr("style","visibility:hidden!important");
                 }
+                */
+                /*
                 if(key.length<2954){
                     $('#keyqrimg').attr("style","visibility:visible!important");
                 $('#keyqr').attr("href","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(key)+"&choe=UTF-8");
@@ -109,13 +148,15 @@
                 } else {
                     $('#keyqrimg').attr("style","visibility:hidden!important");
                 }
+                */
                 });
             });
             $('#dec').on('click', function() {
                 // DeŞifrelenecek veri
+                var digest = $('input[name="digest"]').val();
                 var key = $('textarea[name="key"]').val();
                 var todectext = $('textarea[name="data"]').val();
-                var cipher = new SC5(key);
+                var cipher = new SC5(key,digest);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var decryptedText;
                 
@@ -124,6 +165,7 @@
                 }).finally(() => {
                 var dt123 = new Date();timeaaa += (dt123.getTime());$('#encdectime').html(timeaaa+" ms");
                 $('textarea[name=data]').val(decryptedText);
+                /*
                 if(decryptedText.length<2954){
                     $('#textqrimg').attr("style","visibility:visible!important");
                     $('#textqrimg').attr("src","https://chart.googleapis.com/chart?chs=545x545&cht=qr&chl="+urlencode(decryptedText)+"&choe=UTF-8");
@@ -138,6 +180,7 @@
                 } else {
                     $('#keyqrimg').attr("style","visibility:hidden!important");
                 }
+                */
                 });
             });
             });

@@ -1,5 +1,5 @@
 class SC5 {
-    constructor(key) {
+    constructor(key,digest=0) {
       this.salt_1_dat = [0xdc, 0xc2, 0x81, 0xf2, 0x67, 0x59, 0xba, 0xe6, 0x58, 0x7c, 0xea, 0xbf, 0xe8, 0x8d, 0x95, 0x8b, 0x7c, 0x12, 0x17, 0x15, 0x50, 0x77, 0x5e, 0x13, 0x6c, 0x67, 0x17, 0x6f, 0x92, 0x95, 0x7c, 0x55, 0xb3, 0xb6, 0x05, 0xc6];
       this.salt_2_dat = [0x77, 0x9a, 0x82, 0x45, 0xc7, 0xa6, 0x7a, 0x85, 0xd4, 0x2a, 0x89, 0xad, 0xd5, 0x13, 0xd2, 0x16, 0x01, 0xb4, 0x2d, 0x3b, 0xa8, 0x8a, 0xe9, 0x00, 0x02, 0x59, 0x9f, 0x5f, 0x30, 0x93, 0x6c, 0xe4, 0x92, 0xb1, 0x60, 0x28];
       this.salt_st_dat = [0x01, 0xaa, 0xbb, 0xfa, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff];
@@ -51,7 +51,26 @@ class SC5 {
       this.hashe = "hRa4QoBy5blILAusSC/YFXKr6qfpP92cN13TUvtZJxGWw0e+DOM7z8idVjHgEmkn";
       this.hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpmSV9ICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
       this.ax1xxxx=0;
-        if (key === null || key === undefined) {
+      if (key === null || key === undefined) {
+      this.key = "123456789";
+      } else {
+      this.key = key;
+      }
+      if (!isNaN(digest)) {
+        this.digest = parseInt(digest);
+      }else{
+        this.digest=0;
+      }
+    }
+    setdigest(digest = 0){
+      if (!isNaN(digest)) {
+        this.digest = parseInt(digest);
+      }else{
+        this.digest=0;
+      }
+    }
+    setkey(key){
+      if (key === null || key === undefined) {
         this.key = "123456789";
         } else {
         this.key = key;
@@ -1015,7 +1034,7 @@ bitOR(data, key) {
         d = this.bk_kb(this.strrev (d));
         var _list = [];
         g = this.uint8ArrayToString(g);
-        for (var i = 0; i < keylen; i++) {
+        for (var i = 0; i < (keylen + this.digest); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
           _list.push(g);
         }
@@ -1032,7 +1051,7 @@ bitOR(data, key) {
         g = this.uint8ArrayToString(g);
         var a = f.trim ();
         var _list = [];
-        for (var i = 0; i < keylen; i++) {
+        for (var i = 0; i < (keylen + this.digest); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
           _list.push(g);
         }
@@ -1098,7 +1117,7 @@ bitOR(data, key) {
         var _end_data;
         // Örnek bir k stringi ve bir n sayısı oluşturalım
         var k000 = this.uint8ArrayToString(k);
-        let n000 = keylen;
+        let n000 = keylen + this.digest;
         // Fonksiyondan dönen key değerlerini alalım
         let keys000 = this.generateKeys(k000, n000);
 
