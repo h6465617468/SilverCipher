@@ -31,12 +31,12 @@ class SC5Scheme {
       this.hex_3 = "3bd45206fec9a718";
       this.hXc = "0132102013201203";
       this.hth_1 = "61fa2bed734890c5";
-      this.rot13_1 = "/pvFr92x0jUfHXYomGO73LKIDulEaPNgdC6T5i8hBqSsnRy4eW1c+tJwQZbVAzkM";
-      this.rot13_2 = "wvnk0qN7MJpITosEUf8LhXzm91tYyC4eDAx2brOlHVgFK6u/Wc5Pia+SjRZQdGB3";
-      this.rot13_3 = "h/T2I5EbOmzxDHMBt603VA+a7GYcqJ9KQgUNZCWrRdveyswfSLun1F8pokPi4lXj";
-      this.rot13_4 = "JuEnkzSo2lMcXadLf5trjs486R3h7+pNZWHixUPq9CQw0gOvFeDVGy/1YbTBmKIA";
+      this.rot13_1="v/Fpr29x0UjfHXoYmGO73LIDKulEaPgCdzN56Th8BqSsnRy4e1cW+tJQZVwAbkMi";
+      this.rot13_2="sdk5qnN7MJITpwEUWfih8m0X91tYyC4eDAx2brOlHVgFK6u/ocP3a+zSjRvQZGBL";
+      this.rot13_3="/hX2I5EbOmzxDJ9tK60aA3jV78YcqHMBQgUNZCWrRdveyswfSLun1FGpokPi4lT+";
+      this.rot13_4="JuEnkzXo2lM5cadLfStT6s4R8j3rhp+NZWHixq9PCUQw0gOvFDeVGy/1AbBYmKI7";
       this.hash0 = "Lp2Pa9D+C7wF0Rt6ogmOzjncEQrTXhUZGiyS1f8B4/WHYNM3klsueAKVvIxJqb5d";
-      this.hash1 = "257IF1i6SPaXQrsNYtwERHLUCZTxOjm9JclqzKuAkn0DVW4gMbGByv38/fdhpo+e";
+      this.hash1 = "257IF1i6SPaQXrsNYtwERHLUCZTxOjm9JclqzKuAkn0DVW4gMbGByv38/fdhpo+e";
       this.hash2 = "GzhwZ8MgP4k7l5RHaxAKu0vSFT9ycIn6EVm/NJief2qY+jsQUWbtoXL3pDrOBd1C";
       this.hash3 = "p40k9jRq786irIMoCWUn+uEeZaOhtyXgAL2dw5V1QvmbS3HYJGfxPDNFscKB/Tzl";
       this.hash4 = "HtigypvlBwSa94zkD5rPEUXMYR6LjdOJ+ueVF7on1h/3GfINmQWKTbCxq82Zsc0A";
@@ -1606,76 +1606,157 @@ bitOR(data, key) {
     }
     E_Shift(b, e) {
       try {
-        if (b.length % 4 == 0) {
-        if (e == 1) {
+        // b string'inin uzunluğunu 4'e bölerek kalanı bul
+        var remainder = b.length % 4;
+    
+        // Eğer kalan 0 ise
+        if (remainder == 0) {
+          // Bütün string'i 4'er bir şekilde işle
+          if (e == 1) {
             var c = b.match(/.{1,4}/g);
             b = "";
             for (var i = 0; i < c.length; i++) {
-            var a = c[i];
-            var d = a[1] + a[2] + a[3] + a[0];
-            b += d;
+              var a = c[i];
+              var d = a[1] + a[2] + a[3] + a[0];
+              b += d;
             }
-        } else if (e == 2) {
+          } else if (e == 2) {
             var c = b.match(/.{1,4}/g);
             b = "";
             for (var i = 0; i < c.length; i++) {
-            var a = c[i];
-            var d = a[2] + a[3] + a[0] + a[1];
-            b += d;
+              var a = c[i];
+              var d = a[2] + a[3] + a[0] + a[1];
+              b += d;
             }
-        } else if (e == 3) {
+          } else if (e == 3) {
             var c = b.match(/.{1,4}/g);
             b = "";
             for (var i = 0; i < c.length; i++) {
-            var a = c[i];
-            var d = a[3] + a[0] + a[1] + a[2];
-            b += d;
+              var a = c[i];
+              var d = a[3] + a[0] + a[1] + a[2];
+              b += d;
             }
-        }
+          }
+        // Eğer kalan 0 değilse
         } else {
-        return b;
-        }
-      } catch (e) {
-        return b;
-      }
-        return b;
-    }
-      
-    D_Shift(b, e) {
-      try{
-        if (b.length % 4 == 0) {
-            if (e == 1) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-                var a = c[i];
-                var d = a[3] + a[0] + a[1] + a[2];
-                b += d;
-            }
-            } else if (e == 2) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-                var a = c[i];
-                var d = a[2] + a[3] + a[0] + a[1];
-                b += d;
-            }
-            } else if (e == 3) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-                var a = c[i];
-                var d = a[1] + a[2] + a[3] + a[0];
-                b += d;
-            }
-            }
-        } else {
+          if(b.length<4){
             return b;
+          }
+          // String'in son kalan kısmını ayrı bir değişkene kaydet
+          var last_part = b.slice(-remainder);
+    
+          // String'in geri kalanını 4'er bir şekilde işle
+          if (e == 1) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[1] + a[2] + a[3] + a[0];
+              b += d;
+            }
+          } else if (e == 2) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[2] + a[3] + a[0] + a[1];
+              b += d;
+            }
+          } else if (e == 3) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[3] + a[0] + a[1] + a[2];
+              b += d;
+            }
+          }
+    
+          // Sonucu döndürmeden önce, ayrılan kısmı tekrar ekle
+          b += last_part;
         }
+        return b;
+        
       } catch (e) {
         return b;
       }
+    }
+    D_Shift(b, e) {
+      try {
+        // b string'inin uzunluğunu 4'e bölerek kalanı bul
+        var remainder = b.length % 4;
+    
+        // Eğer kalan 0 ise
+        if (remainder == 0) {
+          // Bütün string'i 4'er bir şekilde işle
+          if (e == 1) {
+            var c = b.match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[3] + a[0] + a[1] + a[2];
+              b += d;
+            }
+          } else if (e == 2) {
+            var c = b.match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[2] + a[3] + a[0] + a[1];
+              b += d;
+            }
+          } else if (e == 3) {
+            var c = b.match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[1] + a[2] + a[3] + a[0];
+              b += d;
+            }
+          }
+        // Eğer kalan 0 değilse
+        } else {
+          if(b.length<4){
+            return b;
+          }
+          // String'in son kalan kısmını ayrı bir değişkene kaydet
+          var last_part = b.slice(-remainder);
+    
+          // String'in geri kalanını 4'er bir şekilde işle
+          if (e == 1) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[3] + a[0] + a[1] + a[2];
+              b += d;
+            }
+          } else if (e == 2) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[2] + a[3] + a[0] + a[1];
+              b += d;
+            }
+          } else if (e == 3) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              var a = c[i];
+              var d = a[1] + a[2] + a[3] + a[0];
+              b += d;
+            }
+          }
+    
+          // Sonucu döndürmeden önce, ayrılan kısmı tekrar ekle
+          b += last_part;
+        }
         return b;
+        
+      } catch (e) {
+        return b;
+      }
     }
     Hex_Dont_Count(a){
         a = a.trim().split("");
