@@ -207,8 +207,8 @@ Decrypted: 123
 ```
 SCP
 ```javascript
-const cipher = new SC5("123");
-const encryptedText = cipher.Encrypt("123","0");
+const cipher = new SC5("123","0");
+const encryptedText = cipher.Encrypt("123");
 const decryptedText = cipher.Decrypt(encryptedText);
 document.write("Encrypted: "+encryptedText);
 document.write("<br>");
