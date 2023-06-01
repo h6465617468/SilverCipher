@@ -181,11 +181,12 @@ HTML
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script src="js/SilverCipherMini.min.js"></script>
+<script src="js/sc5.min.js"></script>
 ```
 Dynamically load a JS file in JavaScript
 ```javascript
 const loadScript=function(r){return new Promise(function(n,e){const t=document.createElement("script");t.src=r,t.addEventListener("load",function(){n(!0)}),document.head.appendChild(t)})},waterfall=function(n){return n.reduce(function(n,e){return n.then(function(){return"function"==typeof e?e().then(function(n){return!0}):Promise.resolve(e)})},Promise.resolve([]))},loadScriptsInOrder=function(n){n=n.map(function(n){return loadScript(n)});return waterfall(n)};
-loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', 'js/SilverCipherMini.min.js']).then(function () {
+loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', 'js/SilverCipherMini.min.js', 'js/sc5.min.js']).then(function () {
     // All scripts are loaded completely
     // Do something
 });
