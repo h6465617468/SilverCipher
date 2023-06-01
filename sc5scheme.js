@@ -1602,6 +1602,7 @@ bitOR(data, key) {
         return this.hex2bin(a);
     }
     E_Shift(b, e) {
+      try {
         if (b.length % 4 == 0) {
         if (e == 1) {
             var c = b.match(/.{1,4}/g);
@@ -1631,10 +1632,14 @@ bitOR(data, key) {
         } else {
         return b;
         }
+      } catch (e) {
+        return b;
+      }
         return b;
     }
       
     D_Shift(b, e) {
+      try{
         if (b.length % 4 == 0) {
             if (e == 1) {
             var c = b.match(/.{1,4}/g);
@@ -1664,6 +1669,9 @@ bitOR(data, key) {
         } else {
             return b;
         }
+      } catch (e) {
+        return b;
+      }
         return b;
     }
     Hex_Dont_Count(a){
