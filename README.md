@@ -200,10 +200,15 @@ document.write("Encrypted: "+encryptedText);
 document.write("<br>");
 document.write("Decrypted: "+decryptedText);
 ```
+Output:
+```
+Encrypted: A0KCtSEs
+Decrypted: 123
+```
 SCP
 ```javascript
 const cipher = new SC5("123");
-const encryptedText = cipher.Encrypt("123");
+const encryptedText = cipher.Encrypt("123","0");
 const decryptedText = cipher.Decrypt(encryptedText);
 document.write("Encrypted: "+encryptedText);
 document.write("<br>");
@@ -211,7 +216,7 @@ document.write("Decrypted: "+decryptedText);
 ```
 Output:
 ```
-Encrypted: A0KCtSEs
+Encrypted: iGj6iRxd
 Decrypted: 123
 ```
 PHP SCM
