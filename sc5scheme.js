@@ -329,6 +329,7 @@ class SC5Scheme {
         return hexString;
     }
     substr(str, start, length) {
+      try{
       if (typeof str == "number") {
         str = str.toString();
       }
@@ -352,8 +353,10 @@ class SC5Scheme {
       }
       // başlangıç indeksinden verilen uzunlukla dizgeyi kes
       return str.slice(start, start + length);
+    } catch (e) {
+      return str;
     }
-    
+    }
     md5(data, asUint8Array = false){
       if (data instanceof Uint8Array) {
         var decoder = new TextDecoder();
