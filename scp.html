@@ -124,7 +124,7 @@
                 var digest = $('input[name="digest"]').val();
                 var key = $('textarea[name="key"]').val();
                 var toenctext = $('textarea[name="data"]').val();
-                console.log("Girdi =>"+digest);
+                //console.log("Girdi =>"+digest);
                 var cipher = new SC5(key,digest);
                 var dt123 = new Date();var timeaaa=-(dt123.getTime());
                 var encryptedData;
