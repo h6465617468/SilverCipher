@@ -6,7 +6,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
-| SCP | Available | Yes | - | Symetric | Extreme | Yes |
+| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | Yes |
 | SilverCipher5 Cryptography | Available | Yes | - | Symetric | Very High | No |
 | SilverCipherMini Cryptography | Available | Yes | - | Symetric/Block | Sufficient | Yes |
 
