@@ -153,47 +153,45 @@ class SC5 {
       return Whirlpool;
     }
     base64_encode(array) {
-        var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-        var result = '';
-        var i, j, triplet;
-        
-        for (i = 0; i < array.length; i += 3) {
-            triplet = (array[i] << 16) | (array[i + 1] << 8) | array[i + 2];
-            for (j = 0; j < 4; j += 1) {
-            if (i * 8 + j * 6 <= array.length * 8) {
-                result += base64.charAt((triplet >> 18 - j * 6) & 0x3F);
-            } else {
-                result += '==';
-            }
-            }
+      var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+      var result = '';
+      var i, j, triplet;
+    
+      for (i = 0; i < array.length; i += 3) {
+        triplet = (array[i] << 16) | (array[i + 1] << 8) | array[i + 2];
+        for (j = 0; j < 4; j += 1) {
+          if (i * 8 + j * 6 <= array.length * 8) {
+            result += base64.charAt((triplet >> 18 - j * 6) & 0x3F);
+          }
         }
-        return result.replace(/=*$/, '');
+      }
+      return result;
     }
     base64_decode(str) {
-        const lookup = { '+': 62, '/': 63 };
-        let buffer = [];
-        let bits = 0;
-        let value = 0;
-        let index = 0;
-        for (let i = 0; i < str.length; i++) {
-            const charCode = str.charCodeAt(i);
-            let digit = charCode > 64 && charCode < 91 ? charCode - 65
-            : charCode > 96 && charCode < 123 ? charCode - 71
-            : charCode > 47 && charCode < 58 ? charCode + 4
-            : charCode === 43 ? 62
-            : charCode === 47 ? 63
-            : -1;
-            if (digit !== -1) {
-            value = (value << 6) | digit;
-            bits += 6;
-            if (bits >= 8) {
-                buffer[index++] = (value >> (bits - 8)) & 255;
-                bits -= 8;
-            }
-            }
+      let buffer = [];
+      let bits = 0;
+      let value = 0;
+      let index = 0;
+      for (let i = 0; i < str.length; i++) {
+        const charCode = str.charCodeAt(i);
+        let digit = charCode > 64 && charCode < 91 ? charCode - 65
+          : charCode > 96 && charCode < 123 ? charCode - 71
+          : charCode > 47 && charCode < 58 ? charCode + 4
+          : charCode === 43 ? 62
+          : charCode === 47 ? 63
+          : -1;
+        if (digit !== -1) {
+          value = (value << 6) | digit;
+          bits += 6;
+          if (bits >= 8) {
+            buffer[index++] = (value >> (bits - 8)) & 255;
+            bits -= 8;
+          }
         }
-        return new Uint8Array(buffer);
+      }
+      return new Uint8Array(buffer);
     }
+
     adler32(message) {
       const MOD_ADLER = 65521;
       let a = 1, b = 0;
@@ -259,7 +257,42 @@ class SC5 {
       // sonucu döndür
       return result;
       }
-     
+    split_block(str) {
+        // Check if the input is a valid Uint8Array
+        if (!(str instanceof Uint8Array)) {
+          throw new TypeError('Input must be a Uint8Array');
+        }
+        // Define the block size
+        const length = 128;
+        // Initialize an array to store the output
+        var result = [];
+        // Loop through the input
+        for (var i = 0; i < str.length; i += length) {
+          // Get the slice of the input corresponding to the current block
+          var subarray = str.slice(i, i + length);
+          // Pad or slice the subarray to make it exactly 128 bytes long
+          subarray = subarray.length < 128 ? new Uint8Array([...subarray, ...new Array(128 - subarray.length).fill(0)]) : subarray;
+          // Add the subarray to the output array
+          result.push(subarray);
+        }
+        // Return the output array
+        return result;
+      }
+    // This function removes the empty bytes (0 values) from a Uint8Array
+    removeEmptyBytes(array) {
+      // Check if the input is a valid Uint8Array
+      if (!(array instanceof Uint8Array)) {
+        throw new TypeError('Input must be a Uint8Array');
+      }
+      // Filter the array by non-zero values
+      var filtered = array.filter(x => x !== 0);
+      // Return the filtered array
+      return filtered;
+    }
+
+      
+
+
     strrev(str) {
       // parametrenin türünü kontrol et
       if (typeof str === "string") {
@@ -307,13 +340,20 @@ class SC5 {
         // hata fırlat veya başka bir işlem yap
         throw new TypeError("hexString must be a string");
       }
-        var length = hexString.length / 2;
-        var uint8Array = new Uint8Array(length);
-        for (let i = 0; i < length; ++i) {
-            uint8Array[i] = parseInt(hexString.substr(i * 2, 2), 16);
-        }
-        return uint8Array;
+      // hexString'in uzunluğunu kontrol et
+      if (hexString.length % 2 !== 0) {
+        // Uzunluk tek ise başına sıfır ekle
+        hexString = "0" + hexString;
+      }
+      var length = hexString.length / 2;
+      var uint8Array = new Uint8Array(length);
+      for (let i = 0; i < length; ++i) {
+        // Her iki karakteri al ve 16 tabanında sayıya dönüştür
+        uint8Array[i] = parseInt(hexString.substr(i * 2, 2), 16);
+      }
+      return uint8Array;
     }
+    
     bin2hex(uint8Array) {
         let hexString = "";
         for (let i = 0; i < uint8Array.length; i++) {
@@ -676,29 +716,58 @@ DaddX(array) {
     }
     return array;
   }
-  shiftRight(array) {
-    // array'in son elemanını al
-    let last = array[array.length - 1];
-    // array'i sağa doğru kaydır
-    for (let i = array.length - 1; i > 0; i--) {
-      array[i] = array[i-1];
-    }
-    // array'in ilk elemanını son eleman yap
-    array[0] = last;
-    return array;
+// This function shifts a Uint8Array to the right by a given number of times
+ shiftRight(array, times=1) {
+  // Check if the input is a valid Uint8Array
+  if (!(array instanceof Uint8Array)) {
+    throw new TypeError('Input must be a Uint8Array');
   }
-  
-  shiftLeft(array) {
-    // array'in ilk elemanını al
-    let first = array[0];
-    // array'i sola doğru kaydır
-    for (let i = 0; i < array.length - 1; i++) {
-      array[i] = array[i+1];
-    }
-    // array'in son elemanını ilk eleman yap
-    array[array.length - 1] = first;
-    return array;
+  // Check if the times is a valid number
+  if (typeof times !== 'number' || isNaN(times) || times < 0) {
+    throw new TypeError('Times must be a positive number');
   }
+  // Reduce the times by the array's length modulo
+  times = times % array.length;
+  // Create a new Uint8Array to store the output
+  let output = new Uint8Array(array.length);
+  // Loop through the array
+  for (let i = 0; i < array.length; i++) {
+    // Calculate the shifted index
+    let j = (i + times) % array.length;
+    // Assign the output element to the array element
+    output[j] = array[i];
+  }
+  // Return the output array
+  return output;
+}
+
+// This function shifts a Uint8Array to the left by a given number of times
+ shiftLeft(array, times=1) {
+  // Check if the input is a valid Uint8Array
+  if (!(array instanceof Uint8Array)) {
+    throw new TypeError('Input must be a Uint8Array');
+  }
+  // Check if the times is a valid number
+  if (typeof times !== 'number' || isNaN(times) || times < 0) {
+    throw new TypeError('Times must be a positive number');
+  }
+  // Reduce the times by the array's length modulo
+  times = times % array.length;
+  // Create a new Uint8Array to store the output
+  let output = new Uint8Array(array.length);
+  // Loop through the array
+  for (let i = 0; i < array.length; i++) {
+    // Calculate the shifted index
+    let j = (i - times + array.length) % array.length;
+    // Assign the output element to the array element
+    output[j] = array[i];
+  }
+  // Return the output array
+  return output;
+}
+
+
+
   bitShiftRight(array) {
     // array'in son elemanının en düşük bitini al
     let lastBit = array[array.length - 1] & 1;
@@ -807,10 +876,33 @@ bitOR(data, key) {
   }
   return result;
 }
+Uint8ArrayToBitString(uint8Array) {
+  let bitString = "";
+  for (let i = 0; i < uint8Array.length; i++) {
+    // Her elemanı 8 bitlik ikili sayıya dönüştür
+    let binary = uint8Array[i].toString(2).padStart(8, "0");
+    // Bit string'e ekle
+    bitString += binary;
+  }
+  return bitString;
+}
+BitStringToUint8Array(bitString) {
+  // Bit string'i 8'er bitlik parçalara böl
+  let chunks = bitString.match(/.{1,8}/g);
+  // Her parçayı sayıya dönüştür ve Uint8Array'e ekle
+  let uint8Array = new Uint8Array(chunks.length);
+  for (let i = 0; i < chunks.length; i++) {
+    uint8Array[i] = parseInt(chunks[i], 2);
+  }
+  return uint8Array;
+}
+
     Encrypt (d) {
       // this.checkCollisions();
       // this.findMissingChar();
-      d = this.StringTouint8Array(d);
+      if (typeof d == 'string') {
+        d = this.StringTouint8Array(d);
+      }
       var b = this.key;
       // var keylen = this.sumNumbers(b);
       var keylen = 1;
@@ -825,22 +917,25 @@ bitOR(data, key) {
       //}
       //console.log(d);
       var _0xmap = [0x33, 0xfb, 0xa4, 0x90, 0x12, 0xcd, 0xef, 0x45, 0x67, 0x89, 0xab, 0xde, 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0x90, 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xef, 0xfe, 0xdc, 0xba];
-      var a = this.StringTouint8Array(Math.exp(Math.pow(keylen, b.length).toString()));
-      a = this.concatUint8Arrays(this.hex2bin(this.hash("sha512",this.key)),a);
-      var a1 = this.concatUint8Arrays(a,this.convert(_0xmap));
       var _1xmap = [0x24, 0x8d, 0x3f, 0x71, 0xa2, 0xb5, 0x60, 0x1c, 0xe9, 0xf7, 0x53, 0x2b, 0x6e, 0xd4, 0xc8, 0x9a, 0x17, 0x80, 0x6f, 0x5d, 0x47, 0x38, 0xae, 0x91, 0x4b, 0xd3, 0xc7, 0x0a, 0x12, 0xf5, 0x69, 0x33];
-      a = this.XOREncrypt(this.concatUint8Arrays(this.concatUint8Arrays(this.fix(a),this.convert(_1xmap)),this.StringTouint8Array((Math.exp(Math.pow (2, 8))))), this.StringTouint8Array(Math.tan (Math.pow (2, 34)).toString()));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       var _2xmap = [0xa7, 0x2e, 0xf1, 0xd9, 0x8c, 0x50, 0x63, 0x91, 0x4b, 0x3d, 0x9f, 0x17, 0xe5, 0x8a, 0x37, 0x61, 0x29, 0x40, 0x7c, 0xbd, 0x52, 0xf8, 0xe0, 0xc6, 0xa3, 0x71, 0x06, 0x98, 0x24, 0x5f, 0x86, 0x3b];
-      a = this.Raw_hexrev (this.XOREncrypt(a,this.concatUint8Arrays(this.convert(_2xmap),this.StringTouint8Array(Math.exp (Math.pow (2, 10))))));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
-      a = this.XOREncrypt(a, this.concatUint8Arrays(this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf),this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length)))))));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+      var _3xmap = [0x12,0x69,0xf9,0x45];
+      var a1;
+      var a = this.StringTouint8Array(Math.exp(Math.pow(keylen, b.length).toString()));
+      for (var i = 0; i < 4; i++) {
+        a = this.concatUint8Arrays(this.hex2bin(this.hash("sha512",this.key)),a);
+        a1 = this.concatUint8Arrays(a,this.convert(_0xmap));
+        a = this.XOREncrypt(this.concatUint8Arrays(this.concatUint8Arrays(this.fix(a),this.convert(_1xmap)),this.StringTouint8Array((Math.exp(Math.pow (2, 8))))), this.StringTouint8Array(Math.tan (Math.pow (2, 34)).toString()));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+        a = this.Raw_hexrev (this.XOREncrypt(a,this.concatUint8Arrays(this.convert(_2xmap),this.StringTouint8Array(Math.exp (Math.pow (2, 10))))));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+        a = this.XOREncrypt(a, this.concatUint8Arrays(this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf),this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length)))))));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+      }
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
       var i = this.str_split(d, 256);
       var e = "";
       var f = "";
-      var _3xmap = [0x12,0x69,0xf9,0x45];
       a = this.hex2bin(this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.concatUint8Arrays(this.concatUint8Arrays(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf),this.convert(_3xmap)),this.StringTouint8Array(Math.exp(Math.pow(2,5))))))));
       a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       a = this.uint8ArrayToString(a);
@@ -865,21 +960,21 @@ bitOR(data, key) {
             keylen = 1;
           }
           if(k!=m){
-          a=this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_1_dat[h])))))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_1_dat[h]))))))));
           c=this.numhash(b,1);
           if(c!=0){
               var ax=this.XOREncrypt(i[1],this.CharCodeToUint8Array(this.salt_1_dat[c]));
-              a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax)))));
+              a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax))))));
           }
           if(h==36){
               h=0;
           }
-          a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.hex2bin(f[1])))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.hex2bin(f[1]))))));
           b=this.hex2bin(this.hash("sha512",this.strrev(a)+this.hash("sha512",this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf))+b+a+this.StringTouint8Array(this.substr(this.numhash(this.hex2bin(this.Hex_Dont_Count(this.hash("whirlpool",this.uint8ArrayToString(b)+this.uint8ArrayToString(a)+f[1]))),8),0,8))));
-          a=this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_st_dat[g])))))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_st_dat[g]))))))));
           if(c!=0){
             var ax=this.XOREncrypt(i[0],this.CharCodeToUint8Array(this.salt_1_dat[c]));
-            a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax)))));
+            a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax))))));
           }
           if(g==36){
               g=0;
@@ -890,7 +985,7 @@ bitOR(data, key) {
           g++;
           h++;
       }
-      //e+="==";
+      e+="==";
       //if(j==true){
       //    e=this.base64_decode(e);
       //}
@@ -912,20 +1007,24 @@ bitOR(data, key) {
       //}
       var k = b;
       var _0xmap = [0x33, 0xfb, 0xa4, 0x90, 0x12, 0xcd, 0xef, 0x45, 0x67, 0x89, 0xab, 0xde, 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef, 0x90, 0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc, 0xde, 0xef, 0xfe, 0xdc, 0xba];
-      var a = this.StringTouint8Array(Math.exp(Math.pow(keylen, b.length).toString()));
-      a = this.concatUint8Arrays(this.hex2bin(this.hash("sha512",this.key)),a);
-      var a1 = this.concatUint8Arrays(a,this.convert(_0xmap));
       var _1xmap = [0x24, 0x8d, 0x3f, 0x71, 0xa2, 0xb5, 0x60, 0x1c, 0xe9, 0xf7, 0x53, 0x2b, 0x6e, 0xd4, 0xc8, 0x9a, 0x17, 0x80, 0x6f, 0x5d, 0x47, 0x38, 0xae, 0x91, 0x4b, 0xd3, 0xc7, 0x0a, 0x12, 0xf5, 0x69, 0x33];
-      a = this.XOREncrypt(this.concatUint8Arrays(this.concatUint8Arrays(this.fix(a),this.convert(_1xmap)),this.StringTouint8Array((Math.exp(Math.pow (2, 8))))), this.StringTouint8Array(Math.tan (Math.pow (2, 34)).toString()));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       var _2xmap = [0xa7, 0x2e, 0xf1, 0xd9, 0x8c, 0x50, 0x63, 0x91, 0x4b, 0x3d, 0x9f, 0x17, 0xe5, 0x8a, 0x37, 0x61, 0x29, 0x40, 0x7c, 0xbd, 0x52, 0xf8, 0xe0, 0xc6, 0xa3, 0x71, 0x06, 0x98, 0x24, 0x5f, 0x86, 0x3b];
-      a = this.Raw_hexrev (this.XOREncrypt(a, this.concatUint8Arrays(this.convert(_2xmap),this.StringTouint8Array(Math.exp (Math.pow (2, 10))))));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
-      a = this.XOREncrypt(a, this.concatUint8Arrays(this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf),this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length)))))));
-      a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+      var _3xmap = [0x12,0x69,0xf9,0x45];
+      var a1;
+      var a = this.StringTouint8Array(Math.exp(Math.pow(keylen, b.length).toString()));
+      for (var i = 0; i < 4; i++) {
+        a = this.concatUint8Arrays(this.hex2bin(this.hash("sha512",this.key)),a);
+        a1 = this.concatUint8Arrays(a,this.convert(_0xmap));
+        a = this.XOREncrypt(this.concatUint8Arrays(this.concatUint8Arrays(this.fix(a),this.convert(_1xmap)),this.StringTouint8Array((Math.exp(Math.pow (2, 8))))), this.StringTouint8Array(Math.tan (Math.pow (2, 34)).toString()));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+        a = this.Raw_hexrev (this.XOREncrypt(a,this.concatUint8Arrays(this.convert(_2xmap),this.StringTouint8Array(Math.exp (Math.pow (2, 10))))));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+        a = this.XOREncrypt(a, this.concatUint8Arrays(this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf),this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length)))))));
+        a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
+      }
+      console.log(a1);
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
       var h = this.str_split(e,684);
-      var _3xmap = [0x12,0x69,0xf9,0x45];
       a = this.hex2bin(this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.concatUint8Arrays(this.concatUint8Arrays(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf),this.convert(_3xmap)),this.StringTouint8Array(Math.exp(Math.pow(2,5))))))));
       a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       a = this.uint8ArrayToString(a);
@@ -952,21 +1051,21 @@ bitOR(data, key) {
             keylen = 1;
           }
           if(l!=n){
-          a=this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_1_dat[g])))))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_1_dat[g]))))))));
           c=this.numhash(b,1);
           if(c!=0){
               var ax=this.XOREncrypt(this.hex2bin(i[1]),this.CharCodeToUint8Array(this.salt_1_dat[c]));
-              a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax)))));
+              a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax))))));
           }
           if(g==36){
               g=0;
           }
-          a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.hex2bin(i[1])))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.hex2bin(i[1]))))));
           b=this.hex2bin(this.hash("sha512",this.strrev(a)+this.hash("sha512",this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf))+b+a+this.StringTouint8Array(this.substr(this.numhash(this.hex2bin(this.Hex_Dont_Count(this.hash("whirlpool",this.uint8ArrayToString(b)+this.uint8ArrayToString(a)+i[1]))),8),0,8))));
-          a=this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_st_dat[f])))))));
+          a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b))),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(a)+this.uint8ArrayToString(this.swapPairs(this.CharCodeToUint8Array(this.salt_st_dat[f]))))))));
           if(c!=0){
               var ax=this.XOREncrypt(i[0],this.CharCodeToUint8Array(this.salt_st_dat[c]));
-              a=this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax)))));
+              a=this.bitShiftRight(this.bitShiftLeft(this.XOREncrypt(b,this.hex2bin(this.hash("sha512",this.uint8ArrayToString(b)+this.uint8ArrayToString(ax))))));
           }
           if(f==36){
               f=0;
@@ -1002,6 +1101,7 @@ bitOR(data, key) {
         d = new Uint8Array(strArr2.length);
         for (var i = 0; i < strArr2.length; i++) { d[i] = parseInt(strArr2[i]); }
       }
+      d = this.removeEmptyBytes(d);
       d=this.uint8ArrayToString(d);
       // string değeri virgüllere göre ayırarak bir dizi oluştur var strArr = "97,98,99".split(","); // bu diziyi bir Uni8Array’e dönüştür var u8a = new Uint8Array(strArr.length); // dizinin her elemanını sayıya dönüştürerek Uni8Array’e atayın for (var i = 0; i < strArr.length; i++) { u8a[i] = parseInt(strArr[i]); } // Uni8Array’i bir stringe dönüştürmek için String.fromCharCode fonksiyonunu kullanın var str = String.fromCharCode.apply(null, u8a); // sonucu yazdırın console.log(str); // "abc"
       return d;
@@ -1009,7 +1109,7 @@ bitOR(data, key) {
     Enc (f, c, z, keylen) {
         var g = c;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
-        var j = this.str_split (f, Math.pow (2, 7));
+        var j = this.split_block(f);
         var d = "";
         var h = "";
         var e = 1;
@@ -1038,7 +1138,7 @@ bitOR(data, key) {
         d = this.bk_kb(this.strrev (d));
         var _list = [];
         g = this.uint8ArrayToString(g);
-        for (var i = 0; i < (keylen + this.digest); i++) {
+        for (var i = 0; i < (keylen + (this.digest % 32)); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
           _list.push(g);
         }
@@ -1055,7 +1155,7 @@ bitOR(data, key) {
         g = this.uint8ArrayToString(g);
         var a = f.trim ();
         var _list = [];
-        for (var i = 0; i < (keylen + this.digest); i++) {
+        for (var i = 0; i < (keylen + (this.digest % 32)); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
           _list.push(g);
         }
@@ -1149,8 +1249,10 @@ bitOR(data, key) {
             a = this.Raw_hexrev (_end_data);
             a = this.EaddX(a);
             a = this.swapPairs(a);
+            a = this.shiftRight(a,64);
             a = this.Eadd(a,keylen);
             a = this.Eadd(a,36);
+            a = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(a),3));
             a = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (a), k));
             a = this.flipBits(a);
             a = this.Raw_hexrev(a);
@@ -1173,6 +1275,7 @@ bitOR(data, key) {
             a = this.Raw_hexrev(a);
             a = this.Eadd(a,12);
             a = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(a),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
+            a = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(a),3));
             a = this.EaddX(a);
             ////////////////////////
             if(i000==0){
@@ -1223,10 +1326,11 @@ bitOR(data, key) {
             ////////////////////////
             b = this.flipBits(b);
             b = this.Eadd(b,64);
+            b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),2));
             b = this.hex2bin(this.E_Shift (this.bin2hex (b), 3));
             b = this.Eadd(b,8);
             b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), t));
-            b = this.shiftRight(b);
+            b = this.shiftRight(b,8);
             b = this.hex2bin(this.E_hex_2 (this.bin2hex (b)));
             b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), l));
             b = this.hex2bin(this.E_hex_1 (this.bin2hex (b)));
@@ -1236,6 +1340,8 @@ bitOR(data, key) {
             b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3));
             b = this.hex2bin(this.E_hex_1(this.bin2hex(b)));
             b = this.Raw_hexrev(b);
+            b = this.Eadd(b,32);
+            b = this.flipBits(b);
             b = this.XOREncrypt(this.strrev(b), o);
             b = this.hex2bin(this.E_Shift (this.bin2hex (b), 2));
             b = this.hex2bin(this.E_hex_3 (this.bin2hex (b)));
@@ -1247,7 +1353,9 @@ bitOR(data, key) {
             b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3)); 
             b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
             b = this.flipBits(b);
+            b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),1));
             b = this.Eadd(b,8);
+            b = this.shiftRight(b,12);
             _end_data = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b), k));
             s,b,a,j,e = "";
           }
@@ -1275,7 +1383,9 @@ bitOR(data, key) {
               var o = key000[6];
               var p = key000[7];
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(_end_data), k));
+              a = this.shiftLeft(a,12);
               a = this.Dadd(a,8);
+              a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),1));
               a = this.flipBits(a);
               a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
@@ -1287,6 +1397,8 @@ bitOR(data, key) {
               a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 2));
               a = this.strrev(this.XORDecrypt(a, o));
+              a = this.flipBits(a);
+              a = this.Dadd(a,32);
               a = this.Raw_hexrev(a);
               a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
@@ -1296,10 +1408,11 @@ bitOR(data, key) {
               a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
               a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-              a = this.shiftLeft(a);
+              a = this.shiftLeft(a,8);
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
               a = this.Dadd(a,8);
               a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
+              a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),2));
               a = this.Dadd(a,64);
               a = this.flipBits(a);
               ///////////////////////////
@@ -1338,6 +1451,7 @@ bitOR(data, key) {
               }
               ///////////////////////////
               c = this.DaddX(c);
+              c = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(c),3));
               c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
               c = this.Dadd(c,12);
               c = this.Raw_hexrev(c);
@@ -1360,8 +1474,10 @@ bitOR(data, key) {
               c = this.Raw_hexrev(c);
               c = this.flipBits(c);
               c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), k));
+              c = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(c),3));
               c = this.Dadd(c,36);
               c = this.Dadd(c,keylen);
+              c = this.shiftLeft(c,64);
               c = this.swapPairs(c);
               c = this.DaddX(c);
               _end_data = this.Raw_hexrev(c);
