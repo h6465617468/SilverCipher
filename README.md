@@ -218,7 +218,7 @@ document.write("Decrypted: "+decryptedText);
 ```
 Output:
 ```
-Encrypted: iGj6iRxd
+Encrypted: y1O1LAbfiS+CHzSKvtxQherxeLThCDx8nQTvm6QjzxlG47GS/Ud1li7hyFeeTe9eWiYuogKvduaJAp7fX0Wj/HaToNH+BufkKVLQW6vVNbxDvohIuCKff1Wv9S2QrYb2+3GOCam4OtDlFgVY1G6ipx2COFGsWMBt1CYF5xk/FSTlSCmhF48KcciciiOeUcCNgcKBvwlqx4nSF/GFMF6MrbQDkC4dUZdO3qEkKmYWGs5LWgkmH/+b3rlL/86mJXUm8KHYz7Gyqs1LlkAMIQI//uGz3MX7NJgauVIGpZalqENSGEG3YvFZ31mT3hCVKrqMYZcF7hH0Shsh/l4EsQwVzt==
 Decrypted: 123
 ```
 PHP SCM
