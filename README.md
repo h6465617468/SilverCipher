@@ -22,15 +22,6 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ### SCM Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 
-# Setup
-### Download SilverCipher
-### [ Beta Version SCP Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
-### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
-### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
-### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
-#### Download Other Unique Encryption Algorithm Library
-#### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher1.php)
-
 ## Methods used in SCP encryption
 - [ Xor Encryption](https://en.wikipedia.org/wiki/XOR_cipher)
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
@@ -44,6 +35,15 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 - Bit Level Operations
 - Hex Operations
 - Text Operations
+
+# Setup
+### Download SilverCipher
+### [ Beta Version SCP Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
+### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
+### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
+### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
+#### Download Other Unique Encryption Algorithm Library
+#### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher1.php)
 
 # Usage
 
