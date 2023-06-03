@@ -29,7 +29,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
 - [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
 - [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
-- [ WHIRLPOOL](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
+- [ Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
 - [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
