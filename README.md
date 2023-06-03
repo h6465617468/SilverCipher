@@ -23,8 +23,8 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 
 ## Methods used in SCP encryption
-- Increases the block size from 1024 bits to 3072 bits
-- Adds random bytes
+- [ Increases the block size from 1024 bits to 3072 bits](https://en.wikipedia.org/wiki/Block_size_(cryptography))
+- [ Adds random bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
 - [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
 - [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
@@ -33,10 +33,10 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
 - [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
-- Uint8array Operations
-- Bit Level Operations
-- Hex Operations
-- Text Operations
+- [ Uint8array Operations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+- [ Bit Level Operations](https://www.ijsr.net/archive/v6i6/ART20174580.pdf)
+- [ Hex Operations](https://en.wikipedia.org/wiki/Hexadecimal)
+- [ Text Operations](https://en.wikipedia.org/wiki/ROT13)
 
 # Setup
 ### Download SilverCipher
