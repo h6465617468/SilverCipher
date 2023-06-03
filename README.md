@@ -23,7 +23,9 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 
 ## Methods used in SCP encryption
-- [ Xor Encryption](https://en.wikipedia.org/wiki/XOR_cipher)
+- Increases the block size from 1024 bits to 3072 bits
+- Adds random bytes
+- [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
 - [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
 - [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
