@@ -33,10 +33,10 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
 - [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
-- [ Uint8array Operations](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
+- [ Uint8array Operations,Substitutes Uint8array values with a table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 - [ Bit Level Operations](https://www.ijsr.net/archive/v6i6/ART20174580.pdf)
-- [ Hex Operations](https://en.wikipedia.org/wiki/Hexadecimal)
-- [ Text Operations](https://en.wikipedia.org/wiki/ROT13)
+- [ Substitutes hex values with another table](https://en.wikipedia.org/wiki/Hexadecimal)
+- [ Text Operations,Replaces Base64 characters according to the values obtained from sha512](https://en.wikipedia.org/wiki/ROT13)
 
 # Setup
 ### Download SilverCipher
