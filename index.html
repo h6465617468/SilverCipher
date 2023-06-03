@@ -253,7 +253,9 @@ option:checked {
             <select id="rsamode" name="rsamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
             <option value="1" style="color:gray;">Hybrid RSA,SCP-1024,MIX (Slow)</option>
             <option value="2" selected style="color:green;">Hybrid RSA,SCP-1024,FLEX (Fast)</option>
-            <option value="3" style="color:gray;">Symmetric SCP-1024,AES-DUAL (Fast)</option>
+            <option value="3" style="color:gray;">Symmetric SCP-1024,AES (Fast)</option>
+            <option value="4" style="color:gray;">Asymmetric RSA-FLEX (Fast)</option>
+            <option value="5" style="color:gray;">Asymmetric RSA-MIX (Slow)</option>
             </select>
           </div>
           <div style="text-align: center;overflow: none!important;">
@@ -964,7 +966,13 @@ var _proces__enc_dec=0;
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           encrypted = encrypt_1(key,iv,sifrelenecek_mesaj);
         }
-        encrypted = cipher.Encrypt(encrypted);
+        if(text=="4"){
+          encrypted = encryptData_FLEXMODE(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
+        } else if(text=="5"){
+          encrypted = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
+        }else {
+          encrypted = cipher.Encrypt(encrypted);
+        }
         document.title = _cache_title_;
         setVisible('#loading', false);
         } catch (err) {
@@ -1055,7 +1063,13 @@ var _proces__enc_dec=0;
         }
         try {
           var encrypted="";
+        if(text=="4"){
+          encrypted = decryptData_FLEXMODE(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
+        } else if (text=="5"){
+          encrypted = decryptData(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
+        }else {
           arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
+        }
         if(text=="1"){
           encrypted = decryptData(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
         }else if(text=="2"){
