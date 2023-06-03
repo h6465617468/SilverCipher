@@ -31,6 +31,21 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 ### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
 #### Download Other Unique Encryption Algorithm Library
 #### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher1.php)
+
+## Methods used in SCP encryption
+- [ Xor Encryption](https://en.wikipedia.org/wiki/XOR_cipher)
+- [ ShiftRows](https://en.wikipedia.org/wiki/XOR_cipher](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
+- [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
+- [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
+- [ WHIRLPOOL](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
+- [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
+- [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
+- [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
+- Uint8array Operations
+- Bit Level Operations
+- Hex Operations
+- Text Operations
+
 # Usage
 
 ## Folder Encryption/Decryption
