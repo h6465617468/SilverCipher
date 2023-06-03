@@ -898,6 +898,13 @@ BitStringToUint8Array(bitString) {
 }
 
     Encrypt (d) {
+      // var text = 'abcdefghjkloıuyt_';
+      // console.log(this.md5(text));
+      // console.log(text);
+      // text = this.E_Shift(text,0);
+      // text = this.D_Shift(text,0);
+      // console.log(text);
+      // console.log(this.md5(text));
       // this.checkCollisions();
       // this.findMissingChar();
       if (typeof d == 'string') {
@@ -933,7 +940,7 @@ BitStringToUint8Array(bitString) {
         a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       }
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
-      var i = this.str_split(d, 256);
+      var i = this.str_split(d,256);
       var e = "";
       var f = "";
       a = this.hex2bin(this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.concatUint8Arrays(this.concatUint8Arrays(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf),this.convert(_3xmap)),this.StringTouint8Array(Math.exp(Math.pow(2,5))))))));
@@ -1022,7 +1029,6 @@ BitStringToUint8Array(bitString) {
         a = this.XOREncrypt(a, this.concatUint8Arrays(this.base64_decode (this.hash0 + this.hash1 + this.hash2 + this.hash3 + this.hash4 + this.hash5 + this.hash6 + this.hash7 + this.hash8 + this.hash9 + this.hasha + this.hashb + this.hashc + this.hashd + this.hashe + this.hashf),this.Raw_hexrev (this.hex2bin(this.md5 (b + this.StringTouint8Array(Math.sin ((b.length % Math.exp (0.2)) / b.length) * Math.cos ((b.length % Math.exp (0.2)) / b.length) * Math.tan ((b.length % Math.exp (0.2)) / b.length)))))));
         a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       }
-      console.log(a1);
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
       var h = this.str_split(e,684);
       a = this.hex2bin(this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.concatUint8Arrays(this.concatUint8Arrays(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf),this.convert(_3xmap)),this.StringTouint8Array(Math.exp(Math.pow(2,5))))))));
@@ -1137,15 +1143,20 @@ BitStringToUint8Array(bitString) {
 
         d = this.bk_kb(this.strrev (d));
         var _list = [];
+        var _list1 = [];
         g = this.uint8ArrayToString(g);
+        var g1 = g;
         for (var i = 0; i < (keylen + (this.digest % 32)); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
+          var g1 = this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool",g1)));
           _list.push(g);
+          _list1.push(g1);
         }
         for (var i = 0; i < _list.length; i++) {
-          d = this.E_d_round(d, z, "123");
-          d = this.E_Shift(this.E_d_round(d, z, g),1);
-          d = this.E_d_round(d, z, _list[i]+"123");
+          d = this.E_Shift(this.E_d_round(d, z, _list[i]+_list1[i]),1);
+          d = this.E_Shift(this.E_d_round(d, z, g+_list[i]+_list1[i]),0);
+          d = this.E_Shift(this.E_d_round(d, z, _list[i]+"123"),2);
+          d = this.E_Shift(this.E_d_round(d, z, _list1[i]+"123"),3);
         }
         return [d, l];
     }
@@ -1153,17 +1164,23 @@ BitStringToUint8Array(bitString) {
       var g = d;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
         g = this.uint8ArrayToString(g);
+        var g1 = g;
         var a = f.trim ();
         var _list = [];
+        var _list1 = [];
         for (var i = 0; i < (keylen + (this.digest % 32)); i++) {
           var g = this.uint8ArrayToString(this.hex2bin(CryptoJS.SHA512(g).toString()));
+          var g1 = this.uint8ArrayToString(this.hex2bin(this.hash("whirlpool",g1)));
           _list.push(g);
+          _list1.push(g1);
         }
         _list.reverse();
+        _list1.reverse();
         for (var i = 0; i < _list.length; i++) {
-        a = this.D_d_round(a, z, _list[i]+"123");
-        a = this.D_d_round(this.D_Shift(a,1), z, g);
-        a = this.D_d_round(a, z, "123");
+          a = this.D_d_round(this.D_Shift(a,3), z, _list1[i]+"123");
+          a = this.D_d_round(this.D_Shift(a,2), z, _list[i]+"123");
+          a = this.D_d_round(this.D_Shift(a,0), z, g+_list[i]+_list1[i]);
+          a = this.D_d_round(this.D_Shift(a,1), z, _list[i]+_list1[i]);
         }
         a = this.strrev (this.bk_kb(a));
         var j = this.str_split (a, 342);
@@ -1277,6 +1294,7 @@ BitStringToUint8Array(bitString) {
             a = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(a),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
             a = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(a),3));
             a = this.EaddX(a);
+            a = this.shiftLeft(a,3);
             ////////////////////////
             if(i000==0){
               a = this.strrev(this.bin2hex(a));
@@ -1324,38 +1342,73 @@ BitStringToUint8Array(bitString) {
               b=a;
             }
             ////////////////////////
-            b = this.flipBits(b);
-            b = this.Eadd(b,64);
-            b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),2));
-            b = this.hex2bin(this.E_Shift (this.bin2hex (b), 3));
-            b = this.Eadd(b,8);
-            b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), t));
-            b = this.shiftRight(b,8);
-            b = this.hex2bin(this.E_hex_2 (this.bin2hex (b)));
-            b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), l));
-            b = this.hex2bin(this.E_hex_1 (this.bin2hex (b)));
-            b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), q));
-            b = this.hex2bin(this.E_Shift(this.bin2hex(b), 1));
-            b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
-            b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3));
-            b = this.hex2bin(this.E_hex_1(this.bin2hex(b)));
-            b = this.Raw_hexrev(b);
-            b = this.Eadd(b,32);
-            b = this.flipBits(b);
-            b = this.XOREncrypt(this.strrev(b), o);
-            b = this.hex2bin(this.E_Shift (this.bin2hex (b), 2));
-            b = this.hex2bin(this.E_hex_3 (this.bin2hex (b)));
-            b = this.XOREncrypt(this.strrev(b), l);
-            b = this.hex2bin(this.E_Shift(this.bin2hex(b), 1));
-            b = this.XOREncrypt(this.strrev(b), o); 
-            b = this.hex2bin(this.E_hex_1(this.bin2hex(b))); 
-            b = this.XOREncrypt(this.strrev(b), p);
-            b = this.hex2bin(this.E_Shift(this.bin2hex(b), 3)); 
-            b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
-            b = this.flipBits(b);
-            b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),1));
-            b = this.Eadd(b,8);
-            b = this.shiftRight(b,12);
+            for (var i = 0; i < 4; i++) {
+              b = this.Raw_hexrev(b);
+              b = this.shiftLeft(b,2);
+              b = this.flipBits(b);
+              b = this.Eadd(b,64);
+              b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),2));
+              b = this.hex2bin(this.E_Shift (this.bin2hex (b), 3));
+              b = this.Eadd(b,8);
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), t));
+              b = this.shiftRight(b,8);
+              b = this.hex2bin(this.E_hex_2 (this.bin2hex (b)));
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), l));
+              b = this.hex2bin(this.E_hex_1 (this.bin2hex (b)));
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), q));
+              b = this.hex2bin(this.E_Shift(this.bin2hex(b), 1));
+              b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
+              b = this.hex2bin(this.E_Shift(this.bin2hex(b), 0));
+              b = this.hex2bin(this.E_hex_1(this.bin2hex(b)));
+              b = this.Raw_hexrev(b);
+              b = this.Eadd(b,32);
+              b = this.flipBits(b);
+              b = this.XOREncrypt(this.strrev(b), o);
+              b = this.hex2bin(this.E_Shift (this.bin2hex (b), 2));
+              b = this.hex2bin(this.E_hex_3 (this.bin2hex (b)));
+              b = this.XOREncrypt(this.strrev(b), l);
+              b = this.hex2bin(this.E_Shift(this.bin2hex(b), 1));
+              b = this.XOREncrypt(this.strrev(b), o); 
+              b = this.hex2bin(this.E_hex_1(this.bin2hex(b))); 
+              b = this.XOREncrypt(this.strrev(b), p);
+              b = this.hex2bin(this.E_Shift(this.bin2hex(b), 0)); 
+              b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
+              b = this.flipBits(b);
+              b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),1));
+              b = this.Eadd(b,8);
+              b = this.shiftRight(b,12);
+              b = this.EaddX(b);
+              b = this.swapPairs(b);
+              b = this.shiftRight(b,64);
+              b = this.Eadd(b,keylen);
+              b = this.Eadd(b,36);
+              b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),3));
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), k));
+              b = this.flipBits(b);
+              b = this.Raw_hexrev(b);
+              b = this.hex2bin(this.strtr (this.bin2hex (b), this.hex_char, this.change_5));
+              b = this.hex2bin(this.E_hex_3 (this.bin2hex (b)));
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), p));
+              b = this.Raw_hexrev (b);
+              b = this.XOREncrypt(this.strrev (b), m);
+              b = this.hex2bin(this.bin2hex(b).split('').map(function (char) {
+                return this.hex_characters[this.change_a.indexOf(char)];
+              }, this).join(''));
+              b = this.hex2bin(this.bin2hex(b).split('').map(function (char) {
+                return this.hex_characters[this.change_f.indexOf(char)];
+              }, this).join(''));
+              b = this.hex2bin(this.E_hex_1 (this.bin2hex (b)));
+              b = this.hex2bin(this.Hex_Encrypt_Key (this.bin2hex (b), this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(k,m),k))))));
+              b = this.XOREncrypt(this.strrev (b), this.XOREncrypt(l,m));
+              b = this.hex2bin(this.E_hex_2(this.bin2hex(b)));
+              b = this.flipBits(b);
+              b = this.Raw_hexrev(b);
+              b = this.Eadd(b,12);
+              b = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b),this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
+              b = this.BitStringToUint8Array(this.E_Shift(this.Uint8ArrayToBitString(b),3));
+              b = this.EaddX(b);
+              b = this.shiftLeft(b,3);
+            }
             _end_data = this.hex2bin(this.Hex_Encrypt_Key(this.bin2hex(b), k));
             s,b,a,j,e = "";
           }
@@ -1383,38 +1436,73 @@ BitStringToUint8Array(bitString) {
               var o = key000[6];
               var p = key000[7];
               a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(_end_data), k));
-              a = this.shiftLeft(a,12);
-              a = this.Dadd(a,8);
-              a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),1));
-              a = this.flipBits(a);
-              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-              a = this.strrev(this.XORDecrypt(a, p));
-              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-              a = this.strrev(this.XORDecrypt(a, o));
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
-              a = this.strrev(this.XORDecrypt(a, l));
-              a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 2));
-              a = this.strrev(this.XORDecrypt(a, o));
-              a = this.flipBits(a);
-              a = this.Dadd(a,32);
-              a = this.Raw_hexrev(a);
-              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
-              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), q));
-              a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
-              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
-              a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
-              a = this.shiftLeft(a,8);
-              a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
-              a = this.Dadd(a,8);
-              a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
-              a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),2));
-              a = this.Dadd(a,64);
-              a = this.flipBits(a);
+              for (var i = 0; i < 4; i++) {
+                a = this.shiftRight(a,3);
+                a = this.DaddX(a);
+                a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),3));
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
+                a = this.Dadd(a,12);
+                a = this.Raw_hexrev(a);
+                a = this.flipBits(a);
+                a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+                a = this.strrev(this.XORDecrypt(a, this.XOREncrypt(l, m)));
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(k,m),k))))));
+                a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+                a = this.hex2bin(this.bin2hex(a).split('').map(function (char) {
+                  return this.change_f[this.hex_characters.indexOf(char)];
+                }, this).join(''));
+                a = this.hex2bin(this.bin2hex(a).split('').map(function (char) {
+                  return this.change_a[this.hex_characters.indexOf(char)];
+                }, this).join(''));
+                a = this.strrev(this.XORDecrypt(a, m));
+                a = this.Raw_hexrev(a);
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), p));
+                a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
+                a = this.hex2bin(this.strtr(this.bin2hex(a), this.change_5, this.hex_char));
+                a = this.Raw_hexrev(a);
+                a = this.flipBits(a);
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), k));
+                a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),3));
+                a = this.Dadd(a,36);
+                a = this.Dadd(a,keylen);
+                a = this.shiftLeft(a,64);
+                a = this.swapPairs(a);
+                a = this.DaddX(a);
+                a = this.shiftLeft(a,12);
+                a = this.Dadd(a,8);
+                a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),1));
+                a = this.flipBits(a);
+                a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 0));
+                a = this.strrev(this.XORDecrypt(a, p));
+                a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+                a = this.strrev(this.XORDecrypt(a, o));
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
+                a = this.strrev(this.XORDecrypt(a, l));
+                a = this.hex2bin(this.D_hex_3(this.bin2hex(a)));
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 2));
+                a = this.strrev(this.XORDecrypt(a, o));
+                a = this.flipBits(a);
+                a = this.Dadd(a,32);
+                a = this.Raw_hexrev(a);
+                a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 0));
+                a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 1));
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), q));
+                a = this.hex2bin(this.D_hex_1(this.bin2hex(a)));
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), l));
+                a = this.hex2bin(this.D_hex_2(this.bin2hex(a)));
+                a = this.shiftLeft(a,8);
+                a = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(a), t));
+                a = this.Dadd(a,8);
+                a = this.hex2bin(this.D_Shift(this.bin2hex(a), 3));
+                a = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(a),2));
+                a = this.Dadd(a,64);
+                a = this.flipBits(a);
+                a = this.shiftRight(a,2);
+                a = this.Raw_hexrev(a);
+              }
               ///////////////////////////
               if (i000 === keyCount - 1) {
                 a = this.bin2hex(a);
@@ -1450,6 +1538,7 @@ BitStringToUint8Array(bitString) {
                 c=a;
               }
               ///////////////////////////
+              c = this.shiftRight(c,3);
               c = this.DaddX(c);
               c = this.BitStringToUint8Array(this.D_Shift(this.Uint8ArrayToBitString(c),3));
               c = this.hex2bin(this.Hex_Decrypt_Key(this.bin2hex(c), this.hex2bin(this.hash("whirlpool",this.uint8ArrayToString(this.concatUint8Arrays(this.bitOR(m,k),m))))));
@@ -1640,71 +1729,108 @@ BitStringToUint8Array(bitString) {
       try {
         // b string'inin uzunluğunu 4'e bölerek kalanı bul
         var remainder = b.length % 4;
+        if(b.length<4){
+          return b;
+        }
     
         // Eğer kalan 0 ise
-        if (remainder == 0) {
-          // Bütün string'i 4'er bir şekilde işle
-          if (e == 1) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[1] + a[2] + a[3] + a[0];
-              b += d;
-            }
-          } else if (e == 2) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[2] + a[3] + a[0] + a[1];
-              b += d;
-            }
-          } else if (e == 3) {
-            var c = b.match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[3] + a[0] + a[1] + a[2];
-              b += d;
-            }
-          }
-        // Eğer kalan 0 değilse
-        } else {
-          if(b.length<4){
-            return b;
-          }
-          // String'in son kalan kısmını ayrı bir değişkene kaydet
+        if (remainder != 0) {
           var last_part = b.slice(-remainder);
-    
-          // String'in geri kalanını 4'er bir şekilde işle
-          if (e == 1) {
+        }
+        if (e == 0) {
+          if (remainder != 0) {
             var c = b.slice(0, -remainder).match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
+          }else{
+            var c = b.match(/.{1,4}/g);
+          }
+          b = "";
+          for (var i = 0; i < c.length; i++) {
+            if(i % 4 == 0){
+              var a = c[i];
+              var d = a[0] + a[1] + a[2] + a[3];
+            }else if(i % 4 == 1){
               var a = c[i];
               var d = a[1] + a[2] + a[3] + a[0];
+            }else if(i % 4 == 2){
+              var a = c[i];
+              var d = a[2] + a[3] + a[0] + a[1];
+            }else{
+              var a = c[i];
+              var d = a[3] + a[0] + a[1] + a[2];
+            }
+            b += d;
+          }
+        } else if (e == 1) {
+          if (remainder != 0) {
+            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+          }else{
+            var c = b.match(/.{1,4}/g);
+          }
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else{
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }
               b += d;
             }
           } else if (e == 2) {
-            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
             b = "";
             for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[2] + a[3] + a[0] + a[1];
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }else{
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }
               b += d;
             }
           } else if (e == 3) {
-            var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
             b = "";
             for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[3] + a[0] + a[1] + a[2];
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }else{
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }
               b += d;
             }
           }
-    
-          // Sonucu döndürmeden önce, ayrılan kısmı tekrar ekle
+        if(remainder != 0){
           b += last_part;
         }
         return b;
@@ -1715,75 +1841,111 @@ BitStringToUint8Array(bitString) {
     }
     D_Shift(b, e) {
       try {
+        if(b.length<4){
+          return b;
+        }
+
         // b string'inin uzunluğunu 4'e bölerek kalanı bul
         var remainder = b.length % 4;
-    
-        // Eğer kalan 0 ise
-        if (remainder == 0) {
+        if (remainder != 0) {
+        var last_part = b.slice(-remainder);
+        }
           // Bütün string'i 4'er bir şekilde işle
-          if (e == 1) {
-            var c = b.match(/.{1,4}/g);
+          if (e == 0) {
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
             b = "";
             for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[3] + a[0] + a[1] + a[2];
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }else{
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }
+              b += d;
+            }
+          } else if (e == 1) {
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
+            b = "";
+            for (var i = 0; i < c.length; i++) {
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }else{
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }
               b += d;
             }
           } else if (e == 2) {
-            var c = b.match(/.{1,4}/g);
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
             b = "";
             for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[2] + a[3] + a[0] + a[1];
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }else{
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }
               b += d;
             }
           } else if (e == 3) {
-            var c = b.match(/.{1,4}/g);
+            if (remainder != 0) {
+              var c = b.slice(0, -remainder).match(/.{1,4}/g);
+            }else{
+              var c = b.match(/.{1,4}/g);
+            }
             b = "";
             for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[1] + a[2] + a[3] + a[0];
+              if(i % 4 == 0){
+                var a = c[i];
+                var d = a[1] + a[2] + a[3] + a[0];
+              }else if(i % 4 == 1){
+                var a = c[i];
+                var d = a[0] + a[1] + a[2] + a[3];
+              }else if(i % 4 == 2){
+                var a = c[i];
+                var d = a[3] + a[0] + a[1] + a[2];
+              }else{
+                var a = c[i];
+                var d = a[2] + a[3] + a[0] + a[1];
+              }
               b += d;
             }
           }
         // Eğer kalan 0 değilse
-        } else {
-          if(b.length<4){
-            return b;
-          }
-          // String'in son kalan kısmını ayrı bir değişkene kaydet
-          var last_part = b.slice(-remainder);
-    
-          // String'in geri kalanını 4'er bir şekilde işle
-          if (e == 1) {
-            var c = b.slice(0, -remainder).match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[3] + a[0] + a[1] + a[2];
-              b += d;
-            }
-          } else if (e == 2) {
-            var c = b.slice(0, -remainder).match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[2] + a[3] + a[0] + a[1];
-              b += d;
-            }
-          } else if (e == 3) {
-            var c = b.slice(0, -remainder).match(/.{1,4}/g);
-            b = "";
-            for (var i = 0; i < c.length; i++) {
-              var a = c[i];
-              var d = a[1] + a[2] + a[3] + a[0];
-              b += d;
-            }
-          }
-    
-          // Sonucu döndürmeden önce, ayrılan kısmı tekrar ekle
-          b += last_part;
-        }
+        if (remainder != 0) {b += last_part;}
         return b;
         
       } catch (e) {
