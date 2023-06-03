@@ -34,7 +34,7 @@ SilverCipher has Folder, File and Text encryption options. While encrypting Fold
 
 ## Methods used in SCP encryption
 - [ Xor Encryption](https://en.wikipedia.org/wiki/XOR_cipher)
-- [ ShiftRows](https://en.wikipedia.org/wiki/XOR_cipher](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
+- [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
 - [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
 - [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
 - [ WHIRLPOOL](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
