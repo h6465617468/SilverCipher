@@ -1,6 +1,5 @@
 # SC Military Level Encryption Algorithm
 ![rsa encryption tool](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/main.png?raw=true)
-## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 Complex library of folder, file and text encryption and unique encryption algorithm
 
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
