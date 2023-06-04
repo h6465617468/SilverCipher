@@ -898,6 +898,9 @@ BitStringToUint8Array(bitString) {
 }
 
     Encrypt (d) {
+      if(Boolean(d)==false){
+        return;
+      }
       // var text = 'abcdefghjkloıuyt_';
       // console.log(this.md5(text));
       // console.log(text);
@@ -999,6 +1002,9 @@ BitStringToUint8Array(bitString) {
       return e;
     }
     Decrypt (e) {
+      if(Boolean(e)==false){
+        return;
+      }
       var b = this.key;
       e = e.replace (/ /g, "").trim ().replace (/=/g, "");
       // var keylen = this.sumNumbers(b);
