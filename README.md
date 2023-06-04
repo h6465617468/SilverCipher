@@ -48,17 +48,16 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 ![ Swap Pairs image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/XOR_Swap.svg.png)
 
+- [ Bit Shift](https://www.omnicalculator.com/math/bit-shift)
+
+![ Bit Shift image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitshift.webp)
+
 - [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
 
 ![ Cipher Block Chaining image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Cipher-Block-Chaining-Operation-CBC.png)
 
 - [ Uint8array Operations,Substitutes Uint8array values with a table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 - [ Bit Level Operations](https://www.ijsr.net/archive/v6i6/ART20174580.pdf)
-- [ Bit Shift]()
-
-![ Bit Shift image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitshift.webp)
-
-
 - [ Substitutes hex values with another table](https://en.wikipedia.org/wiki/Hexadecimal)
 - [ Text Operations,Replaces Base64 characters according to the values obtained from sha512](https://en.wikipedia.org/wiki/ROT13)
 
