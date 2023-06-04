@@ -10,9 +10,9 @@ Complex library of folder, file and text encryption and unique encryption algori
 ### Text: Let's meet at Duygu Cafe at 17:00. I have things to tell you. , Key: 123
 ### Output:
 #### pcKgImdVeyA1waJT3OMvJq6OZ/cCajws8PrhJ6xNhDIbwwPuzAP8xa+Ndys5HHF+8VonH0P4dwQgEb2tHOueT0vcK/OJaEnlPQ/Xb+GYkPkj8/mPLYJ9DtAgr8+3APr8KtnU1DgF5gzRYbq2VR2kv3BUtJH4hwc4GN+077qN+FIGKvRd74ruZH0FVTjGmurXBGHXFzanTFmD1mvxItnTX+ELj3CgXBLooXIkT8AXKsruEpwaTr74Un6Dv0/nk/66t++q0W+Qp28RjpeYoEWe/LnXVRw6gQ7gFENOUs2lCdViPfGhltzYYvxwHp/5LRW/9IJ0HKWjuG+KgI0U6tmw99==
-### Text: https://www.xxxxhub.com/video/search?search=link , Key: Secret0123
+### Text: xxxxhub. com/video/search?search=link , Key: Secret0123
 ### Output:
-#### dKQnvtpfeDHKcPD1xLo4X8xj2ERPrO0zB4cOzqV41bX01Sc9GU228sAxqNlc7wnNZxv9PeGWVwJiBb3x3e47wBg0jY56LGy9qCZILbbMSzrXXHp9G5sVMujJkvfwvct+Nlk6sxSHDO4m6VmmH3D0mT5qcdjIZC8k6XuHsGXTMk9tjnP3EU2KBgIeHWZcByogrf3qji2L1ErRF/05UkRMvnl8r4TTK/bmYdlJ1tt8p02vWO1+xwTNgQ26fdDiDkcFwoMHkLiAzB+OrZPYu0Gvsv3blXK/B6+JohnOrF0mamUD7xQ2J0/AGsBikVKj47dU67tdB6AKg8HCba7PF9lKnO==
+#### TuQ2PsJv6iVdHKrixOUoC/Z+JTInN2zPTTrXzKm6G4ZbS0f1jnTAKA1Zmfdm+uy+GYR725rIMNQ+LM8TYw17dmKGSMh/vQomnM2MM5fYH2UXyg4+YPVL3REW9rfx4OmFIgJbGSie2Q5JEgoXVNrlSTv+fm1VB1yo+L9A2ctaMPSnAOIcvJb3JSKjn7kVdIfREUD9tXL9VQw71MZsTN+PcjwSCppJtwbshEDPLJShqfsBnQqqWKYmCN/KAraRktT0YsJBOa8I+ZnQNfEgdpcT6mHBk6aVCD3V1jNt2mdhlzLy4X/T2WuFaxLnYKKLvfkeSWMxaLHwvhk3BZKoQ2r3ce==
 
 
 
