@@ -45,6 +45,12 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 # Usage
 
+| Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | Support |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | PHP |
+| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | JS |
+| SCM | Available | Yes | - | Symetric/Block | Sufficient | JS |
+
 ## Folder Encryption/Decryption
 Folder/File Encryption uses [Gutmann](https://en.wikipedia.org/wiki/Gutmann_method) , [DoD 5220.22-M](https://en.wikipedia.org/wiki/National_Industrial_Security_Program) file shredding method
 Encrypts all subfolders and files. Before encrypting, it takes the data and parts it so that it cannot be recovered. It does not re-encrypt the previously encrypted file. Appends '_enc' to the end of the encrypted file.
