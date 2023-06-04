@@ -1,11 +1,11 @@
 # SC Encryption Library v1.0
 Complex library of folder, file and text encryption and unique encryption algorithm
 
-| Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
+| Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | Support |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | No |
-| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | Yes |
-| SCM | Available | Yes | - | Symetric/Block | Sufficient | Yes |
+| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | JS |
+| SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | PHP |
+| SCM | Available | Yes | - | Symetric/Block | Sufficient | JS |
 
 ## Description
 - SCP-1024 encryption algorithm is a formidable hybrid that combines the mechanisms of various cryptographic systems to encrypt data with an unbreakable cipher. It has a highly complex structure that defies any attempt to decrypt or crack it. It is extremely slow but utterly secure, and it demands a large amount of computational resources.
