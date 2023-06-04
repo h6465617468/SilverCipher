@@ -35,7 +35,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 ![ shiftrows image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Figure-26-Inverse-Shift-Rows-diagram-in-AES-NIST-01.png)
 
-- [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
+- [ Bit Shift](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitshift.webp)
 
 ![ Bit Shift image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/77858249-47cd6200-71d0-11ea-8a08-7f1787e9b9b3.png)
 
