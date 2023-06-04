@@ -23,6 +23,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 - [ Adds random bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
 - [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
+- [ shiftrows image](https://www.researchgate.net/profile/Abdul-Monem-Rahma/publication/312277403/figure/fig6/AS:449840724353029@1484261794677/Figure-26-Inverse-Shift-Rows-diagram-in-AES-NIST-01.png)
 - [ Bit Shift](https://learn.microsoft.com/en-us/cpp/cpp/left-shift-and-right-shift-operators-input-and-output?view=msvc-170)
 - [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
 - [ Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
