@@ -34,6 +34,9 @@ Complex library of folder, file and text encryption and unique encryption algori
 - [ Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
+
+![ Swap Pairs image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/XOR_Swap.svg.png)
+
 - [ Cipher Block Chaining](https://www.techtarget.com/searchsecurity/definition/cipher-block-chaining)
 
 ![ Cipher Block Chaining image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Cipher-Block-Chaining-Operation-CBC.png)
