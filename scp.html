@@ -227,11 +227,11 @@ option:checked {
         <!-- Bootstrap CSS -->
 
         <style>a:hover, a:visited, a:link, a:active{text-decoration: none;}</style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
-    <a id="error1" href="" style="font-size:64px;color:#221e1e;">Refresh Page</a>
     <body>
-    <script>document.getElementById("error1").style.display = "none";</script>
+<div id="loading" style="position: fixed; top: 0; width: 100%;background-color:floralwhite;opacity:1;z-index:10;display:none;">
+    <p style="font-size:32px;" id="loadingdurum">Loading...</p>
+</div>
         <div style="word-wrap: break-word;margin:auto;text-align:center;">
         <h1>SCP-1024 Encryption Tool</h1>
         <div style="text-align: center;">
@@ -279,6 +279,9 @@ option:checked {
                 <br>
                 <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;"><a href="https://github.com/h6465617468/SilverCipher">❯ Source Codes</a></h1>
                 <script>
+function setVisible(selector, visible) {
+  document.querySelector(selector).style.display = visible ? 'block' : 'none';
+}
                 // input elementini seç
                 var input = document.getElementById("myInput");
                 // fare tekerleği olayını dinle
@@ -354,11 +357,16 @@ function cleardata() {
 function ready() {
   // #enc id'li elemana tıklandığında çalışacak fonksiyon
   document.querySelector("#enc").addEventListener("click", function() {
+    var _cache_title_ = document.title;
+    setVisible('#loading', true);
+    document.title = "Encoding ...";
     // Şifrelenecek veri
     var digest = document.querySelector('input[name="digest"]').value;
     var key = document.querySelector('textarea[name="key"]').value;
     var toenctext = document.querySelector('textarea[name="data"]').value;
     if(toenctext == "" || toenctext == null){
+        setVisible('#loading', false);
+        document.title = _cache_title_;
         return;
     }
     //console.log("Girdi =>"+digest);
@@ -366,32 +374,41 @@ function ready() {
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var encryptedData;
     
-    new Promise((resolve)=>{resolve();}).then( ()=>{
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
       encryptedData = cipher.Encrypt(toenctext);
     }).finally(() => {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       document.querySelector('textarea[name=data]').value = encryptedData;
+      setVisible('#loading', false);
+      document.title = _cache_title_;
     });
   });
 
   // #dec id'li elemana tıklandığında çalışacak fonksiyon
   document.querySelector("#dec").addEventListener("click", function() {
+    var _cache_title_ = document.title;
+    setVisible('#loading', true);
+    document.title = "Encoding ...";
     // DeŞifrelenecek veri
     var digest = document.querySelector('input[name="digest"]').value;
     var key = document.querySelector('textarea[name="key"]').value;
     var todectext = document.querySelector('textarea[name="data"]').value;
     if(todectext == "" || todectext == null){
+        setVisible('#loading', false);
+        document.title = _cache_title_;
         return;
     }
     var cipher = new SC5(key,digest);
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var decryptedText;
     
-    new Promise((resolve)=>{resolve();}).then( ()=>{
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
       decryptedText = cipher.Decrypt(todectext);
     }).finally(() => {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       document.querySelector('textarea[name=data]').value = decryptedText;
+      setVisible('#loading', false);
+      document.title = _cache_title_;
     });
   });
 
