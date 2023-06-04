@@ -1,4 +1,4 @@
-# SC Encryption Library v1.0
+# SC5 Cryptography Library v1.0
 Complex library of folder, file and text encryption and unique encryption algorithm
 
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | Support |
