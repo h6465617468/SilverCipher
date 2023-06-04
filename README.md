@@ -3,8 +3,8 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | Support |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | JS |
 | SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | PHP |
+| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | JS |
 | SCM | Available | Yes | - | Symetric/Block | Sufficient | JS |
 
 ## Description
