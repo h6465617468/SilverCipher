@@ -51,26 +51,34 @@ class SC5 {
       this.hashe = "hRa4QoBy5blILAusSC/YFXKr6qfpP92cN13TUvtZJxGWw0e+DOM7z8idVjHgEmkn";
       this.hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpmSV9ICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
       this.ax1xxxx=0;
-      if (key === null || key === undefined) {
+      if (key === null || key === undefined || key === "") {
       this.key = "123456789";
       } else {
       this.key = key;
       }
       if (!isNaN(digest)) {
-        this.digest = parseInt(digest);
+        if (digest === null || digest === undefined  || digest === "") {
+          this.digest=0;
+        }else{
+          this.digest = parseInt(digest);
+        }
       }else{
         this.digest=0;
       }
     }
     setdigest(digest = 0){
       if (!isNaN(digest)) {
-        this.digest = parseInt(digest);
+        if (digest === null || digest === undefined  || digest === "") {
+          this.digest=0;
+        }else{
+          this.digest = parseInt(digest);
+        }
       }else{
         this.digest=0;
       }
     }
     setkey(key){
-      if (key === null || key === undefined) {
+      if (key === null || key === undefined || key === "") {
         this.key = "123456789";
         } else {
         this.key = key;
