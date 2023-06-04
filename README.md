@@ -93,6 +93,74 @@ $datax = "/path";
 echo $sc->Encrypt($datax);
 echo $sc->Decrypt($datax);
 ```
+## SCM And SCP Encryption Javascript and PHP
+#### [ SCM Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
+#### [ SCP Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
+HTML
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="js/SilverCipherMini.min.js"></script>
+<script src="js/sc5.min.js"></script>
+```
+Dynamically load a JS file in JavaScript
+```javascript
+const loadScript=function(r){return new Promise(function(n,e){const t=document.createElement("script");t.src=r,t.addEventListener("load",function(){n(!0)}),document.head.appendChild(t)})},waterfall=function(n){return n.reduce(function(n,e){return n.then(function(){return"function"==typeof e?e().then(function(n){return!0}):Promise.resolve(e)})},Promise.resolve([]))},loadScriptsInOrder=function(n){n=n.map(function(n){return loadScript(n)});return waterfall(n)};
+loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', 'js/SilverCipherMini.min.js', 'js/sc5.min.js']).then(function () {
+    // All scripts are loaded completely
+    // Do something
+});
+```
+Javascript
+SCM
+```javascript
+const cipher = new SilverCipherMini("123");
+const encryptedText = cipher.Encrypt("123");
+const decryptedText = cipher.Decrypt(encryptedText);
+document.write("Encrypted: "+encryptedText);
+document.write("<br>");
+document.write("Decrypted: "+decryptedText);
+```
+Output:
+```
+Encrypted: A0KCtSEs
+Decrypted: 123
+```
+SCP
+```javascript
+const cipher = new SC5("123","0");
+const encryptedText = cipher.Encrypt("123");
+const decryptedText = cipher.Decrypt(encryptedText);
+document.write("Encrypted: "+encryptedText);
+document.write("<br>");
+document.write("Decrypted: "+decryptedText);
+```
+Output:
+```
+Encrypted: y1O1LAbfiS+CHzSKvtxQherxeLThCDx8nQTvm6QjzxlG47GS/Ud1li7hyFeeTe9eWiYuogKvduaJAp7fX0Wj/HaToNH+BufkKVLQW6vVNbxDvohIuCKff1Wv9S2QrYb2+3GOCam4OtDlFgVY1G6ipx2COFGsWMBt1CYF5xk/FSTlSCmhF48KcciciiOeUcCNgcKBvwlqx4nSF/GFMF6MrbQDkC4dUZdO3qEkKmYWGs5LWgkmH/+b3rlL/86mJXUm8KHYz7Gyqs1LlkAMIQI//uGz3MX7NJgauVIGpZalqENSGEG3YvFZ31mT3hCVKrqMYZcF7hH0Shsh/l4EsQwVzt==
+Decrypted: 123
+```
+PHP SCM
+```php
+require_once "SilverCipherMini.php";
+$plain_text="123";
+$key="123";
+echo "Plain Text:<br>".$plain_text."<br><br>";
+$ht = new SilverCipherMini($key);
+echo "Encrypted Text:<br>";
+echo $encrypted_text=$ht->Encrypt($plain_text);
+echo "<br><br>";
+echo "Decrypted Text:<br>";
+echo $decrypted_text=$ht->Decrypt($encrypted_text);
+```
+Output:
+```
+Plain Text:
+123
+Encrypted Text:
+A0KCtSEs
+Decrypted Text:
+123
+```
 ## File Encryption/Decryption
 ### Example 1 (Advanced)
 ```php
@@ -187,74 +255,6 @@ $plain_text="Hello World";
 echo $cipher_text=$sc->Encrypt($plain_text);
 echo "<br>";
 echo $sc->Decrypt($cipher_text);
-```
-## SCM And SCP Encryption Javascript and PHP
-#### [ SCM Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
-#### [ SCP Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
-HTML
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<script src="js/SilverCipherMini.min.js"></script>
-<script src="js/sc5.min.js"></script>
-```
-Dynamically load a JS file in JavaScript
-```javascript
-const loadScript=function(r){return new Promise(function(n,e){const t=document.createElement("script");t.src=r,t.addEventListener("load",function(){n(!0)}),document.head.appendChild(t)})},waterfall=function(n){return n.reduce(function(n,e){return n.then(function(){return"function"==typeof e?e().then(function(n){return!0}):Promise.resolve(e)})},Promise.resolve([]))},loadScriptsInOrder=function(n){n=n.map(function(n){return loadScript(n)});return waterfall(n)};
-loadScriptsInOrder(['https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js', 'js/SilverCipherMini.min.js', 'js/sc5.min.js']).then(function () {
-    // All scripts are loaded completely
-    // Do something
-});
-```
-Javascript
-SCM
-```javascript
-const cipher = new SilverCipherMini("123");
-const encryptedText = cipher.Encrypt("123");
-const decryptedText = cipher.Decrypt(encryptedText);
-document.write("Encrypted: "+encryptedText);
-document.write("<br>");
-document.write("Decrypted: "+decryptedText);
-```
-Output:
-```
-Encrypted: A0KCtSEs
-Decrypted: 123
-```
-SCP
-```javascript
-const cipher = new SC5("123","0");
-const encryptedText = cipher.Encrypt("123");
-const decryptedText = cipher.Decrypt(encryptedText);
-document.write("Encrypted: "+encryptedText);
-document.write("<br>");
-document.write("Decrypted: "+decryptedText);
-```
-Output:
-```
-Encrypted: y1O1LAbfiS+CHzSKvtxQherxeLThCDx8nQTvm6QjzxlG47GS/Ud1li7hyFeeTe9eWiYuogKvduaJAp7fX0Wj/HaToNH+BufkKVLQW6vVNbxDvohIuCKff1Wv9S2QrYb2+3GOCam4OtDlFgVY1G6ipx2COFGsWMBt1CYF5xk/FSTlSCmhF48KcciciiOeUcCNgcKBvwlqx4nSF/GFMF6MrbQDkC4dUZdO3qEkKmYWGs5LWgkmH/+b3rlL/86mJXUm8KHYz7Gyqs1LlkAMIQI//uGz3MX7NJgauVIGpZalqENSGEG3YvFZ31mT3hCVKrqMYZcF7hH0Shsh/l4EsQwVzt==
-Decrypted: 123
-```
-PHP SCM
-```php
-require_once "SilverCipherMini.php";
-$plain_text="123";
-$key="123";
-echo "Plain Text:<br>".$plain_text."<br><br>";
-$ht = new SilverCipherMini($key);
-echo "Encrypted Text:<br>";
-echo $encrypted_text=$ht->Encrypt($plain_text);
-echo "<br><br>";
-echo "Decrypted Text:<br>";
-echo $decrypted_text=$ht->Decrypt($encrypted_text);
-```
-Output:
-```
-Plain Text:
-123
-Encrypted Text:
-A0KCtSEs
-Decrypted Text:
-123
 ```
 ## SilverCipher5 Encryption
 #### [ Download Encryption Tool](https://github.com/h6465617468/SilverCipher/blob/main/encryption_tool.php)
