@@ -29,7 +29,10 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 ## Methods used in SCP-1024 encryption
 - [ Increases the block size from 1024 bits to 3072 bits](https://en.wikipedia.org/wiki/Block_size_(cryptography))
-- [ Adds random bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
+- [ Adds random pseudo bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
+
+![ Adds random pseudo bytes image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/applsci-10-00451-g001.png)
+
 - [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
 
 ![ Bitwise XOR,AND,OR image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitwise.jpg)
