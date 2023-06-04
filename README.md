@@ -7,9 +7,14 @@ Complex library of folder, file and text encryption and unique encryption algori
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
 ## SCP-1024 Encryption Example
-### Text: Hello World, Key: 123
+### Text: Let's meet at Duygu Cafe at 17:00. I have things to tell you. , Key: 123
 ### Output:
-#### 4wzlOx40wBPcVLpV49v4oAskLWE/TxLfwWF7dDIDz3h6uXiSDhdLSqMRs3S/glD6xBYxH+d3GzDc++AtRPc+Gwea21bZejeIBYEThjNIV/K3t8ZI74okdfu2O3IDTY7gchKzq6sdzIfCL9Ut1aUAL3XEkl4S45YFEbq0BAVhEGlHWmeyuGDw3H7dx5YHF47dZ94pKaXIHITnjWZWEOov4a8P9LbHpgc9Ci7uWK/6wviy/AtXyowah3Erlo7UjtcaM30e3bGu7E9YQ3D2lmyj8X7JZfrtyl7j6LMrTT7JkKJmzKKMAPBQJajnLEU2+NjL2sfKjceRO4XBgZqFHs0uRS==
+#### pcKgImdVeyA1waJT3OMvJq6OZ/cCajws8PrhJ6xNhDIbwwPuzAP8xa+Ndys5HHF+8VonH0P4dwQgEb2tHOueT0vcK/OJaEnlPQ/Xb+GYkPkj8/mPLYJ9DtAgr8+3APr8KtnU1DgF5gzRYbq2VR2kv3BUtJH4hwc4GN+077qN+FIGKvRd74ruZH0FVTjGmurXBGHXFzanTFmD1mvxItnTX+ELj3CgXBLooXIkT8AXKsruEpwaTr74Un6Dv0/nk/66t++q0W+Qp28RjpeYoEWe/LnXVRw6gQ7gFENOUs2lCdViPfGhltzYYvxwHp/5LRW/9IJ0HKWjuG+KgI0U6tmw99==
+### Text: https://www.xxxxhub.com/video/search?search=link , Key: Secret0123
+### Output:
+#### dKQnvtpfeDHKcPD1xLo4X8xj2ERPrO0zB4cOzqV41bX01Sc9GU228sAxqNlc7wnNZxv9PeGWVwJiBb3x3e47wBg0jY56LGy9qCZILbbMSzrXXHp9G5sVMujJkvfwvct+Nlk6sxSHDO4m6VmmH3D0mT5qcdjIZC8k6XuHsGXTMk9tjnP3EU2KBgIeHWZcByogrf3qji2L1ErRF/05UkRMvnl8r4TTK/bmYdlJ1tt8p02vWO1+xwTNgQ26fdDiDkcFwoMHkLiAzB+OrZPYu0Gvsv3blXK/B6+JohnOrF0mamUD7xQ2J0/AGsBikVKj47dU67tdB6AKg8HCba7PF9lKnO==
+
+
 
 ### SCP-1024/SCM,RSA Online Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
