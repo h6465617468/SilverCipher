@@ -1,4 +1,4 @@
-# SCP-1024/SCM Military Level Encryption Algorithm
+# Encryption Library
 ![encryption tool](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/main.png?raw=true)
 Complex library of folder, file and text encryption and unique encryption algorithm
 
