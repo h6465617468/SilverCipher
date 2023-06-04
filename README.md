@@ -31,6 +31,9 @@ Complex library of folder, file and text encryption and unique encryption algori
 - [ Increases the block size from 1024 bits to 3072 bits](https://en.wikipedia.org/wiki/Block_size_(cryptography))
 - [ Adds random bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
 - [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
+
+![ Bitwise XOR,AND,OR image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitwise.jpg)
+
 - [ ShiftRows](https://commons.wikimedia.org/wiki/File:AES-ShiftRows.svg)
 
 ![ shiftrows image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Figure-26-Inverse-Shift-Rows-diagram-in-AES-NIST-01.png)
