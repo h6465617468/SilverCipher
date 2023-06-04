@@ -1,4 +1,4 @@
-# SCP/SCM Military Level Encryption Algorithm
+# SCP-1024/SCM Military Level Encryption Algorithm
 ![encryption tool](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/main.png?raw=true)
 Complex library of folder, file and text encryption and unique encryption algorithm
 
@@ -13,16 +13,16 @@ Complex library of folder, file and text encryption and unique encryption algori
 - SilverCipher Tool has Folder, File and Text encryption options. While encrypting Folder and File, it takes the data, shreds the original file, then creates a file to write the encrypted data.
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
-# SCP/SCM,RSA Online Encryption Tool (Military Level)
+# SCP-1024/SCM,RSA Online Encryption Tool (Military Level)
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
 
 # Demo
-### SCP Beta Version (Military Level) Encryption Tool
+### SCP-1024 Beta Version (Military Level) Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
 ### SCM Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
 
-## Methods used in SCP encryption
+## Methods used in SCP-1024 encryption
 - [ Increases the block size from 1024 bits to 3072 bits](https://en.wikipedia.org/wiki/Block_size_(cryptography))
 - [ Adds random bytes](https://www.tabnine.com/code/javascript/functions/crypto/randomBytes)
 - [ Bitwise XOR,AND,OR](https://en.wikipedia.org/wiki/Bitwise_operation)
@@ -40,7 +40,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 # Setup
 ### Download SilverCipher
-### [ Beta Version SCP Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
+### [ Beta Version SCP-1024 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
 ### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
 ### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
 ### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
