@@ -159,7 +159,10 @@ Decrypted: 123
 ```
 SCP
 ```javascript
-const cipher = new SC5("123","0");
+const cipher = new SC5("123","0"); // key required
+// OR
+// cipher.setkey("123");
+// cipher.setdigest("0");
 const encryptedText = cipher.Encrypt("123");
 const decryptedText = cipher.Decrypt(encryptedText);
 document.write("Encrypted: "+encryptedText);
