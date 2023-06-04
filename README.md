@@ -7,7 +7,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
 ## SCP-1024 Encryption Example
-### Text: Hello World, Key: 123
+### Text: Hello World, Key: 123, AddRound:0
 ### Output:
 #### 4wzlOx40wBPcVLpV49v4oAskLWE/TxLfwWF7dDIDz3h6uXiSDhdLSqMRs3S/glD6xBYxH+d3GzDc++AtRPc+Gwea21bZejeIBYEThjNIV/K3t8ZI74okdfu2O3IDTY7gchKzq6sdzIfCL9Ut1aUAL3XEkl4S45YFEbq0BAVhEGlHWmeyuGDw3H7dx5YHF47dZ94pKaXIHITnjWZWEOov4a8P9LbHpgc9Ci7uWK/6wviy/AtXyowah3Erlo7UjtcaM30e3bGu7E9YQ3D2lmyj8X7JZfrtyl7j6LMrTT7JkKJmzKKMAPBQJajnLEU2+NjL2sfKjceRO4XBgZqFHs0uRS==
 
