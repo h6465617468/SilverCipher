@@ -13,6 +13,9 @@ Complex library of folder, file and text encryption and unique encryption algori
 ### Text: xxxxhub. com/video/search?search=link , Key: Secret0123
 ### Output:
 #### TuQ2PsJv6iVdHKrixOUoC/Z+JTInN2zPTTrXzKm6G4ZbS0f1jnTAKA1Zmfdm+uy+GYR725rIMNQ+LM8TYw17dmKGSMh/vQomnM2MM5fYH2UXyg4+YPVL3REW9rfx4OmFIgJbGSie2Q5JEgoXVNrlSTv+fm1VB1yo+L9A2ctaMPSnAOIcvJb3JSKjn7kVdIfREUD9tXL9VQw71MZsTN+PcjwSCppJtwbshEDPLJShqfsBnQqqWKYmCN/KAraRktT0YsJBOa8I+ZnQNfEgdpcT6mHBk6aVCD3V1jNt2mdhlzLy4X/T2WuFaxLnYKKLvfkeSWMxaLHwvhk3BZKoQ2r3ce==
+### Text: I'm afraid someone else will see this message, I have no freedom of expression. , Key: Adan9999
+### Output:
+#### 3ZBomwVFw1yqdEqv8aPXSeTHy4su8g7eBwn1/ahy2Yf3p9BdUTNQk37gTUQ/Xd2prFxuJezK41cZuetesi9++uFivW/ZdKDvFmCpzbyiEhnvqC1RxuC87xUes5jyQLUuRyfqw5/ZY2sO03nzv8CPm6wM8nhUdaR/9qsvxCj3/cGxDxTdvy7zxD1UwrRvqIwvrEaidJNI6OH9xfj5oIVZwXJKjpSuG9WB7AtO1dfbBWfMzearrl0mHqLi5ROYbEck3WW5AmTp7B2/H+gJ86u18Act0Ca17QY7/EfKpkagsPEYvKQ7Rb/AfZeoiGqhhEsEjaFUXEKfv0ZWnJJVEIw2Nc==
 ### [ Decrypt Link](https://h6465617468.github.io/SilverCipher/scp.html)
 
 
