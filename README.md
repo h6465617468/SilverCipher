@@ -277,7 +277,7 @@ echo "<br>";
 echo $sc->Decrypt($cipher_text);
 ```
 ## SilverCipher5 Encryption
-#### [ Download Encryption Tool](https://github.com/h6465617468/SilverCipher/blob/main/encryption_tool.php)
+#### [ Download Encryption Tool](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/encryption_tool.php)
 ```php
 // php
 require_once "SilverCipher5.php"; // Only uses SilverCipher Encryption Algorithms
