@@ -13,10 +13,8 @@ Complex library of folder, file and text encryption and unique encryption algori
 - SilverCipher Tool has Folder, File and Text encryption options. While encrypting Folder and File, it takes the data, shreds the original file, then creates a file to write the encrypted data.
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
-# SCP-1024/SCM,RSA Online Encryption Tool
+### SCP-1024/SCM,RSA Online Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
-
-# Demo
 ### SCP-1024 Beta Version (Military Level) Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
 ### SCM Encryption Tool
