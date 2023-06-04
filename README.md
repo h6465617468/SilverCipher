@@ -45,7 +45,7 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 
-![ Bit Flip image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the.png | width=100)
+![](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the.png | width=100)
 
 
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
