@@ -32,6 +32,9 @@ Complex library of folder, file and text encryption and unique encryption algori
 ![ sha256 image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Two-Consecutive-SHA-256-operations.png)
 
 - [ Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function))
+
+![ Whirlpool image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/3-Figure3-1.png)
+
 - [ Bit Flip](https://www.researchgate.net/figure/Bit-flip-mutation-Each-gene-of-an-individual-has-a-certain-probability-to-perform-the_fig1_341844437)
 - [ Swap Pairs](https://stackoverflow.com/questions/72974883/how-to-swap-pairs-of-bits-of-unsigned-int-in-c)
 
