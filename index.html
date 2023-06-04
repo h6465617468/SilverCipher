@@ -23,7 +23,7 @@
         <script src="js/jsencrypt.min.js"></script>
         <script src="js/SilverCipherMini.min.js"></script>
         <script src="js/sc5.min.js"></script>
-        <script src="sc5scheme.js"></script>
+        <!--<script src="sc5scheme.js"></script>-->
 
 
 <!--CSS-->
@@ -399,73 +399,76 @@ option:checked {
           <button id="btn16384" onclick="key_gen_main(16384)" type="button" style="flex: 1;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">16384 Bit / (1d)</button>
           </div>
           </div>
+      <!--
           <div style="text-align: center;max-width:620px;margin:0 auto;width: 92% !important;">
             <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Test SCP-1 Military Level Encryption Algorithm</h1>
             <input type="text" id="testtext" value="" class="container" style="margin-bottom:10px;" placeholder="Plain Text" autocomplete="off">
             <input type="text" id="testkey" value="123" class="container" style="margin-bottom:10px;" placeholder="Key" autocomplete="off">
             <button onclick="testencrypt()" style="height:40px;">Test</button>
             <textarea id="testoutput" style="width:100%!important;height:56px;border: none !important;box-shadow:none!important;"></textarea>
-           </div>
+          </div>
             <textarea id="adsadasdas" style="width:92%!important;max-width:100%!important;height:700px!important;border-radius: 15px;box-shadow:none;box-shadow: inset 0 -1px 0 #92979B !important;"></textarea>
+        -->
             <script>
-  function base64_encode(array) {
-        var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-        var result = '';
-        var i, j, triplet;
+  // function base64_encode(array) {
+  //       var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  //       var result = '';
+  //       var i, j, triplet;
         
-        for (i = 0; i < array.length; i += 3) {
-            triplet = (array[i] << 16) | (array[i + 1] << 8) | array[i + 2];
-            for (j = 0; j < 4; j += 1) {
-            if (i * 8 + j * 6 <= array.length * 8) {
-                result += base64.charAt((triplet >> 18 - j * 6) & 0x3F);
-            } else {
-                result += '==';
-            }
-            }
-        }
-        return result.replace(/=*$/, '')+"==";
-        //return result;
-    }
-    function testencrypt(){
-      var inputx1 = document.getElementById("testtext");
-      var inputkey = document.getElementById("testkey");
-      testencryptscheme(inputx1.value,inputkey.value);
-    }
-    function testencryptscheme(data,key){
-              var cipher = new SC5Scheme(key);
-              var textarea = document.getElementById("adsadasdas");
-              textarea.value="";
-              var testoutput = document.getElementById("testoutput");
-              testoutput.value="Output : "+cipher.Encrypt(data);
-              schemeList=cipher.getScheme();
-              // for döngüsü ile liste içindeki sözlükleri textarea değerine yazdır
-              for (let i = 0; i < schemeList.length; i++) {
-                // i. sözlüğü al
-                let scheme = schemeList[i];
-                // sözlüğün anahtarlarını al
-                let keys = Object.keys(scheme);
-                // her anahtar için
-                for (let key of keys) {
-                  // anahtarın değerini al
-                  let value = scheme[key];
-                  // değerin tipine göre farklı işlemler yap
-                  if (typeof value === "string") {
-                    // değer string ise, direkt yazdır
-                    textarea.value += key + ": " + value + "\n\n";
-                  } else if (value instanceof Uint8Array) {
-                    value = base64_encode(value);
-                    // değer Uint8Array ise, elemanlarını yazdır
-                    // textarea.value += key + ": " + value.join(", ") + "\n\n";
-                    textarea.value += key + ": " + value + "\n\n";
-                  } else {
-                    // değer başka bir tip ise, hata mesajı ver
-                    textarea.value += "Geçersiz değer tipi\n\n";
-                  }
-                }
-              }
-            }testencryptscheme("Hello World","123");
+  //       for (i = 0; i < array.length; i += 3) {
+  //           triplet = (array[i] << 16) | (array[i + 1] << 8) | array[i + 2];
+  //           for (j = 0; j < 4; j += 1) {
+  //           if (i * 8 + j * 6 <= array.length * 8) {
+  //               result += base64.charAt((triplet >> 18 - j * 6) & 0x3F);
+  //           } else {
+  //               result += '==';
+  //           }
+  //           }
+  //       }
+  //       return result.replace(/=*$/, '')+"==";
+  //       //return result;
+  //   }
+  //   function testencrypt(){
+  //     var inputx1 = document.getElementById("testtext");
+  //     var inputkey = document.getElementById("testkey");
+  //     testencryptscheme(inputx1.value,inputkey.value);
+  //   }
+  //   function testencryptscheme(data,key){
+  //             var cipher = new SC5Scheme(key);
+  //             var textarea = document.getElementById("adsadasdas");
+  //             textarea.value="";
+  //             var testoutput = document.getElementById("testoutput");
+  //             testoutput.value="Output : "+cipher.Encrypt(data);
+  //             schemeList=cipher.getScheme();
+  //             // for döngüsü ile liste içindeki sözlükleri textarea değerine yazdır
+  //             for (let i = 0; i < schemeList.length; i++) {
+  //               // i. sözlüğü al
+  //               let scheme = schemeList[i];
+  //               // sözlüğün anahtarlarını al
+  //               let keys = Object.keys(scheme);
+  //               // her anahtar için
+  //               for (let key of keys) {
+  //                 // anahtarın değerini al
+  //                 let value = scheme[key];
+  //                 // değerin tipine göre farklı işlemler yap
+  //                 if (typeof value === "string") {
+  //                   // değer string ise, direkt yazdır
+  //                   textarea.value += key + ": " + value + "\n\n";
+  //                 } else if (value instanceof Uint8Array) {
+  //                   value = base64_encode(value);
+  //                   // değer Uint8Array ise, elemanlarını yazdır
+  //                   // textarea.value += key + ": " + value.join(", ") + "\n\n";
+  //                   textarea.value += key + ": " + value + "\n\n";
+  //                 } else {
+  //                   // değer başka bir tip ise, hata mesajı ver
+  //                   textarea.value += "Geçersiz değer tipi\n\n";
+  //                 }
+  //               }
+  //             }
+  //           }testencryptscheme("Hello World","123");
             </script>
           <!-- V -->
+          <!--
           <br><br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">How To Use ?</h1>
           <div style="text-align: center;">
@@ -473,13 +476,10 @@ option:checked {
             <source src="https://github.com/h6465617468/SilverCipher/raw/main/video/scm_promotion.mp4" type="video/mp4">
           </video>
           </div>
+          -->
           <br><br>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Information</h1>
           <p style="margin-bottom:10px;">It is absolutely javascript based only. Does not use php script. It works on your local browser.</p>
-          <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">Encryption</h1>
-          <p style="margin-top:10px;margin-bottom:10px;">It uses its own unique SCM and SCP-1024 as symmetric encryption.</p>
-          <p style="margin-bottom:10px;">Uses RSA as asymetric encryption.</p>
-          <p>It uses RSA as the signature. For security, the signature is sent inside the encrypted data.</p>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;">The project is open source.</h1>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;"><a href="https://github.com/h6465617468/SilverCipher/">Source Codes</a></h1>
           <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;"><a href="https://github.com/h6465617468/SilverCipher/blob/main/sc5.js">SCP Source Codes</a></h1>
