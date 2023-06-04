@@ -1,12 +1,6 @@
 # SC5 Cryptography Library v1.0
 Complex library of folder, file and text encryption and unique encryption algorithm
 
-| Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | Support |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| SilverCipher Tool | Yes | Yes | All Shredders (Powerful) | Symetric/Block | Very High | PHP |
-| SCP-1024 | Available | Yes | - | Symetric/Block	 | Extreme | JS |
-| SCM | Available | Yes | - | Symetric/Block | Sufficient | JS |
-
 ## Description
 - SCP-1024 encryption algorithm is a formidable hybrid that combines the mechanisms of various cryptographic systems to encrypt data with an unbreakable cipher. It has a highly complex structure that defies any attempt to decrypt or crack it. It is extremely slow but utterly secure, and it demands a large amount of computational resources.
 - SilverCipher Tool has Folder, File and Text encryption options. While encrypting Folder and File, it takes the data, shreds the original file, then creates a file to write the encrypted data.
