@@ -35,10 +35,6 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 ![ shiftrows image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Figure-26-Inverse-Shift-Rows-diagram-in-AES-NIST-01.png)
 
-- [ Bit Shift](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitshift.webp)
-
-![ Bit Shift image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/77858249-47cd6200-71d0-11ea-8a08-7f1787e9b9b3.png)
-
 - [ SHA512/256,SHA1](https://tr.wikipedia.org/wiki/SHA-2)
 
 ![ sha256 image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Two-Consecutive-SHA-256-operations.png)
@@ -58,6 +54,11 @@ Complex library of folder, file and text encryption and unique encryption algori
 
 - [ Uint8array Operations,Substitutes Uint8array values with a table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
 - [ Bit Level Operations](https://www.ijsr.net/archive/v6i6/ART20174580.pdf)
+- [ Bit Shift]()
+
+![ Bit Shift image](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/bitshift.webp)
+
+
 - [ Substitutes hex values with another table](https://en.wikipedia.org/wiki/Hexadecimal)
 - [ Text Operations,Replaces Base64 characters according to the values obtained from sha512](https://en.wikipedia.org/wiki/ROT13)
 
