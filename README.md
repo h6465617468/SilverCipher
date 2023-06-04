@@ -1,5 +1,4 @@
-# Encryption Library
-![encryption tool](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/main.png?raw=true)
+# SC Encryption Library v1.0
 Complex library of folder, file and text encryption and unique encryption algorithm
 
 | Name | Folder/File Encryption | Text Encryption | File Shredder | Type | Security | JS Support |
