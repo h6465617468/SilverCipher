@@ -38,11 +38,11 @@ Complex library of folder, file and text encryption and unique encryption algori
 # Setup
 ### Download SilverCipher
 ### [ Beta Version SCP-1024 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/sc5.js)
-### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher.php)
-### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher5.php)
+### [ Latest Version SilverCipher](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher.php)
+### [ Latest Version SilverCipher5 Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher5.php)
 ### [ Latest Version SilverCipherMini Unique Encryption Algorithm](https://github.com/h6465617468/SilverCipher/blob/main/js/SilverCipherMini.min.js)
 #### Download Other Unique Encryption Algorithm Library
-#### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SilverCipher1.php)
+#### [SilverCipher4](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher4.php) , [SilverCipher3](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher3.php) , [SilverCipher2](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher2.php) , [SilverCipher1](https://github.com/h6465617468/SilverCipher/blob/main/SCPHP/SilverCipher1.php)
 
 # Usage
 
