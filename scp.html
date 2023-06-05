@@ -388,7 +388,7 @@ function ready() {
   document.querySelector("#dec").addEventListener("click", function() {
     var _cache_title_ = document.title;
     setVisible('#loading', true);
-    document.title = "Encoding ...";
+    document.title = "Decoding ...";
     // DeŞifrelenecek veri
     var digest = document.querySelector('input[name="digest"]').value;
     var key = document.querySelector('textarea[name="key"]').value;
