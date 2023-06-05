@@ -266,14 +266,23 @@ option:checked {
           </div>
           <br>
           <!-- //////////////////// -->
+          <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;justify-content: center;margin:0 auto;width: 92% !important;">
+            <div style="flex: 1;">
+              <div style="text-align: center;">
+                <button type="button" style="width: 100% !important;font-size:28px;border-radius:15px;"><input type="file" id="encryptfilex" style="display:none;"><label for="encryptfilex">🔒Encrypt File</label></button>
+              </div>
+            </div>
+            <div style="flex: 1;">
+              <div style="text-align: center;">
+                <button type="button" style="width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;"><input type="file" id="decryptfilex" style="display:none;"><label for="decryptfilex">🔓Decrypt File</label></button>
+              </div>
+            </div>
+          </div>
           <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
-
-
+          
             <div style="flex: 1;">
           <div style="text-align: center;">
-              <button type="button" style="
-              width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;
-              "><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↓↓ Load File ↓↓</label></button>
+              <button type="button" style="width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;"><input type="file" id="encryptfile" style="display:none;"><label for="encryptfile">↓↓ Load File ↓↓</label></button>
           </div>
           <h1 class="container" style="border-radius:0;border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;">Decrypt / Verify</h1>
           <textarea spellcheck="false" id="arkadasinin_sifreli_mesaji" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="Encrypted Message..."></textarea>
@@ -1284,6 +1293,119 @@ if(config_shield == "" || config_shield == null){
   // dosyayı okumaya başla
   reader.readAsText(secilenDosya);
 });
+
+function hex_to_arraybuffer(hex) {
+  // hex string olarak verilmeli
+  // sonuç arraybuffer olarak döndürülür
+  var bytes = new Uint8Array(hex.length / 2); // hex'in yarısı kadar byte dizisi oluştur
+  for (var i = 0; i < bytes.length; i++) {
+    // her iki hex karakterini bir byte'a dönüştür
+    bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  }
+  return bytes.buffer; // sonucu arraybuffer olarak döndür
+}
+
+
+function xor_encrypt(text, key) {
+  // text ve key arraybuffer olarak verilmeli
+  // sonuç arraybuffer olarak döndürülür
+  var textBytes = new Uint8Array(text); // text'i byte dizisine dönüştür
+  var keyBytes = new Uint8Array(key); // key'i byte dizisine dönüştür
+  var resultBytes = new Uint8Array(textBytes.length); // sonuç için byte dizisi oluştur
+  for (var i = 0; i < textBytes.length; i++) {
+    // her bir byte'ı key'in ilgili byte'ı ile xor yap
+    resultBytes[i] = textBytes[i] ^ keyBytes[i % keyBytes.length];
+  }
+  return resultBytes.buffer; // sonucu arraybuffer olarak döndür
+}
+function remove_enc_prefix(str) {
+  // str string olarak verilmeli
+  // sonuç string olarak döndürülür
+  if (str.startsWith("enc_")) {
+    // str'in başında "enc_" varsa kaldır
+    return str.slice(4);
+  } else {
+    // yoksa str'i olduğu gibi döndür
+    return str;
+  }
+}
+
+
+
+
+
+
+var encryptfilex = document.getElementById("encryptfilex");
+encryptfilex.addEventListener("change", function() {
+
+  // seçilen ilk encryptfile al
+  var secilenencryptfile1 = this.files[0];
+  // FileReader nesnesi oluştur
+  var reader = new FileReader();
+  reader.onload = function() {
+    var ortak_anahtar = document.getElementById("ortak").value;
+    if(ortak_anahtar == "" || ortak_anahtar == null){
+        alert("Symmetric Key Required");
+        encryptfilex.value = "";
+        return;
+    }
+    var key = CryptoJS.SHA512(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA1(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
+    key = hex_to_arraybuffer(key);
+    var textareaxxx = xor_encrypt(this.result,key);
+    encryptfilex.value = "";
+
+var blob = new Blob([textareaxxx], {type: secilenencryptfile1.type});
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url;
+a.download = "enc_" + secilenencryptfile1.name;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+
+};
+  // encryptfile okumaya başla
+  reader.readAsArrayBuffer(secilenencryptfile1);
+});
+
+var decryptfilex = document.getElementById("decryptfilex");
+decryptfilex.addEventListener("change", function() {
+
+  // seçilen ilk encryptfile al
+  var secilendecryptfile1 = this.files[0];
+  // FileReader nesnesi oluştur
+  var reader = new FileReader();
+  reader.onload = function() {
+    var ortak_anahtar = document.getElementById("ortak").value;
+    if(ortak_anahtar == "" || ortak_anahtar == null){
+        alert("Symmetric Key Required");
+        decryptfilex.value = "";
+        return;
+    }
+    var key = CryptoJS.SHA512(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA1(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
+    key = hex_to_arraybuffer(key);
+    var textareaxxx1 = xor_encrypt(this.result,key);
+    decryptfilex.value = "";
+
+var blob = new Blob([textareaxxx1], {type: secilendecryptfile1.type});
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url;
+a.download = remove_enc_prefix(secilendecryptfile1.name);
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+
+};
+  // encryptfile okumaya başla
+  reader.readAsArrayBuffer(secilendecryptfile1);
+});
+
+
+
+
+
+
 var encryptfile = document.getElementById("encryptfile");
 encryptfile.addEventListener("change", function() {
 
