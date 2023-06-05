@@ -16,7 +16,6 @@ Complex library of folder, file and text encryption and unique encryption algori
 ### Text: I'm afraid someone else will see this message, I have no freedom of expression. , Key: Adan9999
 ### Output:
 #### 3ZBomwVFw1yqdEqv8aPXSeTHy4su8g7eBwn1/ahy2Yf3p9BdUTNQk37gTUQ/Xd2prFxuJezK41cZuetesi9++uFivW/ZdKDvFmCpzbyiEhnvqC1RxuC87xUes5jyQLUuRyfqw5/ZY2sO03nzv8CPm6wM8nhUdaR/9qsvxCj3/cGxDxTdvy7zxD1UwrRvqIwvrEaidJNI6OH9xfj5oIVZwXJKjpSuG9WB7AtO1dfbBWfMzearrl0mHqLi5ROYbEck3WW5AmTp7B2/H+gJ86u18Act0Ca17QY7/EfKpkagsPEYvKQ7Rb/AfZeoiGqhhEsEjaFUXEKfv0ZWnJJVEIw2Nc==
-### [ Decrypt Link](https://h6465617468.github.io/SilverCipher/scp.html)
 Unless you made the key an easy one like '123456'. This algorithm easily protects you from cops, soldiers and scientists. Because super powerful processors are required to solve it, for example: even 50,000 Ryzen 9 7950x may not be able to solve it.
 
 ### SCP-1024/SCM,RSA Online Encryption Tool
