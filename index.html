@@ -1312,12 +1312,25 @@ function xor_encrypt(text, key) {
   var textBytes = new Uint8Array(text); // text'i byte dizisine dönüştür
   var keyBytes = new Uint8Array(key); // key'i byte dizisine dönüştür
   var resultBytes = new Uint8Array(textBytes.length); // sonuç için byte dizisi oluştur
+  var shift = 0; // bit kaydırma miktarı için değişken tanımla
   for (var i = 0; i < textBytes.length; i++) {
     // her bir byte'ı key'in ilgili byte'ı ile xor yap
     resultBytes[i] = textBytes[i] ^ keyBytes[i % keyBytes.length];
+    // key'in ilgili byte'ını bit kaydırma yaparak güncelle
+    keyBytes[i % keyBytes.length] = (keyBytes[i % keyBytes.length] << shift) | (keyBytes[i % keyBytes.length] >> (8 - shift));
+    // bit kaydırma miktarını arttır
+    shift++;
+    // bit kaydırma miktarı 8'e ulaşırsa sıfırla
+    if (shift == 8) {
+      shift = 0;
+    }
   }
   return resultBytes.buffer; // sonucu arraybuffer olarak döndür
 }
+
+
+
+
 function remove_enc_prefix(str) {
   // str string olarak verilmeli
   // sonuç string olarak döndürülür
