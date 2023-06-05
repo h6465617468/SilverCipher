@@ -20,7 +20,7 @@ Unless you made the key an easy one like '123456'. This algorithm easily protect
 
 ### SCP-1024/SCM,RSA Online Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/index.html)
-### SCP-1024 Beta Version (Military Level) Encryption Tool
+### SCP-1024 Beta Version Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/scp.html)
 ### SCM Encryption Tool
 ## [ Online Encryption Tool](https://h6465617468.github.io/SilverCipher/demo.html)
