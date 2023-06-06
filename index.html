@@ -988,7 +988,6 @@ var _proces__enc_dec=0;
         }
         if(text=="1" || text=="2" || text=="3" || text=="4" || text=="5" || text=="6"){
           try {
-        var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value;
         // var cipher_textarea_ = new SilverCipherMini(ortak_anahtar);
         var target_public_key = document.getElementById("target_public_key").value.trim();
         var bizim_public_keyimiz = document.getElementById("bizim_public_keyimiz").value.trim();
@@ -1090,6 +1089,15 @@ var _proces__enc_dec=0;
           var cipher = new SC5(ortak_anahtar,roundxx2222);
         }
         var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
+        if(arkadasinin_sifreli_mesaji==""){
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+        setVisible('#loading', false);
+        // Error yakalama kodu
+        alert("Empty");
+        return;
+        }
         // var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
 
         if(text=="1" || text=="2" || text=="3" || text=="4" || text=="5" || text=="6"){
