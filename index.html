@@ -259,6 +259,7 @@ option:checked {
             <option value="6" style="color:gray;">Asymmetric RSA-MIX (Slow)</option>
             <option value="7" style="color:gray;">Symmetric SCP/SCM,AES (Fast)</option>
             <option value="8" style="color:green;">Symmetric SCP/SCM (Fast)</option>
+            <option value="9" style="color:gray;">Symmetric AES (Fast)</option>
             </select>
           </div>
           <div style="text-align: center;overflow: none!important;">
@@ -1018,7 +1019,7 @@ var _proces__enc_dec=0;
         if(text=="1" || text=="3" || text=="5"){
           sifrelenecek_mesaj = encryptData_FLEXMODE(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
         }
-        if(text=="3" || text=="4" || text=="7"){
+        if(text=="3" || text=="4" || text=="7" || text=="9"){
           var key = CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex);
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           sifrelenecek_mesaj = encrypt_1(key,iv,sifrelenecek_mesaj);
@@ -1120,7 +1121,7 @@ var _proces__enc_dec=0;
         if(text=="1" || text=="2" || text=="7" || text=="8"){
           arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
         }
-        if(text=="3" || text=="4" || text=="7"){
+        if(text=="3" || text=="4" || text=="7"|| text=="9"){
           var key = CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex);
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           arkadasinin_sifreli_mesaji = decrypt_1(key,iv,arkadasinin_sifreli_mesaji);
