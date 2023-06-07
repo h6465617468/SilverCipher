@@ -7,6 +7,8 @@ Complex library of folder, file and text encryption and unique encryption algori
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
 ## SCP-1024 Encryption Example
+![ wh](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Screenshot_111.png)
+
 ### Text: Let's meet at Duygu Cafe at 17:00. I have things to tell you. , Key: 123
 ### Output:
 #### AOE3ZPlEoSFn5TtvnqnrOG+E29eX0OwuLYc7Crlqtn1iwI7z9hTA2tR89zh60ummAQPL7RRgNa4iX26Sn9Cddmfy7rAEZ0DxgFQ/G6gAbD+PyknteH2UqzUW2DEvSOMQbexMmA6r69OOMBm0AvvRwU9luwCdIAoSLj+y+9Z0zVWefgW5i9xvKZbUs1kIq//qXgESSkSuhNapeF/HS3PFQquyNQZK4k/8JqvLApxgFU3/nmn8nzM5picBEhYrOuTmZAdpELQz+Td8+R1YpUUz/ilZYlS5xhLbP1x2u1ytLvVpQtVVP++bYx6Rl/rGjHMUszC1am9cvnHlwLL1pg4o00==
