@@ -2,7 +2,7 @@
 Complex library of folder, file and text encryption and unique encryption algorithm
 
 ## Description
-- SCP-1024 encryption algorithm is a formidable hybrid that combines the mechanisms of various cryptographic systems to encrypt data with an unbreakable cipher. It has a highly complex structure that defies any attempt to decrypt or crack it. It is extremely slow but utterly secure, and it demands a large amount of computational resources.
+- SCP-1024 algorithm is an impressive hybrid that combines the mechanisms of various cryptographic systems. It has a complex structure that defies any attempt to decrypt or crack it. It is immune to side-channel attacks and its S-BOXes are specially developed. It is extremely slow but utterly secure and requires a large amount of computational resources. It is practically impossible to break it with brute force as it performs thousands of operations.
 - SilverCipher Tool has Folder, File and Text encryption options. While encrypting Folder and File, it takes the data, shreds the original file, then creates a file to write the encrypted data.
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
