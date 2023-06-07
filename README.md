@@ -9,13 +9,16 @@ Complex library of folder, file and text encryption and unique encryption algori
 ## SCP-1024 Encryption Example
 ### Text: Let's meet at Duygu Cafe at 17:00. I have things to tell you. , Key: 123
 ### Output:
-#### pcKgImdVeyA1waJT3OMvJq6OZ/cCajws8PrhJ6xNhDIbwwPuzAP8xa+Ndys5HHF+8VonH0P4dwQgEb2tHOueT0vcK/OJaEnlPQ/Xb+GYkPkj8/mPLYJ9DtAgr8+3APr8KtnU1DgF5gzRYbq2VR2kv3BUtJH4hwc4GN+077qN+FIGKvRd74ruZH0FVTjGmurXBGHXFzanTFmD1mvxItnTX+ELj3CgXBLooXIkT8AXKsruEpwaTr74Un6Dv0/nk/66t++q0W+Qp28RjpeYoEWe/LnXVRw6gQ7gFENOUs2lCdViPfGhltzYYvxwHp/5LRW/9IJ0HKWjuG+KgI0U6tmw99==
-### Text: xxxxhub. com/video/search?search=link , Key: Secret0123
+#### AOE3ZPlEoSFn5TtvnqnrOG+E29eX0OwuLYc7Crlqtn1iwI7z9hTA2tR89zh60ummAQPL7RRgNa4iX26Sn9Cddmfy7rAEZ0DxgFQ/G6gAbD+PyknteH2UqzUW2DEvSOMQbexMmA6r69OOMBm0AvvRwU9luwCdIAoSLj+y+9Z0zVWefgW5i9xvKZbUs1kIq//qXgESSkSuhNapeF/HS3PFQquyNQZK4k/8JqvLApxgFU3/nmn8nzM5picBEhYrOuTmZAdpELQz+Td8+R1YpUUz/ilZYlS5xhLbP1x2u1ytLvVpQtVVP++bYx6Rl/rGjHMUszC1am9cvnHlwLL1pg4o00==
+### Text: https://www.youtube.com/watch?v=Os_heh8vPfs , Key: Secret0123
 ### Output:
 #### TuQ2PsJv6iVdHKrixOUoC/Z+JTInN2zPTTrXzKm6G4ZbS0f1jnTAKA1Zmfdm+uy+GYR725rIMNQ+LM8TYw17dmKGSMh/vQomnM2MM5fYH2UXyg4+YPVL3REW9rfx4OmFIgJbGSie2Q5JEgoXVNrlSTv+fm1VB1yo+L9A2ctaMPSnAOIcvJb3JSKjn7kVdIfREUD9tXL9VQw71MZsTN+PcjwSCppJtwbshEDPLJShqfsBnQqqWKYmCN/KAraRktT0YsJBOa8I+ZnQNfEgdpcT6mHBk6aVCD3V1jNt2mdhlzLy4X/T2WuFaxLnYKKLvfkeSWMxaLHwvhk3BZKoQ2r3ce==
 ### Text: I'm afraid someone else will see this message, I have no freedom of expression. , Key: Adan9999
 ### Output:
 #### 3ZBomwVFw1yqdEqv8aPXSeTHy4su8g7eBwn1/ahy2Yf3p9BdUTNQk37gTUQ/Xd2prFxuJezK41cZuetesi9++uFivW/ZdKDvFmCpzbyiEhnvqC1RxuC87xUes5jyQLUuRyfqw5/ZY2sO03nzv8CPm6wM8nhUdaR/9qsvxCj3/cGxDxTdvy7zxD1UwrRvqIwvrEaidJNI6OH9xfj5oIVZwXJKjpSuG9WB7AtO1dfbBWfMzearrl0mHqLi5ROYbEck3WW5AmTp7B2/H+gJ86u18Act0Ca17QY7/EfKpkagsPEYvKQ7Rb/AfZeoiGqhhEsEjaFUXEKfv0ZWnJJVEIw2Nc==
+
+## [ Basic Demo](https://h6465617468.github.io/SilverCipher/scp.html)
+
 Unless you made the key an easy one like '123456'. This algorithm easily protects you from cops, soldiers and scientists. Because super powerful processors are required to solve it, for example: even 50,000 Ryzen 9 7950x may not be able to solve it.
 
 ### SCP-1024/SCM,RSA Online Encryption Tool
