@@ -1,6 +1,7 @@
 # SC5 Cryptography Library v1.0
 ### Encryption Algorithm and Library It was specially designed for protection against government, military units and organizations when it was designed.
 Complex library of folder, file and text encryption and unique encryption algorithm
+Note : If you detect weak points of the encryption algorithm, please report it.
 
 ## Description
 - SCP-1024 algorithm is an impressive hybrid that combines the mechanisms of various cryptographic systems. It has a complex structure that defies any attempt to decrypt or crack it. It is immune to side-channel attacks and its S-BOXes are specially developed. It is extremely slow but utterly secure and requires a large amount of computational resources. It is practically impossible to break it with brute force as it performs thousands of operations.
