@@ -1,5 +1,4 @@
 # SC5 Cryptography Library v1.0
-### Encryption Algorithm and Library It was specially designed for protection against government, military units and organizations when it was designed.
 #### Complex library of folder, file and text encryption and unique encryption algorithm
 ### Note : If you detect weak points of the encryption algorithm, please report it.
 
