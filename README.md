@@ -8,9 +8,7 @@
 - SCM encryption algorithm implements encryption with high speed and adaptability, but low security level.
 
 ## SCP-1024 Encryption Example
-### If the AddRound parameter is 1024, more than 100,000 operations are performed on each 128 byte block.
 ### The difficulty of the algorithm is that 2^128 different combination attempts are required for each loop.
-![ scp1024 scheme](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/compressed.gif)
 ### You can send a message to the other party that can only be read within certain time periods. If the encrypted message expires, the message cannot be recovered.(Under Development)
 ![ wh](https://raw.githubusercontent.com/h6465617468/SilverCipher/main/images/Screenshot_111.png)
 
