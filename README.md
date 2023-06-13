@@ -14,7 +14,7 @@
 
 ### Text: Let's meet at Duygu Cafe at 17:00. I have things to tell you. , Key: 123
 ### Output:
-#### AOE3ZPlEoSFn5TtvnqnrOG+E29eX0OwuLYc7Crlqtn1iwI7z9hTA2tR89zh60ummAQPL7RRgNa4iX26Sn9Cddmfy7rAEZ0DxgFQ/G6gAbD+PyknteH2UqzUW2DEvSOMQbexMmA6r69OOMBm0AvvRwU9luwCdIAoSLj+y+9Z0zVWefgW5i9xvKZbUs1kIq//qXgESSkSuhNapeF/HS3PFQquyNQZK4k/8JqvLApxgFU3/nmn8nzM5picBEhYrOuTmZAdpELQz+Td8+R1YpUUz/ilZYlS5xhLbP1x2u1ytLvVpQtVVP++bYx6Rl/rGjHMUszC1am9cvnHlwLL1pg4o00==
+#### nGLOcLFAqZ2JVvjAXzSPMsMc2nOOpyOeaWr1UBgwLbL/6dmPsLpA0FrggGTHjCbdkGewO6P4YarYU4aFqOiBg++qOdJT1RTkaGAOPfixclep0PMd9Vh17d76XdkYhyK5yiqOw+o6BvNqYTmYCG4CJSgL+C0DTGlL17IC/W2NG2WSMzK42xBuxsul6Joj3IEap96wTlGvY/l8XnQ6ufzikkPjUHi2gU/lX5EWGXe6ACiyvKW4yhIX03RLMWW+FoGpnKFmFOfQxm8z1x/eUTiBUWWbI31rtpfnOUyHBHifQbaiVNb9IoZmZVo+e9HkFs2IEPUaOn0jkBkrvh1MNwhRkt==
 ### Text: https ://www . youtube. com/watch?v=Os_heh8vPfs , Key: Secret0123
 ### Output:
 #### dnEPg56p4G41HEvpg8KpEDbdG9YdNOplJHHyYKgIfPZ5USOrJzU98PDndQNV7S54wiiMlbQ1DJjwgME+3T2HPncvvaPx2apIoIWiW4c++eh7bI7oh3NqL5MhTwnDoRfHblQMMKj9SwSYugT/MfFy/DU5FZ3JCdKg6XApk9CxgMSyvGi7hB6lsxgBLtFVF+LlyKR1e4TAN/cNWxbE8PGNAhyeuU37NTAiSkn0Q8SCly2VA+d+d7unHsf712nDmJCxYzVP634ZFnAcD6ou6zhMyJO4vL/C3k6U3sL4aJlQv+5VsvLnk1/eNVztDD2Jz8kUr7j9aNHrtHwrbxKoWBV1mi==
