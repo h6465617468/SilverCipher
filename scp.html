@@ -275,7 +275,10 @@ option:checked {
                 <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k1').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala1');kopyala.select();document.execCommand('copy');}});</script>
                 <br>
                 <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Round</h1>
-                <input id="myInput" type="number" placeholder="Digest Round"  name="digest" class="container" style="margin-bottom:10px;font-size:24px;" value="0" autocomplete="off" required>
+                <input id="myInput" type="number" placeholder="Digest Round"  name="digest" class="container" style="margin-bottom:10px;font-size:24px;" value="0" min="0" autocomplete="off" required>
+                <br>
+                <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Block Size (0-128-256)</h1>
+                <input id="myInputblock" type="number" placeholder="Only 0-128-256"  name="blocksize" class="container" style="margin-bottom:10px;font-size:24px;" value="128" min="0" max="256" autocomplete="off" required>
                 <br>
                 <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;"><a href="https://github.com/h6465617468/SilverCipher">❯ Source Codes</a></h1>
                 <script>
@@ -300,6 +303,27 @@ function setVisible(selector, visible) {
                     }
                     // olayı engelle
                     event.preventDefault();
+                    }
+                });
+
+                                // input elementini seç
+                var inputy1 = document.getElementById("myInputblock");
+                // fare tekerleği olayını dinle
+                inputy1.addEventListener("wheel", function(eventy1) {
+                    // orta tuşa basılıp basılmadığını kontrol et
+                    if (eventy1.button === 1) {
+                    // tekerleğin yönünü al
+                    var deltay1 = eventy1.deltaY;
+                    // tekerlek yukarı dönüyorsa değeri artır
+                    if (deltay1 < 0) {
+                        inputy1.value = parseInt(inputy1.value) + 1;
+                    }
+                    // tekerlek aşağı dönüyorsa değeri azalt
+                    else if (delta > 0) {
+                        inputy1.value = parseInt(inputy1.value) - 1;
+                    }
+                    // olayı engelle
+                    eventy1.preventDefault();
                     }
                 });
                 </script>
@@ -361,6 +385,7 @@ function ready() {
     setVisible('#loading', true);
     document.title = "Encoding ...";
     // Şifrelenecek veri
+    var blocksize = document.querySelector('input[name="blocksize"]').value;
     var digest = document.querySelector('input[name="digest"]').value;
     var key = document.querySelector('textarea[name="key"]').value;
     var toenctext = document.querySelector('textarea[name="data"]').value;
@@ -370,7 +395,7 @@ function ready() {
         return;
     }
     //console.log("Girdi =>"+digest);
-    var cipher = new SC5(key,digest);
+    var cipher = new SC5(key,digest,blocksize);
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var encryptedData;
     
@@ -390,6 +415,7 @@ function ready() {
     setVisible('#loading', true);
     document.title = "Decoding ...";
     // DeŞifrelenecek veri
+    var blocksize = document.querySelector('input[name="blocksize"]').value;
     var digest = document.querySelector('input[name="digest"]').value;
     var key = document.querySelector('textarea[name="key"]').value;
     var todectext = document.querySelector('textarea[name="data"]').value;
@@ -398,7 +424,7 @@ function ready() {
         document.title = _cache_title_;
         return;
     }
-    var cipher = new SC5(key,digest);
+    var cipher = new SC5(key,digest,blocksize);
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var decryptedText;
     

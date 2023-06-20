@@ -1,5 +1,5 @@
 class SC5 {
-    constructor(key,digest=0) {
+    constructor(key, digest=0, blocksize = 128) {
       this.salt_1_dat = [0xdc, 0xc2, 0x81, 0xf2, 0x67, 0x59, 0xba, 0xe6, 0x58, 0x7c, 0xea, 0xbf, 0xe8, 0x8d, 0x95, 0x8b, 0x7c, 0x12, 0x17, 0x15, 0x50, 0x77, 0x5e, 0x13, 0x6c, 0x67, 0x17, 0x6f, 0x92, 0x95, 0x7c, 0x55, 0xb3, 0xb6, 0x05, 0xc6];
       this.salt_2_dat = [0x77, 0x9a, 0x82, 0x45, 0xc7, 0xa6, 0x7a, 0x85, 0xd4, 0x2a, 0x89, 0xad, 0xd5, 0x13, 0xd2, 0x16, 0x01, 0xb4, 0x2d, 0x3b, 0xa8, 0x8a, 0xe9, 0x00, 0x02, 0x59, 0x9f, 0x5f, 0x30, 0x93, 0x6c, 0xe4, 0x92, 0xb1, 0x60, 0x28];
       this.salt_st_dat = [0x01, 0xaa, 0xbb, 0xfa, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff];
@@ -60,10 +60,82 @@ class SC5 {
         if (digest === null || digest === undefined  || digest === "") {
           this.digest=0;
         }else{
-          this.digest = parseInt(digest);
+          if(isNaN(digest)){
+            this.digest = digest;
+          }else{
+            this.digest = parseInt(digest);
+          }
         }
       }else{
         this.digest=0;
+      }
+      if (!isNaN(blocksize)) {
+        if (blocksize === null || blocksize === undefined  || blocksize === "") {
+          this.blocksize=128;
+        }else{
+          if(parseInt(blocksize)>=128 && parseInt(blocksize)<256){
+            this.blocksize = 128;
+          }else if(parseInt(blocksize)>=256){
+            this.blocksize = 256;
+          }else if(parseInt(blocksize)<128){
+            this.blocksize = 0;
+          }else{
+            if(isNaN(blocksize)){
+              if(blocksize>=128 && blocksize<256){
+                this.blocksize = 128;
+              }if(blocksize>=256){
+                this.blocksize = 256;
+              }else{
+                this.blocksize=0;
+              }
+            }else{
+              if(parseInt(blocksize)>=128 && parseInt(blocksize)<256){
+                this.blocksize = 128;
+              }if(parseInt(blocksize)>=256){
+                this.blocksize = 256;
+              }else{
+                this.blocksize=0;
+              }
+            }
+          }
+        }
+      }else{
+        this.blocksize=128;
+      }
+    }
+    setblocksize(blocksize = 128){
+      if (!isNaN(blocksize)) {
+        if (blocksize === null || blocksize === undefined  || blocksize === "") {
+          this.blocksize=128;
+        }else{
+          if(parseInt(blocksize)>=128 && parseInt(blocksize)<256){
+            this.blocksize = 128;
+          }else if(parseInt(blocksize)>=256){
+            this.blocksize = 256;
+          }else if(parseInt(blocksize)<128){
+            this.blocksize = 0;
+          }else{
+            if(isNaN(blocksize)){
+              if(blocksize>=128 && blocksize<256){
+                this.blocksize = 128;
+              }if(blocksize>=256){
+                this.blocksize = 256;
+              }else{
+                this.blocksize=0;
+              }
+            }else{
+              if(parseInt(blocksize)>=128 && parseInt(blocksize)<256){
+                this.blocksize = 128;
+              }if(parseInt(blocksize)>=256){
+                this.blocksize = 256;
+              }else{
+                this.blocksize=0;
+              }
+            }
+          }
+        }
+      }else{
+        this.blocksize=128;
       }
     }
     setdigest(digest = 0){
@@ -71,7 +143,11 @@ class SC5 {
         if (digest === null || digest === undefined  || digest === "") {
           this.digest=0;
         }else{
-          this.digest = parseInt(digest);
+          if(isNaN(digest)){
+            this.digest = digest;
+          }else{
+            this.digest = parseInt(digest);
+          }
         }
       }else{
         this.digest=0;
@@ -265,21 +341,21 @@ class SC5 {
       // sonucu döndür
       return result;
       }
-    split_block(str) {
+    split_block(str,blocksize) {
         // Check if the input is a valid Uint8Array
         if (!(str instanceof Uint8Array)) {
           throw new TypeError('Input must be a Uint8Array');
         }
         // Define the block size
-        const length = 128;
+        const length = blocksize;
         // Initialize an array to store the output
         var result = [];
         // Loop through the input
         for (var i = 0; i < str.length; i += length) {
           // Get the slice of the input corresponding to the current block
           var subarray = str.slice(i, i + length);
-          // Pad or slice the subarray to make it exactly 128 bytes long
-          subarray = subarray.length < 128 ? new Uint8Array([...subarray, ...new Array(128 - subarray.length).fill(0)]) : subarray;
+          // Pad or slice the subarray to make it exactly blocksize bytes long
+          subarray = subarray.length < blocksize ? new Uint8Array([...subarray, ...new Array(blocksize - subarray.length).fill(0)]) : subarray;
           // Add the subarray to the output array
           result.push(subarray);
         }
@@ -951,7 +1027,13 @@ BitStringToUint8Array(bitString) {
         a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       }
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
-      var i = this.str_split(d,256);
+      if(this.blocksize==0 || this.blocksize<0){
+        var i = this.str_split(d,256);
+      }else if(this.blocksize>128 || this.blocksize<=256){
+        var i = this.split_block(d,this.blocksize);
+      }else{
+        var i = this.str_split(d,256);
+      }
       var e = "";
       var f = "";
       a = this.hex2bin(this.hash("sha512",this.uint8ArrayToString(this.Raw_hexrev(this.concatUint8Arrays(this.concatUint8Arrays(this.base64_decode(this.hash0+this.hash1+this.hash2+this.hash3+this.hash4+this.hash5+this.hash6+this.hash7+this.hash8+this.hash9+this.hasha+this.hashb+this.hashc+this.hashd+this.hashe+this.hashf),this.convert(_3xmap)),this.StringTouint8Array(Math.exp(Math.pow(2,5))))))));
@@ -1129,7 +1211,13 @@ BitStringToUint8Array(bitString) {
     Enc (f, c, z, keylen) {
         var g = c;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
-        var j = this.split_block(f);
+        if(this.blocksize==0 || this.blocksize<0){
+          var j = this.str_split(f,128);
+        }else if(this.blocksize<=128){
+          var j = this.split_block(f,this.blocksize);
+        }else{
+          var j = this.str_split(f,128);
+        }
         var d = "";
         var h = "";
         var e = 1;
