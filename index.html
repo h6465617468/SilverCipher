@@ -1292,6 +1292,8 @@ var e1 = document.getElementById("scmode"); // seçim elementini bul
 var sc_mode = e1.value; // seçilen seçeneğin metnini al
 var scpaddround = document.getElementById("scpaddround"); // seçim elementini bul
 var scpaddround_val = scpaddround.value; // seçilen seçeneğin metnini al
+var scblock_1 = document.getElementById("scblock"); // seçim elementini bul
+var scblock_2 = scblock_1.value; // seçilen seçeneğin metnini al
 
 var ayarlar = {
   "targetpublic": encrypt_1(key,iv,target_public_key),
@@ -1300,7 +1302,8 @@ var ayarlar = {
   "ortak_anahtar": encrypt_1(key,iv,ortak_anahtar),
   "rsa_mode": encrypt_1(key,iv,rsa_mode),
   "sc_mode": encrypt_1(key,iv,sc_mode),
-  "scpaddround": encrypt_1(key,iv,scpaddround_val)
+  "scpaddround": encrypt_1(key,iv,scpaddround_val),
+  "scblock": encrypt_1(key,iv,scblock_2)
 };
 var asdasx = document.getElementById("config_shield");
 asdasx.value = "";
