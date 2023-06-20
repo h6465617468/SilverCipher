@@ -279,6 +279,26 @@ option:checked {
                 <br>
                 <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Block Size (0-128-256)</h1>
                 <input id="myInputblock" type="number" placeholder="Only 0-128-256"  name="blocksize" class="container" style="margin-bottom:10px;font-size:24px;" value="128" min="0" max="256" autocomplete="off" required>
+                <script>
+                var inputy1 = document.getElementById("myInputblock");
+                inputy1.addEventListener("wheel", function(eventy1) {
+                    var deltay1 = eventy1.deltaY;
+                    if (deltay1 < 0) {
+                        inputy1.value = parseInt(inputy1.value) + 128;
+                    }
+                    else if (deltay1 > 0) {
+                        inputy1.value = parseInt(inputy1.value) - 128;
+                    }
+                    // Değeri min ve max ile karşılaştır
+                    if (inputy1.value > inputy1.max) {
+                        inputy1.value = inputy1.max;
+                    }
+                    else if (inputy1.value < inputy1.min) {
+                        inputy1.value = inputy1.min;
+                    }
+                    eventy1.preventDefault();
+                });
+                </script>
                 <br>
                 <h1 class="container" style="border:none!important;box-shadow:none!important;background:transparent!important;"><a href="https://github.com/h6465617468/SilverCipher">❯ Source Codes</a></h1>
                 <script>
@@ -306,26 +326,6 @@ function setVisible(selector, visible) {
                     }
                 });
 
-                                // input elementini seç
-                var inputy1 = document.getElementById("myInputblock");
-                // fare tekerleği olayını dinle
-                inputy1.addEventListener("wheel", function(eventy1) {
-                    // orta tuşa basılıp basılmadığını kontrol et
-                    if (eventy1.button === 1) {
-                    // tekerleğin yönünü al
-                    var deltay1 = eventy1.deltaY;
-                    // tekerlek yukarı dönüyorsa değeri artır
-                    if (deltay1 < 0) {
-                        inputy1.value = parseInt(inputy1.value) + 1;
-                    }
-                    // tekerlek aşağı dönüyorsa değeri azalt
-                    else if (delta > 0) {
-                        inputy1.value = parseInt(inputy1.value) - 1;
-                    }
-                    // olayı engelle
-                    eventy1.preventDefault();
-                    }
-                });
                 </script>
 
                 <br>
