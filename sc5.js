@@ -1029,7 +1029,7 @@ BitStringToUint8Array(bitString) {
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
       if(this.blocksize==0 || this.blocksize<0){
         var i = this.str_split(d,256);
-      }else if(this.blocksize>128 || this.blocksize<=256){
+      }else if(this.blocksize>128 && this.blocksize<=256){
         var i = this.split_block(d,this.blocksize);
       }else{
         var i = this.str_split(d,256);
