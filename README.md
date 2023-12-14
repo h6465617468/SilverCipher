@@ -171,10 +171,11 @@ Decrypted: 123
 ```
 SCP
 ```javascript
-const cipher = new SC5("123","0"); // key required
+const cipher = new SC5("123","0","128"); // key required
 // OR
 // cipher.setkey("123");
 // cipher.setdigest("0");
+// cipher.setblocksize("128"); // 0,128,256
 const encryptedText = cipher.Encrypt("123");
 const decryptedText = cipher.Decrypt(encryptedText);
 document.write("Encrypted: "+encryptedText);
