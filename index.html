@@ -22,7 +22,8 @@
         <script src="js/crypto-js.min.js"></script>
         <script src="js/jsencrypt.min.js"></script>
         <script src="js/SilverCipherMini.min.js"></script>
-        <script src="js/sc5.min.js"></script>
+        <script src="sc5.js"></script>
+        <!-- <script src="js/sc5.min.js"></script>  -->
         <!--<script src="sc5scheme.js"></script>-->
 
 
@@ -286,6 +287,12 @@ option:checked {
             <option value="1000" style="color:darkred;">SCP 1000x</option>
             <option value="2000" style="color:darkred;">SCP 2000x</option>
             <option value="5000" style="color:darkred;">SCP 5000x</option>
+            </select>
+          </div>
+          <div style="text-align: center;overflow: none!important;">
+            <select id="scdatamode" name="scdatamode" size="1" style="min-width: 300px;width: 100%;max-width: 644px;">
+            <option value="0" selected style="color:rgb(218, 141, 0);">File Mode Xor</option>
+            <option value="1" style="color:green;">File Mode SCP-0</option>
             </select>
           </div>
           <div style="text-align: center;overflow: none!important;">
@@ -562,6 +569,24 @@ function changeText_JS(value) {
 function changescm_JS(value) {
   // seçim elementini bul
   var select = document.getElementById("scmode");
+  // seçim elementinin seçili seçeneğini bul
+  var selectedOption = select.options[select.selectedIndex];
+  // seçim elementinin tüm seçeneklerini döngüye sok
+  for (var i = 0; i < select.options.length; i++) {
+    // seçeneğin değeri ve metnini al
+    var option = select.options[i];
+    var optionValue = option.value;
+    var optionText = option.text;
+    // değer ve metni eşleşirse metni değiştir
+    if (optionValue == value) {
+      select.value = value;
+      select.text = optionText;
+    }
+  }
+}
+function changescdatamode_JS(value) {
+  // seçim elementini bul
+  var select = document.getElementById("scdatamode");
   // seçim elementinin seçili seçeneğini bul
   var selectedOption = select.options[select.selectedIndex];
   // seçim elementinin tüm seçeneklerini döngüye sok
@@ -958,7 +983,7 @@ parts.forEach(function(data10) {
             return asdasdasd;
             }
 var _proces__enc_dec=0;
-    function friend_sent_encrypted_message() {
+    function friend_sent_encrypted_message(__data__=null,__type__=null,__name__=null) {
       if(_proces__enc_dec==1){return;}
       _proces__enc_dec=1;
       var _cache_title_ = document.title;
@@ -998,14 +1023,22 @@ var _proces__enc_dec=0;
         var roundxx1111 = roundxx1.value; // seçilen seçeneğin metnini al
         var scblockx1 = document.getElementById("scblock"); // seçim elementini bul
         var scblockx2 = scblockx1.value; // seçilen seçeneğin metnini al
+        var cipher;
         if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
+          if(__data__){          btnx("#encryptbtn",false);
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          document.title = _cache_title_;
+          setVisible('#loading', false);
+          alert("Only SCP");}
+          cipher = new SilverCipherMini(ortak_anahtar);
         }else{
-          var cipher = new SC5(ortak_anahtar,roundxx1111,scblockx2);
+          if(__data__){scblockx2="0";}
+          cipher = new SC5(ortak_anahtar,roundxx1111,scblockx2);
         }
         var asdas = document.getElementById("sifrelenecek_rsa_mesaji");
         var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
-        if(sifrelenecek_mesaj==""){
+        if(sifrelenecek_mesaj=="" && (!__data__)){
           _proces__enc_dec=0;
           document.title = _cache_title_;
           btnx("#encryptbtn",false);
@@ -1013,6 +1046,7 @@ var _proces__enc_dec=0;
             alert("Empty");
             return;
         }
+        if(__data__){sifrelenecek_mesaj=__data__;}
         if(text=="1" || text=="2" || text=="3" || text=="4" || text=="5" || text=="6"){
           try {
         // var cipher_textarea_ = new SilverCipherMini(ortak_anahtar);
@@ -1025,7 +1059,7 @@ var _proces__enc_dec=0;
         btnx("#encryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
-        alert("Error");
+        alert("Error"+err);
         return;
         }
         }
@@ -1040,17 +1074,39 @@ var _proces__enc_dec=0;
         }
         try {
         if(text=="2" || text=="4" || text=="6"){
+          if(__data__){
+            btnx("#encryptbtn",false);
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          document.title = _cache_title_;
+          setVisible('#loading', false);
+            alert("Only SCP/SCM Mode");return;}
             sifrelenecek_mesaj = encryptData(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
         }
         if(text=="1" || text=="3" || text=="5"){
+          if(__data__){
+            btnx("#encryptbtn",false);
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          document.title = _cache_title_;
+          setVisible('#loading', false);
+            alert("Only SCP/SCM Mode");return;}
           sifrelenecek_mesaj = encryptData_FLEXMODE(sifrelenecek_mesaj,target_public_key,bizim_private_keyimiz);
         }
         if(text=="3" || text=="4" || text=="7" || text=="9"){
+          if(__data__){
+            btnx("#encryptbtn",false);
+          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          document.title = _cache_title_;
+          setVisible('#loading', false);
+            alert("Only SCP/SCM Mode");return;}
           var key = CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex);
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           sifrelenecek_mesaj = encrypt_1(key,iv,sifrelenecek_mesaj);
         }
         if(text=="1" || text=="2" || text=="7" || text=="8") {
+          if(__data__){cipher.setmode("file");}
           sifrelenecek_mesaj = cipher.Encrypt(sifrelenecek_mesaj);
         }
         document.title = _cache_title_;
@@ -1062,17 +1118,27 @@ var _proces__enc_dec=0;
           document.title = _cache_title_;
           setVisible('#loading', false);
         // Error yakalama kodu
-        alert("Error");
+        alert("Error"+err);
         return;
         }
-        asdas.value = sifrelenecek_mesaj;
         btnx("#encryptbtn",false);
         _proces__enc_dec=0;
         document.title = _cache_title_;
+        if(__data__){
+          var blob = new Blob([sifrelenecek_mesaj], {type: __type__});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "enc_" + __name__;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+        return;}
+        asdas.value = sifrelenecek_mesaj;
       });
     }
 
-    function friend_decrypt_encrypted_message() {
+    function friend_decrypt_encrypted_message(__data__=null,__type__=null,__name__=null) {
       if(_proces__enc_dec==1){return;}
       _proces__enc_dec=1;
       var _cache_title_ = document.title;
@@ -1112,13 +1178,20 @@ var _proces__enc_dec=0;
         var roundxx2222 = roundxx2.value; // seçilen seçeneğin metnini al
         var scblockx1 = document.getElementById("scblock"); // seçim elementini bul
         var scblockx2 = scblockx1.value; // seçilen seçeneğin metnini al
+        var cipher;
         if(scmode1=="1"){
-          var cipher = new SilverCipherMini(ortak_anahtar);
+          if(__data__){          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+          setVisible('#loading', false);
+          alert("Only SCP");}
+          cipher = new SilverCipherMini(ortak_anahtar);
         }else{
-          var cipher = new SC5(ortak_anahtar,roundxx2222,scblockx2);
+          if(__data__){scblockx2="0";}
+          cipher = new SC5(ortak_anahtar,roundxx2222,scblockx2);
         }
         var arkadasinin_sifreli_mesaji = document.getElementById("arkadasinin_sifreli_mesaji").value.trim();
-        if(arkadasinin_sifreli_mesaji==""){
+        if(arkadasinin_sifreli_mesaji=="" && (!__data__)){
           _proces__enc_dec=0;
           document.title = _cache_title_;
           btnx("#decryptbtn",false);
@@ -1127,6 +1200,7 @@ var _proces__enc_dec=0;
         alert("Empty");
         return;
         }
+        if(__data__){arkadasinin_sifreli_mesaji=__data__;}
         // var sifrelenecek_mesaj = document.getElementById("sifrelenecek_rsa_mesaji").value;
 
         if(text=="1" || text=="2" || text=="3" || text=="4" || text=="5" || text=="6"){
@@ -1156,17 +1230,30 @@ var _proces__enc_dec=0;
         }
         try {
         if(text=="1" || text=="2" || text=="7" || text=="8"){
+          if(__data__){cipher.setmode("file");}
           arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);
         }
         if(text=="3" || text=="4" || text=="7"|| text=="9"){
+          if(__data__){          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+          setVisible('#loading', false);alert("Only SCP/SCM Mode");return;}
           var key = CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex);
           var iv = CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
           arkadasinin_sifreli_mesaji = decrypt_1(key,iv,arkadasinin_sifreli_mesaji);
         }
         if(text=="2" || text=="4" || text=="6"){
+          if(__data__){          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+          setVisible('#loading', false);alert("Only SCP/SCM Mode");return;}
           arkadasinin_sifreli_mesaji = decryptData(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
         }
         if(text=="1" || text=="3" || text=="5"){
+          if(__data__){          _proces__enc_dec=0;
+          document.title = _cache_title_;
+          btnx("#decryptbtn",false);
+          setVisible('#loading', false);alert("Only SCP/SCM Mode");return;}
           arkadasinin_sifreli_mesaji = decryptData_FLEXMODE(arkadasinin_sifreli_mesaji,bizim_private_keyimiz,target_public_key);
         }
         document.title = _cache_title_;
@@ -1177,14 +1264,24 @@ var _proces__enc_dec=0;
           btnx("#decryptbtn",false);
         setVisible('#loading', false);
         // Error yakalama kodu
-        alert("Error");
+        alert("Error"+err);
         return;
         }
         var asdas = document.getElementById("arkadasinin_sifreli_mesaji");
-        asdas.value=arkadasinin_sifreli_mesaji;
         _proces__enc_dec=0;
         document.title = _cache_title_;
         btnx("#decryptbtn",false);
+        if(__data__){
+          var blob = new Blob([arkadasinin_sifreli_mesaji], {type: __type__});
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = remove_enc_prefix(__name__);
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          return;}
+        asdas.value=arkadasinin_sifreli_mesaji;
       });
     }
     function download_dec_messages(){
@@ -1294,6 +1391,8 @@ var scpaddround = document.getElementById("scpaddround"); // seçim elementini b
 var scpaddround_val = scpaddround.value; // seçilen seçeneğin metnini al
 var scblock_1 = document.getElementById("scblock"); // seçim elementini bul
 var scblock_2 = scblock_1.value; // seçilen seçeneğin metnini al
+var scdatamode = document.getElementById("scdatamode"); // seçim elementini bul
+var scdatamode_val = scdatamode.value; // seçilen seçeneğin metnini al
 
 var ayarlar = {
   "targetpublic": encrypt_1(key,iv,target_public_key),
@@ -1303,7 +1402,8 @@ var ayarlar = {
   "rsa_mode": encrypt_1(key,iv,rsa_mode),
   "sc_mode": encrypt_1(key,iv,sc_mode),
   "scpaddround": encrypt_1(key,iv,scpaddround_val),
-  "scblock": encrypt_1(key,iv,scblock_2)
+  "scblock": encrypt_1(key,iv,scblock_2),
+  "scdatamode": encrypt_1(key,iv,scdatamode_val)
 };
 var asdasx = document.getElementById("config_shield");
 asdasx.value = "";
@@ -1351,6 +1451,7 @@ if(config_shield == "" || config_shield == null){
     var e = document.getElementById("rsamode"); // seçim elementini bul
     var key = CryptoJS.SHA256(config_shield).toString(CryptoJS.enc.Hex);
     var iv = CryptoJS.MD5(config_shield).toString(CryptoJS.enc.Hex);
+    var scdatamode = document.getElementById("scdatamode"); // seçim elementini bul
     var _killscore=0;
     try {
         target_cache_public = decrypt_1(key,iv,ayarlar.targetpublic);
@@ -1397,6 +1498,11 @@ if(config_shield == "" || config_shield == null){
       _killscore++;
     } catch (err) {
     }
+    try {
+      scdatamode = decrypt_1(key,iv,ayarlar.scdatamode);
+      _killscore++;
+    } catch (err) {
+    }
     if(_killscore<=0){
       // Error yakalama kodu
       alert("Error");
@@ -1410,6 +1516,7 @@ if(config_shield == "" || config_shield == null){
     changescm_JS(sc_mode);
     changescpaddround_JS(scpaddround);
     changescblock_JS(scblock);
+    changescdatamode_JS(scdatamode);
     var asdas = document.getElementById("config_shield");
     asdas.value = "";
     if(ortak_anahtar != "" && ortak_anahtar != null){
@@ -1493,17 +1600,28 @@ encryptfilex.addEventListener("change", function() {
     }
     var key = CryptoJS.SHA512(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA1(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
     key = hex_to_arraybuffer(key);
-    var textareaxxx = xor_encrypt(this.result,key);
-    encryptfilex.value = "";
 
-var blob = new Blob([textareaxxx], {type: secilenencryptfile1.type});
-var url = URL.createObjectURL(blob);
-var a = document.createElement("a");
-a.href = url;
-a.download = "enc_" + secilenencryptfile1.name;
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
+    var scdatamode = document.getElementById("scdatamode"); // seçim elementini bul
+    var scdatamode_val = scdatamode.value; // seçilen seçeneğin metnini al
+    var textareaxxx;
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
+      if(scdatamode_val=="0"){
+        textareaxxx = xor_encrypt(this.result,key);
+        var blob = new Blob([textareaxxx], {type: secilenencryptfile1.type});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "enc_" + secilenencryptfile1.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+      if(scdatamode_val=="1"){
+        friend_sent_encrypted_message(new Uint8Array(this.result),secilenencryptfile1.type,secilenencryptfile1.name);
+      }
+    }).finally(() => {
+      encryptfilex.value = "";
+    });
 
 };
   // encryptfile okumaya başla
@@ -1526,17 +1644,28 @@ decryptfilex.addEventListener("change", function() {
     }
     var key = CryptoJS.SHA512(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA256(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.SHA1(ortak_anahtar).toString(CryptoJS.enc.Hex)+CryptoJS.MD5(ortak_anahtar).toString(CryptoJS.enc.Hex);
     key = hex_to_arraybuffer(key);
-    var textareaxxx1 = xor_encrypt(this.result,key);
-    decryptfilex.value = "";
 
-var blob = new Blob([textareaxxx1], {type: secilendecryptfile1.type});
-var url = URL.createObjectURL(blob);
-var a = document.createElement("a");
-a.href = url;
-a.download = remove_enc_prefix(secilendecryptfile1.name);
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
+    var scdatamode = document.getElementById("scdatamode"); // seçim elementini bul
+    var scdatamode_val = scdatamode.value; // seçilen seçeneğin metnini al
+    var textareaxxx1;
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
+      if(scdatamode_val=="0"){
+        textareaxxx1 = xor_encrypt(this.result,key);
+        var blob = new Blob([textareaxxx1], {type: secilendecryptfile1.type});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = remove_enc_prefix(secilendecryptfile1.name);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+      if(scdatamode_val=="1"){
+        friend_decrypt_encrypted_message(new TextDecoder().decode(this.result),secilendecryptfile1.type,secilendecryptfile1.name);
+      }
+    }).finally(() => {
+      decryptfilex.value = "";
+    });
 
 };
   // encryptfile okumaya başla

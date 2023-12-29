@@ -1,5 +1,5 @@
 class SC5 {
-    constructor(key, digest=0, blocksize = 128) {
+    constructor(key, digest=0, blocksize = 128, mode="string") {
       this.salt_1_dat = [0xdc, 0xc2, 0x81, 0xf2, 0x67, 0x59, 0xba, 0xe6, 0x58, 0x7c, 0xea, 0xbf, 0xe8, 0x8d, 0x95, 0x8b, 0x7c, 0x12, 0x17, 0x15, 0x50, 0x77, 0x5e, 0x13, 0x6c, 0x67, 0x17, 0x6f, 0x92, 0x95, 0x7c, 0x55, 0xb3, 0xb6, 0x05, 0xc6];
       this.salt_2_dat = [0x77, 0x9a, 0x82, 0x45, 0xc7, 0xa6, 0x7a, 0x85, 0xd4, 0x2a, 0x89, 0xad, 0xd5, 0x13, 0xd2, 0x16, 0x01, 0xb4, 0x2d, 0x3b, 0xa8, 0x8a, 0xe9, 0x00, 0x02, 0x59, 0x9f, 0x5f, 0x30, 0x93, 0x6c, 0xe4, 0x92, 0xb1, 0x60, 0x28];
       this.salt_st_dat = [0x01, 0xaa, 0xbb, 0xfa, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff];
@@ -55,6 +55,11 @@ class SC5 {
       this.key = "123456789";
       } else {
       this.key = key;
+      }
+      if (mode === null || mode === undefined || mode === "") {
+      this.mode = "string";
+      } else {
+      this.mode = mode;
       }
       if (!isNaN(digest)) {
         if (digest === null || digest === undefined  || digest === "") {
@@ -155,10 +160,17 @@ class SC5 {
     }
     setkey(key){
       if (key === null || key === undefined || key === "") {
-        this.key = "123456789";
-        } else {
-        this.key = key;
-        }
+      this.key = "123456789";
+      } else {
+      this.key = key;
+      }
+    }
+    setmode(mode){
+      if (mode === null || mode === undefined || mode === "") {
+      this.mode = "string";
+      } else {
+      this.mode = mode;
+      }
     }
 
 
@@ -1027,12 +1039,17 @@ BitStringToUint8Array(bitString) {
         a1 = this.bitShiftLeft(this.concatUint8Arrays(a,a1));
       }
       var c = this.numhash(b + this.hex2bin(this.sha1((this.hash("whirlpool", this.hex2bin(this.sha1 (a)))))), 1);
-      if(this.blocksize==0 || this.blocksize<0){
-        var i = this.str_split(d,256);
-      }else if(this.blocksize>128 && this.blocksize<=256){
-        var i = this.split_block(d,this.blocksize);
+      var i;
+      if(this.mode == "string"){
+        if(this.blocksize==0 || this.blocksize<0){
+          i = this.str_split(d,256);
+        }else if(this.blocksize>128 && this.blocksize<=256){
+          i = this.split_block(d,this.blocksize);
+        }else{
+          i = this.str_split(d,256);
+        }
       }else{
-        var i = this.str_split(d,256);
+        i = this.str_split(d,256);
       }
       var e = "";
       var f = "";
@@ -1203,20 +1220,29 @@ BitStringToUint8Array(bitString) {
         d = new Uint8Array(strArr2.length);
         for (var i = 0; i < strArr2.length; i++) { d[i] = parseInt(strArr2[i]); }
       }
-      d = this.removeEmptyBytes(d);
-      d=this.uint8ArrayToString(d);
+      if(this.mode == "string" && this.blocksize != 0){
+        d = this.removeEmptyBytes(d);
+      }
+      if(this.mode == "string"){
+        d=this.uint8ArrayToString(d);
+      }
       // string değeri virgüllere göre ayırarak bir dizi oluştur var strArr = "97,98,99".split(","); // bu diziyi bir Uni8Array’e dönüştür var u8a = new Uint8Array(strArr.length); // dizinin her elemanını sayıya dönüştürerek Uni8Array’e atayın for (var i = 0; i < strArr.length; i++) { u8a[i] = parseInt(strArr[i]); } // Uni8Array’i bir stringe dönüştürmek için String.fromCharCode fonksiyonunu kullanın var str = String.fromCharCode.apply(null, u8a); // sonucu yazdırın console.log(str); // "abc"
       return d;
     }
     Enc (f, c, z, keylen) {
         var g = c;
         g = this.hex2bin(this.Hex_Dont_Count (this.hash("sha512", g)));
-        if(this.blocksize==0 || this.blocksize<0){
-          var j = this.str_split(f,128);
-        }else if(this.blocksize<=128){
-          var j = this.split_block(f,this.blocksize);
+        var j;
+        if(this.mode == "string"){
+          if(this.blocksize==0 || this.blocksize<0){
+            j = this.str_split(f,128);
+          }else if(this.blocksize<=128){
+            j = this.split_block(f,this.blocksize);
+          }else{
+            j = this.str_split(f,128);
+          }
         }else{
-          var j = this.str_split(f,128);
+          j = this.str_split(f,128);
         }
         var d = "";
         var h = "";

@@ -259,6 +259,18 @@ option:checked {
             <button name="dec" id="dec" type="button" style="flex: 1;margin-bottom:10px;width: 96% !important;max-width: 620px;font-size:24px;border-radius:15px;">🔓Decrypt</button>
           </div>
                 </div>
+                <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;justify-content: center;margin:0 auto;width: 92% !important;">
+                    <div style="flex: 1;">
+                      <div style="text-align: center;">
+                        <button type="button" style="width: 100% !important;font-size:28px;border-radius:15px;"><input type="file" id="encryptfilex" style="display:none;"><label for="encryptfilex">🔒Encrypt File</label></button>
+                      </div>
+                    </div>
+                    <div style="flex: 1;">
+                      <div style="text-align: center;">
+                        <button type="button" style="width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;"><input type="file" id="decryptfilex" style="display:none;"><label for="decryptfilex">🔓Decrypt File</label></button>
+                      </div>
+                    </div>
+                  </div>
                 <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Password</h1>
                 <div style="text-align: center; display:flex; justify-content: center;margin:0 auto; flex-wrap: wrap;">
                     <div style="text-align: center;">
@@ -271,14 +283,14 @@ option:checked {
                         <button type="button" onclick="yapistirpass()" style="width: 100% !important;max-width: 620px;font-size:28px;border-radius:15px;">Paste</button>
                     </div>
                 </div>
-                <textarea name="key" id="kopyala1" spellcheck="false" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="🔑 Password" required></textarea>
+                <textarea name="key" id="kopyala1" spellcheck="false" class="container" style="border-radius: 15px;margin-bottom:10px;" autocomplete="off" placeholder="🔑 Password" required>123</textarea>
                 <script>document.addEventListener('DOMContentLoaded', function() {document.getElementById('k1').onclick = calistir;function calistir() {var kopyala = document.getElementById('kopyala1');kopyala.select();document.execCommand('copy');}});</script>
                 <br>
                 <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Round</h1>
                 <input id="myInput" type="number" placeholder="Digest Round"  name="digest" class="container" style="margin-bottom:10px;font-size:24px;" value="0" min="0" autocomplete="off" required>
                 <br>
                 <h1 style="border-top-left-radius: 15px;border-top-right-radius: 15px;margin-top:5px!important;" class="container">Block Size (0-128-256)</h1>
-                <input id="myInputblock" type="number" placeholder="Only 0-128-256"  name="blocksize" class="container" style="margin-bottom:10px;font-size:24px;" value="128" min="0" max="256" autocomplete="off" required>
+                <input id="myInputblock" type="number" placeholder="Only 0-128-256"  name="blocksize" class="container" style="margin-bottom:10px;font-size:24px;" value="0" min="0" max="256" autocomplete="off" required>
                 <script>
                 var inputy1 = document.getElementById("myInputblock");
                 inputy1.addEventListener("wheel", function(eventy1) {
@@ -358,6 +370,17 @@ function setVisible(selector, visible) {
         </div>
         <br><br>
         <script>
+            function remove_enc_prefix(str) {
+  // str string olarak verilmeli
+  // sonuç string olarak döndürülür
+  if (str.startsWith("enc_")) {
+    // str'in başında "enc_" varsa kaldır
+    return str.slice(4);
+  } else {
+    // yoksa str'i olduğu gibi döndür
+    return str;
+  }
+}
             var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/\r\n/g,"\n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
 
             function urlencode(str) {
@@ -437,6 +460,99 @@ function ready() {
       document.title = _cache_title_;
     });
   });
+
+
+
+
+
+  var encryptfilex = document.getElementById("encryptfilex");
+encryptfilex.addEventListener("change", function() {
+
+  // seçilen ilk encryptfile al
+  var secilenencryptfile1 = this.files[0];
+  // FileReader nesnesi oluştur
+  var reader = new FileReader();
+  reader.onload = function() {
+    var _cache_title_ = document.title;
+    setVisible('#loading', true);
+    document.title = "Decoding ...";
+    // DeŞifrelenecek veri
+    var blocksize = document.querySelector('input[name="blocksize"]').value;
+    var digest = document.querySelector('input[name="digest"]').value;
+    var key = document.querySelector('textarea[name="key"]').value;
+    var cipher = new SC5(key,digest,blocksize,"file");
+    var dt123 = new Date();var timeaaa=-(dt123.getTime());
+    var decryptedText;
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
+        decryptedText = cipher.Encrypt(new Uint8Array(this.result));
+    }).finally(() => {
+      var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
+      setVisible('#loading', false);
+      document.title = _cache_title_;
+
+      var blob = new Blob([decryptedText], {type: secilenencryptfile1.type});
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url;
+a.download = "enc_" + secilenencryptfile1.name;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+    });
+    encryptfilex.value = "";
+
+};
+  // encryptfile okumaya başla
+  reader.readAsArrayBuffer(secilenencryptfile1);
+});
+var decryptfilex = document.getElementById("decryptfilex");
+decryptfilex.addEventListener("change", function() {
+
+  // seçilen ilk encryptfile al
+  var secilendecryptfile1 = this.files[0];
+  // FileReader nesnesi oluştur
+  var reader = new FileReader();
+  reader.onload = function() {
+    var _cache_title_ = document.title;
+    setVisible('#loading', true);
+    document.title = "Decoding ...";
+    // DeŞifrelenecek veri
+    var blocksize = document.querySelector('input[name="blocksize"]').value;
+    var digest = document.querySelector('input[name="digest"]').value;
+    var key = document.querySelector('textarea[name="key"]').value;
+    var cipher = new SC5(key,digest,blocksize,"file");
+    var dt123 = new Date();var timeaaa=-(dt123.getTime());
+    var decryptedText;
+
+
+
+
+    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
+      decryptedText = cipher.Decrypt(new TextDecoder().decode(this.result));
+    }).finally(() => {
+      var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
+      setVisible('#loading', false);
+      document.title = _cache_title_;
+
+
+      var blob = new Blob([decryptedText], {type: secilendecryptfile1.type});
+var url = URL.createObjectURL(blob);
+var a = document.createElement("a");
+a.href = url;
+a.download = remove_enc_prefix(secilendecryptfile1.name);
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+    });
+    decryptfilex.value = "";
+
+};
+  // encryptfile okumaya başla
+  reader.readAsArrayBuffer(secilendecryptfile1);
+});
+
+
+
 
 }
 
