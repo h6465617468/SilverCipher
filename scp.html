@@ -422,14 +422,15 @@ function ready() {
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var encryptedData;
     
-    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
-      encryptedData = cipher.Encrypt(toenctext);
-    }).finally(() => {
-      var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
+
+      encryptedData = cipher.asyncEncrypt(toenctext);
+      encryptedData.then(function(encryptedData) {
+        var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       document.querySelector('textarea[name=data]').value = encryptedData;
       setVisible('#loading', false);
       document.title = _cache_title_;
-    });
+      });
+
   });
 
   // #dec id'li elemana tıklandığında çalışacak fonksiyon
@@ -450,10 +451,9 @@ function ready() {
     var cipher = new SC5(key,digest,blocksize);
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
     var decryptedText;
-    
-    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
-      decryptedText = cipher.Decrypt(todectext);
-    }).finally(() => {
+
+      decryptedText = cipher.asyncDecrypt(todectext);
+      decryptedText.then(function(decryptedText) {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       document.querySelector('textarea[name=data]').value = decryptedText;
       setVisible('#loading', false);
@@ -482,15 +482,16 @@ encryptfilex.addEventListener("change", function() {
     var key = document.querySelector('textarea[name="key"]').value;
     var cipher = new SC5(key,digest,blocksize,"file");
     var dt123 = new Date();var timeaaa=-(dt123.getTime());
-    var decryptedText;
-    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
-        decryptedText = cipher.Encrypt(new Uint8Array(this.result));
-    }).finally(() => {
+    var encryptedText;
+    
+
+    encryptedText = cipher.asyncEncrypt(new Uint8Array(this.result));
+    encryptedText.then((encryptedText) => {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       setVisible('#loading', false);
       document.title = _cache_title_;
 
-      var blob = new Blob([decryptedText], {type: secilenencryptfile1.type});
+      var blob = new Blob([encryptedText], {type: secilenencryptfile1.type});
 var url = URL.createObjectURL(blob);
 var a = document.createElement("a");
 a.href = url;
@@ -527,9 +528,9 @@ decryptfilex.addEventListener("change", function() {
 
 
 
-    new Promise((resolve)=>{setTimeout(resolve, 100);}).then( ()=>{
-      decryptedText = cipher.Decrypt(new TextDecoder().decode(this.result));
-    }).finally(() => {
+
+      decryptedText = cipher.asyncDecrypt(new TextDecoder().decode(this.result));
+      decryptedText.then((decryptedText) => {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       setVisible('#loading', false);
       document.title = _cache_title_;
