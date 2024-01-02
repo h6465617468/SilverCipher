@@ -1121,6 +1121,12 @@ var _proces__enc_dec=0;
               document.body.appendChild(a);
               a.click();
               document.body.removeChild(a);
+            }).catch( (e)=>{
+              alert("Encrypt Error:"+e)
+              setVisible('#loading', false);
+              btnx("#encryptbtn",false);
+              _proces__enc_dec=0;
+              document.title = _cache_title_;
             });
           }else{
             sifrelenecek_mesaj = cipher.Encrypt(sifrelenecek_mesaj);
@@ -1254,6 +1260,12 @@ var _proces__enc_dec=0;
               document.body.appendChild(a);
               a.click();
               document.body.removeChild(a);
+            }).catch( (e)=>{
+              alert("Decrypt Error:"+e)
+              setVisible('#loading', false);
+              _proces__enc_dec=0;
+              document.title = _cache_title_;
+              btnx("#decryptbtn",false);
             });
           }else{
             arkadasinin_sifreli_mesaji = cipher.Decrypt(arkadasinin_sifreli_mesaji);

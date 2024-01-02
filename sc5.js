@@ -1,5 +1,5 @@
 class SC5 {
-  constructor(key, digest=0, blocksize = 0, mode="string") {
+  constructor(key, digest=0, blocksize = 0, mode="string",error=false) {
     this.salt_1_dat = [0xdc, 0xc2, 0x81, 0xf2, 0x67, 0x59, 0xba, 0xe6, 0x58, 0x7c, 0xea, 0xbf, 0xe8, 0x8d, 0x95, 0x8b, 0x7c, 0x12, 0x17, 0x15, 0x50, 0x77, 0x5e, 0x13, 0x6c, 0x67, 0x17, 0x6f, 0x92, 0x95, 0x7c, 0x55, 0xb3, 0xb6, 0x05, 0xc6];
     this.salt_2_dat = [0x77, 0x9a, 0x82, 0x45, 0xc7, 0xa6, 0x7a, 0x85, 0xd4, 0x2a, 0x89, 0xad, 0xd5, 0x13, 0xd2, 0x16, 0x01, 0xb4, 0x2d, 0x3b, 0xa8, 0x8a, 0xe9, 0x00, 0x02, 0x59, 0x9f, 0x5f, 0x30, 0x93, 0x6c, 0xe4, 0x92, 0xb1, 0x60, 0x28];
     this.salt_st_dat = [0x01, 0xaa, 0xbb, 0xfa, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff];
@@ -51,6 +51,11 @@ class SC5 {
     this.hashe = "hRa4QoBy5blILAusSC/YFXKr6qfpP92cN13TUvtZJxGWw0e+DOM7z8idVjHgEmkn";
     this.hashf = "fX+0wuaDgj4U8GKBHPF17ATq3vpmSV9ICkoY/RJxMeOZiQbLsdn2WNhtyrl5z6cE";
     this.ax1xxxx=0;
+    if (error === null || error === undefined || error === "") {
+    this.error = false;
+    } else {
+    this.error = error;
+    }
     if (key === null || key === undefined || key === "") {
     this.key = "123456789";
     } else {
@@ -172,92 +177,158 @@ class SC5 {
     this.mode = mode;
     }
   }
+  seterror(error){
+    if (error === null || error === undefined || error === "") {
+    this.error = false;
+    } else {
+    this.error = error;
+    }
+  }
   createPANEL(){
-    // Ana div elementini oluştur
+    var process_panel = document.getElementById("process_viewer_SC5_process_panel");
+    if (process_panel) {
+      var this_process = document.createElement ("div");
+      var block = document.createElement ("div");
+      var process = document.createElement ("div");
+      block.style.fontSize = "36px";
+      block.style.color = "#db3e3e";
+      block.style.fontFamily = "'Roboto Slab',sans-serif";
+      block.style.display = "block";
+      block.style.marginTop = "10px";
+      process.style.fontSize = "18px";
+      process.style.color = "dimgrey";
+      process.style.fontFamily = "'Roboto Slab',sans-serif";
+      process.style.wordBreak = "break-word";
+      process.style.display = "block";
+      process.style.marginTop = "10px";
+      block.textContent = "Block";
+      process.textContent = "Process";
+      this_process.appendChild (block);
+      this_process.appendChild (process);
+      process_panel.appendChild (this_process);
+      return [process_panel,this_process,block,process];
+    }
     var div = document.createElement ("div");
-
-    // Ana div elementinin stillerini ayarla
-    div.style.width = "320px"; // Genişlik
-    div.style.height = "auto"; // Yükseklik
-    div.style.backgroundColor = "transparent"; // Arkaplan rengi
-    div.style.zIndex = "9999"; // Z-index
-    div.style.position = "fixed"; // Konum
-    div.style.left = "50%"; // Sol kenardan uzaklık
-    div.style.top = "50%"; // Üst kenardan uzaklık
-    div.style.transform = "translate(-50%, -50%)"; // Orta noktaya hizala
-    div.style.border = "2px solid salmon"; // Kenarlık
-    div.style.borderRadius = "3px"; // Kenarlık
+    div.id = "process_viewer_SC5_Panel";
+    div.style.width = "320px";
+    div.style.height = "auto";
+    div.style.backgroundColor = "transparent";
+    div.style.zIndex = "9999";
+    div.style.position = "fixed";
+    div.style.left = "50%";
+    div.style.top = "50%";
+    div.style.transform = "translate(-50%, -50%)";
+    div.style.border = "2px solid salmon";
+    div.style.borderRadius = "8px";
     div.style.fontSize = "36px";
     div.style.color = "#db3e3e";
     div.style.fontFamily = "'Roboto Slab',sans-serif";
     div.style.backdropFilter = "blur(4px)";
     div.style.textAlign = "center";
-
-    // İki div elementi oluştur
+    div.style.padding = "5px";
     var logo = document.createElement ("img");
     logo.src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC8ElEQVR4nO2ZW4hNURjHf2aMy7gO0QhDrrmlUWRCIsWDywMPg6JGlHjgZV6QiaYQuT3wYF4oE0UUUZLGRNFEI5OUZDAuTe7369aq/9RubOfs2zl7b51ffbVa6/vW+n/nsvZa34YcORLLMqCchDMJ+CWbQkLpANQDluy6+hLHciXwQmapL1EUAs0SXwGsUvsp0I0EsV3CbwF5spvq20ZCGAx8kugZtv4y4DfwGRhKAjipJI47jNVq7AQxZ5rtUx/iMD4I+KhkZhJT8oAGidyawq9KPreBfGLIGgl8kmZn6go8ku9qYkZP4LnEuTmOLJXvS6A3MWKPj6f3VcXsJiaMAL7qPDXZQ1ypYr4Do4kB5/XJHvERW6PYc0TMPAl5BxQ7jHcCimSm3Z5ixVqaKxIKgHsSUfkPny22069pO1GpcTOXmTPrbJSAB0DnNM8MS20nzDd1Xz4byDJ9gFdafGEKPzeJGBbJ5w3QjyxyWAtfTuPnNhHDRfkdIkuMA34AP4EJISYyVluxmXciWeCKhB1w4eslEcNB+dZn+lq8RAu9BvpmIJEioFX+i8kQXYCHWmSdyxiviRjWy79ZV+bQ2awFmjzs934SyQfuKGYTITMQ+KDJ53qI85OIYbZizJW5hBA5ponPeIzzm4jhrOKOEhJTdX39BozKYiLDdao2a08nIGYLvCEhO3zEB0nEsFOxDbpK+2alrVrYK4JEegDPFL8Cn3QHWmzVwiA7naW2HyoU3yJNnqkO4WstsN1HCkKozlR7DR4GfNEfzV4tjIoy24Yz0kvg6RTVwqiolaZTbgNmhfgwatt1jO0KOFeJraZsNKY9HjS6qBa6Za8tEdMOSpXmugt0TOW4Vo6PQzqwhZ1IobRZ0pr2CB3Wy0vz+mCOzKmo7YdyaWyV5r/YL4drCXjXVyet+9oPjNE102u1MCpKpdVcucfbBy4EqBZGRY00X2rrWKCO98AAkkN/4K20z0c3Pivh1mQv7yfZ6qL+eeT4b/kDXLNVbksXjZ8AAAAASUVORK5CYII=";
+    var process_panel = document.createElement ("div");
+    process_panel.id = "process_viewer_SC5_process_panel"
+    var this_process = document.createElement ("div");
     var block = document.createElement ("div");
     var process = document.createElement ("div");
-
-    // Div elementlerinin id özelliğini belirle
-    block.id = "process_viewer_SC5_Block";
     block.style.fontSize = "36px";
     block.style.color = "#db3e3e";
     block.style.fontFamily = "'Roboto Slab',sans-serif";
-    process.id = "process_viewer_SC5_Process";
     process.style.fontSize = "18px";
     process.style.color = "dimgrey";
     process.style.fontFamily = "'Roboto Slab',sans-serif";
     process.style.wordBreak = "break-word";
-
-    // Div elementlerinin içeriğini belirle
     block.textContent = "Block";
     process.textContent = "Process";
-
-    // Div elementlerini ana div elementine ekle
     div.appendChild (logo);
-    div.appendChild (block);
-    div.appendChild (process);
-
-    // Ana div elementini sayfaya ekle
+    this_process.appendChild (block);
+    this_process.appendChild (process);
+    process_panel.appendChild (this_process);
+    div.appendChild (process_panel);
     document.body.prepend (div);
-    return [div,block,process];
+    return [process_panel,this_process,block,process];
   }
   writex(a1,a2){
     a1.innerHTML = a2;
   }
   async asyncEncrypt (d) {
-    var [[a,a1,b,z,i,keylen,c,m],[k,g,h,rxa],[ax,e,f]]=[this.keygen0(d,"enc"),[1,1,1,1],["","",""]];
-    var [div,block,process] = await this.createPANEL();
-    var size = new TextEncoder().encode(d).length;
-    var kiloBytes = size / 1024;
-    this.writex(process,"Single Core Encrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
-    for(var l of i){
-      this.writex(block,rxa+"/"+m);
+    var [process_panel,this_process,block,process] = [null,null,null];
+    try{
+      var [[a,a1,b,z,i,keylen,c,m],[k,g,h,rxa],[ax,e,f]]=[this.keygen0(d,"enc"),[1,1,1,1],["","",""]];
+      try{
+        [process_panel,this_process,block,process] = await this.createPANEL();
+        var size = new TextEncoder().encode(d).length;
+        var kiloBytes = size / 1024;
+        this.writex(process,"Single Core Encrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
+        this.writex(block,"0/"+m);
+      }catch(e){}
       await new Promise(r => setTimeout(r, 1));
-      rxa++;
-      [a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i] = this.epart0(a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i);
+      for(var l of i){
+        await new Promise(r => setTimeout(r, 1));
+        [a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i] = this.epart0(a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i);
+        try{
+          this.writex(block,rxa+"/"+m);
+          await new Promise(r => setTimeout(r, 1));
+          rxa++;
+        }catch(e){}
+        await new Promise(r => setTimeout(r, 1));
+      }
+      e+="==";
+      this_process.remove();
+      if (!process_panel.hasChildNodes()) {
+        process_panel.parentNode.remove();
+      }
+      return e;
+    }catch(ex){
+      this_process.remove();
+      if (!process_panel.hasChildNodes()) {
+        process_panel.parentNode.remove();
+      }
+      if(this.error==false){return "";}{
+        throw new Error('asyncEncrypt Error:'+ex);
+      }
     }
-    e+="==";
-    div.remove();
-    return e;
   }
   async asyncDecrypt (e) {
-    e = e.replace(/ /g, "").trim().replace(/=/g, "");
-    var [[a,a1,b,z,h,keylen,c,n],[l,f,g,rxa],[d,ax,i],[ixa1k]] = [this.keygen0(e,"dec"),[1,1,1,1],["","",""],[0]];
-    var [div,block,process] = await this.createPANEL();
-    var size = new TextEncoder().encode(e).length;
-    var kiloBytes = size / 1024;
-    this.writex(process,"Single Core Decrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
-    for(var m of h){
-      this.writex(block,rxa+"/"+n);
+    var [process_panel,this_process,block,process] = [null,null,null];
+    try{
+      e = e.replace(/ /g, "").trim().replace(/=/g, "");
+      var [[a,a1,b,z,h,keylen,c,n],[l,f,g,rxa],[d,ax,i],[ixa1k]] = [this.keygen0(e,"dec"),[1,1,1,1],["","",""],[0]];
+      try{
+        [process_panel,this_process,block,process] = await this.createPANEL();
+        var size = new TextEncoder().encode(e).length;
+        var kiloBytes = size / 1024;
+        this.writex(process,"Single Core Decrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
+        this.writex(block,"0/"+n);
+      }catch(e){}
       await new Promise(r => setTimeout(r, 1));
-      rxa++;
-      [b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h] = this.dpart0(b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h);
+      for(var m of h){
+        await new Promise(r => setTimeout(r, 1));
+        [b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h] = this.dpart0(b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h);
+        try{
+          this.writex(block,rxa+"/"+n);
+          await new Promise(r => setTimeout(r, 1));
+          rxa++;
+        }catch(e){}
+        await new Promise(r => setTimeout(r, 1));
+      }
+      d = this.dend0(d);
+      this_process.remove();
+      if (!process_panel.hasChildNodes()) {
+        process_panel.parentNode.remove();
+      }
+      return d;
+    }catch(ex){
+      this_process.remove();
+      if (!process_panel.hasChildNodes()) {
+        process_panel.parentNode.remove();
+      }
+      if(this.error==false){return "";}{
+        throw new Error('asyncDecrypt Error:'+ex);
+      }
     }
-    d = this.dend0(d);
-    div.remove();
-    return d;
   }
   WP(){
     var h=10,u=[],w=[],q,p,B,v,A,f,e,b,a,G,F,s="\u1823\uc6E8\u87B8\u014F\u36A6\ud2F5\u796F\u9152\u60Bc\u9B8E\uA30c\u7B35\u1dE0\ud7c2\u2E4B\uFE57\u1577\u37E5\u9FF0\u4AdA\u58c9\u290A\uB1A0\u6B85\uBd5d\u10F4\ucB3E\u0567\uE427\u418B\uA77d\u95d8\uFBEE\u7c66\udd17\u479E\ucA2d\uBF07\uAd5A\u8333\u6302\uAA71\uc819\u49d9\uF2E3\u5B88\u9A26\u32B0\uE90F\ud580\uBEcd\u3448\uFF7A\u905F\u2068\u1AAE\uB454\u9322\u64F1\u7312\u4008\uc3Ec\udBA1\u8d3d\u9700\ucF2B\u7682\ud61B\uB5AF\u6A50\u45F3\u30EF\u3F55\uA2EA\u65BA\u2Fc0\udE1c\uFd4d\u9275\u068A\uB2E6\u0E1F\u62d4\uA896\uF9c5\u2559\u8472\u394c\u5E78\u388c\ud1A5\uE261\uB321\u9c1E\u43c7\uFc04\u5199\u6d0d\uFAdF\u7E24\u3BAB\ucE11\u8F4E\uB7EB\u3c81\u94F7\uB913\u2cd3\uE76E\uc403\u5644\u7FA9\u2ABB\uc153\udc0B\u9d6c\u3174\uF646\uAc89\u14E1\u163A\u6909\u70B6\ud0Ed\ucc42\u98A4\u285c\uF886";for(q=8;q-->0;){u[q]=[]}
@@ -1174,21 +1245,35 @@ class SC5 {
     return d;
   }
   Encrypt (d) {
+    try{
       var [[a,a1,b,z,i,keylen,c,m],[k,g,h],[ax,e,f]]=[this.keygen0(d,"enc"),[1,1,1],["","",""]];
       for(var l of i){
         [a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i] = this.epart0(a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i);
       }
       e+="==";
       return e;
+    }catch(ex){
+      div.remove();
+      if(this.error==false){return "";}{
+        throw new Error('Encrypt Error:'+ex);
+      }
+    }
   }
   Decrypt (e) {
-    e = e.replace(/ /g, "").trim().replace(/=/g, "");
-    var [[a,a1,b,z,h,keylen,c,n],[l,f,g],[d,ax,i],[ixa1k]] = [this.keygen0(e,"dec"),[1,1,1],["","",""],[0]];
-    for(var m of h){
-      [b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h] = this.dpart0(b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h);
+    try{
+      e = e.replace(/ /g, "").trim().replace(/=/g, "");
+      var [[a,a1,b,z,h,keylen,c,n],[l,f,g],[d,ax,i],[ixa1k]] = [this.keygen0(e,"dec"),[1,1,1],["","",""],[0]];
+      for(var m of h){
+        [b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h] = this.dpart0(b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h);
+      }
+      d = this.dend0(d);
+      return d;
+    }catch(ex){
+      div.remove();
+      if(this.error==false){return "";}{
+        throw new Error('Decrypt Error:'+ex);
+      }
     }
-    d = this.dend0(d);
-    return d;
   }
   Enc (f, c, z, keylen) {
       var g = c;

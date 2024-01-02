@@ -429,7 +429,11 @@ function ready() {
       document.querySelector('textarea[name=data]').value = encryptedData;
       setVisible('#loading', false);
       document.title = _cache_title_;
-      });
+      }).catch( (e)=>{
+      alert("Encrypt Error:"+e)
+      setVisible('#loading', false);
+      document.title = _cache_title_;
+    });
 
   });
 
@@ -456,6 +460,10 @@ function ready() {
       decryptedText.then(function(decryptedText) {
       var dt123 = new Date();timeaaa += (dt123.getTime());document.querySelector('#encdectime').innerHTML = timeaaa+" ms";
       document.querySelector('textarea[name=data]').value = decryptedText;
+      setVisible('#loading', false);
+      document.title = _cache_title_;
+    }).catch( (e)=>{
+      alert("Decrypt Error:"+e)
       setVisible('#loading', false);
       document.title = _cache_title_;
     });
@@ -499,6 +507,10 @@ a.download = "enc_" + secilenencryptfile1.name;
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
+    }).catch( (e)=>{
+      alert("Encrypt Error:"+e)
+      setVisible('#loading', false);
+      document.title = _cache_title_;
     });
     encryptfilex.value = "";
 
@@ -544,6 +556,10 @@ a.download = remove_enc_prefix(secilendecryptfile1.name);
 document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
+    }).catch( (e)=>{
+      alert("Decrypt Error:"+e)
+      setVisible('#loading', false);
+      document.title = _cache_title_;
     });
     decryptfilex.value = "";
 
