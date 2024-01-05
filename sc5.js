@@ -201,8 +201,6 @@ class SC5 {
       process.style.wordBreak = "break-word";
       process.style.display = "block";
       process.style.marginTop = "10px";
-      block.textContent = "Block";
-      process.textContent = "Process";
       this_process.appendChild (block);
       this_process.appendChild (process);
       process_panel.appendChild (this_process);
@@ -240,8 +238,6 @@ class SC5 {
     process.style.color = "dimgrey";
     process.style.fontFamily = "'Roboto Slab',sans-serif";
     process.style.wordBreak = "break-word";
-    block.textContent = "Block";
-    process.textContent = "Process";
     div.appendChild (logo);
     this_process.appendChild (block);
     this_process.appendChild (process);
@@ -252,19 +248,33 @@ class SC5 {
   }
   writex(a1,a2){
     a1.innerHTML = a2;
+    return true;
   }
   async asyncEncrypt (d) {
     var [process_panel,this_process,block,process] = [null,null,null];
     try{
       var [[a,a1,b,z,i,keylen,c,m],[k,g,h,rxa],[ax,e,f]]=[this.keygen0(d,"enc"),[1,1,1,1],["","",""]];
       try{
-        [process_panel,this_process,block,process] = await this.createPANEL();
-        var size = new TextEncoder().encode(d).length;
-        var kiloBytes = size / 1024;
-        this.writex(process,"Single Core Encrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
-        this.writex(block,"0/"+m);
+        let error = null;
+        try{
+          [process_panel,this_process,block,process] = await this.createPANEL();
+        }catch(ex){error = true;}
+        if(!error){
+          var size = new TextEncoder().encode(d).length;
+          var kiloBytes = size / 1024;
+          this.writex(process,"Single Core Encrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
+          this.writex(block,"0/"+m);
+          let promise = new Promise((resolve, reject) => {
+            let intervalID = setInterval(function () {
+              if (process.innerHTML.length > 1  && block.innerHTML.length > 1) {
+                clearInterval(intervalID);
+                resolve();
+              }
+            }, 10);
+          });
+          await promise;
+        }
       }catch(e){}
-      await new Promise(r => setTimeout(r, 1));
       for(var l of i){
         await new Promise(r => setTimeout(r, 1));
         [a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i] = this.epart0(a,a1,b,f,keylen,k,m,c,h,g,e,ax,l,z,i);
@@ -276,15 +286,19 @@ class SC5 {
         await new Promise(r => setTimeout(r, 1));
       }
       e+="==";
-      this_process.remove();
-      if (!process_panel.hasChildNodes()) {
-        process_panel.parentNode.remove();
+      if((this_process) && (process_panel)){
+        this_process.remove();
+        if (!process_panel.hasChildNodes()) {
+          process_panel.parentNode.remove();
+        }
       }
       return e;
     }catch(ex){
-      this_process.remove();
-      if (!process_panel.hasChildNodes()) {
-        process_panel.parentNode.remove();
+      if((this_process) && (process_panel)){
+        this_process.remove();
+        if (!process_panel.hasChildNodes()) {
+          process_panel.parentNode.remove();
+        }
       }
       if(this.error==false){return "";}{
         throw new Error('asyncEncrypt Error:'+ex);
@@ -297,13 +311,26 @@ class SC5 {
       e = e.replace(/ /g, "").trim().replace(/=/g, "");
       var [[a,a1,b,z,h,keylen,c,n],[l,f,g,rxa],[d,ax,i],[ixa1k]] = [this.keygen0(e,"dec"),[1,1,1,1],["","",""],[0]];
       try{
-        [process_panel,this_process,block,process] = await this.createPANEL();
-        var size = new TextEncoder().encode(e).length;
-        var kiloBytes = size / 1024;
-        this.writex(process,"Single Core Decrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
-        this.writex(block,"0/"+n);
+        let error = null;
+        try{
+          [process_panel,this_process,block,process] = await this.createPANEL();
+        }catch(ex){error = true;}
+        if(!error){
+          var size = new TextEncoder().encode(e).length;
+          var kiloBytes = size / 1024;
+          this.writex(process,"Single Core Decrypt Process<br>Size:"+kiloBytes.toFixed(1) + " KB");
+          this.writex(block,"0/"+n);
+          let promise = new Promise((resolve, reject) => {
+            let intervalID = setInterval(function () {
+              if (process.innerHTML.length > 1  && block.innerHTML.length > 1) {
+                clearInterval(intervalID);
+                resolve();
+              }
+            }, 10);
+          });
+          await promise;
+        }
       }catch(e){}
-      await new Promise(r => setTimeout(r, 1));
       for(var m of h){
         await new Promise(r => setTimeout(r, 1));
         [b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h] = this.dpart0(b,a1,i,keylen,l,n,c,ax,g,a,f,m,z,d,ixa1k,h);
@@ -315,15 +342,19 @@ class SC5 {
         await new Promise(r => setTimeout(r, 1));
       }
       d = this.dend0(d);
-      this_process.remove();
-      if (!process_panel.hasChildNodes()) {
-        process_panel.parentNode.remove();
+      if((this_process) && (process_panel)){
+        this_process.remove();
+        if (!process_panel.hasChildNodes()) {
+          process_panel.parentNode.remove();
+        }
       }
       return d;
     }catch(ex){
-      this_process.remove();
-      if (!process_panel.hasChildNodes()) {
-        process_panel.parentNode.remove();
+      if((this_process) && (process_panel)){
+        this_process.remove();
+        if (!process_panel.hasChildNodes()) {
+          process_panel.parentNode.remove();
+        }
       }
       if(this.error==false){return "";}{
         throw new Error('asyncDecrypt Error:'+ex);
